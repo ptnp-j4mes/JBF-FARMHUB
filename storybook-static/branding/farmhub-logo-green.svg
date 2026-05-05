@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 220" role="img" aria-labelledby="farmhubLogoTitle">
+  <title id="farmhubLogoTitle">FarmHUB</title>
+  <defs>
+    <style>
+      .brand-main { fill: #0a5848; }
+      .brand-accent { fill: #9dbf8a; }
+      .brand-line { stroke: #89ad79; stroke-width: 8; stroke-linecap: round; fill: none; }
+      .pig-line { stroke: #0a5848; stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; fill: none; }
+      .wordmark { fill: #0a5848; font: 700 86px "Segoe UI", "Arial", sans-serif; letter-spacing: 0.5px; }
+    </style>
+  </defs>
+
+  <g transform="translate(16 18)">
+    <rect class="brand-main" x="0" y="0" width="32" height="182" rx="1.5" />
+    <rect class="brand-main" x="0" y="0" width="108" height="30" rx="1.5" />
+    <rect class="brand-main" x="0" y="82" width="84" height="27" rx="1.5" />
+
+    <path class="brand-line" d="M72 92 L114 130 L72 170" />
+    <circle class="brand-accent" cx="72" cy="92" r="8.5" />
+    <circle class="brand-accent" cx="114" cy="130" r="8.5" />
+    <circle class="brand-accent" cx="72" cy="170" r="8.5" />
+
+    <path class="pig-line" d="M114 72 Q135 44 168 60 Q177 64 188 76" />
+    <path class="pig-line" d="M168 60 L168 49" />
+    <circle class="brand-main" cx="147" cy="93" r="3.5" />
+  </g>
+
+  <text class="wordmark" x="196" y="162">FarmHUB</text>
+</svg>

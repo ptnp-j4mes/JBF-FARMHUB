@@ -1,0 +1,152 @@
+'use client';
+
+import React, { useEffect, useMemo, useState } from 'react';
+import {
+  FilterableSelectField,
+  DialogTitleWithClose,
+  type FilterableSelectFieldOption,
+} from '@/components/common';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  Stack,
+  TextField,
+  Typography,
+} from '@mui/material';
+import { alpha, useTheme } from '@mui/material/styles';
+import type { Farm, Zone, ZoneFormData, ScopeStatus } from '../types';
+
+type AddZoneDialogProps = {
+  open: boolean;
+  onClose: () => void;
+  onSave: (data: ZoneFormData) => void;
+  farms: Farm[];
+  mode: 'create' | 'edit';
+  initialData: Zone | null;
+};
+
+export default function AddZoneDialog({
+  open,
+  onClose,
+  onSave,
+  farms,
+  mode,
+  initialData,
+}: AddZoneDialogProps) {
+  const theme = useTheme();
+  const dialogBorder = alpha(theme.palette.divider, theme.palette.mode === 'dark' ? 0.82 : 0.6);
+  const [formData, setFormData] = useState<ZoneFormData>({
+    name: '',
+    farmId: 0,
+    status: 'Active',
+  });
+
+  const farmSelectOptions = useMemo<FilterableSelectFieldOption[]>(
+    () =>
+      farms.map((farm) => ({
+        value: farm.id,
+        label: farm.name,
+        caption: `${farm.location} / ${farm.status}`,
+        meta: {
+          location: farm.location,
+          status: farm.status,
+        },
+      })),
+    [farms],
+  );
+
+  useEffect(() => {
+    if (!open) return;
+    if (mode === 'edit' && initialData) {
+      setFormData({
+        name: initialData.name,
+        farmId: initialData.farmId,
+        status: initialData.status,
+      });
+      return;
+    }
+    setFormData({
+      name: '',
+      farmId: 0,
+      status: 'Active',
+    });
+  }, [initialData, mode, open]);
+
+  const isFormValid = Boolean(formData.name.trim() && formData.farmId > 0);
+
+  return (
+    <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
+      <DialogTitleWithClose onClose={onClose} component="div" sx={{ borderBottom: `1px solid ${dialogBorder}`, pb: 2 }}>
+        <Typography variant="h6" sx={{ fontWeight: 700 }}>
+          {mode === 'edit' ? 'แก้ไขโซน' : 'เพิ่มโซน'}
+        </Typography>
+        <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
+          {mode === 'edit' ? 'แก้ไขข้อมูลโซน' : 'สร้างข้อมูลโซนภายใต้ฟาร์ม'}
+        </Typography>
+      </DialogTitleWithClose>
+
+      <DialogContent sx={{ pt: 3 }}>
+        <Stack spacing={2}>
+          <FilterableSelectField
+            label="ฟาร์ม"
+            required
+            value={formData.farmId}
+            options={farmSelectOptions}
+            onChange={(nextValue) =>
+              setFormData((prev) => ({ ...prev, farmId: Number(nextValue) }))
+            }
+            searchPlaceholder="ค้นหาฟาร์ม..."
+            filters={[
+              { key: 'location', label: 'พื้นที่', allLabel: 'ทุกพื้นที่' },
+              { key: 'status', label: 'สถานะ', allLabel: 'ทุกสถานะ' },
+            ]}
+          />
+          <TextField
+            label="ชื่อโซน"
+            placeholder="เช่น Zone A"
+            value={formData.name}
+            onChange={(event) => setFormData((prev) => ({ ...prev, name: event.target.value }))}
+            fullWidth
+            required
+          />
+          <FormControl fullWidth>
+            <InputLabel>สถานะ</InputLabel>
+            <Select
+              value={formData.status}
+              label="สถานะ"
+              onChange={(event) =>
+                setFormData((prev) => ({ ...prev, status: event.target.value as ScopeStatus }))
+              }
+            >
+              <MenuItem value="Active">ใช้งาน</MenuItem>
+              <MenuItem value="Inactive">ไม่ใช้งาน</MenuItem>
+            </Select>
+          </FormControl>
+        </Stack>
+      </DialogContent>
+
+      <DialogActions sx={{ p: 2, borderTop: `1px solid ${dialogBorder}` }}>
+        <Button
+          variant="contained"
+          disabled={!isFormValid}
+          onClick={() => {
+            onSave({
+              name: formData.name.trim(),
+              farmId: formData.farmId,
+              status: formData.status,
+            });
+          }}
+          sx={{ textTransform: 'none', fontWeight: 700 }}
+        >
+          {mode === 'edit' ? 'บันทึกการแก้ไข' : 'บันทึก'}
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+}

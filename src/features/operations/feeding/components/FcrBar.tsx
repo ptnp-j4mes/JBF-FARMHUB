@@ -1,0 +1,28 @@
+'use client';
+
+import { Box, Chip, LinearProgress, Stack, Typography } from '@mui/material';
+import { alpha } from '@mui/material/styles';
+import type { FeedingFarmFcrRow } from '../types';
+
+type FcrBarProps = Pick<FeedingFarmFcrRow, 'facilityName' | 'fcrActual'>;
+
+export default function FcrBar({ facilityName, fcrActual }: FcrBarProps) {
+  return (
+    <Box sx={{ p: 1.1, borderRadius: 2.2, border: '1px solid', borderColor: 'rgba(217, 226, 220, 0.9)', bgcolor: '#fff' }}>
+      <Stack direction="row" justifyContent="space-between" alignItems="center" mb={0.5}>
+        <Typography variant="body2" sx={{ fontWeight: 700, color: '#21312c' }}>{facilityName}</Typography>
+        <Chip size="small" label={fcrActual.toFixed(2)} sx={{ fontWeight: 800, bgcolor: '#ecfdf5', color: '#166534', height: 26 }} />
+      </Stack>
+      <LinearProgress
+        variant="determinate"
+        value={Math.max(0, Math.min(100, (3 - fcrActual) * 50))}
+        sx={{
+          height: 8,
+          borderRadius: 99,
+          bgcolor: alpha('#bbf7d0', 0.8),
+          '& .MuiLinearProgress-bar': { bgcolor: '#15803D' },
+        }}
+      />
+    </Box>
+  );
+}
