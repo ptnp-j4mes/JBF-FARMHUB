@@ -8,25 +8,25 @@ import {
 
 // ── UI Design Tokens ──
 export const UI = {
-  bg: '#eef3ee',
+  bg: '#fafafa',
   panel: '#ffffff',
-  panelSoft: '#f7faf8',
-  panelMuted: '#edf3ef',
-  border: '#d9e2dc',
-  borderStrong: '#c6d2cb',
-  text: '#21312c',
-  muted: '#6f7f77',
-  accent: '#165a50',
-  accentDark: '#0f453d',
-  accentSoft: '#d9e8e3',
-  accentSurface: '#edf6f2',
+  panelSoft: '#fdf7f6',
+  panelMuted: '#f8ecea',
+  border: '#e5e5e5',
+  borderStrong: '#d6d6d6',
+  text: '#1a1a1a',
+  muted: '#6b6b6b',
+  accent: '#B42318',
+  accentDark: '#912018',
+  accentSoft: '#fef3f2',
+  accentSurface: '#fff7f7',
   accentWarm: '#7b5f18',
   shadow:
-    '0 18px 44px rgba(18, 38, 33, 0.08), 0 4px 12px rgba(18, 38, 33, 0.05)',
+    '0 18px 44px rgba(20, 20, 20, 0.08), 0 4px 12px rgba(20, 20, 20, 0.05)',
   shadowSoft:
-    '0 10px 24px rgba(18, 38, 33, 0.06), 0 2px 6px rgba(18, 38, 33, 0.04)',
+    '0 10px 24px rgba(20, 20, 20, 0.06), 0 2px 6px rgba(20, 20, 20, 0.04)',
   shadowLift:
-    '0 20px 52px rgba(18, 38, 33, 0.10), 0 8px 18px rgba(18, 38, 33, 0.06)',
+    '0 20px 52px rgba(20, 20, 20, 0.10), 0 8px 18px rgba(20, 20, 20, 0.06)',
 };
 
 // ── Shared Style Objects ──
@@ -81,7 +81,7 @@ export const secondaryButtonSx = {
   borderColor: UI.borderStrong,
   '&:hover': {
     borderColor: UI.accent,
-    bgcolor: `rgba(22, 90, 80, 0.05)`,
+    bgcolor: `rgba(180, 35, 24, 0.05)`,
   },
 };
 

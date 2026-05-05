@@ -15,6 +15,7 @@ export interface MenuItemConfig {
   permissionModule?: string;
   requiredPermissionCodes?: string[];
   activePathPrefix?: string;
+  badge?: number;
 }
 
 export interface MenuGroupConfig {

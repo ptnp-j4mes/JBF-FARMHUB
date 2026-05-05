@@ -28,12 +28,12 @@ export function MasterOverviewPage({ lookups }: MasterOverviewPageProps) {
   const theme = useTheme();
   
   const stats = [
-    { label: 'ฟาร์มทั้งหมด', value: lookups?.farms?.length ?? 0, icon: Agriculture, color: '#10b981' },
-    { label: 'โซนเลี้ยง', value: lookups?.zones?.length ?? 0, icon: Category, color: '#3b82f6' },
-    { label: 'โรงเรือน', value: lookups?.houses?.length ?? 0, icon: Warehouse, color: '#6366f1' },
-    { label: 'จำนวนสินค้า', value: lookups?.items?.length ?? 0, icon: Inventory, color: '#f59e0b' },
-    { label: 'คู่ค้าบริษัท', value: lookups?.partners?.length ?? 0, icon: People, color: '#ec4899' },
-    { label: 'กฎเกณฑ์แจ้งเตือน', value: lookups?.alertRules?.length ?? 0, icon: FactCheck, color: '#8b5cf6' },
+    { label: 'ฟาร์มทั้งหมด', value: lookups?.farms?.length ?? 0, icon: Agriculture },
+    { label: 'โซนเลี้ยง', value: lookups?.zones?.length ?? 0, icon: Category },
+    { label: 'โรงเรือน', value: lookups?.houses?.length ?? 0, icon: Warehouse },
+    { label: 'จำนวนสินค้า', value: lookups?.items?.length ?? 0, icon: Inventory },
+    { label: 'คู่ค้าบริษัท', value: lookups?.partners?.length ?? 0, icon: People },
+    { label: 'กฎเกณฑ์แจ้งเตือน', value: lookups?.alertRules?.length ?? 0, icon: FactCheck },
   ];
 
   return (
@@ -87,8 +87,8 @@ export function MasterOverviewPage({ lookups }: MasterOverviewPageProps) {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    bgcolor: alpha(stat.color, 0.1),
-                    color: stat.color,
+                    bgcolor: alpha(theme.palette.primary.main, 0.08),
+                    color: theme.palette.primary.main,
                   }}
                 >
                   <stat.icon />

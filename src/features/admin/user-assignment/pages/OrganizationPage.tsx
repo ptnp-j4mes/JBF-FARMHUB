@@ -316,7 +316,7 @@ export default function OrganizationPage() {
       showCancelButton: true,
       confirmButtonText: 'ยืนยัน',
       cancelButtonText: 'ยกเลิก',
-      confirmButtonColor: company.isActive ? '#f59e0b' : '#0ea5e9',
+      confirmButtonColor: company.isActive ? '#f59e0b' : '#B42318',
     });
     if (!result.isConfirmed) {
       return;

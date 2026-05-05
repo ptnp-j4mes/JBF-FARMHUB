@@ -67,9 +67,9 @@ const sizeButtonSx: Record<NonNullable<ButtonProps['size']>, Record<string, unkn
 
 const toneButtonSx: Record<StockActionTone, Record<string, unknown>> = {
   primary: {
-    bgcolor: 'rgba(31, 138, 86, 0.08)',
-    color: '#146642',
-    border: '1px solid rgba(31, 138, 86, 0.22)',
+    bgcolor: 'rgba(180, 35, 24, 0.08)',
+    color: '#912018',
+    border: '1px solid rgba(180, 35, 24, 0.22)',
   },
   neutral: {
     bgcolor: 'rgba(23, 49, 39, 0.04)',
@@ -105,8 +105,8 @@ const toneButtonSx: Record<StockActionTone, Record<string, unknown>> = {
 
 const toneHoverSx: Record<StockActionTone, Record<string, unknown>> = {
   primary: {
-    bgcolor: 'rgba(31, 138, 86, 0.16)',
-    borderColor: 'rgba(31, 138, 86, 0.34)',
+    bgcolor: 'rgba(180, 35, 24, 0.16)',
+    borderColor: 'rgba(180, 35, 24, 0.34)',
   },
   neutral: {
     bgcolor: 'rgba(23, 49, 39, 0.08)',

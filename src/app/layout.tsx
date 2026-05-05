@@ -2,21 +2,36 @@ import ThemeContext from '@/contexts/ThemeContext';
 import { I18nProvider } from '@/core/i18n';
 import GlobalAppLoading from '@/components/common/GlobalAppLoading';
 import type { Metadata } from 'next';
+import localFont from 'next/font/local';
 import { Suspense } from 'react';
 import 'viewerjs/dist/viewer.css';
 
-const fallbackFontVariable = {
-  ['--font-bai-jamjuree' as string]:
-    '"Noto Sans Thai", "Noto Sans", "Segoe UI", system-ui, -apple-system, sans-serif',
-} as const;
+const baiJamjuree = localFont({
+  variable: '--font-bai-jamjuree',
+  display: 'swap',
+  src: [
+    { path: '../assets/fonts/BaiJamjuree-ExtraLight.ttf', weight: '200', style: 'normal' },
+    { path: '../assets/fonts/BaiJamjuree-ExtraLightItalic.ttf', weight: '200', style: 'italic' },
+    { path: '../assets/fonts/BaiJamjuree-Light.ttf', weight: '300', style: 'normal' },
+    { path: '../assets/fonts/BaiJamjuree-LightItalic.ttf', weight: '300', style: 'italic' },
+    { path: '../assets/fonts/BaiJamjuree-Regular.ttf', weight: '400', style: 'normal' },
+    { path: '../assets/fonts/BaiJamjuree-Italic.ttf', weight: '400', style: 'italic' },
+    { path: '../assets/fonts/BaiJamjuree-Medium.ttf', weight: '500', style: 'normal' },
+    { path: '../assets/fonts/BaiJamjuree-MediumItalic.ttf', weight: '500', style: 'italic' },
+    { path: '../assets/fonts/BaiJamjuree-SemiBold.ttf', weight: '600', style: 'normal' },
+    { path: '../assets/fonts/BaiJamjuree-SemiBoldItalic.ttf', weight: '600', style: 'italic' },
+    { path: '../assets/fonts/BaiJamjuree-SemiBold.ttf', weight: '700', style: 'normal' },
+    { path: '../assets/fonts/BaiJamjuree-BoldItalic.ttf', weight: '700', style: 'italic' },
+  ],
+});
 
 export const metadata: Metadata = {
   title: 'ระบบจัดการฟาร์มหมู',
   description: 'Smart Pig Farm Management System',
   icons: {
-    icon: '/branding/LOGO-FH copy.png',
-    shortcut: '/branding/LOGO-FH copy.png',
-    apple: '/branding/LOGO-FH copy.png',
+    icon: '/branding/farmhub-logo.png',
+    shortcut: '/branding/farmhub-logo.png',
+    apple: '/branding/farmhub-logo.png',
   },
 };
 
@@ -27,7 +42,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="th">
-      <body style={fallbackFontVariable}>
+      <body className={baiJamjuree.variable}>
         <ThemeContext>
           <I18nProvider>
             {children}

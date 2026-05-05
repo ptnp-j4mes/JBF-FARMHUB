@@ -291,7 +291,7 @@ export default function MenuManagementPage() {
           showCancelButton: true,
           confirmButtonText: 'บันทึก',
           cancelButtonText: 'ยกเลิก',
-          confirmButtonColor: '#0ea5e9',
+          confirmButtonColor: '#B42318',
         });
 
         if (!confirmation.isConfirmed) {

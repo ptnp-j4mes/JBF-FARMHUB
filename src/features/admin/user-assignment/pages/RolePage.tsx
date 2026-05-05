@@ -769,7 +769,7 @@ export default function RolePage() {
         showCancelButton: true,
         confirmButtonText: 'ยืนยัน',
         cancelButtonText: 'ยกเลิก',
-        confirmButtonColor: role.isActive ? '#f59e0b' : '#0ea5e9',
+        confirmButtonColor: role.isActive ? '#f59e0b' : '#B42318',
       });
       if (!confirmation.isConfirmed) {
         return;

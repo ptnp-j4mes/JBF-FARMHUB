@@ -23,7 +23,6 @@ import {
   Lock as LockIcon,
   AccountCircle,
 } from '@mui/icons-material';
-import logoJbfRed from '@/assets/svg/logo_jbf_red.svg';
 import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -170,7 +169,7 @@ export default function LoginPage() {
             'ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง หรือบัญชีถูกปิดใช้งาน',
           icon: 'error',
           confirmButtonText: 'ตกลง',
-          confirmButtonColor: '#165a50',
+          confirmButtonColor: '#B42318',
           customClass: {
             popup: 'swal-clean-popup',
             title: 'swal-clean-title',
@@ -179,7 +178,7 @@ export default function LoginPage() {
           },
           background: theme.palette.mode === 'dark' ? '#1a1d29' : '#ffffff',
           color: theme.palette.mode === 'dark' ? '#ffffff' : '#1a1d29',
-          iconColor: '#165a50',
+          iconColor: '#B42318',
         });
         return;
       }
@@ -189,7 +188,7 @@ export default function LoginPage() {
         text: 'ไม่สามารถเชื่อมต่อระบบได้ กรุณาลองใหม่อีกครั้ง',
         icon: 'error',
         confirmButtonText: 'ตกลง',
-        confirmButtonColor: '#165a50',
+        confirmButtonColor: '#B42318',
         customClass: {
           popup: 'swal-clean-popup',
           title: 'swal-clean-title',
@@ -198,33 +197,33 @@ export default function LoginPage() {
         },
         background: theme.palette.mode === 'dark' ? '#1a1d29' : '#ffffff',
         color: theme.palette.mode === 'dark' ? '#ffffff' : '#1a1d29',
-        iconColor: '#165a50',
+        iconColor: '#B42318',
       });
     }
   };
 
   const accentGradient =
     theme.palette.mode === 'dark'
-      ? 'linear-gradient(135deg, #165a50 0%, #13493f 100%)'
-      : 'linear-gradient(135deg, #165a50 0%, #13493f 100%)';
-  const accentColor = '#165a50';
+      ? 'linear-gradient(135deg, #B42318 0%, #912018 100%)'
+      : 'linear-gradient(135deg, #B42318 0%, #912018 100%)';
+  const accentColor = '#B42318';
   const accentGradientHover =
     theme.palette.mode === 'dark'
-      ? 'linear-gradient(135deg, #13493f 0%, #0f3730 100%)'
-      : 'linear-gradient(135deg, #13493f 0%, #0f3730 100%)';
+      ? 'linear-gradient(135deg, #912018 0%, #7A271A 100%)'
+      : 'linear-gradient(135deg, #912018 0%, #7A271A 100%)';
   const accentBorderColor =
     theme.palette.mode === 'dark'
-      ? 'rgba(22, 90, 80, 0.35)'
-      : 'rgba(22, 90, 80, 0.24)';
+      ? 'rgba(180, 35, 24, 0.35)'
+      : 'rgba(180, 35, 24, 0.24)';
   const accentShadow =
     theme.palette.mode === 'dark'
-      ? 'rgba(22, 90, 80, 0.28)'
-      : 'rgba(22, 90, 80, 0.32)';
+      ? 'rgba(180, 35, 24, 0.28)'
+      : 'rgba(180, 35, 24, 0.32)';
 
   const bgGradient =
     theme.palette.mode === 'dark'
       ? `linear-gradient(135deg, #18211a 0%, #223127 50%, #1b261f 100%)`
-      : `linear-gradient(135deg, #edf4ee 0%, #dfeadf 50%, #f2f7f1 100%)`;
+      : `linear-gradient(135deg, #fff7f7 0%, #fef3f2 50%, #ffffff 100%)`;
 
   return (
     <Box
@@ -266,8 +265,8 @@ export default function LoginPage() {
           borderRadius: '50%',
           background:
             theme.palette.mode === 'dark'
-              ? 'radial-gradient(circle, rgba(22, 90, 80, 0.18) 0%, transparent 70%)'
-              : 'radial-gradient(circle, rgba(22, 90, 80, 0.24) 0%, transparent 70%)',
+              ? 'radial-gradient(circle, rgba(180, 35, 24, 0.18) 0%, transparent 70%)'
+              : 'radial-gradient(circle, rgba(180, 35, 24, 0.24) 0%, transparent 70%)',
           filter: 'blur(80px)',
           animation: 'float 20s ease-in-out infinite',
         }}
@@ -282,8 +281,8 @@ export default function LoginPage() {
           borderRadius: '50%',
           background:
             theme.palette.mode === 'dark'
-              ? 'radial-gradient(circle, rgba(22, 90, 80, 0.15) 0%, transparent 70%)'
-              : 'radial-gradient(circle, rgba(22, 90, 80, 0.18) 0%, transparent 70%)',
+              ? 'radial-gradient(circle, rgba(180, 35, 24, 0.15) 0%, transparent 70%)'
+              : 'radial-gradient(circle, rgba(180, 35, 24, 0.18) 0%, transparent 70%)',
           filter: 'blur(80px)',
           animation: 'float 25s ease-in-out infinite reverse',
         }}
@@ -304,7 +303,7 @@ export default function LoginPage() {
 
         .swal-clean-popup {
           border-radius: 12px !important;
-          box-shadow: 0 10px 34px 0 rgba(22, 90, 80, 0.22) !important;
+          box-shadow: 0 10px 34px 0 rgba(180, 35, 24, 0.22) !important;
           backdrop-filter: blur(20px) !important;
           border: 1px solid rgba(255, 255, 255, 0.5) !important;
         }
@@ -328,12 +327,12 @@ export default function LoginPage() {
           font-weight: 600 !important;
           text-transform: none !important;
           transition: all 0.3s ease !important;
-          box-shadow: 0 4px 15px 0 rgba(22, 90, 80, 0.3) !important;
+          box-shadow: 0 4px 15px 0 rgba(180, 35, 24, 0.3) !important;
         }
 
         .swal-clean-button:hover {
           transform: translateY(-2px) !important;
-          box-shadow: 0 6px 20px 0 rgba(22, 90, 80, 0.4) !important;
+          box-shadow: 0 6px 20px 0 rgba(180, 35, 24, 0.4) !important;
         }
       `}</style>
 
@@ -358,7 +357,7 @@ export default function LoginPage() {
             boxShadow:
               theme.palette.mode === 'dark'
                 ? '0 8px 32px 0 rgba(0, 0, 0, 0.37)'
-                : '0 10px 34px 0 rgba(22, 90, 80, 0.2)',
+                : '0 10px 34px 0 rgba(180, 35, 24, 0.2)',
           }}
         >
           <Box
@@ -367,8 +366,8 @@ export default function LoginPage() {
               position: 'relative',
               background:
                 theme.palette.mode === 'dark'
-                  ? 'linear-gradient(135deg, rgba(22, 90, 80, 0.08) 0%, rgba(22, 90, 80, 0.08) 100%)'
-                  : 'linear-gradient(135deg, rgba(22, 90, 80, 0.09) 0%, rgba(22, 90, 80, 0.1) 100%)',
+                  ? 'linear-gradient(135deg, rgba(180, 35, 24, 0.08) 0%, rgba(180, 35, 24, 0.08) 100%)'
+                  : 'linear-gradient(135deg, rgba(180, 35, 24, 0.09) 0%, rgba(180, 35, 24, 0.1) 100%)',
               display: { xs: 'none', md: 'flex' },
               flexDirection: 'column',
               alignItems: 'center',
@@ -406,7 +405,7 @@ export default function LoginPage() {
                   boxShadow:
                     theme.palette.mode === 'dark'
                       ? '0 8px 32px 0 rgba(0, 0, 0, 0.37)'
-                      : '0 8px 28px 0 rgba(22, 90, 80, 0.15)',
+                      : '0 8px 28px 0 rgba(180, 35, 24, 0.15)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -419,25 +418,22 @@ export default function LoginPage() {
                     transform: 'scale(1.05)',
                     background:
                       theme.palette.mode === 'dark'
-                        ? 'linear-gradient(135deg, #13493f 0%, #0f3730 100%)'
-                        : 'linear-gradient(135deg, #13493f 0%, #0f3730 100%)',
+                        ? 'linear-gradient(135deg, #912018 0%, #7A271A 100%)'
+                        : 'linear-gradient(135deg, #912018 0%, #7A271A 100%)',
                     boxShadow:
                       theme.palette.mode === 'dark'
-                        ? '0 6px 20px 0 rgba(22, 90, 80, 0.4)'
-                        : '0 6px 20px 0 rgba(22, 90, 80, 0.5)',
+                        ? '0 6px 20px 0 rgba(180, 35, 24, 0.4)'
+                        : '0 6px 20px 0 rgba(180, 35, 24, 0.5)',
                   },
                 }}
               >
-                <Image
-                  src={logoJbfRed}
-                  alt="Logo"
+              <Image
+                  src="/branding/farmhub-logo.png"
+                  alt="FarmHUB"
                   width={160}
                   height={160}
                   style={{
-                    filter:
-                      theme.palette.mode === 'dark'
-                        ? 'drop-shadow(0 0 20px rgba(22, 90, 80, 0.3))'
-                        : 'drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1))',
+                    filter: 'brightness(0) invert(1) drop-shadow(0 4px 10px rgba(0, 0, 0, 0.12))',
                   }}
                 />
               </Box>
@@ -451,7 +447,7 @@ export default function LoginPage() {
                     mb: 1.5,
                     background:
                       theme.palette.mode === 'dark'
-                        ? 'linear-gradient(135deg, #165a50 0%, #13493f 100%)'
+                        ? 'linear-gradient(135deg, #B42318 0%, #912018 100%)'
                         : 'none',
                     WebkitBackgroundClip:
                       theme.palette.mode === 'dark' ? 'text' : 'none',
@@ -754,8 +750,8 @@ export default function LoginPage() {
                     transform: 'translateY(-2px)',
                     boxShadow:
                       theme.palette.mode === 'dark'
-                        ? '0 6px 20px 0 rgba(22, 90, 80, 0.4)'
-                        : '0 6px 20px 0 rgba(22, 90, 80, 0.5)',
+                        ? '0 6px 20px 0 rgba(180, 35, 24, 0.4)'
+                        : '0 6px 20px 0 rgba(180, 35, 24, 0.5)',
                   },
                   '&:active': {
                     transform: 'translateY(0)',

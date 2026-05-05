@@ -1,17 +1,17 @@
 import { alpha } from '@mui/material/styles';
 
 const UI = {
-  accent: 'rgb(22, 90, 80)',
-  accentDark: '#10473f',
+  accent: '#B42318',
+  accentDark: '#912018',
   panel: '#ffffff',
-  panelSoft: '#f8faf8',
-  panelMuted: '#eef4ef',
-  border: '#d8dfda',
-  borderStrong: '#cad4cf',
-  text: '#2f3a37',
-  muted: '#7d8783',
-  shadow: '0 18px 40px rgba(22, 35, 31, 0.08), 0 3px 10px rgba(22, 35, 31, 0.05)',
-  shadowSoft: '0 10px 24px rgba(22, 35, 31, 0.06), 0 2px 6px rgba(22, 35, 31, 0.04)',
+  panelSoft: '#fdf7f6',
+  panelMuted: '#f8ecea',
+  border: '#e5ddd9',
+  borderStrong: '#d6c6c1',
+  text: '#1a1a1a',
+  muted: '#6b6b6b',
+  shadow: '0 18px 40px rgba(20, 20, 20, 0.08), 0 3px 10px rgba(20, 20, 20, 0.05)',
+  shadowSoft: '0 10px 24px rgba(20, 20, 20, 0.06), 0 2px 6px rgba(20, 20, 20, 0.04)',
 };
 
 export const STOCK_DIALOG_UI = UI;
@@ -63,7 +63,7 @@ export const STOCK_DIALOG_FORM_SX = {
   '& .MuiFormLabel-asterisk': {
     color: '#d32f2f',
   },
-  bgcolor: '#fcfdfc',
+  bgcolor: '#fff',
   px: { xs: 1.5, md: 2 },
   py: { xs: 1.5, md: 2 },
 } as const;
@@ -89,7 +89,7 @@ export const STOCK_DIALOG_SECTION_BOX_SX = {
   p: 1.25,
   border: `1px solid ${UI.border}`,
   borderRadius: 2.4,
-  bgcolor: '#fbfcfb',
+  bgcolor: '#fff',
 };
 
 export const STOCK_DIALOG_TABLE_SX = {
@@ -108,7 +108,7 @@ export const STOCK_DIALOG_TABLE_SX = {
     borderBottom: `1px solid ${alpha(UI.border, 0.92)}`,
   },
   '& .MuiTableRow-root:hover': {
-    bgcolor: '#f7faf7',
+    bgcolor: '#fef3f2',
   },
 };
 
@@ -116,7 +116,7 @@ export const STOCK_DIALOG_ACTIONS_SX = {
   px: { xs: 1.5, md: 2 },
   py: 1.25,
   borderTop: `1px solid ${UI.border}`,
-  bgcolor: '#fbfcfb',
+  bgcolor: '#fff',
   gap: 1,
 };
 
@@ -125,12 +125,12 @@ export const STOCK_DIALOG_PRIMARY_BUTTON_SX = {
   px: 2.2,
   fontWeight: 600,
   textTransform: 'none',
-  bgcolor: 'rgba(31, 138, 86, 0.12)',
-  color: '#146642',
-  border: '1px solid rgba(31, 138, 86, 0.24)',
+  bgcolor: 'rgba(180, 35, 24, 0.12)',
+  color: '#912018',
+  border: '1px solid rgba(180, 35, 24, 0.24)',
   '&:hover': {
-    bgcolor: 'rgba(31, 138, 86, 0.20)',
-    borderColor: 'rgba(31, 138, 86, 0.36)',
+    bgcolor: 'rgba(180, 35, 24, 0.20)',
+    borderColor: 'rgba(180, 35, 24, 0.36)',
   },
 };
 
@@ -139,18 +139,18 @@ export const STOCK_DIALOG_SECONDARY_BUTTON_SX = {
   px: 2,
   fontWeight: 600,
   textTransform: 'none',
-  bgcolor: 'rgba(23, 49, 39, 0.04)',
-  color: '#41514b',
-  border: '1px solid rgba(23, 49, 39, 0.14)',
+  bgcolor: 'rgba(0, 0, 0, 0.04)',
+  color: '#525252',
+  border: '1px solid rgba(0, 0, 0, 0.14)',
   '&:hover': {
-    bgcolor: 'rgba(23, 49, 39, 0.08)',
-    borderColor: 'rgba(23, 49, 39, 0.22)',
+    bgcolor: 'rgba(0, 0, 0, 0.06)',
+    borderColor: 'rgba(0, 0, 0, 0.22)',
   },
 };
 
 export const STOCK_DIALOG_INFO_ALERT_SX = {
   border: `1px solid ${alpha(UI.accent, 0.14)}`,
-  bgcolor: '#f2f7f4',
+  bgcolor: '#fef3f2',
   color: UI.text,
   boxShadow: UI.shadowSoft,
 };

@@ -245,13 +245,13 @@ export default function AccessContextSwitchDialog({
                           fontSize: '0.72rem',
                           borderColor: isDark
                             ? 'rgba(255, 255, 255, 0.12)'
-                            : 'rgba(31, 138, 86, 0.2)',
+                            : 'rgba(180, 35, 24, 0.2)',
                           color: isDark
                             ? theme.palette.primary.light
                             : theme.palette.primary.main,
                           bgcolor: isDark
-                            ? 'rgba(116, 211, 156, 0.08)'
-                            : 'rgba(31, 138, 86, 0.06)',
+                            ? 'rgba(240, 68, 56, 0.08)'
+                            : 'rgba(180, 35, 24, 0.06)',
                         }}
                       >
                         {ACCESS_SCOPE_TYPE_LABEL[assignment.scopeType]}

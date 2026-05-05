@@ -1039,7 +1039,7 @@ export default function ScopePage({
       showCancelButton: true,
       confirmButtonText: 'ยืนยัน',
       cancelButtonText: 'ยกเลิก',
-      confirmButtonColor: nextStatus === 'Active' ? '#0ea5e9' : '#f59e0b',
+      confirmButtonColor: nextStatus === 'Active' ? '#B42318' : '#f59e0b',
     });
     if (!confirmation.isConfirmed) {
       return;

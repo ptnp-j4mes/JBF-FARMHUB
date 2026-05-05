@@ -484,7 +484,7 @@ export default function UserPage() {
       showCancelButton: true,
       confirmButtonText: 'ยืนยัน',
       cancelButtonText: 'ยกเลิก',
-      confirmButtonColor: user.isActive ? '#f59e0b' : '#0ea5e9',
+      confirmButtonColor: user.isActive ? '#f59e0b' : '#B42318',
     });
 
     if (!result.isConfirmed) {
@@ -785,7 +785,7 @@ export default function UserPage() {
                           size="small"
                           onClick={() => void handleToggleStatus(row)}
                           disabled={saving || resettingPassword}
-                          sx={{ color: row.isActive ? '#64748b' : '#0ea5e9', p: 0.5 }}
+                          sx={{ color: row.isActive ? '#64748b' : '#B42318', p: 0.5 }}
                         >
                           {row.isActive ? (
                             <VisibilityOutlined fontSize="inherit" />
@@ -803,7 +803,7 @@ export default function UserPage() {
                           size="small"
                           onClick={() => openEditDialog(row)}
                           disabled={saving || resettingPassword}
-                          sx={{ color: '#0ea5e9', p: 0.5 }}
+                          sx={{ color: '#B42318', p: 0.5 }}
                         >
                           <EditOutlined fontSize="inherit" />
                         </IconButton>
