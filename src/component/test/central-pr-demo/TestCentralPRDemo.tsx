@@ -362,7 +362,7 @@ export default function TestCentralPRDemo({ scope, initialStandardLines = [], mo
     { title: toThaiWorkflowStatus('Returned'), value: count('returned'), subtitle: 'สถานะ Returned', icon: <RefreshIcon />, iconBg: '#f5f3ff', bar: '#7c3aed' },
     { title: toThaiWorkflowStatus('Draft'), value: count('draft'), subtitle: 'สถานะ Draft', icon: <DraftsOutlined />, iconBg: '#f3f4f6', bar: '#4b5563' },
     { title: toThaiWorkflowStatus('PartiallyReceived'), value: count('PartiallyReceived'), subtitle: 'สถานะ Partial', icon: <LocalShippingIcon sx={{ fontSize: 20 }} />, iconBg: '#eff6ff', bar: '#2563eb' },
-    { title: toThaiWorkflowStatus('Completed'), value: count('Completed'), subtitle: 'สถานะ Completed', icon: <CheckCircleIcon sx={{ fontSize: 20 }} />, iconBg: '#f0fdf4', bar: '#16a34a' },
+    { title: toThaiWorkflowStatus('Completed'), value: count('Completed'), subtitle: 'สถานะ Completed', icon: <CheckCircleIcon sx={{ fontSize: 20 }} />, iconBg: '#FEF3F2', bar: '#B42318' },
     { title: toThaiWorkflowStatus('Cancelled'), value: count('Cancelled'), subtitle: 'สถานะ Cancelled', icon: <CancelOutlinedIcon />, iconBg: '#fef2f2', bar: '#dc2626' },
   ];
 

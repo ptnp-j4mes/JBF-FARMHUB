@@ -11,7 +11,7 @@ export default function FcrBar({ facilityName, fcrActual }: FcrBarProps) {
     <Box sx={{ p: 1.1, borderRadius: 2.2, border: '1px solid', borderColor: 'rgba(217, 226, 220, 0.9)', bgcolor: '#fff' }}>
       <Stack direction="row" justifyContent="space-between" alignItems="center" mb={0.5}>
         <Typography variant="body2" sx={{ fontWeight: 700, color: '#21312c' }}>{facilityName}</Typography>
-        <Chip size="small" label={fcrActual.toFixed(2)} sx={{ fontWeight: 800, bgcolor: '#ecfdf5', color: '#166534', height: 26 }} />
+        <Chip size="small" label={fcrActual.toFixed(2)} sx={{ fontWeight: 800, bgcolor: '#FEF3F2', color: '#912018', height: 26 }} />
       </Stack>
       <LinearProgress
         variant="determinate"
@@ -19,7 +19,7 @@ export default function FcrBar({ facilityName, fcrActual }: FcrBarProps) {
         sx={{
           height: 8,
           borderRadius: 99,
-          bgcolor: alpha('#bbf7d0', 0.8),
+          bgcolor: alpha('#FEE4E2', 0.8),
           '& .MuiLinearProgress-bar': { bgcolor: '#15803D' },
         }}
       />

@@ -1552,7 +1552,7 @@ export default function RolePage() {
                 fontSize: '0.8rem',
                 color:
                   selectedReadyPermissionCount > 0
-                    ? '#16a34a'
+                    ? '#B42318'
                     : alpha('#dc2626', 0.9),
                 fontWeight: 600,
               }}

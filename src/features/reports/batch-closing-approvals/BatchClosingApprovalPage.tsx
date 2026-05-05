@@ -257,7 +257,7 @@ export function BatchClosingApprovalPage() {
                       width: 24,
                       height: 24,
                       borderRadius: '999px',
-                      bgcolor: index <= (status === 'Draft' ? 1 : status === 'Submitted' ? 2 : 4) ? '#22c55e' : '#e5e7eb',
+                      bgcolor: index <= (status === 'Draft' ? 1 : status === 'Submitted' ? 2 : 4) ? '#B42318' : '#e5e7eb',
                       color: index <= (status === 'Draft' ? 1 : status === 'Submitted' ? 2 : 4) ? '#fff' : '#6b7280',
                       display: 'grid',
                       placeItems: 'center',

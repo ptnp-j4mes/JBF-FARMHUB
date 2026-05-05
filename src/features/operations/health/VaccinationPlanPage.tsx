@@ -249,8 +249,8 @@ function resolveWarehouseSummaryMeta(summary?: VaccinationTask['warehouseSummary
     return {
       label: `คลังพอ (${summary?.totalAvailableQuantity ?? 0} โดส)`,
       chipSx: {
-        bgcolor: '#dcfce7',
-        color: '#166534',
+        bgcolor: '#FEF3F2',
+        color: '#912018',
         border: '1px solid #86efac',
       },
     };
@@ -1457,7 +1457,7 @@ export default function VaccinationPlanPage() {
                             <Chip
                               size="small"
                               label={`เลือกฉีด ${totalAllocatedHeadcount} ตัว`}
-                              sx={{ bgcolor: '#dcfce7', color: '#166534', fontWeight: 700 }}
+                              sx={{ bgcolor: '#FEF3F2', color: '#912018', fontWeight: 700 }}
                             />
                           ) : null}
                           {executionContext.ageDays !== null && executionContext.ageDays !== undefined && executionContext.ageDays > 0 ? (

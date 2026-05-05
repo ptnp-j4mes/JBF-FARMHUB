@@ -406,8 +406,8 @@ export default function MedsTab({
                       size="small"
                       label={`กำลังบันทึก ${medAllocatedHeadcount} ตัว`}
                       sx={{
-                        bgcolor: '#dcfce7',
-                        color: '#166534',
+                        bgcolor: '#FEF3F2',
+                        color: '#912018',
                         fontWeight: 700,
                       }}
                     />

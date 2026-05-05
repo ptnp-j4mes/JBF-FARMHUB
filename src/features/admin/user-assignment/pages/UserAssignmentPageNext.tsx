@@ -141,8 +141,8 @@ export function UserAssignmentPage() {
     height: 28,
     borderRadius: '999px' as const,
     fontWeight: 700,
-    bgcolor: active ? '#d1fae5 !important' : '#f3f4f6 !important',
-    color: active ? '#047857' : '#6b7280',
+    bgcolor: active ? '#FEF3F2 !important' : '#f3f4f6 !important',
+    color: active ? '#912018' : '#6b7280',
     border: active ? 'none' : `1px solid #d1d5db`,
     '& .MuiChip-label': { px: 1.25 },
   });
@@ -255,11 +255,11 @@ export function UserAssignmentPage() {
         subtitle: 'โหลดตาม demand',
         icon: (
           <CheckCircleOutlineOutlined
-            sx={{ color: '#16a34a', fontSize: 22 }}
+            sx={{ color: '#B42318', fontSize: 22 }}
           />
         ),
         iconBg: '#edfce9',
-        bar: '#16a34a',
+        bar: '#B42318',
       },
     ];
   }, [workspace]);

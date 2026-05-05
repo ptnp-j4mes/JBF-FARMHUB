@@ -586,7 +586,7 @@ function StockFacilityList({
                 const facilityChipSx = {
                   out:      { bg: '#fee2e2', text: '#b91c1c' },
                   low:      { bg: '#fef3c7', text: '#b45309' },
-                  normal:   { bg: '#d1fae5', text: '#047857' },
+                  normal:   { bg: '#FEF3F2', text: '#912018' },
                 }[normalizedStatus === 'out' ? 'out' : normalizedStatus === 'low' ? 'low' : 'normal'];
 
                 return (
@@ -804,7 +804,7 @@ function StockList({
                 );
                 const chipSxForLevel = (level: 'normal' | 'low' | 'out') => {
                   const palette = {
-                    normal: { bg: '#d1fae5', text: '#047857' },
+                    normal: { bg: '#FEF3F2', text: '#912018' },
                     low: { bg: '#fef3c7', text: '#b45309' },
                     out: { bg: '#fee2e2', text: '#b91c1c' },
                   }[level];

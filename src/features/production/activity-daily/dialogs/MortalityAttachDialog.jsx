@@ -106,7 +106,7 @@ export default function MortalityAttachDialog({
                 <Box sx={{ flex: 1 }}>
                   <Stack direction="row" spacing={0.5} alignItems="center">
                     <CheckIcon sx={{ fontSize: 18, color: '#1e9c68' }} />
-                    <Typography variant="body2" fontWeight={600} color="#166534">
+                    <Typography variant="body2" fontWeight={600} color="#912018">
                       แนบรูปแล้ว
                     </Typography>
                   </Stack>

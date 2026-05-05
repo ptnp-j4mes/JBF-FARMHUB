@@ -15,7 +15,7 @@ type StatusChipProps = {
 
 export default function StatusChip({ status }: StatusChipProps) {
   if (status === 'COMPLETED') {
-    return <Chip size="small" label="เสร็จสิ้น" icon={<CheckCircleOutline />} sx={{ bgcolor: '#ecfdf5', color: '#166534', fontWeight: 800, border: `1px solid ${alpha('#22c55e', 0.24)}` }} />;
+    return <Chip size="small" label="เสร็จสิ้น" icon={<CheckCircleOutline />} sx={{ bgcolor: '#FEF3F2', color: '#912018', fontWeight: 800, border: `1px solid ${alpha('#B42318', 0.24)}` }} />;
   }
   if (status === 'IN_PROGRESS') {
     return <Chip size="small" label="กำลังดำเนินการ" icon={<PlayArrowOutlined />} sx={{ bgcolor: '#fff7ed', color: '#b45309', fontWeight: 800, border: `1px solid ${alpha('#f59e0b', 0.24)}` }} />;

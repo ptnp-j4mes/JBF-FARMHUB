@@ -53,11 +53,11 @@ export const getWorkflowStatusChipSx = (status?: string | null) => {
   const palette: Record<string, { bg: string; text: string }> = {
     Draft: { bg: '#f9fafb', text: '#4b5563' }, // Softer Gray
     Pending: { bg: '#fffbeb', text: '#92400e' }, // Softer Amber/Orange
-    Approved: { bg: '#ecfdf5', text: '#065f46' }, // Softer Emerald
+    Approved: { bg: '#FEF3F2', text: '#912018' }, // Primary red soft
     Rejected: { bg: '#fef2f2', text: '#991b1b' }, // Softer Red
     Cancelled: { bg: '#fff1f2', text: '#be123c' }, // Softer Crimson
     PartiallyReceived: { bg: '#eff6ff', text: '#1e40af' }, // Softer Blue
-    Completed: { bg: '#f0fdf4', text: '#166534' }, // Softer Green
+    Completed: { bg: '#FEF3F2', text: '#912018' }, // Primary red soft
     Returned: { bg: '#f5f3ff', text: '#5b21b6' }, // Softer Purple
   };
 

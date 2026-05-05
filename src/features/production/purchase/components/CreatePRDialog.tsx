@@ -1394,11 +1394,11 @@ export function CreatePRDialog({
                                   ml: 1, 
                                   height: 20, 
                                   fontSize: '0.7rem', 
-                                  bgcolor: '#dcfce7', 
-                                  color: '#15803d',
+                                  bgcolor: '#FEF3F2',
+                                  color: '#912018',
                                   fontWeight: 700,
                                   borderRadius: '4px',
-                                  border: '1px solid #bbf7d0'
+                                  border: '1px solid #FEE4E2'
                                 }} 
                               />
                             )}

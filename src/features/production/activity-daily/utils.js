@@ -225,8 +225,8 @@ export const resolveWarehouseSummaryMeta = (summary) => {
   if (status === 'enough') {
     return {
       label: `คลังพอ (${summary?.totalAvailableQuantity ?? 0} โดส)`,
-      color: '#166534',
-      bg: '#dcfce7',
+      color: '#912018',
+      bg: '#FEF3F2',
     };
   }
   if (status === 'available') {
@@ -260,8 +260,8 @@ export const resolveWarehouseIssueMeta = (row) => {
         ? `ตัด stock แล้ว (${row.stockTransactionDocumentNo})`
         : 'ตัด stock แล้ว',
       helper: 'submit สำเร็จและมีการสร้าง stock transaction แล้ว',
-      color: '#166534',
-      bg: '#dcfce7',
+      color: '#912018',
+      bg: '#FEF3F2',
     };
   }
   if (status === 'FAILED') {

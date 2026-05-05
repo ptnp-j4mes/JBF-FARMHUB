@@ -654,9 +654,9 @@ export default function FiManagementPage() {
         };
         const activeSx = {
           ...baseChipSx,
-          bgcolor: 'rgba(16,185,129,0.10)',
-          color: '#059669',
-          border: '1px solid rgba(16,185,129,0.20)',
+          bgcolor: 'rgba(180,35,24,0.10)',
+          color: '#B42318',
+          border: '1px solid rgba(180,35,24,0.20)',
         };
         const inactiveSx = {
           ...baseChipSx,

@@ -66,7 +66,7 @@ const CARDS: CardConfig[] = [
   {
     key: 'efficiency',
     icon: <SpeedIcon sx={{ fontSize: 28 }} />,
-    color: '#15803d',
+    color: '#912018',
     bgLight: '#effdf2',
     label: 'ประสิทธิภาพการให้อาหาร',
     getValue: (s) => `${s.efficiencyPct.toFixed(1)}%`,
