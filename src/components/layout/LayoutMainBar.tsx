@@ -1,1 +1,1 @@
-export { default } from '@/design-system/components/organisms/LayoutMainBar/LayoutMainBar';
+export { LayoutMainBar as default } from '@/design-system';

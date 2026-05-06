@@ -3,7 +3,6 @@
 import {
   Box,
   Button,
-  Chip,
   Paper,
   Stack,
   Table,
@@ -18,7 +17,7 @@ import { EditOutlined } from '@mui/icons-material';
 import { alpha, useTheme } from '@mui/material/styles';
 import type { ReceivablePurchaseRequestRow } from '../types';
 import { formatNumber } from '@/lib/utils/format.util';
-import { STOCK_DIALOG_UI } from './stock-dialog.constants';
+import { StatusBadge } from '@/design-system';
 
 type PendingActivationPurchaseRequestListProps = {
   rows: ReceivablePurchaseRequestRow[];
@@ -67,12 +66,12 @@ export function PendingActivationPurchaseRequestList({
           stickyHeader
           sx={{
             '& .MuiTableCell-head': {
-              bgcolor: STOCK_DIALOG_UI.accent,
+              bgcolor: theme.palette.primary.main,
               color: '#fff',
               fontWeight: 700,
               textAlign: 'center',
               verticalAlign: 'middle',
-              borderRight: `1px solid ${alpha(STOCK_DIALOG_UI.accentDark, 0.3)}`,
+              borderRight: `1px solid ${alpha(theme.palette.primary.dark, 0.3)}`,
               '&:last-of-type': { borderRight: 'none' },
             },
             '& .MuiTableBody-root .MuiTableCell-root': {
@@ -159,17 +158,10 @@ export function PendingActivationPurchaseRequestList({
                       </Stack>
                     </TableCell>
                     <TableCell sx={{ minWidth: 180 }}>
-                      <Chip
+                      <StatusBadge
                         label={row.pendingActivationStatus || '-'}
+                        type={statusMeta.color}
                         size="small"
-                        color={statusMeta.color}
-                        sx={{
-                          fontWeight: 700,
-                          bgcolor:
-                            statusMeta.color === 'default'
-                              ? alpha(theme.palette.text.secondary, isDarkMode ? 0.24 : 0.12)
-                              : undefined,
-                        }}
                       />
                     </TableCell>
                     <TableCell align="center" sx={{ minWidth: 90 }}>

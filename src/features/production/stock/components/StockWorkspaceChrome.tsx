@@ -1,28 +1,15 @@
 'use client';
 
 import { Box, Card, CardContent, Chip, Stack, Typography } from '@mui/material';
-import { alpha } from '@mui/material/styles';
+import { alpha, useTheme } from '@mui/material/styles';
 import type { ReactNode } from 'react';
-
-export const STOCK_WORKSPACE_UI = {
-  panel: '#ffffff',
-  panelSoft: '#f8faf8',
-  panelMuted: '#f2f6f3',
-  border: '#dde2de',
-  borderStrong: '#cad4cf',
-  text: '#2f3a37',
-  muted: '#7d8783',
-  accent: 'rgb(22, 90, 80)',
-  accentSurface: '#edf5f1',
-  shadow: '0 18px 40px rgba(22, 35, 31, 0.08), 0 3px 10px rgba(22, 35, 31, 0.05)',
-  shadowSoft: '0 10px 24px rgba(22, 35, 31, 0.06), 0 2px 6px rgba(22, 35, 31, 0.04)',
-} as const;
 
 export const stockPanelSx = {
   borderRadius: 3.5,
-  border: `1px solid ${STOCK_WORKSPACE_UI.border}`,
-  bgcolor: STOCK_WORKSPACE_UI.panel,
-  boxShadow: STOCK_WORKSPACE_UI.shadow,
+  border: '1px solid',
+  borderColor: 'divider',
+  bgcolor: 'background.paper',
+  boxShadow: 2,
 };
 
 type StockWorkspaceHeaderProps = {
@@ -49,11 +36,13 @@ type StockSectionProps = {
 };
 
 export function StockWorkspaceHeader({ chipLabel, title, subtitle, meta }: StockWorkspaceHeaderProps) {
+  const theme = useTheme();
+
   return (
     <Box
       sx={{
         ...stockPanelSx,
-        background: `linear-gradient(135deg, ${STOCK_WORKSPACE_UI.accentSurface} 0%, ${STOCK_WORKSPACE_UI.panel} 58%)`,
+        background: `linear-gradient(135deg, ${alpha(theme.palette.primary.main, 0.06)} 0%, ${theme.palette.background.paper} 58%)`,
         px: { xs: 2, md: 2.6 },
         py: { xs: 2, md: 2.4 },
         display: 'grid',
@@ -66,25 +55,26 @@ export function StockWorkspaceHeader({ chipLabel, title, subtitle, meta }: Stock
           size="small"
           label={chipLabel}
           sx={{
-            bgcolor: '#fff',
-            color: STOCK_WORKSPACE_UI.accent,
+            bgcolor: 'background.paper',
+            color: 'primary.main',
             fontWeight: 800,
-            border: `1px solid ${STOCK_WORKSPACE_UI.borderStrong}`,
+            border: '1px solid',
+            borderColor: 'divider',
             height: 28,
           }}
         />
-        <Typography sx={{ fontSize: '0.9rem', color: STOCK_WORKSPACE_UI.muted }}>
+        <Typography sx={{ fontSize: '0.9rem', color: 'text.secondary' }}>
           {subtitle}
         </Typography>
       </Box>
       <Box sx={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 1.5, flexWrap: 'wrap' }}>
         <Box>
-          <Typography sx={{ fontSize: { xs: '1.9rem', md: '2.35rem' }, fontWeight: 900, lineHeight: 1.02, color: STOCK_WORKSPACE_UI.text, letterSpacing: '-0.03em' }}>
+          <Typography sx={{ fontSize: { xs: '1.9rem', md: '2.35rem' }, fontWeight: 900, lineHeight: 1.02, color: 'text.primary', letterSpacing: '-0.03em' }}>
             {title}
           </Typography>
         </Box>
         {meta ? (
-          <Typography sx={{ fontSize: '0.95rem', color: STOCK_WORKSPACE_UI.muted, fontWeight: 700 }}>
+          <Typography sx={{ fontSize: '0.95rem', color: 'text.secondary', fontWeight: 700 }}>
             {meta}
           </Typography>
         ) : null}
@@ -94,6 +84,8 @@ export function StockWorkspaceHeader({ chipLabel, title, subtitle, meta }: Stock
 }
 
 export function StockSummaryCard({ title, value, subtitle, icon, iconBg, bar }: StockSummaryCardProps) {
+  const theme = useTheme();
+
   return (
     <Card
       variant="outlined"
@@ -101,15 +93,15 @@ export function StockSummaryCard({ title, value, subtitle, icon, iconBg, bar }: 
         position: 'relative',
         overflow: 'hidden',
         p: 0,
-        borderColor: STOCK_WORKSPACE_UI.border,
-        bgcolor: STOCK_WORKSPACE_UI.panel,
-        boxShadow: STOCK_WORKSPACE_UI.shadow,
+        borderColor: 'divider',
+        bgcolor: 'background.paper',
+        boxShadow: 2,
         borderRadius: 3,
         '&::before': {
           content: '""',
           position: 'absolute',
           inset: 0,
-          background: `linear-gradient(135deg, ${alpha(iconBg, 0.8)} 0%, rgba(255,255,255,0) 55%)`,
+          background: `linear-gradient(135deg, ${alpha(iconBg, 0.8)} 0%, ${alpha(theme.palette.background.paper, 0)} 55%)`,
           pointerEvents: 'none',
         },
       }}
@@ -117,10 +109,10 @@ export function StockSummaryCard({ title, value, subtitle, icon, iconBg, bar }: 
       <CardContent sx={{ position: 'relative', zIndex: 1, p: 1.5 }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1 }}>
           <Box>
-            <Typography variant="h5" sx={{ fontWeight: 700, lineHeight: 1.1, color: '#172422' }}>
+            <Typography variant="h5" sx={{ fontWeight: 700, lineHeight: 1.1, color: 'text.primary' }}>
               {value}
             </Typography>
-            <Typography variant="body2" sx={{ color: STOCK_WORKSPACE_UI.text, mt: 0.45, fontWeight: 800 }}>
+            <Typography variant="body2" sx={{ color: 'text.primary', mt: 0.45, fontWeight: 800 }}>
               {title}
             </Typography>
           </Box>
@@ -129,9 +121,9 @@ export function StockSummaryCard({ title, value, subtitle, icon, iconBg, bar }: 
               width: 42,
               height: 42,
               borderRadius: 1.75,
-              bgcolor: '#fff',
+              bgcolor: 'background.paper',
               border: `1px solid ${alpha(bar, 0.15)}`,
-              boxShadow: STOCK_WORKSPACE_UI.shadowSoft,
+              boxShadow: 1,
               display: 'inline-flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -144,7 +136,7 @@ export function StockSummaryCard({ title, value, subtitle, icon, iconBg, bar }: 
         <Box sx={{ width: 96, height: 6, borderRadius: 999, bgcolor: alpha(bar, 0.2) }}>
           <Box sx={{ width: 54, height: '100%', borderRadius: 999, bgcolor: bar }} />
         </Box>
-        <Typography variant="caption" sx={{ display: 'block', color: STOCK_WORKSPACE_UI.muted, mt: 0.8 }}>
+        <Typography variant="caption" sx={{ display: 'block', color: 'text.secondary', mt: 0.8 }}>
           {subtitle}
         </Typography>
       </CardContent>
@@ -153,6 +145,8 @@ export function StockSummaryCard({ title, value, subtitle, icon, iconBg, bar }: 
 }
 
 export function StockSection({ title, description, action, children }: StockSectionProps) {
+  const theme = useTheme();
+
   return (
     <Box
       component="fieldset"
@@ -165,11 +159,11 @@ export function StockSection({ title, description, action, children }: StockSect
       <Stack spacing={1.5}>
         <Box sx={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 1.5, flexWrap: 'wrap' }}>
           <Box>
-            <Typography component="legend" sx={{ px: 1, color: STOCK_WORKSPACE_UI.accent, fontWeight: 800, fontSize: '0.98rem' }}>
+            <Typography component="legend" sx={{ px: 1, color: 'primary.main', fontWeight: 800, fontSize: '0.98rem' }}>
               {title}
             </Typography>
             {description ? (
-              <Typography sx={{ mt: 0.4, color: STOCK_WORKSPACE_UI.muted, fontSize: '0.9rem' }}>
+              <Typography sx={{ mt: 0.4, color: 'text.secondary', fontSize: '0.9rem' }}>
                 {description}
               </Typography>
             ) : null}

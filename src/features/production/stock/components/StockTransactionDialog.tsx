@@ -19,12 +19,13 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import { Add as AddIcon, Delete as DeleteIcon } from '@mui/icons-material';
 import { AxiosError } from 'axios';
 import Swal from 'sweetalert2';
 import dayjs from '@/lib/dayjs';
 import axiosInstance from '@/lib/axios';
-import { DialogTitleWithClose } from '@/components/common';
+import DialogTitleWithClose from '@/design-system/components/atoms/DialogTitleWithClose/DialogTitleWithClose';
 import { stockAdjustmentRequestService } from '../services/stock-adjustment-request.service';
 import { stockService } from '../services/stock.service';
 import type {
@@ -53,14 +54,13 @@ import {
   validateTransferDraft,
 } from '../utils/stock-validation';
 import {
-  STOCK_DIALOG_ACTIONS_SX,
-  STOCK_DIALOG_ERROR_ALERT_SX,
-  STOCK_DIALOG_FIELDSET_SX,
-  STOCK_DIALOG_FORM_SX,
   STOCK_DIALOG_LEGEND_SX,
-  STOCK_DIALOG_PAPER_SX,
-  STOCK_DIALOG_TABLE_SX,
-  STOCK_DIALOG_TITLE_SX,
+  getStockDialogActionsSx,
+  getStockDialogErrorAlertSx,
+  getStockDialogFieldsetSx,
+  getStockDialogFormSx,
+  getStockDialogPaperSx,
+  getStockDialogTableSx,
 } from './stock-dialog.constants';
 import { StockActionButton } from './StockActionButton';
 
@@ -354,6 +354,7 @@ export function StockTransactionDialog({
   onClose,
   onSubmitted,
 }: StockTransactionDialogProps) {
+  const theme = useTheme();
   const [currentUser] = useState(() => authService.getUser());
   const userFarmScopeIds = useMemo(
     () => new Set(getUserFarmScopeNodes(currentUser).map((node) => node.facilityNodeId)),
@@ -1852,9 +1853,9 @@ export function StockTransactionDialog({
 
   const renderIssueLayout = () => (
     <Stack spacing={2} pt={0.5}>
-      {error && <Alert severity="error" sx={STOCK_DIALOG_ERROR_ALERT_SX}>{error}</Alert>}
+      {error && <Alert severity="error" sx={getStockDialogErrorAlertSx(theme)}>{error}</Alert>}
 
-      <Box component="fieldset" sx={STOCK_DIALOG_FIELDSET_SX}>
+      <Box component="fieldset" sx={getStockDialogFieldsetSx(theme)}>
         <Typography component="legend" sx={STOCK_DIALOG_LEGEND_SX}>
           ข้อมูลเอกสาร
         </Typography>
@@ -2120,7 +2121,7 @@ export function StockTransactionDialog({
             เพิ่มรายการ
           </StockActionButton>
 
-          <TableContainer sx={{ ...STOCK_DIALOG_TABLE_SX, borderRadius: '15px 15px 0 0', maxHeight: 280 }}>
+          <TableContainer sx={{ ...getStockDialogTableSx(theme), borderRadius: '15px 15px 0 0', maxHeight: 280 }}>
             <Table
               size="small"
               stickyHeader
@@ -2180,9 +2181,9 @@ export function StockTransactionDialog({
 
   const renderTransferLayout = () => (
     <Stack spacing={2} pt={0.5}>
-      {error && <Alert severity="error" sx={STOCK_DIALOG_ERROR_ALERT_SX}>{error}</Alert>}
+      {error && <Alert severity="error" sx={getStockDialogErrorAlertSx(theme)}>{error}</Alert>}
 
-      <Box component="fieldset" sx={STOCK_DIALOG_FIELDSET_SX}>
+      <Box component="fieldset" sx={getStockDialogFieldsetSx(theme)}>
         <Typography component="legend" sx={STOCK_DIALOG_LEGEND_SX}>
           ข้อมูลรายการ
         </Typography>
@@ -2335,7 +2336,7 @@ export function StockTransactionDialog({
             เพิ่มรายการ
           </StockActionButton>
 
-          <TableContainer sx={{ ...STOCK_DIALOG_TABLE_SX, borderRadius: '15px 15px 0 0', maxHeight: 280 }}>
+          <TableContainer sx={{ ...getStockDialogTableSx(theme), borderRadius: '15px 15px 0 0', maxHeight: 280 }}>
             <Table
               size="small"
               stickyHeader
@@ -2394,14 +2395,14 @@ export function StockTransactionDialog({
   );
 
   return (
-    <Dialog open={open} onClose={saving ? undefined : onClose} fullWidth maxWidth={mode === 'issue' || mode === 'transfer' ? 'lg' : 'sm'} PaperProps={{ sx: STOCK_DIALOG_PAPER_SX }}>
-      <DialogTitleWithClose onClose={onClose} disabled={saving} sx={STOCK_DIALOG_TITLE_SX}>
+    <Dialog open={open} onClose={saving ? undefined : onClose} fullWidth maxWidth={mode === 'issue' || mode === 'transfer' ? 'lg' : 'sm'} PaperProps={{ sx: getStockDialogPaperSx(theme) }}>
+      <DialogTitleWithClose onClose={onClose} disabled={saving} variant="master">
         {modeTitle(mode)}
       </DialogTitleWithClose>
-      <DialogContent dividers sx={STOCK_DIALOG_FORM_SX}>
+      <DialogContent dividers sx={getStockDialogFormSx(theme)}>
         {mode === 'issue' ? renderIssueLayout() : mode === 'transfer' ? renderTransferLayout() : renderStandardLayout()}
       </DialogContent>
-      <DialogActions sx={STOCK_DIALOG_ACTIONS_SX}>
+      <DialogActions sx={getStockDialogActionsSx(theme)}>
         <StockActionButton
           tone="primary"
           onClick={submit}

@@ -1,3 +1,5 @@
+'use client';
+
 /**
  * SearchBar Component
  *
@@ -19,7 +21,7 @@ export default function SearchBar({
   value,
   onChange,
   placeholder = 'ค้นหา...',
-  fullWidth = true
+  fullWidth = true,
 }: SearchBarProps) {
   const theme = useTheme();
   return (

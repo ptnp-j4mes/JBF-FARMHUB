@@ -12,4 +12,5 @@ export { default as BreadcrumbTrail } from './BreadcrumbTrail';
 export { default as DialogTitleWithClose } from './DialogTitleWithClose';
 export { default as QuickStatusButtonGroup } from './QuickStatusButtonGroup';
 export type { QuickStatusButtonItem, QuickStatusButtonGroupProps } from './QuickStatusButtonGroup';
+export { default as SectionWrappers } from './SectionWrappers';
 export { StatsWrapper, ContentWrapper, PageRootWrapper } from './SectionWrappers';

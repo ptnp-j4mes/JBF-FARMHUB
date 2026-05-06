@@ -9,16 +9,16 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import { DialogTitleWithClose } from '@/components/common';
+import { useTheme } from '@mui/material/styles';
+import DialogTitleWithClose from '@/design-system/components/atoms/DialogTitleWithClose/DialogTitleWithClose';
 import { formatNumber } from '@/lib/utils/format.util';
 import type { StockTransactionRow } from '../types';
 import {
-  STOCK_DIALOG_FIELDSET_SX,
-  STOCK_DIALOG_FORM_SX,
   STOCK_DIALOG_LEGEND_SX,
-  STOCK_DIALOG_PAPER_SX,
-  STOCK_DIALOG_SECTION_BOX_SX,
-  STOCK_DIALOG_TITLE_SX,
+  getStockDialogFieldsetSx,
+  getStockDialogFormSx,
+  getStockDialogPaperSx,
+  getStockDialogSectionBoxSx,
 } from './stock-dialog.constants';
 
 type TransferTransactionDetailsDialogProps = {
@@ -32,19 +32,20 @@ export function TransferTransactionDetailsDialog({
   transaction,
   onClose,
 }: TransferTransactionDetailsDialogProps) {
+  const theme = useTheme();
   if (!transaction) return null;
 
   const firstLine = transaction.lines[0];
   const documentRemarks = transaction.remarks?.trim() || '';
 
   return (
-    <Dialog open={open} onClose={onClose} fullWidth maxWidth="md" PaperProps={{ sx: STOCK_DIALOG_PAPER_SX }}>
-      <DialogTitleWithClose onClose={onClose} sx={STOCK_DIALOG_TITLE_SX}>
+    <Dialog open={open} onClose={onClose} fullWidth maxWidth="md" PaperProps={{ sx: getStockDialogPaperSx(theme) }}>
+      <DialogTitleWithClose onClose={onClose} variant="master">
         รายละเอียดใบโอนสินค้า
       </DialogTitleWithClose>
-      <DialogContent dividers sx={STOCK_DIALOG_FORM_SX}>
+      <DialogContent dividers sx={getStockDialogFormSx(theme)}>
         <Stack spacing={2}>
-          <Box component="fieldset" sx={STOCK_DIALOG_FIELDSET_SX}>
+          <Box component="fieldset" sx={getStockDialogFieldsetSx(theme)}>
             <Typography component="legend" sx={STOCK_DIALOG_LEGEND_SX}>
               ข้อมูลเอกสาร
             </Typography>
@@ -76,13 +77,13 @@ export function TransferTransactionDetailsDialog({
 
           <Stack spacing={1.2}>
             <Typography variant="subtitle1" fontWeight={800}>รายการสินค้า</Typography>
-            <Box component="fieldset" sx={{ ...STOCK_DIALOG_FIELDSET_SX, p: 0, overflow: 'hidden' }}>
+            <Box component="fieldset" sx={{ ...getStockDialogFieldsetSx(theme), p: 0, overflow: 'hidden' }}>
               <Typography component="legend" sx={{ ...STOCK_DIALOG_LEGEND_SX, ml: 1 }}>
                 รายการสินค้า
               </Typography>
               <Stack divider={<Divider flexItem />}>
                 {transaction.lines.map((line) => (
-                  <Grid key={line.id} container spacing={1.5} sx={{ ...STOCK_DIALOG_SECTION_BOX_SX, px: 2, py: 1.5, border: 'none', borderRadius: 0, bgcolor: 'transparent' }}>
+                  <Grid key={line.id} container spacing={1.5} sx={{ ...getStockDialogSectionBoxSx(theme), px: 2, py: 1.5, border: 'none', borderRadius: 0, bgcolor: 'transparent' }}>
                     <Grid size={{ xs: 12, md: 4 }}>
                       <Typography variant="body2" fontWeight={700}>{line.itemName}</Typography>
                     </Grid>
@@ -111,7 +112,7 @@ export function TransferTransactionDetailsDialog({
           {documentRemarks ? (
             <>
               <Divider />
-              <Box sx={STOCK_DIALOG_SECTION_BOX_SX}>
+              <Box sx={getStockDialogSectionBoxSx(theme)}>
                 <Typography variant="subtitle1" fontWeight={800} sx={{ mb: 1 }}>
                   หมายเหตุเอกสาร
                 </Typography>

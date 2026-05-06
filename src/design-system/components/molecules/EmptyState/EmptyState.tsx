@@ -1,3 +1,5 @@
+'use client';
+
 /**
  * EmptyState Component
  *
@@ -56,7 +58,12 @@ export default function EmptyState({
       </Typography>
 
       {message && (
-        <Typography variant="body2" color="text.secondary" textAlign="center" sx={{ mb: 2, maxWidth: 520 }}>
+        <Typography
+          variant="body2"
+          color="text.secondary"
+          textAlign="center"
+          sx={{ mb: 2, maxWidth: 520 }}
+        >
           {message}
         </Typography>
       )}

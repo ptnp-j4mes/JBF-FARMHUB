@@ -1,16 +1,13 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import { FormCheckbox, FormField, FormSelect } from '@/components/forms';
 import {
   Dialog,
   DialogTitle,
   DialogContent,
   DialogActions,
   Button,
-  TextField,
-  MenuItem,
-  FormControlLabel,
-  Checkbox,
   Box,
   CircularProgress
 } from '@mui/material';
@@ -171,15 +168,11 @@ export function MasterCrudDialog({
             {fields.map((field) => {
               if (field.type === 'checkbox') {
                 return (
-                  <FormControlLabel
+                  <FormCheckbox
                     key={field.name}
-                    control={
-                      <Checkbox
-                        checked={!!formData[field.name]}
-                        onChange={(e) => handleChange(field.name, e.target.checked)}
-                      />
-                    }
                     label={field.label}
+                    checked={!!formData[field.name]}
+                    onChange={(checked) => handleChange(field.name, checked)}
                   />
                 );
               }
@@ -187,28 +180,23 @@ export function MasterCrudDialog({
               if (field.type === 'select') {
                 const options = field.getOptions ? field.getOptions(formData) : field.options ?? [];
                 return (
-                  <TextField
+                  <FormSelect
                     key={field.name}
-                    select
-                    fullWidth
                     label={field.label}
                     value={formData[field.name] ?? ''}
                     required={field.required}
                     onChange={(e) => handleChange(field.name, e.target.value)}
-                  >
-                    {options.map((option) => (
-                      <MenuItem key={option.value} value={option.value} disabled={Boolean(option.disabled)}>
-                        {option.label}
-                      </MenuItem>
-                    ))}
-                  </TextField>
+                    options={options.map((option) => ({
+                      value: option.value,
+                      label: option.label,
+                    }))}
+                  />
                 );
               }
 
               return (
-                <TextField
+                <FormField
                   key={field.name}
-                  fullWidth
                   label={field.label}
                   type="text"
                   value={formData[field.name] ?? ''}

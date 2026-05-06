@@ -12,6 +12,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import { AddCircleOutlineRounded, DeleteOutlineRounded } from '@mui/icons-material';
 import { AxiosError } from 'axios';
 import Swal from 'sweetalert2';
@@ -21,7 +22,7 @@ import { formatUserDisplayName } from '@/lib/user-display';
 import { stockService } from '../services/stock.service';
 import type { FeedSiloOption, ReceivablePurchaseRequestRow, StockBalanceResponse, WarehouseResponse } from '../types';
 import { formatNumber } from '@/lib/utils/format.util';
-import { DialogTitleWithClose } from '@/components/common';
+import DialogTitleWithClose from '@/design-system/components/atoms/DialogTitleWithClose/DialogTitleWithClose';
 import { formatCodeNameLabel, getFeedSiloDisplayLabel, naturalTextCompare } from '../utils/location-display.util';
 import { getFeedSiloCompatibility } from '../utils/feed-silo-compatibility.util';
 import {
@@ -31,16 +32,13 @@ import {
   validatePositiveStockNumber,
 } from '../utils/stock-validation';
 import {
-  STOCK_DIALOG_ACTIONS_SX,
-  STOCK_DIALOG_ERROR_ALERT_SX,
-  STOCK_DIALOG_FIELDSET_SX,
-  STOCK_DIALOG_FORM_SX,
-  STOCK_DIALOG_INFO_ALERT_SX,
   STOCK_DIALOG_LEGEND_SX,
-  STOCK_DIALOG_PAPER_SX,
-  STOCK_DIALOG_TABLE_SX,
-  STOCK_DIALOG_TITLE_SX,
-  STOCK_DIALOG_UI,
+  getStockDialogActionsSx,
+  getStockDialogErrorAlertSx,
+  getStockDialogFieldsetSx,
+  getStockDialogFormSx,
+  getStockDialogInfoAlertSx,
+  getStockDialogPaperSx,
 } from './stock-dialog.constants';
 import { StockActionButton } from './StockActionButton';
 
@@ -234,6 +232,7 @@ export function ReceivePurchaseRequestDialog({
   onClose,
   onSubmitted,
 }: ReceivePurchaseRequestDialogProps) {
+  const theme = useTheme();
   const currentUser = authService.getUser();
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -686,11 +685,11 @@ export function ReceivePurchaseRequestDialog({
   };
 
     return (
-    <Dialog open={open} onClose={saving ? undefined : onClose} fullWidth maxWidth="md" PaperProps={{ sx: STOCK_DIALOG_PAPER_SX }}>
-      <DialogTitleWithClose onClose={onClose} disabled={saving} sx={STOCK_DIALOG_TITLE_SX}>
+    <Dialog open={open} onClose={saving ? undefined : onClose} fullWidth maxWidth="md" PaperProps={{ sx: getStockDialogPaperSx(theme) }}>
+      <DialogTitleWithClose onClose={onClose} disabled={saving} variant="master">
         สร้างใบรับสินค้าจาก {purchaseRequest?.documentNumber ?? ''}
       </DialogTitleWithClose>
-      <DialogContent dividers sx={STOCK_DIALOG_FORM_SX}>
+      <DialogContent dividers sx={getStockDialogFormSx(theme)}>
         <Stack spacing={2}>
           {purchaseRequest && (
             <Typography variant="body2" color="text.secondary">
@@ -698,9 +697,9 @@ export function ReceivePurchaseRequestDialog({
             </Typography>
           )}
 
-          {error && <Alert severity="error" sx={STOCK_DIALOG_ERROR_ALERT_SX}>{error}</Alert>}
+          {error && <Alert severity="error" sx={getStockDialogErrorAlertSx(theme)}>{error}</Alert>}
 
-          <Box component="fieldset" sx={STOCK_DIALOG_FIELDSET_SX}>
+          <Box component="fieldset" sx={getStockDialogFieldsetSx(theme)}>
             <Typography component="legend" sx={STOCK_DIALOG_LEGEND_SX}>
               ข้อมูลใบรับสินค้า
             </Typography>
@@ -733,7 +732,7 @@ export function ReceivePurchaseRequestDialog({
             <Box
               component="fieldset"
               key={line.purchaseRequestLineId}
-              sx={STOCK_DIALOG_FIELDSET_SX}
+              sx={getStockDialogFieldsetSx(theme)}
             >
               {(() => {
                 const facilityHouses = buildHouseOptionsFromSilos(feedSiloOptions, purchaseRequest?.facilityId);
@@ -756,12 +755,12 @@ export function ReceivePurchaseRequestDialog({
                   คงค้าง {formatNumber(line.remainingQuantity)} {line.uomName}
                 </Typography>
                 {(parseUnitCost(line.unitCost) ?? 0) <= 0 ? (
-                  <Alert severity="warning" sx={{ ...STOCK_DIALOG_ERROR_ALERT_SX, bgcolor: '#fff6e3', borderColor: '#eed7a3', color: '#6e5718' }}>
+                  <Alert severity="warning" sx={{ ...getStockDialogErrorAlertSx(theme), bgcolor: '#fff6e3', borderColor: '#eed7a3', color: '#6e5718' }}>
                     รายการนี้ยังไม่มีราคาจริงในระบบ ระบบจะบันทึกเป็นใบรับสินค้ารอรับเข้าคลังไว้ก่อน แล้วค่อยเติมราคาในขั้นถัดไป
                   </Alert>
                 ) : null}
                 {lineRequiresExpiry(line) ? (
-                  <Alert severity="info" sx={STOCK_DIALOG_INFO_ALERT_SX}>
+                  <Alert severity="info" sx={getStockDialogInfoAlertSx(theme)}>
                     รายการนี้ต้องระบุวันหมดอายุตอนรับสินค้า{line.itemLotPolicyName ? ` ตามนโยบาย ${line.itemLotPolicyName}` : ''}
                   </Alert>
                 ) : null}
@@ -872,10 +871,9 @@ export function ReceivePurchaseRequestDialog({
                         mt: 0.5,
                         p: 1.25,
                         border: '1px dashed',
-                        borderColor: STOCK_DIALOG_UI.border,
+                        borderColor: theme.palette.divider,
                         borderRadius: 2,
                         bgcolor: '#f8f7ff',
-                        boxShadow: STOCK_DIALOG_UI.shadowSoft,
                       }}
                     >
                       <Stack spacing={1.2}>
@@ -900,10 +898,9 @@ export function ReceivePurchaseRequestDialog({
                             sx={{
                               p: 1.1,
                               border: '1px solid',
-                              borderColor: STOCK_DIALOG_UI.border,
+                              borderColor: theme.palette.divider,
                               borderRadius: 1.5,
-                              bgcolor: '#fff',
-                              boxShadow: STOCK_DIALOG_UI.shadowSoft,
+                              bgcolor: theme.palette.background.paper,
                             }}
                           >
                             <Stack spacing={1}>
@@ -970,10 +967,9 @@ export function ReceivePurchaseRequestDialog({
                       mt: 0.5,
                       p: 1.25,
                       border: '1px dashed',
-                      borderColor: STOCK_DIALOG_UI.border,
+                      borderColor: theme.palette.divider,
                       borderRadius: 2,
                       bgcolor: '#f4f8f5',
-                      boxShadow: STOCK_DIALOG_UI.shadowSoft,
                     }}
                   >
                     <Stack spacing={1.2}>
@@ -1010,10 +1006,9 @@ export function ReceivePurchaseRequestDialog({
                             sx={{
                               p: 0.85,
                               border: '1px solid',
-                              borderColor: STOCK_DIALOG_UI.border,
+                              borderColor: theme.palette.divider,
                               borderRadius: 1.5,
-                              bgcolor: '#fff',
-                              boxShadow: STOCK_DIALOG_UI.shadowSoft,
+                              bgcolor: theme.palette.background.paper,
                             }}
                           >
                             <Stack spacing={0.75}>
@@ -1210,7 +1205,7 @@ export function ReceivePurchaseRequestDialog({
           />
         </Stack>
       </DialogContent>
-      <DialogActions sx={STOCK_DIALOG_ACTIONS_SX}>
+      <DialogActions sx={getStockDialogActionsSx(theme)}>
         <StockActionButton
           tone="primary"
           onClick={submit}

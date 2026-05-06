@@ -1,18 +1,13 @@
+'use client';
+
 /**
  * FormFileUpload Component
- * 
+ *
  * File upload component with preview
  */
 
 import { useRef, ChangeEvent } from 'react';
-import {
-  Box,
-  Button,
-  Typography,
-  IconButton,
-  Paper,
-  FormHelperText,
-} from '@mui/material';
+import { Box, Button, Typography, IconButton, Paper, FormHelperText } from '@mui/material';
 import {
   CloudUpload as UploadIcon,
   Close as CloseIcon,

@@ -1,6 +1,5 @@
-import ThemeContext from '@/contexts/ThemeContext';
 import { I18nProvider } from '@/core/i18n';
-import GlobalAppLoading from '@/components/common/GlobalAppLoading';
+import { AppThemeProvider, GlobalAppLoading } from '@/design-system';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import { Suspense } from 'react';
@@ -35,22 +34,18 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="th">
       <body className={baiJamjuree.variable}>
-        <ThemeContext>
+        <AppThemeProvider>
           <I18nProvider>
             {children}
             <Suspense fallback={null}>
               <GlobalAppLoading />
             </Suspense>
           </I18nProvider>
-        </ThemeContext>
+        </AppThemeProvider>
       </body>
     </html>
   );

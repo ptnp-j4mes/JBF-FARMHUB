@@ -96,8 +96,8 @@ export function PRStats({ data }: PRStatsProps) {
       title: DOCUMENT_STATUS_THAI[DocumentStatus.Completed],
       value: stats.completed,
       subtitle: 'สถานะ Completed',
-      color: '#B42318',
-      iconBg: '#FEF3F2',
+      color: '#2e7d32',
+      iconBg: '#ecf7ee',
       icon: <CheckCircleIcon sx={{ fontSize: 20 }} />,
     },
     {

@@ -20,10 +20,11 @@ import {
   Typography,
   MenuItem,
 } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import { AxiosError } from 'axios';
 import { AddCircleOutlineRounded, DeleteOutlineRounded } from '@mui/icons-material';
 import Swal from 'sweetalert2';
-import { DialogTitleWithClose } from '@/components/common';
+import DialogTitleWithClose from '@/design-system/components/atoms/DialogTitleWithClose/DialogTitleWithClose';
 import { formatNumber } from '@/lib/utils/format.util';
 import { stockService } from '../services/stock.service';
 import type {
@@ -35,13 +36,11 @@ import type {
 import { getFeedSiloDisplayLabel } from '../utils/location-display.util';
 import { getFeedSiloCompatibility } from '../utils/feed-silo-compatibility.util';
 import {
-  STOCK_DIALOG_ACTIONS_SX,
-  STOCK_DIALOG_ERROR_ALERT_SX,
-  STOCK_DIALOG_FORM_SX,
-  STOCK_DIALOG_PAPER_SX,
-  STOCK_DIALOG_TABLE_SX,
-  STOCK_DIALOG_TITLE_SX,
-  STOCK_DIALOG_UI,
+  getStockDialogActionsSx,
+  getStockDialogErrorAlertSx,
+  getStockDialogFormSx,
+  getStockDialogPaperSx,
+  getStockDialogTableSx,
 } from './stock-dialog.constants';
 import { StockActionButton } from './StockActionButton';
 
@@ -149,6 +148,7 @@ export function StockReceiveRequestDetailsDialog({
   const [error, setError] = useState<string | null>(null);
   const [feedSiloOptions, setFeedSiloOptions] = useState<FeedSiloOption[]>([]);
   const [warehouseBalances, setWarehouseBalances] = useState<StockBalanceResponse[]>([]);
+  const theme = useTheme();
 
   useEffect(() => {
     if (!open || !data) return;
@@ -627,14 +627,14 @@ export function StockReceiveRequestDetailsDialog({
   };
 
   return (
-    <Dialog open={open} onClose={saving || finalizing ? undefined : onClose} fullWidth maxWidth="xl" PaperProps={{ sx: STOCK_DIALOG_PAPER_SX }}>
-      <DialogTitleWithClose onClose={onClose} sx={STOCK_DIALOG_TITLE_SX}>
+    <Dialog open={open} onClose={saving || finalizing ? undefined : onClose} fullWidth maxWidth="xl" PaperProps={{ sx: getStockDialogPaperSx(theme) }}>
+      <DialogTitleWithClose onClose={onClose} variant="master">
         รายละเอียดใบรับสินค้า
       </DialogTitleWithClose>
-      <DialogContent dividers sx={STOCK_DIALOG_FORM_SX}>
+      <DialogContent dividers sx={getStockDialogFormSx(theme)}>
         {data ? (
           <Stack spacing={3}>
-            {error ? <Alert severity="error" sx={STOCK_DIALOG_ERROR_ALERT_SX}>{error}</Alert> : null}
+            {error ? <Alert severity="error" sx={getStockDialogErrorAlertSx(theme)}>{error}</Alert> : null}
 
             <Grid container spacing={2}>
               <Grid size={{ xs: 12, md: 4 }}>
@@ -696,7 +696,7 @@ export function StockReceiveRequestDetailsDialog({
               </Grid>
             </Grid>
 
-            <Paper sx={{ ...STOCK_DIALOG_TABLE_SX, overflow: 'hidden', boxShadow: STOCK_DIALOG_UI.shadowSoft }}>
+            <Paper sx={{ ...getStockDialogTableSx(theme), overflow: 'hidden' }}>
               <TableContainer sx={{ overflowX: 'auto' }}>
                 <Table
                   size="small"
@@ -769,10 +769,9 @@ export function StockReceiveRequestDetailsDialog({
                                     sx={{
                                       p: 0.9,
                                       border: '1px solid',
-                                      borderColor: STOCK_DIALOG_UI.border,
+                                      borderColor: theme.palette.divider,
                                       borderRadius: 1.5,
-                                      bgcolor: '#fff',
-                                      boxShadow: STOCK_DIALOG_UI.shadowSoft,
+                                      bgcolor: theme.palette.background.paper,
                                     }}
                                   >
                                     <Stack spacing={0.75}>
@@ -843,10 +842,9 @@ export function StockReceiveRequestDetailsDialog({
                                     sx={{
                                       p: 1,
                                       border: '1px solid',
-                                      borderColor: STOCK_DIALOG_UI.border,
+                                      borderColor: theme.palette.divider,
                                       borderRadius: 1.5,
-                                      bgcolor: '#fff',
-                                      boxShadow: STOCK_DIALOG_UI.shadowSoft,
+                                      bgcolor: theme.palette.background.paper,
                                     }}
                                   >
                                     <Stack spacing={0.75}>
@@ -973,7 +971,7 @@ export function StockReceiveRequestDetailsDialog({
           </Stack>
         ) : null}
       </DialogContent>
-      <DialogActions sx={STOCK_DIALOG_ACTIONS_SX}>
+      <DialogActions sx={getStockDialogActionsSx(theme)}>
         <StockActionButton tone="neutral" onClick={onClose} disabled={saving || finalizing}>ปิด</StockActionButton>
         <StockActionButton tone="info" onClick={() => void handleSave()} disabled={!data || saving || finalizing}>
           บันทึก

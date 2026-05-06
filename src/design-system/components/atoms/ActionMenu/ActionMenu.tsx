@@ -1,3 +1,5 @@
+'use client';
+
 /**
  * ActionMenu Component
  *

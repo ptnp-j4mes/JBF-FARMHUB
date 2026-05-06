@@ -11,17 +11,14 @@ import {
   Alert,
   Box,
   Button,
-  Chip,
   Dialog,
   DialogContent,
-  DialogTitle,
   FormControl,
-  InputAdornment,
   MenuItem,
+  Grid,
   Paper,
   Select,
   Stack,
-  Tab,
   Table,
   TableBody,
   TableCell,
@@ -29,7 +26,6 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  Tabs,
   Typography,
   TextField,
   useMediaQuery,
@@ -108,7 +104,8 @@ import {
   canManageWarehouseMaterialStock,
   canViewWarehouseMaterialStock,
 } from '@/lib/access/modules/warehouse.guard';
-import { QuickStatusButtonGroup } from '@/components/common';
+import { QuickStatusButtonGroup, StatsCard } from '@/components/common';
+import { StatusBadge, PageTabs, EmptyState, DialogTitleWithClose } from '@/design-system';
 
 const ROWS_PER_PAGE = 10;
 const TABLE_COLUMN_WIDTHS_DEFAULT = [
@@ -119,34 +116,18 @@ const TABLE_COLUMN_WIDTHS_DEFAULT = [
   '16%',
 ] as const;
 const TABLE_COLUMN_WIDTHS_MOBILE = ['40%', '22%', '14%', '24%'] as const;
-const UI = {
-  //bg: '#f2f3f2',
-  panel: '#ffffff',
-  panelSoft: '#f8faf8',
-  panelMuted: '#f2f6f3',
-  field: '#fbfcfb',
-  border: '#dde2de',
-  borderStrong: '#cad4cf',
-  text: '#2f3a37',
-  muted: '#7d8783',
-  accent: 'rgb(22, 90, 80)',
-  accentSurface: '#edf5f1',
-  shadow:
-    '0 18px 40px rgba(22, 35, 31, 0.08), 0 3px 10px rgba(22, 35, 31, 0.05)',
-  shadowSoft:
-    '0 10px 24px rgba(22, 35, 31, 0.06), 0 2px 6px rgba(22, 35, 31, 0.04)',
+
+const panelSx = {
+  borderRadius: 3.5,
+  border: '1px solid',
+  borderColor: 'divider',
+  bgcolor: 'background.paper',
+  boxShadow: 2,
 };
 
 type FacilityScopeResponse = {
   id: number;
   isCentralHub?: boolean;
-};
-
-const panelSx = {
-  borderRadius: 3.5,
-  border: `1px solid ${UI.border}`,
-  bgcolor: UI.panel,
-  boxShadow: UI.shadow,
 };
 
 type AdjustRequestQuickStatus = 'all' | 'draft' | 'pending' | 'completed';
@@ -358,8 +339,8 @@ function StockFilters({
             sx={{
               height: 40,
               borderRadius: 2,
-              bgcolor: UI.panelSoft,
-              boxShadow: UI.shadowSoft,
+              bgcolor: 'background.paper',
+              boxShadow: 1,
             }}
           >
             <MenuItem value="all">ตัวเลือกทั้งหมด</MenuItem>
@@ -384,8 +365,8 @@ function StockFilters({
               sx={{
                 height: 40,
                 borderRadius: 2,
-                bgcolor: UI.panelSoft,
-                boxShadow: UI.shadowSoft,
+                bgcolor: 'background.paper',
+                boxShadow: 1,
               }}
             >
               <MenuItem value="all">
@@ -409,8 +390,8 @@ function StockFilters({
             sx={{
               height: 40,
               borderRadius: 2,
-              bgcolor: UI.panelSoft,
-              boxShadow: UI.shadowSoft,
+              bgcolor: 'background.paper',
+              boxShadow: 1,
             }}
           >
             <MenuItem value="all">
@@ -438,8 +419,8 @@ function StockFilters({
               sx={{
                 height: 40,
                 borderRadius: 2,
-                bgcolor: UI.panelSoft,
-                boxShadow: UI.shadowSoft,
+                bgcolor: 'background.paper',
+                boxShadow: 1,
               }}
             >
               <MenuItem value="all">
@@ -500,10 +481,10 @@ function StockFacilityList({
       sx={{
         borderRadius: '18px',
         overflow: 'hidden',
-        boxShadow: UI.shadow,
+        boxShadow: 2,
         border: '1px solid',
-        borderColor: UI.border,
-        bgcolor: UI.panelSoft,
+        borderColor: 'divider',
+        bgcolor: 'background.paper',
         height: PR_MAIN_TABLE_HEIGHT,
         display: 'flex',
         flexDirection: 'column',
@@ -524,19 +505,21 @@ function StockFacilityList({
               verticalAlign: 'middle',
             },
             '& .MuiTableCell-head': {
-              bgcolor: UI.panelMuted,
-              color: '#4a5451',
+              bgcolor: (t) => alpha(t.palette.primary.main, 0.06),
+              color: 'text.primary',
               fontWeight: 800,
               fontSize: '15px',
               textAlign: 'center',
-              borderBottom: `1px solid ${UI.border}`,
+              borderBottom: '1px solid',
+              borderColor: 'divider',
             },
             '& .MuiTableBody-root .MuiTableCell-root': {
-              borderBottom: `1px solid ${UI.border}`,
-              color: UI.text,
+              borderBottom: '1px solid',
+              borderColor: 'divider',
+              color: 'text.primary',
             },
             '& .MuiTableBody-root .MuiTableRow-root:hover': {
-              bgcolor: '#f1f5f2',
+              bgcolor: (t) => alpha(t.palette.primary.main, 0.04),
               cursor: 'pointer',
             },
           }}
@@ -571,23 +554,17 @@ function StockFacilityList({
             ) : (
               data.map((row) => {
                 const normalizedStatus = (row.status ?? '').toLowerCase();
-                const chipColor =
-                  normalizedStatus === 'out'
-                    ? 'error'
-                    : normalizedStatus === 'low'
-                      ? 'warning'
-                      : 'success';
                 const label =
                   normalizedStatus === 'out'
                     ? 'หมด'
                     : normalizedStatus === 'low'
                       ? 'ต่ำ'
                       : 'ปกติ';
-                const facilityChipSx = {
-                  out:      { bg: '#fee2e2', text: '#b91c1c' },
-                  low:      { bg: '#fef3c7', text: '#b45309' },
-                  normal:   { bg: '#FEF3F2', text: '#912018' },
-                }[normalizedStatus === 'out' ? 'out' : normalizedStatus === 'low' ? 'low' : 'normal'];
+                const badgeType = normalizedStatus === 'out'
+                  ? 'error' as const
+                  : normalizedStatus === 'low'
+                    ? 'warning' as const
+                    : 'success' as const;
 
                 return (
                   <TableRow
@@ -620,17 +597,10 @@ function StockFacilityList({
                       </Typography>
                     </TableCell>
                     <TableCell align="center">
-                      <Chip
+                      <StatusBadge
                         label={label}
+                        type={badgeType}
                         size="small"
-                        sx={{
-                          bgcolor: `${facilityChipSx.bg} !important`,
-                          color: `${facilityChipSx.text} !important`,
-                          fontWeight: 700,
-                          borderRadius: '999px',
-                          height: 28,
-                          '& .MuiChip-label': { px: 1.25 },
-                        }}
                       />
                     </TableCell>
                   </TableRow>
@@ -691,10 +661,10 @@ function StockList({
       sx={{
         borderRadius: '18px',
         overflow: 'hidden',
-        boxShadow: UI.shadow,
+        boxShadow: 2,
         border: '1px solid',
-        borderColor: UI.border,
-        bgcolor: UI.panelSoft,
+        borderColor: 'divider',
+        bgcolor: 'background.paper',
         height: PR_MAIN_TABLE_HEIGHT,
         display: 'flex',
         flexDirection: 'column',
@@ -721,23 +691,25 @@ function StockList({
               verticalAlign: 'middle',
             },
             '& .MuiTableCell-head': {
-              bgcolor: UI.panelMuted,
-              color: '#4a5451',
+              bgcolor: (t) => alpha(t.palette.primary.main, 0.06),
+              color: 'text.primary',
               fontWeight: 800,
               fontSize: '15px',
               textAlign: 'center',
               verticalAlign: 'middle',
-              borderBottom: `1px solid ${UI.border}`,
+              borderBottom: '1px solid',
+              borderColor: 'divider',
               whiteSpace: 'nowrap',
               overflowWrap: 'normal',
               wordBreak: 'normal',
             },
             '& .MuiTableBody-root .MuiTableCell-root': {
-              borderBottom: `1px solid ${UI.border}`,
-              color: UI.text,
+              borderBottom: '1px solid',
+              borderColor: 'divider',
+              color: 'text.primary',
             },
             '& .MuiTableBody-root .MuiTableRow-root:hover': {
-              bgcolor: '#f1f5f2',
+              bgcolor: (t) => alpha(t.palette.primary.main, 0.04),
             },
             '& .MuiTableCell-root:first-of-type': {
               pl: { xs: 1.05, sm: 1.8 },
@@ -802,21 +774,11 @@ function StockList({
                 const stockLabel = t(
                   `features.production.stock.table.stockStatus.${stockLevel}`,
                 );
-                const chipSxForLevel = (level: 'normal' | 'low' | 'out') => {
-                  const palette = {
-                    normal: { bg: '#FEF3F2', text: '#912018' },
-                    low: { bg: '#fef3c7', text: '#b45309' },
-                    out: { bg: '#fee2e2', text: '#b91c1c' },
-                  }[level];
-                  return {
-                    bgcolor: `${palette.bg} !important`,
-                    color: `${palette.text} !important`,
-                    fontWeight: 700,
-                    borderRadius: '999px',
-                    height: 28,
-                    '& .MuiChip-label': { px: 1.25 },
-                  };
-                };
+                const badgeTypeForLevel = stockLevel === 'out'
+                  ? 'error' as const
+                  : stockLevel === 'low'
+                    ? 'warning' as const
+                    : 'success' as const;
 
                 return (
                   <TableRow
@@ -896,10 +858,10 @@ function StockList({
                           >
                             {formatNumber(row.quantity)} {row.uomName}
                           </Typography>
-                          <Chip
+                          <StatusBadge
                             label={stockLabel}
+                            type={badgeTypeForLevel}
                             size="small"
-                            sx={chipSxForLevel(stockLevel)}
                           />
                         </Box>
                       </TableCell>
@@ -925,10 +887,10 @@ function StockList({
                           </Typography>
                         </TableCell>
                         <TableCell>
-                          <Chip
+                          <StatusBadge
                             label={stockLabel}
+                            type={badgeTypeForLevel}
                             size="small"
-                            sx={chipSxForLevel(stockLevel)}
                           />
                         </TableCell>
                       </>
@@ -2798,82 +2760,13 @@ export function StockPage({
     };
   }, [stockFacilities.length, stockTotalCount, warehouseScope]);
 
-  const statCards = [
-    {
-      key: 'totalRecords',
-      value: formatNumber(stats.totalRecords),
-      title: 'รายการคงคลัง',
-      subtitle: 'จำนวนรายการทั้งหมด',
-      icon: <LayersOutlined sx={{ color: '#4a6982', fontSize: 20 }} />,
-      iconBg: '#efe8da',
-      bar: '#4a6982',
-    },
-    {
-      key: 'totalValue',
-      value: formatNumber(dashboard?.totalStockValue ?? 0, 2),
-      title: 'มูลค่าสต็อก (บาท)',
-      subtitle: 'ยอดรวมคงคลัง',
-      icon: <Inventory2Outlined sx={{ color: '#7c5ce5', fontSize: 20 }} />,
-      iconBg: '#e4ddf4',
-      bar: '#7c5ce5',
-    },
-    {
-      key: 'pendingPr',
-      value: formatNumber(
-        dashboard?.pendingPRCount ?? dashboard?.pendingPrCount ?? 0,
-      ),
-      title:
-        warehouseScope === 'central' ? 'รายการรออนุมัติ PR' : 'รออนุมัติ PR',
-      subtitle: 'สถานะ Pending',
-      icon: <InputOutlined sx={{ color: '#d09100', fontSize: 20 }} />,
-      iconBg: '#f2ead8',
-      bar: '#d09100',
-    },
-    {
-      key: 'pendingReceive',
-      value: formatNumber(
-        dashboard?.pendingReceiptCount ?? visibleReceivablePRs.length,
-      ),
-      title: warehouseScope === 'central' ? 'รอเข้าคลังกลาง' : 'รอรับเข้าคลัง',
-      subtitle: 'รอการรับเข้า',
-      icon: (
-        <CheckCircleOutlineOutlined sx={{ color: '#2e7d32', fontSize: 20 }} />
-      ),
-      iconBg: '#dfe9db',
-      bar: '#2e7d32',
-    },
+  const pageTabItems = [
+    { key: 'farm-stock', label: 'คลังฟาร์ม' },
+    { key: 'pending-activation', label: 'รอรับเข้าคลัง' },
+    { key: 'receiving', label: 'รายงานรับเข้า' },
+    { key: 'consumption', label: 'รายงานตัดสต๊อก' },
+    { key: 'transfer', label: 'รายงานโอนย้าย' },
   ];
-
-  const tabItems = [
-    { value: 'farm-stock', label: 'คลังฟาร์ม' },
-    { value: 'pending-activation', label: 'รอรับเข้าคลัง' },
-    { value: 'receiving', label: 'รายงานรับเข้า' },
-    { value: 'consumption', label: 'รายงานตัดสต๊อก' },
-    { value: 'transfer', label: 'รายงานโอนย้าย' },
-  ];
-  const stockMenuButtonSx = {
-    minHeight: 40,
-    px: 2.2,
-    py: 0.82,
-    borderRadius: 4,
-    border: '1px solid',
-    borderColor: '#c8d0cb',
-    bgcolor: UI.panelSoft,
-    color: '#8b9390',
-    textTransform: 'none',
-    fontWeight: 800,
-    fontSize: '0.96rem',
-    lineHeight: 1.2,
-    '&:hover': {
-      bgcolor: UI.accentSurface,
-      borderColor: alpha(UI.accent, 0.22),
-    },
-    '&.Mui-selected': {
-      bgcolor: UI.accentSurface,
-      color: UI.accent,
-      borderColor: alpha(UI.accent, 0.22),
-    },
-  } as const;
 
   if (!canViewInventory) {
     return (
@@ -2889,12 +2782,12 @@ export function StockPage({
 
   return (
     <Box
-      sx={{ maxWidth: 1400, mx: 'auto', p: { xs: 1.5, md: 2 }, bgcolor: UI.bg }}
+      sx={{ maxWidth: 1400, mx: 'auto', p: { xs: 1.5, md: 2 } }}
     >
       <Box
         sx={{
           ...panelSx,
-          background: `linear-gradient(135deg, ${UI.accentSurface} 0%, ${UI.panel} 58%)`,
+          background: (t) => `linear-gradient(135deg, ${alpha(t.palette.primary.main, 0.06)} 0%, ${t.palette.background.paper} 58%)`,
           px: { xs: 2, md: 2.6 },
           py: { xs: 2, md: 2.4 },
           display: 'grid',
@@ -2910,17 +2803,7 @@ export function StockPage({
             flexWrap: 'wrap',
           }}
         >
-          <Chip
-            size="small"
-            label="Material Stock"
-            sx={{
-              bgcolor: '#fff',
-              color: UI.accent,
-              fontWeight: 800,
-              border: `1px solid ${UI.borderStrong}`,
-              height: 28,
-            }}
-          />
+          <StatusBadge label="Material Stock" type="default" />
         </Box>
         <Box
           sx={{
@@ -2937,7 +2820,7 @@ export function StockPage({
                 fontSize: { xs: '1.9rem', md: '2.35rem' },
                 fontWeight: 900,
                 lineHeight: 1.02,
-                color: UI.text,
+                color: 'text.primary',
                 letterSpacing: '-0.03em',
               }}
             >
@@ -2946,7 +2829,7 @@ export function StockPage({
 
           </Box>
           <Typography
-            sx={{ fontSize: '0.95rem', color: UI.muted, fontWeight: 700 }}
+            sx={{ fontSize: '0.95rem', color: 'text.secondary', fontWeight: 700 }}
           >
             Dashboard / คลังสินค้า
           </Typography>
@@ -2973,117 +2856,44 @@ export function StockPage({
               gap: 1.5,
             }}
           >
-            <Box
-              mb={2}
-              sx={{
-                display: 'grid',
-                gridTemplateColumns: {
-                  xs: 'repeat(2, minmax(0, 1fr))',
-                  md: 'repeat(4, minmax(0, 1fr))',
-                },
-                gap: 1.2,
-              }}
-            >
-              {statCards.map((item) => (
-                <Paper
-                  key={item.key}
-                  variant="outlined"
-                  sx={{
-                    position: 'relative',
-                    overflow: 'hidden',
-                    p: 1.5,
-                    borderColor: UI.border,
-                    bgcolor: UI.panel,
-                    boxShadow: UI.shadow,
-                    borderRadius: 3,
-                    '&::before': {
-                      content: '""',
-                      position: 'absolute',
-                      inset: 0,
-                      background: `linear-gradient(135deg, ${alpha(item.iconBg, 0.8)} 0%, rgba(255,255,255,0) 55%)`,
-                      pointerEvents: 'none',
-                    },
-                  }}
-                >
-                  <Box
-                    sx={{
-                      position: 'relative',
-                      zIndex: 1,
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'flex-start',
-                      mb: 1,
-                    }}
-                  >
-                    <Box>
-                      <Typography
-                        variant="h5"
-                        sx={{
-                          fontWeight: 700,
-                          lineHeight: 1.1,
-                          color: '#172422',
-                        }}
-                      >
-                        {item.value}
-                      </Typography>
-                      <Typography
-                        variant="body2"
-                        sx={{ color: UI.text, mt: 0.45, fontWeight: 800 }}
-                      >
-                        {item.title}
-                      </Typography>
-                    </Box>
-                    <Box
-                      sx={{
-                        width: 42,
-                        height: 42,
-                        borderRadius: 1.75,
-                        bgcolor: '#fff',
-                        border: `1px solid ${alpha(item.bar, 0.15)}`,
-                        boxShadow: UI.shadowSoft,
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        flexShrink: 0,
-                      }}
-                    >
-                      {item.icon}
-                    </Box>
-                  </Box>
-                  <Box
-                    sx={{
-                      position: 'relative',
-                      zIndex: 1,
-                      width: 96,
-                      height: 6,
-                      borderRadius: 999,
-                      bgcolor: alpha(item.bar, 0.2),
-                    }}
-                  >
-                    <Box
-                      sx={{
-                        width: 54,
-                        height: '100%',
-                        borderRadius: 999,
-                        bgcolor: item.bar,
-                      }}
-                    />
-                  </Box>
-                  <Typography
-                    variant="caption"
-                    sx={{
-                      position: 'relative',
-                      zIndex: 1,
-                      display: 'block',
-                      color: UI.muted,
-                      mt: 0.8,
-                    }}
-                  >
-                    {item.subtitle}
-                  </Typography>
-                </Paper>
-              ))}
-            </Box>
+            <Grid container spacing={1.5} mb={2}>
+              <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+                <StatsCard
+                  title="รายการคงคลัง"
+                  value={formatNumber(stats.totalRecords)}
+                  subtitle="จำนวนรายการทั้งหมด"
+                  icon={<LayersOutlined />}
+                  color="info"
+                />
+              </Grid>
+              <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+                <StatsCard
+                  title="มูลค่าสต็อก (บาท)"
+                  value={formatNumber(dashboard?.totalStockValue ?? 0, 2)}
+                  subtitle="ยอดรวมคงคลัง"
+                  icon={<Inventory2Outlined />}
+                  color="primary"
+                />
+              </Grid>
+              <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+                <StatsCard
+                  title={warehouseScope === 'central' ? 'รายการรออนุมัติ PR' : 'รออนุมัติ PR'}
+                  value={formatNumber(dashboard?.pendingPRCount ?? dashboard?.pendingPrCount ?? 0)}
+                  subtitle="สถานะ Pending"
+                  icon={<InputOutlined />}
+                  color="warning"
+                />
+              </Grid>
+              <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+                <StatsCard
+                  title={warehouseScope === 'central' ? 'รอเข้าคลังกลาง' : 'รอรับเข้าคลัง'}
+                  value={formatNumber(dashboard?.pendingReceiptCount ?? visibleReceivablePRs.length)}
+                  subtitle="รอการรับเข้า"
+                  icon={<CheckCircleOutlineOutlined />}
+                  color="success"
+                />
+              </Grid>
+            </Grid>
           </Box>
           <Box
             sx={{
@@ -3093,58 +2903,15 @@ export function StockPage({
               mb: 1.6,
             }}
           >
-            <Tabs
-              value={activeTab}
-              onChange={(
-                _,
-                value:
-                  | 'farm-stock'
-                  | 'pending-activation'
-                  | 'receiving'
-                  | 'consumption'
-                  | 'transfer',
-              ) => {
-                setActiveTab(value);
+            <PageTabs
+              tabs={pageTabItems}
+              activeKey={activeTab}
+              onChange={(key) => {
+                setActiveTab(key as typeof activeTab);
                 setWarehouseScope('farm');
-                if (value === 'farm-stock') setWarehouseScope('farm');
+                if (key === 'farm-stock') setWarehouseScope('farm');
               }}
-              variant="scrollable"
-              scrollButtons="auto"
-              sx={{
-                minHeight: 0,
-                '& .MuiTabs-indicator': { display: 'none' },
-                '& .MuiTabs-flexContainer': {
-                  gap: 0.8,
-                  flexWrap: { xs: 'nowrap', md: 'wrap' },
-                },
-              }}
-            >
-              <Tab
-                value="farm-stock"
-                label="คลังฟาร์ม"
-                sx={stockMenuButtonSx}
-              />
-              <Tab
-                value="pending-activation"
-                label="รอรับเข้าคลัง"
-                sx={stockMenuButtonSx}
-              />
-              <Tab
-                value="receiving"
-                label="รายงานรับเข้า"
-                sx={stockMenuButtonSx}
-              />
-              <Tab
-                value="consumption"
-                label="รายงานตัดสต๊อก"
-                sx={stockMenuButtonSx}
-              />
-              <Tab
-                value="transfer"
-                label="รายงานโอนย้าย"
-                sx={stockMenuButtonSx}
-              />
-            </Tabs>
+            />
           </Box>
 
           {inventoryCatalogMissing && (
@@ -3392,16 +3159,17 @@ export function StockPage({
           fullWidth
           maxWidth="md"
         >
-          <DialogTitle sx={{ fontWeight: 800 }}>
+          <DialogTitleWithClose onClose={closeStockFacilityDialog} variant="plain">
             รายละเอียดคงคลังสินค้า
-          </DialogTitle>
+          </DialogTitleWithClose>
           <DialogContent dividers>
             <Stack spacing={2}>
               <Paper
                 sx={{
                   p: 2,
                   borderRadius: 3,
-                  border: `1px solid ${UI.border}`,
+                  border: '1px solid',
+                  borderColor: 'divider',
                   boxShadow: 'none',
                 }}
               >
@@ -3465,7 +3233,8 @@ export function StockPage({
                 component={Paper}
                 sx={{
                   borderRadius: 3,
-                  border: `1px solid ${UI.border}`,
+                  border: '1px solid',
+                  borderColor: 'divider',
                   boxShadow: 'none',
                 }}
               >

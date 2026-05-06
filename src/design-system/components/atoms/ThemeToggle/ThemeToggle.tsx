@@ -1,9 +1,9 @@
 'use client';
 
 import { IconButton } from '@mui/material';
-import { useColorMode } from '@/contexts/ThemeContext'; // Import Hook ของเรา
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
+import { useColorMode } from '@/design-system';
 
 export default function ThemeToggle() {
   const { mode, toggleColorMode } = useColorMode();

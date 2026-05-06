@@ -1,5 +1,5 @@
 import AccessBootstrapGuard from '@/components/guards/AccessBootstrapGuard';
-import LayoutMainBar from '@/components/layout/LayoutMainBar';
+import { LayoutMainBar } from '@/design-system';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (

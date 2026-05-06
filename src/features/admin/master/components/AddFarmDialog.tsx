@@ -2,21 +2,17 @@
 
 import React, { useEffect, useState } from 'react';
 import { DialogTitleWithClose } from '@/components/common';
+import { FormField, FormSelect } from '@/components/forms';
 import {
   Button,
   Dialog,
   DialogActions,
   DialogContent,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
   Stack,
-  TextField,
   Typography,
 } from '@mui/material';
 import { alpha, useTheme } from '@mui/material/styles';
-import type { Farm, FarmFormData, ScopeStatus } from '../types';
+import type { Farm, FarmFormData, ScopeStatus } from '@/features/admin/user-assignment/types';
 
 type AddFarmDialogProps = {
   open: boolean;
@@ -76,7 +72,7 @@ export default function AddFarmDialog({
 
       <DialogContent sx={{ pt: 3 }}>
         <Stack spacing={2}>
-          <TextField
+          <FormField
             label="รหัสฟาร์ม"
             placeholder="เช่น NF-001"
             value={formData.code}
@@ -84,7 +80,7 @@ export default function AddFarmDialog({
             fullWidth
             required
           />
-          <TextField
+          <FormField
             label="ชื่อฟาร์ม"
             placeholder="เช่น North Farm"
             value={formData.name}
@@ -92,7 +88,7 @@ export default function AddFarmDialog({
             fullWidth
             required
           />
-          <TextField
+          <FormField
             label="พื้นที่"
             placeholder="เช่น Northern Region"
             value={formData.location}
@@ -100,19 +96,17 @@ export default function AddFarmDialog({
             fullWidth
             required
           />
-          <FormControl fullWidth>
-            <InputLabel>สถานะ</InputLabel>
-            <Select
-              value={formData.status}
-              label="สถานะ"
-              onChange={(event) =>
-                setFormData((prev) => ({ ...prev, status: event.target.value as ScopeStatus }))
-              }
-            >
-              <MenuItem value="Active">ใช้งาน</MenuItem>
-              <MenuItem value="Inactive">ไม่ใช้งาน</MenuItem>
-            </Select>
-          </FormControl>
+          <FormSelect
+            label="สถานะ"
+            value={formData.status}
+            onChange={(event) =>
+              setFormData((prev) => ({ ...prev, status: event.target.value as ScopeStatus }))
+            }
+            options={[
+              { value: 'Active', label: 'ใช้งาน' },
+              { value: 'Inactive', label: 'ไม่ใช้งาน' },
+            ]}
+          />
         </Stack>
       </DialogContent>
 

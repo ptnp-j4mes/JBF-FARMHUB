@@ -1,3 +1,5 @@
+'use client';
+
 import type { ElementType, ReactNode } from 'react';
 import { CloseOutlined } from '@mui/icons-material';
 import type { SxProps, Theme } from '@mui/material/styles';

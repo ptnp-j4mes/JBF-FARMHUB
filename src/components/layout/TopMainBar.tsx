@@ -1,1 +1,1 @@
-export { default } from '@/design-system/components/organisms/TopMainBar/TopMainBar';
+export { TopMainBar as default } from '@/design-system';

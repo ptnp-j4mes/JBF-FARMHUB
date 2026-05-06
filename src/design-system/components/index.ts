@@ -15,7 +15,8 @@ export { default as LoadingOverlay } from './atoms/LoadingOverlay';
 export { default as BreadcrumbTrail } from './atoms/BreadcrumbTrail';
 export { default as DialogTitleWithClose } from './atoms/DialogTitleWithClose';
 export { default as QuickStatusButtonGroup } from './atoms/QuickStatusButtonGroup';
-export { default as SectionWrappers } from './atoms/SectionWrappers';
+export { SectionWrappers } from './atoms';
+export { StatsWrapper, ContentWrapper, PageRootWrapper } from './atoms';
 
 // Molecules
 export { default as StatsCard } from './molecules/StatsCard';
@@ -65,6 +66,3 @@ export type {
   FilterableSelectValue,
 } from './organisms/FilterableSelectField/FilterableSelectField';
 export type { CardSummaryItem } from './molecules/CardSummary/CardSummary';
-
-// Re-export SectionWrappers named exports
-export * from './atoms/SectionWrappers/SectionWrappers';

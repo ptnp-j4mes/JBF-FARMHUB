@@ -398,8 +398,8 @@ export function PRDetailsDialog({
                       icon = <TaskAltOutlined sx={{ fontSize: 20, color: 'success.main' }} />;
                       stateLabel = 'อนุมัติแล้ว';
                       stateChipSx = {
-                        bgcolor: '#FEF3F2',
-                        color: '#912018',
+                        bgcolor: '#ECFDF3',
+                        color: '#15803D',
                         fontWeight: 700,
                       };
                     } else if (isReturned) {

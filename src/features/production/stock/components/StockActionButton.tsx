@@ -1,8 +1,7 @@
 'use client';
 
 import { Button, type ButtonProps } from '@mui/material';
-import { alpha } from '@mui/material/styles';
-import { STOCK_WORKSPACE_UI } from './StockWorkspaceChrome';
+import { alpha, useTheme } from '@mui/material/styles';
 
 type StockActionTone =
   | 'primary'
@@ -65,74 +64,74 @@ const sizeButtonSx: Record<NonNullable<ButtonProps['size']>, Record<string, unkn
   },
 };
 
-const toneButtonSx: Record<StockActionTone, Record<string, unknown>> = {
-  primary: {
-    bgcolor: 'rgba(180, 35, 24, 0.08)',
-    color: '#912018',
-    border: '1px solid rgba(180, 35, 24, 0.22)',
-  },
-  neutral: {
-    bgcolor: 'rgba(23, 49, 39, 0.04)',
-    color: '#41514b',
-    border: '1px solid rgba(23, 49, 39, 0.12)',
-  },
-  success: {
-    bgcolor: 'rgba(46, 157, 90, 0.08)',
-    color: '#1a6b3a',
-    border: '1px solid rgba(46, 157, 90, 0.22)',
-  },
-  info: {
-    bgcolor: 'rgba(45, 120, 197, 0.06)',
-    color: '#1d5fa3',
-    border: '1px solid rgba(45, 120, 197, 0.18)',
-  },
-  warning: {
-    bgcolor: 'rgba(185, 133, 17, 0.08)',
-    color: '#7a5c0a',
-    border: '1px solid rgba(185, 133, 17, 0.22)',
-  },
-  danger: {
-    bgcolor: 'rgba(201, 77, 77, 0.08)',
-    color: '#8f2d25',
-    border: '1px solid rgba(201, 77, 77, 0.22)',
-  },
-  secondary: {
-    bgcolor: 'rgba(47, 101, 112, 0.06)',
-    color: '#2f6570',
-    border: '1px solid rgba(47, 101, 112, 0.18)',
-  },
-};
+function getToneColors(theme: ReturnType<typeof useTheme>, tone: StockActionTone) {
+  const palette = theme.palette;
+  const mode = palette.mode;
+  const alphaBg = mode === 'dark' ? 0.18 : 0.08;
+  const alphaBorder = mode === 'dark' ? 0.32 : 0.22;
+  const alphaHoverBg = mode === 'dark' ? 0.26 : 0.16;
+  const alphaHoverBorder = mode === 'dark' ? 0.42 : 0.34;
 
-const toneHoverSx: Record<StockActionTone, Record<string, unknown>> = {
-  primary: {
-    bgcolor: 'rgba(180, 35, 24, 0.16)',
-    borderColor: 'rgba(180, 35, 24, 0.34)',
-  },
-  neutral: {
-    bgcolor: 'rgba(23, 49, 39, 0.08)',
-    borderColor: 'rgba(23, 49, 39, 0.20)',
-  },
-  success: {
-    bgcolor: 'rgba(46, 157, 90, 0.16)',
-    borderColor: 'rgba(46, 157, 90, 0.34)',
-  },
-  info: {
-    bgcolor: 'rgba(45, 120, 197, 0.12)',
-    borderColor: 'rgba(45, 120, 197, 0.28)',
-  },
-  warning: {
-    bgcolor: 'rgba(185, 133, 17, 0.16)',
-    borderColor: 'rgba(185, 133, 17, 0.34)',
-  },
-  danger: {
-    bgcolor: 'rgba(201, 77, 77, 0.16)',
-    borderColor: 'rgba(201, 77, 77, 0.34)',
-  },
-  secondary: {
-    bgcolor: 'rgba(47, 101, 112, 0.12)',
-    borderColor: 'rgba(47, 101, 112, 0.28)',
-  },
-};
+  switch (tone) {
+    case 'primary':
+      return {
+        bg: alpha(palette.primary.main, alphaBg),
+        text: palette.primary.dark,
+        border: alpha(palette.primary.main, alphaBorder),
+        hoverBg: alpha(palette.primary.main, alphaHoverBg),
+        hoverBorder: alpha(palette.primary.main, alphaHoverBorder),
+      };
+    case 'success':
+      return {
+        bg: alpha(palette.success.main, alphaBg),
+        text: palette.success.dark,
+        border: alpha(palette.success.main, alphaBorder),
+        hoverBg: alpha(palette.success.main, alphaHoverBg),
+        hoverBorder: alpha(palette.success.main, alphaHoverBorder),
+      };
+    case 'warning':
+      return {
+        bg: alpha(palette.warning.main, alphaBg),
+        text: palette.warning.dark ?? palette.warning.main,
+        border: alpha(palette.warning.main, alphaBorder),
+        hoverBg: alpha(palette.warning.main, alphaHoverBg),
+        hoverBorder: alpha(palette.warning.main, alphaHoverBorder),
+      };
+    case 'danger':
+      return {
+        bg: alpha(palette.error.main, alphaBg),
+        text: palette.error.dark,
+        border: alpha(palette.error.main, alphaBorder),
+        hoverBg: alpha(palette.error.main, alphaHoverBg),
+        hoverBorder: alpha(palette.error.main, alphaHoverBorder),
+      };
+    case 'info':
+      return {
+        bg: alpha(palette.info.main, alphaBg),
+        text: palette.info.dark ?? palette.info.main,
+        border: alpha(palette.info.main, alphaBorder),
+        hoverBg: alpha(palette.info.main, alphaHoverBg),
+        hoverBorder: alpha(palette.info.main, alphaHoverBorder),
+      };
+    case 'secondary':
+      return {
+        bg: alpha(palette.secondary.main, alphaBg),
+        text: palette.secondary.dark ?? palette.secondary.main,
+        border: alpha(palette.secondary.main, alphaBorder),
+        hoverBg: alpha(palette.secondary.main, alphaHoverBg),
+        hoverBorder: alpha(palette.secondary.main, alphaHoverBorder),
+      };
+    case 'neutral':
+    default:
+      return {
+        bg: alpha(palette.text.primary, alphaBg * 0.5),
+        text: palette.text.primary,
+        border: alpha(palette.text.primary, alphaBorder * 0.55),
+        hoverBg: alpha(palette.text.primary, alphaHoverBg * 0.7),
+        hoverBorder: alpha(palette.text.primary, alphaHoverBorder * 0.6),
+      };
+  }
+}
 
 export function StockActionButton({
   tone = 'primary',
@@ -142,12 +141,14 @@ export function StockActionButton({
   sx,
   ...props
 }: StockActionButtonProps) {
+  const theme = useTheme();
   const resolvedVariant = variant ?? 'outlined';
+  const toneColors = getToneColors(theme, tone);
+
   const composedSx = {
     ...sharedButtonSx,
     ...shapeButtonSx[shape],
     ...sizeButtonSx[size ?? 'medium'],
-    ...toneButtonSx[tone],
     '& .MuiButton-startIcon': {
       marginRight: 0.6,
     },
@@ -155,24 +156,25 @@ export function StockActionButton({
       fontSize: '1rem',
     },
     '&.MuiButton-outlined': {
-      bgcolor: toneButtonSx[tone].bgcolor,
-      color: toneButtonSx[tone].color,
-      borderColor: String(toneButtonSx[tone].border).replace('1px solid ', ''),
+      bgcolor: toneColors.bg,
+      color: toneColors.text,
+      borderColor: toneColors.border,
       borderWidth: 1,
       borderStyle: 'solid',
     },
     '&.MuiButton-contained': {
-      bgcolor: toneButtonSx[tone].bgcolor,
-      color: toneButtonSx[tone].color,
-      borderColor: String(toneButtonSx[tone].border).replace('1px solid ', ''),
+      bgcolor: toneColors.bg,
+      color: toneColors.text,
+      borderColor: toneColors.border,
       borderWidth: 1,
       borderStyle: 'solid',
     },
     '&:hover': {
-      ...toneHoverSx[tone],
+      bgcolor: toneColors.hoverBg,
+      borderColor: toneColors.hoverBorder,
     },
     '&:focus-visible': {
-      outline: `3px solid ${alpha(STOCK_WORKSPACE_UI.accent, 0.22)}`,
+      outline: `3px solid ${alpha(theme.palette.primary.main, 0.22)}`,
       outlineOffset: 2,
     },
     ...(typeof sx === 'object' && !Array.isArray(sx) ? sx : {}),

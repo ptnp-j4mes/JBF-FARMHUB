@@ -2,7 +2,6 @@
 
 import {
   Box,
-  Chip,
   Paper,
   Stack,
   Table,
@@ -14,10 +13,11 @@ import {
   Typography,
 } from '@mui/material';
 import { EditOutlined } from '@mui/icons-material';
-import { alpha, useTheme } from '@mui/material/styles';
+import { alpha } from '@mui/material/styles';
 import type { StockReceiveRequestResponse } from '../types';
 import { formatNumber } from '@/lib/utils/format.util';
 import { getFeedSiloDisplayLabel } from '../utils/location-display.util';
+import { StatusBadge } from '@/design-system';
 import { StockActionButton } from './StockActionButton';
 
 type PendingReceiveRequestListProps = {
@@ -46,18 +46,15 @@ export function PendingReceiveRequestList({
   disabled = false,
   onManage,
 }: PendingReceiveRequestListProps) {
-  const theme = useTheme();
-  const isDarkMode = theme.palette.mode === 'dark';
-
   return (
     <Paper
       sx={{
         borderRadius: '18px',
         overflow: 'hidden',
-        boxShadow: '0 18px 40px rgba(22, 35, 31, 0.08), 0 3px 10px rgba(22, 35, 31, 0.05)',
+        boxShadow: 2,
         border: '1px solid',
-        borderColor: '#dde2de',
-        bgcolor: '#f8faf8',
+        borderColor: 'divider',
+        bgcolor: 'background.paper',
       }}
     >
       <TableContainer sx={{ maxHeight: 420, overflowY: 'auto', overflowX: 'auto', scrollbarGutter: 'stable' }}>
@@ -68,22 +65,25 @@ export function PendingReceiveRequestList({
             minWidth: 1380,
             tableLayout: 'fixed',
             '& .MuiTableCell-head': {
-              bgcolor: '#f2f6f3',
-              color: '#4a5451',
+              bgcolor: (t: any) => alpha(t.palette.primary.main, 0.06),
+              color: 'text.primary',
               fontWeight: 800,
               textAlign: 'center',
               verticalAlign: 'middle',
-              borderBottom: '1px solid #dde2de',
-              borderRight: '1px solid #dde2de',
+              borderBottom: '1px solid',
+              borderBottomColor: 'divider',
+              borderRight: '1px solid',
+              borderRightColor: 'divider',
               '&:last-of-type': { borderRight: 'none' },
             },
             '& .MuiTableBody-root .MuiTableCell-root': {
               py: 1,
               verticalAlign: 'middle',
-              borderBottom: '1px solid #dde2de',
-              color: '#2f3a37',
+              borderBottom: '1px solid',
+              borderBottomColor: 'divider',
+              color: 'text.primary',
             },
-            '& .MuiTableBody-root .MuiTableRow-root:hover': { bgcolor: '#f1f5f2' },
+            '& .MuiTableBody-root .MuiTableRow-root:hover': { bgcolor: (t: any) => alpha(t.palette.primary.main, 0.04) },
           }}
         >
           <TableHead>
@@ -177,17 +177,10 @@ export function PendingReceiveRequestList({
                       </Stack>
                     </TableCell>
                     <TableCell sx={{ minWidth: 150 }}>
-                      <Chip
+                      <StatusBadge
                         label={statusMeta.label}
+                        type={statusMeta.color}
                         size="small"
-                        color={statusMeta.color}
-                        sx={{
-                          fontWeight: 700,
-                          bgcolor:
-                            statusMeta.color === 'default'
-                              ? alpha(theme.palette.text.secondary, isDarkMode ? 0.24 : 0.12)
-                              : undefined,
-                        }}
                       />
                     </TableCell>
                     <TableCell sx={{ minWidth: 160 }}>

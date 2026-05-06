@@ -2,7 +2,6 @@
 
 import {
   Box,
-  Chip,
   Paper,
   Stack,
   Table,
@@ -17,6 +16,7 @@ import { AddCircleOutlineRounded } from '@mui/icons-material';
 import { alpha, useTheme } from '@mui/material/styles';
 import type { ReceivablePurchaseRequestRow } from '../types';
 import { formatNumber } from '@/lib/utils/format.util';
+import { StatusBadge } from '@/design-system';
 import { StockActionButton } from './StockActionButton';
 
 type ReceivablePurchaseRequestListProps = {
@@ -54,17 +54,16 @@ export function ReceivablePurchaseRequestList({
   onReceive,
 }: ReceivablePurchaseRequestListProps) {
   const theme = useTheme();
-  const isDarkMode = theme.palette.mode === 'dark';
 
   return (
     <Paper
       sx={{
         borderRadius: '18px',
         overflow: 'hidden',
-        boxShadow: '0 18px 40px rgba(22, 35, 31, 0.08), 0 3px 10px rgba(22, 35, 31, 0.05)',
+        boxShadow: 2,
         border: '1px solid',
-        borderColor: '#dde2de',
-        bgcolor: '#f8faf8',
+        borderColor: 'divider',
+        bgcolor: 'background.paper',
       }}
     >
       <TableContainer sx={{ maxHeight: 360, overflowY: 'auto', overflowX: 'auto', scrollbarGutter: 'stable' }}>
@@ -72,22 +71,25 @@ export function ReceivablePurchaseRequestList({
             minWidth: 1400,
             tableLayout: 'fixed',
             '& .MuiTableCell-head': {
-              bgcolor: '#f2f6f3',
-              color: '#4a5451',
+              bgcolor: (t: any) => alpha(t.palette.primary.main, 0.06),
+              color: 'text.primary',
               fontWeight: 800,
               textAlign: 'center',
               verticalAlign: 'middle',
-              borderBottom: '1px solid #dde2de',
-              borderRight: '1px solid #dde2de',
+              borderBottom: '1px solid',
+              borderBottomColor: 'divider',
+              borderRight: '1px solid',
+              borderRightColor: 'divider',
               '&:last-of-type': { borderRight: 'none' },
             },
             '& .MuiTableBody-root .MuiTableCell-root': {
               py: 1,
               verticalAlign: 'middle',
-              borderBottom: '1px solid #dde2de',
-              color: '#2f3a37',
+              borderBottom: '1px solid',
+              borderBottomColor: 'divider',
+              color: 'text.primary',
             },
-            '& .MuiTableBody-root .MuiTableRow-root:hover': { bgcolor: '#f1f5f2' },
+            '& .MuiTableBody-root .MuiTableRow-root:hover': { bgcolor: (t: any) => alpha(t.palette.primary.main, 0.04) },
           }}>
           <TableHead>
             <TableRow>
@@ -129,16 +131,10 @@ export function ReceivablePurchaseRequestList({
                         <Typography variant="caption" color="text.secondary">
                           {new Date(row.requestDate).toLocaleDateString('th-TH')}
                         </Typography>
-                        <Chip
+                        <StatusBadge
                           label={typeMeta.label}
+                          type={typeMeta.color}
                           size="small"
-                          color={typeMeta.color}
-                          sx={{ 
-                            fontWeight: 700, 
-                            height: 20, 
-                            fontSize: '0.65rem',
-                            '& .MuiChip-label': { px: 1 }
-                          }}
                         />
                       </Stack>
                     </TableCell>
@@ -190,17 +186,10 @@ export function ReceivablePurchaseRequestList({
                       </Stack>
                     </TableCell>
                     <TableCell sx={{ minWidth: 120 }}>
-                      <Chip
+                      <StatusBadge
                         label={statusMeta.label}
+                        type={statusMeta.color}
                         size="small"
-                        color={statusMeta.color}
-                        sx={{
-                          fontWeight: 700,
-                          bgcolor:
-                            statusMeta.color === 'default'
-                              ? alpha(theme.palette.text.secondary, isDarkMode ? 0.24 : 0.12)
-                              : undefined,
-                        }}
                       />
                     </TableCell>
                     <TableCell align="center" sx={{ minWidth: 90 }}>

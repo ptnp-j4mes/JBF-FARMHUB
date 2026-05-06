@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Box, Button, Typography } from '@mui/material';
+import { Placeholder } from '@/design-system';
 
 type RouteFallbackPageProps = {
   params: Promise<{
@@ -12,40 +12,40 @@ export default async function RouteFallbackPage({ params }: RouteFallbackPagePro
   const fullPath = `/${slug.join('/')}`;
 
   return (
-    <Box
-      component="main"
-      sx={{
+    <main
+      style={{
         minHeight: '100%',
-        p: { xs: 2.5, md: 4 },
+        padding: '24px 32px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
       }}
     >
-      <Box
-        sx={{
-          width: '100%',
-          maxWidth: 720,
-          bgcolor: 'background.paper',
-          border: '1px solid',
-          borderColor: 'divider',
-          borderRadius: 3,
-          p: { xs: 3, md: 4 },
-          boxShadow: 'none',
-        }}
-      >
-        <Typography variant="h4" component="h1" fontWeight={800}>
-          หน้านี้ยังไม่พร้อมใช้งาน
-        </Typography>
-        <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-          Route จาก menu database: <strong>{fullPath}</strong>
-        </Typography>
-        <Link href="/" passHref style={{ textDecoration: 'none' }}>
-          <Button variant="contained" sx={{ mt: 3 }}>
-            Back to dashboard
-          </Button>
-        </Link>
-      </Box>
-    </Box>
+      <div style={{ width: '100%', maxWidth: 720 }}>
+        <Placeholder
+          title="หน้านี้ยังไม่พร้อมใช้งาน"
+          subtitle={`Route จาก menu database: ${fullPath}`}
+        />
+        <div style={{ marginTop: 24 }}>
+          <Link href="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+            <span
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                minHeight: 40,
+                paddingInline: 16,
+                borderRadius: 999,
+                background: '#2563eb',
+                color: '#ffffff',
+                fontWeight: 700,
+              }}
+            >
+              Back to dashboard
+            </span>
+          </Link>
+        </div>
+      </div>
+    </main>
   );
 }

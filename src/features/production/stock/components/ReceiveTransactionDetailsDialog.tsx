@@ -9,6 +9,7 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import type { StockTransactionRow } from '../types';
 import { formatNumber } from '@/lib/utils/format.util';
 import {
@@ -16,15 +17,14 @@ import {
   getReceiptPlainRemarks,
   getReceiptReceiverLabel,
 } from '../utils/receive-history.util';
-import { DialogTitleWithClose } from '@/components/common';
+import DialogTitleWithClose from '@/design-system/components/atoms/DialogTitleWithClose/DialogTitleWithClose';
 import { getFeedSiloDisplayLabel } from '../utils/location-display.util';
 import {
-  STOCK_DIALOG_FIELDSET_SX,
-  STOCK_DIALOG_FORM_SX,
   STOCK_DIALOG_LEGEND_SX,
-  STOCK_DIALOG_PAPER_SX,
-  STOCK_DIALOG_SECTION_BOX_SX,
-  STOCK_DIALOG_TITLE_SX,
+  getStockDialogFieldsetSx,
+  getStockDialogFormSx,
+  getStockDialogPaperSx,
+  getStockDialogSectionBoxSx,
 } from './stock-dialog.constants';
 
 type ReceiveTransactionDetailsDialogProps = {
@@ -40,6 +40,7 @@ export function ReceiveTransactionDetailsDialog({
   transactions,
   onClose,
 }: ReceiveTransactionDetailsDialogProps) {
+  const theme = useTheme();
   if (!transaction) return null;
 
   const roundMeta = buildReceiveRoundMetaMap(transactions).get(transaction.id);
@@ -51,13 +52,13 @@ export function ReceiveTransactionDetailsDialog({
   const completionLabel = roundMeta?.isCompletionRound ? 'ครบใบ PR' : null;
 
   return (
-    <Dialog open={open} onClose={onClose} fullWidth maxWidth="md" PaperProps={{ sx: STOCK_DIALOG_PAPER_SX }}>
-      <DialogTitleWithClose onClose={onClose} sx={STOCK_DIALOG_TITLE_SX}>
+    <Dialog open={open} onClose={onClose} fullWidth maxWidth="md" PaperProps={{ sx: getStockDialogPaperSx(theme) }}>
+      <DialogTitleWithClose onClose={onClose} variant="master">
         รายละเอียดประวัติการรับสินค้า
       </DialogTitleWithClose>
-      <DialogContent dividers sx={STOCK_DIALOG_FORM_SX}>
+      <DialogContent dividers sx={getStockDialogFormSx(theme)}>
         <Stack spacing={2}>
-          <Box component="fieldset" sx={STOCK_DIALOG_FIELDSET_SX}>
+          <Box component="fieldset" sx={getStockDialogFieldsetSx(theme)}>
             <Typography component="legend" sx={STOCK_DIALOG_LEGEND_SX}>
               ข้อมูลเอกสาร
             </Typography>
@@ -115,7 +116,7 @@ export function ReceiveTransactionDetailsDialog({
 
           <Stack spacing={1.2}>
             <Typography variant="subtitle1" fontWeight={800}>รายการสินค้า</Typography>
-            <Box component="fieldset" sx={{ ...STOCK_DIALOG_FIELDSET_SX, p: 0, overflow: 'hidden' }}>
+            <Box component="fieldset" sx={{ ...getStockDialogFieldsetSx(theme), p: 0, overflow: 'hidden' }}>
               <Typography component="legend" sx={{ ...STOCK_DIALOG_LEGEND_SX, ml: 1 }}>
                 รายการสินค้า
               </Typography>
@@ -131,7 +132,7 @@ export function ReceiveTransactionDetailsDialog({
                     key={line.id}
                     container
                     spacing={1.5}
-                    sx={{ ...STOCK_DIALOG_SECTION_BOX_SX, px: 2, py: 1.5, border: 'none', borderRadius: 0, bgcolor: 'transparent' }}
+                    sx={{ ...getStockDialogSectionBoxSx(theme), px: 2, py: 1.5, border: 'none', borderRadius: 0, bgcolor: 'transparent' }}
                   >
                     <Grid size={{ xs: 12, md: 3 }}>
                       <Typography variant="body2" fontWeight={700}>
@@ -201,7 +202,7 @@ export function ReceiveTransactionDetailsDialog({
 
           <Divider />
 
-          <Box sx={STOCK_DIALOG_SECTION_BOX_SX}>
+          <Box sx={getStockDialogSectionBoxSx(theme)}>
             <Typography variant="subtitle1" fontWeight={800} sx={{ mb: 1 }}>
               หมายเหตุ
             </Typography>

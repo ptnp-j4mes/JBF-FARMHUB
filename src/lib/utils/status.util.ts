@@ -47,17 +47,32 @@ const toWorkflowTone = (status?: string | null): string => {
   return 'Pending';
 };
 
+export const getWorkflowStatusType = (status?: string | null): 'success' | 'error' | 'warning' | 'info' | 'default' => {
+  const tone = toWorkflowTone(status);
+  const map: Record<string, 'success' | 'error' | 'warning' | 'info' | 'default'> = {
+    Draft: 'default',
+    Pending: 'warning',
+    Approved: 'success',
+    Rejected: 'error',
+    Cancelled: 'error',
+    PartiallyReceived: 'info',
+    Completed: 'success',
+    Returned: 'info',
+  };
+  return map[tone] ?? 'warning';
+};
+
 export const getWorkflowStatusChipSx = (status?: string | null) => {
   const tone = toWorkflowTone(status);
 
   const palette: Record<string, { bg: string; text: string }> = {
     Draft: { bg: '#f9fafb', text: '#4b5563' }, // Softer Gray
     Pending: { bg: '#fffbeb', text: '#92400e' }, // Softer Amber/Orange
-    Approved: { bg: '#FEF3F2', text: '#912018' }, // Primary red soft
+    Approved: { bg: '#ECFDF3', text: '#15803D' }, // Softer Green
     Rejected: { bg: '#fef2f2', text: '#991b1b' }, // Softer Red
     Cancelled: { bg: '#fff1f2', text: '#be123c' }, // Softer Crimson
     PartiallyReceived: { bg: '#eff6ff', text: '#1e40af' }, // Softer Blue
-    Completed: { bg: '#FEF3F2', text: '#912018' }, // Primary red soft
+    Completed: { bg: '#ECFDF3', text: '#15803D' }, // Softer Green
     Returned: { bg: '#f5f3ff', text: '#5b21b6' }, // Softer Purple
   };
 

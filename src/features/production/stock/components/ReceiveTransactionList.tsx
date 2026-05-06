@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  Chip,
   Paper,
   Stack,
   Table,
@@ -12,6 +11,7 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
+import { alpha } from '@mui/material/styles';
 import type { StockTransactionRow } from '../types';
 import { formatNumber } from '@/lib/utils/format.util';
 import {
@@ -20,6 +20,7 @@ import {
   getReceiptReceiverLabel,
 } from '../utils/receive-history.util';
 import { getFeedSiloDisplayLabel } from '../utils/location-display.util';
+import { StatusBadge } from '@/design-system';
 
 type ReceiveTransactionListProps = {
   rows: StockTransactionRow[];
@@ -44,10 +45,10 @@ export function ReceiveTransactionList({
       sx={{
         borderRadius: '18px',
         overflow: 'hidden',
-        boxShadow: '0 18px 40px rgba(22, 35, 31, 0.08), 0 3px 10px rgba(22, 35, 31, 0.05)',
+        boxShadow: 2,
         border: '1px solid',
-        borderColor: '#dde2de',
-        bgcolor: '#f8faf8',
+        borderColor: 'divider',
+        bgcolor: 'background.paper',
       }}
     >
       <TableContainer sx={{ maxHeight: 320, overflowY: 'auto', overflowX: 'auto', scrollbarGutter: 'stable' }}>
@@ -55,22 +56,25 @@ export function ReceiveTransactionList({
             minWidth: 1240,
             tableLayout: 'fixed',
             '& .MuiTableCell-head': {
-              bgcolor: '#f2f6f3',
-              color: '#4a5451',
+              bgcolor: (t: any) => alpha(t.palette.primary.main, 0.06),
+              color: 'text.primary',
               fontWeight: 800,
               textAlign: 'center',
               verticalAlign: 'middle',
-              borderBottom: '1px solid #dde2de',
-              borderRight: '1px solid #dde2de',
+              borderBottom: '1px solid',
+              borderBottomColor: 'divider',
+              borderRight: '1px solid',
+              borderRightColor: 'divider',
               '&:last-of-type': { borderRight: 'none' },
             },
             '& .MuiTableBody-root .MuiTableCell-root': {
               py: 1,
               verticalAlign: 'middle',
-              borderBottom: '1px solid #dde2de',
-              color: '#2f3a37',
+              borderBottom: '1px solid',
+              borderBottomColor: 'divider',
+              color: 'text.primary',
             },
-            '& .MuiTableBody-root .MuiTableRow-root:hover': { bgcolor: '#f1f5f2' },
+            '& .MuiTableBody-root .MuiTableRow-root:hover': { bgcolor: (t: any) => alpha(t.palette.primary.main, 0.04) },
           }}>
           <TableHead>
             <TableRow>
@@ -112,16 +116,10 @@ export function ReceiveTransactionList({
                       <Typography variant="body2" fontWeight={800}>
                         {row.documentNumber}
                       </Typography>
-                      <Chip
+                      <StatusBadge
                         label={requestTypeMeta(row.requestType).label}
+                        type={requestTypeMeta(row.requestType).color}
                         size="small"
-                        color={requestTypeMeta(row.requestType).color}
-                        sx={{ 
-                          fontWeight: 700, 
-                          height: 20, 
-                          fontSize: '0.65rem',
-                          '& .MuiChip-label': { px: 1 }
-                        }}
                       />
                     </Stack>
                   </TableCell>

@@ -1,163 +1,173 @@
+import type { Theme } from '@mui/material/styles';
 import { alpha } from '@mui/material/styles';
 
-const UI = {
-  accent: '#B42318',
-  accentDark: '#912018',
-  panel: '#ffffff',
-  panelSoft: '#fdf7f6',
-  panelMuted: '#f8ecea',
-  border: '#e5ddd9',
-  borderStrong: '#d6c6c1',
-  text: '#1a1a1a',
-  muted: '#6b6b6b',
-  shadow: '0 18px 40px rgba(20, 20, 20, 0.08), 0 3px 10px rgba(20, 20, 20, 0.05)',
-  shadowSoft: '0 10px 24px rgba(20, 20, 20, 0.06), 0 2px 6px rgba(20, 20, 20, 0.04)',
-};
+export function getStockDialogPaperSx(theme: Theme) {
+  return {
+    borderRadius: 3.5,
+    border: '1px solid',
+    borderColor: theme.palette.divider,
+    boxShadow: 2,
+    overflow: 'hidden',
+    bgcolor: theme.palette.background.paper,
+  };
+}
 
-export const STOCK_DIALOG_UI = UI;
-
-export const STOCK_DIALOG_PAPER_SX = {
-  borderRadius: 3.5,
-  border: `1px solid ${UI.border}`,
-  boxShadow: UI.shadow,
-  overflow: 'hidden',
-  bgcolor: UI.panel,
-};
-
-export const STOCK_DIALOG_TITLE_SX = {
-  textAlign: 'center',
-  bgcolor: UI.accent,
-  color: '#fff',
-  borderBottom: `1px solid ${alpha(UI.accent, 0.24)}`,
-  fontWeight: 800,
-  '& .MuiIconButton-root': {
+export function getStockDialogTitleSx(theme: Theme) {
+  return {
+    textAlign: 'center' as const,
+    bgcolor: theme.palette.primary.main,
     color: '#fff',
-  },
-} as const;
+    borderBottom: `1px solid ${alpha(theme.palette.primary.dark, 0.24)}`,
+    fontWeight: 800,
+    '& .MuiIconButton-root': {
+      color: '#fff',
+    },
+  };
+}
 
-export const STOCK_DIALOG_FORM_SX = {
-  '& .MuiTextField-root .MuiOutlinedInput-root': {
-    minHeight: 36,
-    borderRadius: 2.2,
-    bgcolor: UI.panelSoft,
-    boxShadow: UI.shadowSoft,
-    '& fieldset': {
-      borderColor: UI.border,
+export function getStockDialogFormSx(theme: Theme) {
+  return {
+    '& .MuiTextField-root .MuiOutlinedInput-root': {
+      minHeight: 36,
+      borderRadius: 2.2,
+      bgcolor: alpha(theme.palette.primary.main, 0.03),
+      boxShadow: 1,
+      '& fieldset': {
+        borderColor: theme.palette.divider,
+      },
+      '&:hover fieldset': {
+        borderColor: theme.palette.text.secondary,
+      },
+      '&.Mui-focused fieldset': {
+        borderColor: theme.palette.primary.main,
+      },
     },
-    '&:hover fieldset': {
-      borderColor: UI.borderStrong,
+    '& .MuiTextField-root .MuiOutlinedInput-input': {
+      py: '8px',
     },
-    '&.Mui-focused fieldset': {
-      borderColor: UI.accent,
+    '& .MuiTextField-root .MuiOutlinedInput-root.MuiInputBase-multiline': {
+      minHeight: 74,
     },
-  },
-  '& .MuiTextField-root .MuiOutlinedInput-input': {
-    py: '8px',
-  },
-  '& .MuiTextField-root .MuiOutlinedInput-root.MuiInputBase-multiline': {
-    minHeight: 74,
-  },
-  '& .MuiInputLabel-root.Mui-focused': {
-    color: UI.accent,
-  },
-  '& .MuiFormLabel-asterisk': {
-    color: '#d32f2f',
-  },
-  bgcolor: '#fff',
-  px: { xs: 1.5, md: 2 },
-  py: { xs: 1.5, md: 2 },
-} as const;
+    '& .MuiInputLabel-root.Mui-focused': {
+      color: theme.palette.primary.main,
+    },
+    '& .MuiFormLabel-asterisk': {
+      color: theme.palette.error.main,
+    },
+    bgcolor: theme.palette.background.paper,
+    px: { xs: 1.5, md: 2 },
+    py: { xs: 1.5, md: 2 },
+  };
+}
 
-export const STOCK_DIALOG_FIELDSET_SX = {
-  border: `1px solid ${UI.border}`,
-  borderRadius: 3,
-  p: { xs: 1.25, md: 1.5 },
-  minWidth: 0,
-  bgcolor: UI.panel,
-  boxShadow: UI.shadowSoft,
-};
+export function getStockDialogFieldsetSx(theme: Theme) {
+  return {
+    border: `1px solid ${theme.palette.divider}`,
+    borderRadius: 3,
+    p: { xs: 1.25, md: 1.5 },
+    minWidth: 0,
+    bgcolor: theme.palette.background.paper,
+    boxShadow: 1,
+  };
+}
 
 export const STOCK_DIALOG_LEGEND_SX = {
   px: 1.1,
   fontSize: '0.95rem',
   fontWeight: 800,
-  color: UI.text,
+  color: 'text.primary',
   letterSpacing: '-0.01em',
 };
 
-export const STOCK_DIALOG_SECTION_BOX_SX = {
-  p: 1.25,
-  border: `1px solid ${UI.border}`,
-  borderRadius: 2.4,
-  bgcolor: '#fff',
-};
+export function getStockDialogSectionBoxSx(theme: Theme) {
+  return {
+    p: 1.25,
+    border: `1px solid ${theme.palette.divider}`,
+    borderRadius: 2.4,
+    bgcolor: theme.palette.background.paper,
+  };
+}
 
-export const STOCK_DIALOG_TABLE_SX = {
-  border: `1px solid ${UI.border}`,
-  borderRadius: 2.6,
-  bgcolor: '#fff',
-  boxShadow: UI.shadowSoft,
-  '& .MuiTableCell-head': {
-    bgcolor: UI.accent,
-    color: '#fff',
-    fontWeight: 800,
-    borderBottom: `1px solid ${alpha(UI.accentDark, 0.45)}`,
-  },
-  '& .MuiTableCell-body': {
-    color: UI.text,
-    borderBottom: `1px solid ${alpha(UI.border, 0.92)}`,
-  },
-  '& .MuiTableRow-root:hover': {
-    bgcolor: '#fef3f2',
-  },
-};
+export function getStockDialogTableSx(theme: Theme) {
+  return {
+    border: `1px solid ${theme.palette.divider}`,
+    borderRadius: 2.6,
+    bgcolor: theme.palette.background.paper,
+    boxShadow: 1,
+    '& .MuiTableCell-head': {
+      bgcolor: theme.palette.primary.main,
+      color: '#fff',
+      fontWeight: 800,
+      borderBottom: `1px solid ${alpha(theme.palette.primary.dark, 0.45)}`,
+    },
+    '& .MuiTableCell-body': {
+      color: theme.palette.text.primary,
+      borderBottom: `1px solid ${theme.palette.divider}`,
+    },
+    '& .MuiTableRow-root:hover': {
+      bgcolor: alpha(theme.palette.primary.main, 0.04),
+    },
+  };
+}
 
-export const STOCK_DIALOG_ACTIONS_SX = {
-  px: { xs: 1.5, md: 2 },
-  py: 1.25,
-  borderTop: `1px solid ${UI.border}`,
-  bgcolor: '#fff',
-  gap: 1,
-};
+export function getStockDialogActionsSx(theme: Theme) {
+  return {
+    px: { xs: 1.5, md: 2 },
+    py: 1.25,
+    borderTop: `1px solid ${theme.palette.divider}`,
+    bgcolor: theme.palette.background.paper,
+    gap: 1,
+  };
+}
 
-export const STOCK_DIALOG_PRIMARY_BUTTON_SX = {
-  borderRadius: 12,
-  px: 2.2,
-  fontWeight: 600,
-  textTransform: 'none',
-  bgcolor: 'rgba(180, 35, 24, 0.12)',
-  color: '#912018',
-  border: '1px solid rgba(180, 35, 24, 0.24)',
-  '&:hover': {
-    bgcolor: 'rgba(180, 35, 24, 0.20)',
-    borderColor: 'rgba(180, 35, 24, 0.36)',
-  },
-};
+export function getStockDialogPrimaryButtonSx(theme: Theme) {
+  return {
+    borderRadius: 12,
+    px: 2.2,
+    fontWeight: 600,
+    textTransform: 'none',
+    bgcolor: alpha(theme.palette.primary.main, 0.12),
+    color: theme.palette.primary.dark,
+    border: '1px solid',
+    borderColor: alpha(theme.palette.primary.main, 0.24),
+    '&:hover': {
+      bgcolor: alpha(theme.palette.primary.main, 0.20),
+      borderColor: alpha(theme.palette.primary.main, 0.36),
+    },
+  };
+}
 
-export const STOCK_DIALOG_SECONDARY_BUTTON_SX = {
-  borderRadius: 12,
-  px: 2,
-  fontWeight: 600,
-  textTransform: 'none',
-  bgcolor: 'rgba(0, 0, 0, 0.04)',
-  color: '#525252',
-  border: '1px solid rgba(0, 0, 0, 0.14)',
-  '&:hover': {
-    bgcolor: 'rgba(0, 0, 0, 0.06)',
-    borderColor: 'rgba(0, 0, 0, 0.22)',
-  },
-};
+export function getStockDialogSecondaryButtonSx(theme: Theme) {
+  return {
+    borderRadius: 12,
+    px: 2,
+    fontWeight: 600,
+    textTransform: 'none',
+    bgcolor: alpha(theme.palette.text.primary, 0.04),
+    color: theme.palette.text.secondary,
+    border: '1px solid',
+    borderColor: alpha(theme.palette.text.primary, 0.14),
+    '&:hover': {
+      bgcolor: alpha(theme.palette.text.primary, 0.06),
+      borderColor: alpha(theme.palette.text.primary, 0.22),
+    },
+  };
+}
 
-export const STOCK_DIALOG_INFO_ALERT_SX = {
-  border: `1px solid ${alpha(UI.accent, 0.14)}`,
-  bgcolor: '#fef3f2',
-  color: UI.text,
-  boxShadow: UI.shadowSoft,
-};
+export function getStockDialogInfoAlertSx(theme: Theme) {
+  return {
+    border: `1px solid ${alpha(theme.palette.primary.main, 0.14)}`,
+    bgcolor: alpha(theme.palette.primary.main, 0.04),
+    color: theme.palette.text.primary,
+    boxShadow: 1,
+  };
+}
 
-export const STOCK_DIALOG_ERROR_ALERT_SX = {
-  border: '1px solid #f3c2c2',
-  bgcolor: '#fff4f4',
-  color: '#8c2f2f',
-  boxShadow: UI.shadowSoft,
-};
+export function getStockDialogErrorAlertSx(theme: Theme) {
+  return {
+    border: `1px solid ${alpha(theme.palette.error.main, 0.3)}`,
+    bgcolor: alpha(theme.palette.error.main, 0.04),
+    color: theme.palette.error.dark,
+    boxShadow: 1,
+  };
+}

@@ -1,3 +1,5 @@
+'use client';
+
 /**
  * StatsCard Component
  *
@@ -69,11 +71,7 @@ export default function StatsCard({
               </Typography>
             )}
           </Box>
-          {icon && (
-            <Box sx={{ color: accent, opacity: 0.16, fontSize: 48 }}>
-              {icon}
-            </Box>
-          )}
+          {icon && <Box sx={{ color: accent, opacity: 0.16, fontSize: 48 }}>{icon}</Box>}
         </Box>
       </CardContent>
     </Card>

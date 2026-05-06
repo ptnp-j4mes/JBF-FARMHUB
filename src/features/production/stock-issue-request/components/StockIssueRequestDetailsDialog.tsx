@@ -24,7 +24,7 @@ import { formatDateTime } from '@/lib/utils/date.util';
 import { formatNumber } from '@/lib/utils/format.util';
 import type { StockIssueRequestResponse } from '../types/stock-issue-request.types';
 import { getFeedSiloDisplayLabel } from '@/features/production/stock/utils/location-display.util';
-import { STOCK_DIALOG_UI } from '../../stock/components/stock-dialog.constants';
+import { useTheme } from '@mui/material/styles';
 
 type Props = {
   open: boolean;
@@ -49,6 +49,7 @@ export function StockIssueRequestDetailsDialog({
   onReject,
   onConfirm,
 }: Props) {
+  const theme = useTheme();
   const [comment, setComment] = useState('');
 
   const title = useMemo(() => {
@@ -64,15 +65,7 @@ export function StockIssueRequestDetailsDialog({
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="lg">
       <DialogTitleWithClose
         onClose={onClose}
-        sx={{
-          textAlign: 'center',
-          bgcolor: STOCK_DIALOG_UI.accent,
-          color: '#fff',
-          borderBottom: `1px solid ${STOCK_DIALOG_UI.accentDark}`,
-          '& .MuiIconButton-root': {
-            color: '#fff',
-          },
-        }}
+        variant="master"
       >
         {title}
       </DialogTitleWithClose>
@@ -112,13 +105,13 @@ export function StockIssueRequestDetailsDialog({
               <Typography variant="subtitle1" fontWeight={800} sx={{ mb: 1 }}>
                 รายการสินค้า
               </Typography>
-              <TableContainer component={Paper} elevation={0} sx={{ border: `1px solid ${STOCK_DIALOG_UI.border}`, borderRadius: 3, overflow: 'hidden' }}>
+              <TableContainer component={Paper} elevation={0} sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 3, overflow: 'hidden' }}>
                 <Table
                   size="small"
                   stickyHeader
                   sx={{
                     '& .MuiTableCell-head': {
-                      bgcolor: STOCK_DIALOG_UI.accent,
+                      bgcolor: theme.palette.primary.main,
                       color: '#fff',
                       fontWeight: 700,
                       borderBottom: 'none',

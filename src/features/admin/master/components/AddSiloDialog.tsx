@@ -6,17 +6,13 @@ import {
   FilterableSelectField,
   type FilterableSelectFieldOption,
 } from '@/components/common';
+import { FormField, FormSelect } from '@/components/forms';
 import {
   Button,
   Dialog,
   DialogActions,
   DialogContent,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
   Stack,
-  TextField,
   Typography,
 } from '@mui/material';
 import { alpha, useTheme } from '@mui/material/styles';
@@ -27,7 +23,7 @@ import type {
   Silo,
   SiloFormData,
   Zone,
-} from '../types';
+} from '@/features/admin/user-assignment/types';
 
 type AddSiloDialogProps = {
   open: boolean;
@@ -216,7 +212,7 @@ export default function AddSiloDialog({
             ]}
           />
 
-          <TextField
+          <FormField
             label="โซน"
             value={selectedHouse?.zoneName || 'ไม่มีโซน'}
             fullWidth
@@ -224,7 +220,7 @@ export default function AddSiloDialog({
             helperText="ระบบจะระบุโซนอัตโนมัติตามโรงเรือนที่เลือก"
           />
 
-          <TextField
+          <FormField
             label="รหัสไซโล"
             placeholder="เช่น JBF-ST-A-ST1-SILO"
             value={formData.code}
@@ -233,7 +229,7 @@ export default function AddSiloDialog({
             required
           />
 
-          <TextField
+          <FormField
             label="ชื่อไซโล"
             placeholder="เช่น ไซโล A-ST1"
             value={formData.name}
@@ -242,7 +238,7 @@ export default function AddSiloDialog({
             required
           />
 
-          <TextField
+          <FormField
             label="ความจุ (กก.)"
             type="number"
             value={formData.capacityKg}
@@ -257,19 +253,17 @@ export default function AddSiloDialog({
             inputProps={{ min: 0, step: '0.0001' }}
           />
 
-          <FormControl fullWidth>
-            <InputLabel>สถานะ</InputLabel>
-            <Select
-              value={formData.status}
-              label="สถานะ"
-              onChange={(event) =>
-                setFormData((prev) => ({ ...prev, status: event.target.value as ScopeStatus }))
-              }
-            >
-              <MenuItem value="Active">ใช้งาน</MenuItem>
-              <MenuItem value="Inactive">ไม่ใช้งาน</MenuItem>
-            </Select>
-          </FormControl>
+          <FormSelect
+            label="สถานะ"
+            value={formData.status}
+            onChange={(event) =>
+              setFormData((prev) => ({ ...prev, status: event.target.value as ScopeStatus }))
+            }
+            options={[
+              { value: 'Active', label: 'ใช้งาน' },
+              { value: 'Inactive', label: 'ไม่ใช้งาน' },
+            ]}
+          />
         </Stack>
       </DialogContent>
 

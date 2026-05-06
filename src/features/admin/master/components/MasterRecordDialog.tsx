@@ -1,6 +1,7 @@
 'use client';
 
 import { DialogTitleWithClose } from '@/components/common';
+import { FormField, FormSelect } from '@/components/forms';
 import {
   Box,
   Button,
@@ -9,10 +10,8 @@ import {
   DialogContent,
   Divider,
   FormControlLabel,
-  MenuItem,
   Stack,
   Switch,
-  TextField,
   Typography,
   alpha,
 } from '@mui/material';
@@ -240,7 +239,7 @@ export function MasterRecordDialog({
                 gridTemplateColumns: { xs: '1fr', md: '1fr 1.6fr 1fr' },
               }}
             >
-              <TextField
+              <FormField
                 size="small"
                 label="รหัสรายการ"
                 placeholder="เช่น BR-0001"
@@ -250,7 +249,7 @@ export function MasterRecordDialog({
                 helperText={errors.code}
                 sx={fieldSx}
               />
-              <TextField
+              <FormField
                 size="small"
                 label="ชื่อรายการ"
                 placeholder={`กรอกชื่อ${contentTitle}`}
@@ -260,17 +259,17 @@ export function MasterRecordDialog({
                 helperText={errors.name}
                 sx={fieldSx}
               />
-              <TextField
+              <FormSelect
                 size="small"
-                select
                 label="สถานะ"
                 value={formState.status}
                 onChange={(event) => setField('status', event.target.value as MasterRecordStatus)}
                 sx={fieldSx}
-              >
-                <MenuItem value="ใช้งาน">ใช้งาน</MenuItem>
-                <MenuItem value="ไม่ใช้งาน">ไม่ใช้งาน</MenuItem>
-              </TextField>
+                options={[
+                  { value: 'ใช้งาน', label: 'ใช้งาน' },
+                  { value: 'ไม่ใช้งาน', label: 'ไม่ใช้งาน' },
+                ]}
+              />
             </Box>
           </Box>
 
@@ -293,22 +292,18 @@ export function MasterRecordDialog({
               }}
             >
               {filterDefinitions.map((filter) => (
-                <TextField
+                <FormSelect
                   key={filter.key}
                   size="small"
-                  select
                   label={filter.label}
                   value={formState.filters[filter.key]}
                   onChange={(event) => handleFilterChange(filter.key, event.target.value)}
                   sx={fieldSx}
-                >
-                  <MenuItem value="all">ทั้งหมด</MenuItem>
-                  {filter.options.map((option) => (
-                    <MenuItem key={option} value={option}>
-                      {option}
-                    </MenuItem>
-                  ))}
-                </TextField>
+                  options={[
+                    { value: 'all', label: 'ทั้งหมด' },
+                    ...filter.options.map((option) => ({ value: option, label: option })),
+                  ]}
+                />
               ))}
             </Box>
           </Box>
@@ -321,7 +316,7 @@ export function MasterRecordDialog({
               ข้อมูลส่วนนี้ใช้สำหรับคำอธิบายการใช้งานในอนาคตและหมายเหตุภายในทีม
             </Typography>
             <Stack spacing={1.1}>
-              <TextField
+              <FormField
                 size="small"
                 label="คำอธิบาย"
                 value={formState.description}
@@ -330,7 +325,7 @@ export function MasterRecordDialog({
                 minRows={2}
                 sx={fieldSx}
               />
-              <TextField
+              <FormField
                 size="small"
                 label="หมายเหตุภายใน"
                 value={formState.note}
