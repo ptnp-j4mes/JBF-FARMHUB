@@ -27,9 +27,9 @@ export default function HealthTab({
       variant="outlined"
       key={keyName}
       sx={{
-        borderRadius: 2.6,
+        borderRadius: 3,
         borderColor: UI.border,
-        bgcolor: '#fff',
+        bgcolor: UI.panel,
         boxShadow: UI.shadowSoft,
       }}
     >

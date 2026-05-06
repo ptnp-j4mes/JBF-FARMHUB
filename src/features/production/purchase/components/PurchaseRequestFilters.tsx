@@ -67,14 +67,14 @@ export function PurchaseRequestFilters({
           '& .MuiOutlinedInput-root': {
             height: 40,
             borderRadius: 2,
-            bgcolor: '#f8faf8',
-            boxShadow: '0 10px 24px rgba(22, 35, 31, 0.06), 0 2px 6px rgba(22, 35, 31, 0.04)',
+            bgcolor: 'background.paper',
+            boxShadow: 1,
           },
         }}
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
-              <SearchIcon sx={{ fontSize: 18, color: '#8d9592' }} />
+              <SearchIcon sx={{ fontSize: 18, color: 'text.secondary' }} />
             </InputAdornment>
           ),
         }}
@@ -95,8 +95,8 @@ export function PurchaseRequestFilters({
             height: 40,
             minHeight: 40,
             borderRadius: 2,
-            bgcolor: '#f8faf8',
-            boxShadow: '0 10px 24px rgba(22, 35, 31, 0.06), 0 2px 6px rgba(22, 35, 31, 0.04)',
+            bgcolor: 'background.paper',
+            boxShadow: 1,
           },
           '& .MuiSelect-select': {
             color: statusFilter === 'all' ? 'text.secondary' : 'inherit',
@@ -131,8 +131,8 @@ export function PurchaseRequestFilters({
             height: 40,
             minHeight: 40,
             borderRadius: 2,
-            bgcolor: '#f8faf8',
-            boxShadow: '0 10px 24px rgba(22, 35, 31, 0.06), 0 2px 6px rgba(22, 35, 31, 0.04)',
+            bgcolor: 'background.paper',
+            boxShadow: 1,
           },
           '& .MuiSelect-select': {
             color: urgencyFilter === 'all' ? 'text.secondary' : 'inherit',
@@ -153,9 +153,9 @@ export function PurchaseRequestFilters({
           height: 40,
           minWidth: 110,
           borderRadius: 2,
-          bgcolor: 'rgb(22, 90, 80)',
-          boxShadow: '0 10px 24px rgba(22, 35, 31, 0.06), 0 2px 6px rgba(22, 35, 31, 0.04)',
-          '&:hover': { bgcolor: '#124840' },
+          bgcolor: 'primary.main',
+          boxShadow: 1,
+          '&:hover': { bgcolor: 'primary.dark' },
         }}
       >
         ล้างตัวกรอง

@@ -48,6 +48,7 @@ export default function SideMainBar({
             flexDirection: 'column',
             overflow: 'hidden',
             ...sidemenuTokens.glass.sidebar,
+            border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.08)' : 'rgba(229, 229, 229, 0.9)'}`,
             borderRadius: '0 16px 16px 0',
           },
         }}
@@ -75,6 +76,7 @@ export default function SideMainBar({
           whiteSpace: 'nowrap',
           zIndex: 10,
           ...sidemenuTokens.glass.sidebar,
+          border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.08)' : 'rgba(229, 229, 229, 0.9)'}`,
           transition: SIDEMENU_TRANSITION_CONSTANTS.sidebarWidth,
           willChange: 'width',
         }}

@@ -37,27 +37,33 @@ export default function MortalityAttachDialog({
       fullWidth
       maxWidth="xs"
       PaperProps={{
-        sx: { borderRadius: 3, overflow: 'hidden' },
+        sx: {
+          borderRadius: 3.5,
+          overflow: 'hidden',
+          border: `1px solid ${UI.border}`,
+          boxShadow: UI.shadowSoft,
+        },
       }}
     >
       <DialogTitle
         sx={{
-          bgcolor: UI.accentSurface,
+          bgcolor: UI.panel,
           color: UI.text,
           fontWeight: 700,
+          borderBottom: `1px solid ${UI.border}`,
         }}
       >
         แนบรูปหลักฐานตาย/คัดทิ้ง
       </DialogTitle>
 
-      <DialogContent sx={{ p: 2.5 }} dividers>
+      <DialogContent sx={{ p: 2.5, bgcolor: UI.panel }} dividers>
         <Stack spacing={2}>
           {/* Drop zone */}
           <Box
             onClick={() => uploadInputRef?.current?.click()}
             sx={{
               border: `2px dashed ${alpha(UI.accent, 0.3)}`,
-              borderRadius: 2.5,
+              borderRadius: 3,
               p: 3,
               textAlign: 'center',
               cursor: 'pointer',
@@ -80,14 +86,14 @@ export default function MortalityAttachDialog({
 
           {/* Preview */}
           {hasImage && (
-            <Box
-              sx={{
-                borderRadius: 2,
-                border: `1px solid ${UI.border}`,
-                p: 1.5,
-                bgcolor: '#fafffe',
-              }}
-            >
+              <Box
+                sx={{
+                  borderRadius: 2.5,
+                  border: `1px solid ${UI.border}`,
+                  p: 1.5,
+                  bgcolor: UI.panelSoft,
+                }}
+              >
               <Stack direction="row" spacing={1.5} alignItems="center">
                 {currentImageUrl && (
                   <Box
@@ -157,7 +163,7 @@ export default function MortalityAttachDialog({
         </Stack>
       </DialogContent>
 
-      <DialogActions sx={{ px: 2.5, py: 1.5 }}>
+      <DialogActions sx={{ px: 2.5, py: 1.5, borderTop: `1px solid ${UI.border}`, bgcolor: UI.panel }}>
         <Button onClick={onClose} sx={SECONDARY_ACTION_SX}>
           ยกเลิก
         </Button>

@@ -136,7 +136,16 @@ export default function FeedTab({
         </Stack>
 
         {feedPlanSuggestions.length > 0 && (
-          <Paper variant="outlined" sx={{ p: 1, bgcolor: 'background.paper' }}>
+          <Paper
+            variant="outlined"
+            sx={{
+              p: 1,
+              bgcolor: UI.panel,
+              borderColor: UI.border,
+              borderRadius: 2.5,
+              boxShadow: UI.shadowSoft,
+            }}
+          >
             <Typography
               variant="caption"
               sx={{ mb: 0.5, display: 'block' }}

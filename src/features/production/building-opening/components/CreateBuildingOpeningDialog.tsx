@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   Alert,
   Autocomplete,
@@ -14,7 +14,6 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { alpha } from '@mui/material/styles';
 import { AxiosError } from 'axios';
 import Swal from 'sweetalert2';
 import { DialogTitleWithClose } from '@/components/common';
@@ -24,115 +23,22 @@ import {
   getCurrentFacilityId,
 } from '@/lib/facility-context';
 import { buildingOpeningService } from '../services/building-opening.service';
-import { MASTER_DIALOG_FORM_SX } from '@/core/ui-patterns/pr-ui.constants';
 import type {
   BuildingOpeningHouseOption,
   BuildingOpeningResponse,
   CreateBuildingOpeningRequest,
 } from '../types';
-
-const UI = {
-  accent: 'rgb(22, 90, 80)',
-  accentDark: '#10473f',
-  panel: '#ffffff',
-  panelSoft: '#f8faf8',
-  panelMuted: '#eef4ef',
-  border: '#d8dfda',
-  borderStrong: '#cad4cf',
-  text: '#2f3a37',
-  muted: '#7d8783',
-  shadow: '0 18px 40px rgba(22, 35, 31, 0.08), 0 3px 10px rgba(22, 35, 31, 0.05)',
-  shadowSoft: '0 10px 24px rgba(22, 35, 31, 0.06), 0 2px 6px rgba(22, 35, 31, 0.04)',
-};
-
-const DIALOG_PAPER_SX = {
-  borderRadius: 3.5,
-  border: `1px solid ${UI.border}`,
-  boxShadow: UI.shadow,
-  overflow: 'hidden',
-  bgcolor: UI.panel,
-};
-
-const DIALOG_TITLE_SX = {
-  bgcolor: UI.accent,
-  color: '#fff',
-  borderBottom: `1px solid ${alpha(UI.accent, 0.24)}`,
-  fontWeight: 800,
-  '& .MuiIconButton-root': {
-    color: '#fff',
-  },
-};
-
-const DIALOG_CONTENT_SX = {
-  ...MASTER_DIALOG_FORM_SX,
-  bgcolor: '#fcfdfc',
-  px: { xs: 1.5, md: 2 },
-  py: { xs: 1.5, md: 2 },
-  '& .MuiAlert-root': {
-    borderRadius: 2.4,
-  },
-};
-
-const SECTION_FIELDSET_SX = {
-  border: `1px solid ${UI.border}`,
-  borderRadius: 3,
-  p: { xs: 1.25, md: 1.5 },
-  minWidth: 0,
-  bgcolor: UI.panel,
-  boxShadow: UI.shadowSoft,
-};
-
-const SECTION_LEGEND_SX = {
-  px: 1.1,
-  fontSize: '0.95rem',
-  fontWeight: 800,
-  color: UI.text,
-  letterSpacing: '-0.01em',
-};
-
-const INPUT_SX = {
-  '& .MuiOutlinedInput-root': {
-    borderRadius: 2.2,
-    bgcolor: UI.panelSoft,
-    boxShadow: UI.shadowSoft,
-    '& fieldset': {
-      borderColor: UI.border,
-    },
-    '&:hover fieldset': {
-      borderColor: UI.borderStrong,
-    },
-    '&.Mui-focused fieldset': {
-      borderColor: UI.accent,
-    },
-  },
-  '& .MuiInputLabel-root.Mui-focused': {
-    color: UI.accent,
-  },
-};
-
-const ERROR_ALERT_SX = {
-  border: '1px solid #f3c2c2',
-  bgcolor: '#fff4f4',
-  color: '#8c2f2f',
-  boxShadow: UI.shadowSoft,
-};
-
-const ACTIONS_SX = {
-  px: { xs: 1.5, md: 2 },
-  py: 1.25,
-  borderTop: `1px solid ${UI.border}`,
-  bgcolor: '#fbfcfb',
-};
-
-const PRIMARY_BUTTON_SX = {
-  borderRadius: 2.2,
-  px: 2.2,
-  boxShadow: UI.shadowSoft,
-  bgcolor: UI.accent,
-  '&:hover': {
-    bgcolor: UI.accentDark,
-  },
-};
+import {
+  buildingOpeningDialogActionsSx,
+  buildingOpeningDialogContentSx,
+  buildingOpeningDialogPaperSx,
+  buildingOpeningDialogTitleSx,
+  buildingOpeningErrorAlertSx,
+  buildingOpeningFieldsetSx,
+  buildingOpeningInputSx,
+  buildingOpeningLegendSx,
+  buildingOpeningPrimaryButtonSx,
+} from './BuildingOpeningWorkspaceChrome';
 
 type CreateBuildingOpeningDialogProps = {
   open: boolean;
@@ -186,6 +92,7 @@ export function CreateBuildingOpeningDialog({
   const [avgWeight, setAvgWeight] = useState(0);
   const [pricePerHead, setPricePerHead] = useState(0);
   const [remarks, setRemarks] = useState('');
+  const facilityOptionsRef = useRef<Array<{ id: number; code: string; name: string }>>([]);
 
   const resolveFacilitySelection = (
     options: Array<{ id: number; code: string; name: string }>,
@@ -226,6 +133,7 @@ export function CreateBuildingOpeningDialog({
           code: item.code,
           name: item.name,
         }));
+        facilityOptionsRef.current = optionRows;
         setFacilities(optionRows);
         setPigSources(
           (options.pigSources ?? []).map((item) => ({
@@ -260,7 +168,7 @@ export function CreateBuildingOpeningDialog({
         }
 
         const matched = resolveFacilitySelection(
-          optionRows,
+          facilityOptionsRef.current,
           getCurrentFacilityId(),
           getCurrentFacilityCode(),
         );
@@ -288,7 +196,7 @@ export function CreateBuildingOpeningDialog({
     const onFacilityChanged = () => {
       if (isEdit) return;
       const matched = resolveFacilitySelection(
-        optionRows,
+        facilityOptionsRef.current,
         getCurrentFacilityId(),
         getCurrentFacilityCode(),
       );
@@ -445,16 +353,16 @@ export function CreateBuildingOpeningDialog({
   };
 
   return (
-    <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth PaperProps={{ sx: DIALOG_PAPER_SX }}>
-      <DialogTitleWithClose onClose={handleClose} disabled={saving} sx={DIALOG_TITLE_SX}>
+    <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth PaperProps={{ sx: buildingOpeningDialogPaperSx }}>
+      <DialogTitleWithClose onClose={handleClose} disabled={saving} sx={buildingOpeningDialogTitleSx}>
         {isEdit ? 'แก้ไขรายการเปิดโรงเรือน' : 'สร้างรายการเปิดโรงเรือน'}
       </DialogTitleWithClose>
-      <DialogContent dividers sx={DIALOG_CONTENT_SX}>
+      <DialogContent dividers sx={{ ...buildingOpeningDialogContentSx, '& .MuiAlert-root': { borderRadius: 2.4 } }}>
         <Stack spacing={2}>
-          {error ? <Alert severity="error" sx={ERROR_ALERT_SX}>{error}</Alert> : null}
+          {error ? <Alert severity="error" sx={buildingOpeningErrorAlertSx}>{error}</Alert> : null}
 
-          <Box component="fieldset" sx={SECTION_FIELDSET_SX}>
-            <Typography component="legend" sx={SECTION_LEGEND_SX}>
+          <Box component="fieldset" sx={buildingOpeningFieldsetSx}>
+            <Typography component="legend" sx={buildingOpeningLegendSx}>
               ข้อมูลการเปิดโรงเรือน
             </Typography>
             <Stack spacing={2}>
@@ -464,7 +372,7 @@ export function CreateBuildingOpeningDialog({
                   value={createdDateDisplay}
                   InputProps={{ readOnly: true }}
                   fullWidth
-                  sx={INPUT_SX}
+                  sx={buildingOpeningInputSx}
                 />
               </Stack>
 
@@ -483,7 +391,7 @@ export function CreateBuildingOpeningDialog({
                   }}
                   disabled={loading || saving || facilities.length === 0}
                   fullWidth
-                  sx={INPUT_SX}
+                  sx={buildingOpeningInputSx}
                 >
                   {facilities.map((item) => (
                     <MenuItem key={item.id} value={item.id}>{`${item.code} - ${item.name}`}</MenuItem>
@@ -496,7 +404,7 @@ export function CreateBuildingOpeningDialog({
                   onChange={(event) => setSelectedHouseId(Number(event.target.value))}
                   disabled={loading || saving || selectableHouses.length === 0}
                   fullWidth
-                  sx={INPUT_SX}
+                  sx={buildingOpeningInputSx}
                 >
                   {selectableHouses.map((item) => (
                     <MenuItem key={item.id} value={item.id}>
@@ -521,7 +429,7 @@ export function CreateBuildingOpeningDialog({
                   }}
                   disabled={loading || saving || zoneOptions.length === 0}
                   fullWidth
-                  sx={INPUT_SX}
+                  sx={buildingOpeningInputSx}
                 >
                   {zoneOptions.map((item) => (
                     <MenuItem key={item} value={item}>{item}</MenuItem>
@@ -532,14 +440,14 @@ export function CreateBuildingOpeningDialog({
                   value={generation}
                   onChange={(event) => setGeneration(event.target.value)}
                   fullWidth
-                  sx={INPUT_SX}
+                  sx={buildingOpeningInputSx}
                 />
               </Stack>
             </Stack>
           </Box>
 
-          <Box component="fieldset" sx={SECTION_FIELDSET_SX}>
-            <Typography component="legend" sx={SECTION_LEGEND_SX}>
+          <Box component="fieldset" sx={buildingOpeningFieldsetSx}>
+            <Typography component="legend" sx={buildingOpeningLegendSx}>
               ข้อมูลสุกร
             </Typography>
             <Stack spacing={2}>
@@ -558,7 +466,7 @@ export function CreateBuildingOpeningDialog({
                       size="small"
                       label="แหล่งสุกร *"
                       placeholder="เลือกหรือพิมพ์เพิ่มแหล่งสุกร"
-                      sx={INPUT_SX}
+                      sx={buildingOpeningInputSx}
                     />
                   )}
                 />
@@ -571,7 +479,7 @@ export function CreateBuildingOpeningDialog({
                   }}
                   inputProps={{ inputMode: 'decimal', style: { textAlign: 'right' } }}
                   fullWidth
-                  sx={INPUT_SX}
+                  sx={buildingOpeningInputSx}
                 />
               </Stack>
 
@@ -585,7 +493,7 @@ export function CreateBuildingOpeningDialog({
                   }}
                   inputProps={{ inputMode: 'decimal', style: { textAlign: 'right' } }}
                   fullWidth
-                  sx={INPUT_SX}
+                  sx={buildingOpeningInputSx}
                 />
                 <TextField size="small"
                   label="ราคาต่อตัว (บาท)"
@@ -596,7 +504,7 @@ export function CreateBuildingOpeningDialog({
                   }}
                   inputProps={{ inputMode: 'decimal', style: { textAlign: 'right' } }}
                   fullWidth
-                  sx={INPUT_SX}
+                  sx={buildingOpeningInputSx}
                 />
               </Stack>
 
@@ -608,14 +516,14 @@ export function CreateBuildingOpeningDialog({
                   onChange={(event) => setExpectedReceiveDate(event.target.value)}
                   InputLabelProps={{ shrink: true }}
                   fullWidth
-                  sx={INPUT_SX}
+                  sx={buildingOpeningInputSx}
                 />
                 <TextField size="small"
                   label="มูลค่ารวม"
                   value={totalAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                   InputProps={{ readOnly: true, style: { textAlign: 'right' } }}
                   fullWidth
-                  sx={INPUT_SX}
+                  sx={buildingOpeningInputSx}
                 />
               </Stack>
 
@@ -626,14 +534,14 @@ export function CreateBuildingOpeningDialog({
                 multiline
                 minRows={2}
                 fullWidth
-                sx={INPUT_SX}
+                sx={buildingOpeningInputSx}
               />
             </Stack>
           </Box>
         </Stack>
       </DialogContent>
-      <DialogActions sx={ACTIONS_SX}>
-        <Button variant="contained" onClick={handleSave} disabled={saving || loading} sx={PRIMARY_BUTTON_SX}>
+      <DialogActions sx={buildingOpeningDialogActionsSx}>
+        <Button variant="contained" onClick={handleSave} disabled={saving || loading} sx={buildingOpeningPrimaryButtonSx}>
           {isEdit ? 'บันทึกการแก้ไข' : 'สร้างรายการ'}
         </Button>
       </DialogActions>

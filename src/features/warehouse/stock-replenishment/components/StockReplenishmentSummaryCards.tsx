@@ -1,6 +1,6 @@
 'use client';
 
-import CardSummary, { type CardSummaryItem } from '@/components/common/CardSummary';
+import CardSummary, { type CardSummaryItem } from '@/design-system/components/molecules/CardSummary/CardSummary';
 
 type SummaryCard = CardSummaryItem & {
   status: string;

@@ -15,27 +15,21 @@ import {
 import { alpha } from '@mui/material/styles';
 import { formatDateShort } from '@/lib/utils/date.util';
 import { getWorkflowStatusType, toThaiWorkflowStatus } from '@/lib/utils/status.util';
-import { URGENCY_LABELS_THAI } from '@/lib/constants/status-labels';
 import { StatusBadge } from '@/design-system';
 import { PR_MAIN_TABLE_HEIGHT } from '@/core/ui-patterns/pr-ui.constants';
-import type { PurchaseRequestResponse } from '../types';
+import type { StockIssueRequestResponse } from '../types/stock-issue-request.types';
 
-interface PurchaseRequestTableProps {
-  rows: PurchaseRequestResponse[];
-  loading?: boolean;
+interface StockIssueRequestTableProps {
+  rows: StockIssueRequestResponse[];
+  loading: boolean;
   page: number;
   rowsPerPage: number;
   onPageChange: (_event: unknown, newPage: number) => void;
-  onRowDoubleClick: (request: PurchaseRequestResponse) => void;
+  onRowsPerPageChange: (newRowsPerPage: number) => void;
+  onRowDoubleClick: (row: StockIssueRequestResponse) => void;
 }
 
-const urgencyBadgeMap: Record<string, { label: string; type: 'default' | 'warning' | 'error' }> = {
-  Normal: { label: URGENCY_LABELS_THAI['Normal'], type: 'default' },
-  High: { label: URGENCY_LABELS_THAI['High'], type: 'warning' },
-  Urgent: { label: URGENCY_LABELS_THAI['Urgent'], type: 'error' },
-};
-
-const TABLE_COLUMN_WIDTHS = ['6%', '18%', '14%', '23%', '10%', '14%', '15%'] as const;
+const TABLE_COLUMN_WIDTHS = ['5%', '13%', '10%', '12%', '16%', '13%', '13%', '10%', '8%'] as const;
 
 const paginationSx = {
   '& .MuiTablePagination-toolbar': {
@@ -54,14 +48,15 @@ const paginationSx = {
   },
 } as const;
 
-export function PurchaseRequestTable({
+export function StockIssueRequestTable({
   rows,
-  loading = false,
+  loading,
   page,
   rowsPerPage,
   onPageChange,
+  onRowsPerPageChange,
   onRowDoubleClick,
-}: PurchaseRequestTableProps) {
+}: StockIssueRequestTableProps) {
   const paginatedRows = useMemo(
     () => rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
     [rows, page, rowsPerPage],
@@ -133,31 +128,33 @@ export function PurchaseRequestTable({
         >
           <colgroup>
             {TABLE_COLUMN_WIDTHS.map((width, index) => (
-              <col key={`pr-col-${index}`} style={{ width }} />
+              <col key={`sir-col-${index}`} style={{ width }} />
             ))}
           </colgroup>
           <TableHead>
             <TableRow>
               <TableCell>#</TableCell>
-              <TableCell>เลขที่ใบขอซื้อ</TableCell>
-              <TableCell>วันที่ขอซื้อ</TableCell>
+              <TableCell>เลขที่ใบขอ</TableCell>
+              <TableCell>วันที่ขอ</TableCell>
               <TableCell>ผู้ขอ</TableCell>
-              <TableCell>รายการ</TableCell>
-              <TableCell>ความเร่งด่วน</TableCell>
+              <TableCell>คลังต้นทาง</TableCell>
+              <TableCell>PR ต้นทาง</TableCell>
+              <TableCell>ฟาร์มปลายทาง</TableCell>
+              <TableCell>โรงเรือน</TableCell>
               <TableCell>สถานะ</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {loading ? (
               <TableRow>
-                <TableCell colSpan={7} align="center" sx={{ py: 6 }}>
+                <TableCell colSpan={9} align="center" sx={{ py: 6 }}>
                   กำลังโหลด...
                 </TableCell>
               </TableRow>
             ) : paginatedRows.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={7} align="center" sx={{ py: 6 }}>
-                  ไม่พบข้อมูลใบขอซื้อ
+                <TableCell colSpan={9} align="center" sx={{ py: 6 }}>
+                  ยังไม่มีใบขอตัดสต๊อก
                 </TableCell>
               </TableRow>
             ) : (
@@ -187,17 +184,25 @@ export function PurchaseRequestTable({
                       {row.requestorName}
                     </Typography>
                   </TableCell>
-                  <TableCell align="center">
+                  <TableCell>
                     <Typography variant="body2" sx={{ fontWeight: 800 }}>
-                      {row.lines.length.toLocaleString()}
+                      {row.facilityName}
                     </Typography>
                   </TableCell>
                   <TableCell align="center">
-                    <StatusBadge
-                      label={urgencyBadgeMap[row.urgency]?.label ?? row.urgency}
-                      type={urgencyBadgeMap[row.urgency]?.type ?? 'default'}
-                      size="small"
-                    />
+                    <Typography variant="body2">
+                      {row.sourcePurchaseRequestNumber || '-'}
+                    </Typography>
+                  </TableCell>
+                  <TableCell align="center">
+                    <Typography variant="body2">
+                      {row.usageZone || '-'}
+                    </Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Typography variant="body2">
+                      {row.usageHouseName || '-'}
+                    </Typography>
                   </TableCell>
                   <TableCell align="center">
                     <StatusBadge
@@ -219,7 +224,8 @@ export function PurchaseRequestTable({
         page={page}
         rowsPerPage={rowsPerPage}
         onPageChange={onPageChange}
-        rowsPerPageOptions={[rowsPerPage]}
+        onRowsPerPageChange={(event) => onRowsPerPageChange(parseInt(event.target.value, 10))}
+        rowsPerPageOptions={[10, 25, 50]}
         labelRowsPerPage=""
         labelDisplayedRows={({ count }) =>
           `ทั้งหมด ${count === -1 ? 0 : count} รายการ`

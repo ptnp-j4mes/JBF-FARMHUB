@@ -36,8 +36,8 @@ export default function MediaTab({
         <Stack spacing={1.5}>
           <Box
             sx={{
-              border: `2px dashed ${alpha(UI.accent, 0.2)}`,
-              borderRadius: 2.6,
+              border: `2px dashed ${alpha(UI.accent, 0.16)}`,
+              borderRadius: 3,
               p: 4,
               textAlign: 'center',
               bgcolor: UI.panelSoft,

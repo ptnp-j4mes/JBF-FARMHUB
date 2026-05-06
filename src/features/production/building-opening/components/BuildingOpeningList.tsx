@@ -6,18 +6,13 @@ import type { BuildingOpeningResponse } from '../types';
 import { formatDateShort } from '@/lib/utils/date.util';
 import { getWorkflowStatusChipSx, toThaiWorkflowStatus } from '@/lib/utils/status.util';
 import { PR_MAIN_TABLE_BOTTOM_PADDING, PR_MAIN_TABLE_HEIGHT } from '@/core/ui-patterns/pr-ui.constants';
+import { buildingOpeningTableShellSx } from './BuildingOpeningWorkspaceChrome';
 
 type BuildingOpeningListProps = {
   data: BuildingOpeningResponse[];
   loading?: boolean;
   emptyMessage?: string;
   onView: (row: BuildingOpeningResponse) => void;
-};
-
-const UI = {
-  border: '#dde2de',
-  text: '#2f3a37',
-  softShadow: '0 6px 14px rgba(22, 35, 31, 0.08), 0 1px 3px rgba(22, 35, 31, 0.05)',
 };
 
 export function BuildingOpeningList({ data, loading, emptyMessage, onView }: BuildingOpeningListProps) {
@@ -101,12 +96,9 @@ export function BuildingOpeningList({ data, loading, emptyMessage, onView }: Bui
       includeManagementColumn={false}
       statusColumnWidth={120}
       paperSx={{
-        borderRadius: '14px',
-        border: `1px solid ${UI.border}`,
+        ...buildingOpeningTableShellSx,
         height: PR_MAIN_TABLE_HEIGHT,
         pb: `${PR_MAIN_TABLE_BOTTOM_PADDING}px`,
-        boxShadow: UI.softShadow,
-        bgcolor: '#f9faf9',
       }}
       tableContainerSx={{
         overflowX: 'auto',
@@ -115,14 +107,15 @@ export function BuildingOpeningList({ data, loading, emptyMessage, onView }: Bui
       }}
       stickyHeader
       headerCellSx={{
-        bgcolor: '#f3f5f4 !important',
-        color: '#4a5451 !important',
-        fontWeight: 700,
+        bgcolor: 'background.paper !important',
+        color: 'text.primary !important',
+        fontWeight: 800,
         fontSize: '15px',
         py: 0,
         textAlign: 'center !important',
         verticalAlign: 'middle',
-        borderBottom: `1px solid ${UI.border}`,
+        borderBottom: '1px solid',
+        borderColor: 'divider',
         whiteSpace: 'nowrap',
         wordBreak: 'keep-all',
         overflowWrap: 'normal',
@@ -139,8 +132,9 @@ export function BuildingOpeningList({ data, loading, emptyMessage, onView }: Bui
           wordBreak: 'break-word',
           py: 1.05,
           verticalAlign: 'middle',
-          borderBottom: `1px solid ${UI.border}`,
-          color: UI.text,
+          borderBottom: '1px solid',
+          borderColor: 'divider',
+          color: 'text.primary',
         },
         '& .MuiTableHead-root .MuiTableCell-root': {
           whiteSpace: 'nowrap',

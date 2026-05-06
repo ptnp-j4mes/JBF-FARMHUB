@@ -7,21 +7,24 @@
 'use client';
 
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
-import { Box, Button, Alert, Typography, Chip, Stack } from '@mui/material';
+import { Box, Button, Alert, Typography, Stack, Grid } from '@mui/material';
 import { DocumentStatus } from '@/types/status.types';
 import {
   Add as AddIcon,
   ReceiptLongOutlined,
   Refresh as RefreshIcon,
+  InputOutlined,
+  CheckCircleOutlineOutlined,
+  PendingActionsOutlined,
 } from '@mui/icons-material';
 import {
   PRDetailsDialog,
   CreatePRDialog,
-  PRStats,
   PurchaseRequestFilters,
   PurchaseRequestTable,
 } from './components';
-import { StatsWrapper, ContentWrapper, PageRootWrapper } from '@/components/common/SectionWrappers';
+import { StatsCard } from '@/components/common';
+import { WorkspaceHeader } from '@/design-system';
 import { purchaseService } from './services/purchase.service';
 import { authService } from '@/features/auth/services/auth.service';
 import { PURCHASE_REQUEST_ROUTE_TYPE, PURCHASE_REQUEST_SOURCE, PurchaseRequestType } from './types';
@@ -139,26 +142,12 @@ const resolveRouteTypeFromLines = (lines: PurchaseRequestResponse['lines']): Pur
   return PURCHASE_REQUEST_ROUTE_TYPE.ExternalOnly;
 };
 
-const UI = {
-  bg: '#f2f3f2',
-  panel: '#ffffff',
-  panelSoft: '#f8faf8',
-  panelMuted: '#f2f6f3',
-  border: '#dde2de',
-  borderStrong: '#cad4cf',
-  text: '#2f3a37',
-  muted: '#7d8783',
-  accent: 'rgb(22, 90, 80)',
-  accentSurface: '#edf5f1',
-  shadow: '0 18px 40px rgba(22, 35, 31, 0.08), 0 3px 10px rgba(22, 35, 31, 0.05)',
-  shadowSoft: '0 10px 24px rgba(22, 35, 31, 0.06), 0 2px 6px rgba(22, 35, 31, 0.04)',
-};
-
 const panelSx = {
   borderRadius: 3.5,
-  border: `1px solid ${UI.border}`,
-  bgcolor: UI.panel,
-  boxShadow: UI.shadow,
+  border: '1px solid',
+  borderColor: 'divider',
+  bgcolor: 'background.paper',
+  boxShadow: 2,
 };
 
 export function PurchasePage({
@@ -491,52 +480,67 @@ export function PurchasePage({
   };
   if (!canViewPR) {
     return (
-      <Box sx={{ p: { xs: 1.5, md: 2 }, bgcolor: UI.bg }}>
+      <Box sx={{ p: { xs: 1.5, md: 2 } }}>
         <Alert severity="warning">คุณไม่มีสิทธิ์เข้าถึงหน้าขอซื้อ</Alert>
       </Box>
     );
   }
 
   return (
-    <PageRootWrapper>
-      <>
-        <Box
-          sx={{
-            px: { xs: 2, md: 3 },
-            py: 2,
-            borderBottom: '1px solid',
-            borderColor: 'divider',
-            background: `linear-gradient(135deg, ${UI.accentSurface} 0%, ${UI.panel} 58%)`,
-          }}
-        >
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap' }}>
-            <ReceiptLongOutlined sx={{ fontSize: 22, color: UI.text }} />
-            <Typography variant="h5" sx={{ fontWeight: 950, color: UI.text }}>
-              ใบขอซื้อ
-            </Typography>
-            <Chip
-              size="small"
-              label="Purchase Request"
-              sx={{
-                bgcolor: '#fff',
-                color: UI.accent,
-                fontWeight: 800,
-                border: `1px solid ${UI.borderStrong}`,
-                height: 28,
-              }}
-            />
-          </Box>
-          <Typography sx={{ mt: 0.75, fontSize: '0.95rem', color: UI.muted, fontWeight: 700 }}>
-            จัดการคำขอซื้อ ค้นหา และติดตามสถานะเอกสารในหน้าจอเดียว
-          </Typography>
+    <Box sx={{ maxWidth: 1400, mx: 'auto', p: { xs: 1.5, md: 2 } }}>
+      <WorkspaceHeader
+        chipLabel="Purchase Request"
+        title="ใบขอซื้อ"
+        meta="Warehouse / ใบขอซื้อ"
+      />
+
+      <Stack spacing={2.5}>
+        {/* Stats Cards - matches StockPage Grid pattern */}
+        <Box>
+          <Grid container spacing={1.5}>
+            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+              <StatsCard
+                title="ใบขอซื้อทั้งหมด"
+                value={requests.length}
+                subtitle="เอกสารทั้งหมด"
+                icon={<ReceiptLongOutlined />}
+                color="info"
+              />
+            </Grid>
+            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+              <StatsCard
+                title="รออนุมัติ"
+                value={requests.filter(r => r.status === DocumentStatus.Pending).length}
+                subtitle="สถานะ Pending"
+                icon={<PendingActionsOutlined />}
+                color="warning"
+              />
+            </Grid>
+            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+              <StatsCard
+                title="อนุมัติแล้ว"
+                value={requests.filter(r => r.status === DocumentStatus.Approved).length}
+                subtitle="สถานะ Approved"
+                icon={<CheckCircleOutlineOutlined />}
+                color="success"
+              />
+            </Grid>
+            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+              <StatsCard
+                title="รับเข้าบางส่วน"
+                value={requests.filter(r => r.status === DocumentStatus.PartiallyReceived).length}
+                subtitle="กำลังดำเนินการ"
+                icon={<InputOutlined />}
+                color="primary"
+              />
+            </Grid>
+          </Grid>
         </Box>
 
-        <StatsWrapper>
-          <PRStats data={requests} />
-        </StatsWrapper>
-
-        <ContentWrapper>
+        {/* Content Panel - matches StockPage */}
+        <Box sx={{ ...panelSx, p: 1.5 }}>
           <Stack spacing={1.5}>
+            {/* Action Buttons */}
             <Box
               sx={{
                 ...panelSx,
@@ -562,9 +566,9 @@ export function PurchasePage({
                     }}
                     sx={{
                       borderRadius: 2.2,
-                      bgcolor: UI.accent,
-                      boxShadow: UI.shadowSoft,
-                      '&:hover': { bgcolor: '#10473f' },
+                      bgcolor: 'primary.main',
+                      boxShadow: 1,
+                      '&:hover': { bgcolor: 'primary.dark' },
                     }}
                   >
                     สร้างใบขอซื้อ
@@ -580,9 +584,8 @@ export function PurchasePage({
                     }}
                     sx={{
                       borderRadius: 2.2,
-                      bgcolor: '#466f68',
-                      boxShadow: UI.shadowSoft,
-                      '&:hover': { bgcolor: '#365952' },
+                      bgcolor: 'primary.dark',
+                      boxShadow: 1,
                     }}
                   >
                     สร้างใบขอซื้อสุกร
@@ -599,13 +602,13 @@ export function PurchasePage({
                 }}
                 sx={{
                   borderRadius: 2.2,
-                  bgcolor: '#fff',
-                  borderColor: UI.borderStrong,
-                  color: UI.text,
-                  boxShadow: UI.shadowSoft,
+                  bgcolor: 'background.paper',
+                  borderColor: 'divider',
+                  color: 'text.primary',
+                  boxShadow: 1,
                   '&:hover': {
-                    borderColor: UI.accent,
-                    bgcolor: '#f7faf7',
+                    borderColor: 'primary.main',
+                    bgcolor: 'background.paper',
                   },
                 }}
               >
@@ -613,22 +616,21 @@ export function PurchasePage({
               </Button>
             </Box>
 
-            <Box sx={{ mb: 0.25 }}>
-              <PurchaseRequestFilters
-                searchTerm={searchTerm}
-                statusFilter={statusFilter}
-                urgencyFilter={urgencyFilter}
-                onSearchTermChange={setSearchTerm}
-                onStatusChange={setStatusFilter}
-                onUrgencyChange={setUrgencyFilter}
-                onClear={() => {
-                  setSearchTerm('');
-                  setStatusFilter('all');
-                  setUrgencyFilter('all');
-                  setPage(0);
-                }}
-              />
-            </Box>
+            {/* Filters */}
+            <PurchaseRequestFilters
+              searchTerm={searchTerm}
+              statusFilter={statusFilter}
+              urgencyFilter={urgencyFilter}
+              onSearchTermChange={setSearchTerm}
+              onStatusChange={setStatusFilter}
+              onUrgencyChange={setUrgencyFilter}
+              onClear={() => {
+                setSearchTerm('');
+                setStatusFilter('all');
+                setUrgencyFilter('all');
+                setPage(0);
+              }}
+            />
 
             {error && (
               <Alert severity="error" sx={{ mb: 2 }} onClose={() => setError(null)}>
@@ -642,15 +644,11 @@ export function PurchasePage({
               page={page}
               rowsPerPage={rowsPerPage}
               onPageChange={(_, nextPage) => setPage(nextPage)}
-              onRowsPerPageChange={(event) => {
-                setRowsPerPage(parseInt(event.target.value, 10));
-                setPage(0);
-              }}
               onRowDoubleClick={handleViewDetails}
             />
           </Stack>
-        </ContentWrapper>
-      </>
+        </Box>
+      </Stack>
 
       <PRDetailsDialog
         open={detailDialogOpen}
@@ -680,6 +678,6 @@ export function PurchasePage({
         mode={createDialogMode}
         requestType={createRequestType}
       />
-    </PageRootWrapper>
+    </Box>
   );
 }

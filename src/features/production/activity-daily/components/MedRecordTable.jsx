@@ -24,17 +24,18 @@ export default function MedRecordTable({ records, onDelete }) {
           : [];
 
         return (
-          <Card
-            key={row.id}
-            variant="outlined"
-            sx={{
-              borderRadius: 2.6,
-              borderColor: UI.border,
-              boxShadow: UI.shadowSoft,
-              transition: 'all 0.15s ease',
-              '&:hover': {
-                borderColor: UI.borderStrong,
-                boxShadow: UI.shadow,
+        <Card
+          key={row.id}
+          variant="outlined"
+          sx={{
+            borderRadius: 3,
+            borderColor: UI.border,
+            bgcolor: UI.panel,
+            boxShadow: UI.shadowSoft,
+            transition: 'all 0.15s ease',
+            '&:hover': {
+              borderColor: UI.borderStrong,
+              boxShadow: UI.shadow,
               },
             }}
           >
@@ -61,11 +62,11 @@ export default function MedRecordTable({ records, onDelete }) {
                     </Typography>
                     <Chip
                       size="small"
-                      label={row.medName || '-'}
-                      sx={{
-                        bgcolor: UI.accentSurface,
-                        color: UI.accent,
-                        fontWeight: 700,
+                    label={row.medName || '-'}
+                    sx={{
+                      bgcolor: UI.accentSurface,
+                      color: UI.accent,
+                      fontWeight: 700,
                         height: 22,
                       }}
                     />
@@ -122,12 +123,12 @@ export default function MedRecordTable({ records, onDelete }) {
                           key={`${allocation.pigBatchId}-${allocation.buildingOpeningRequestId}`}
                           size="small"
                           label={`${allocation.batchNo} (${allocation.allocatedHeadcount} ตัว)`}
-                          sx={{
-                            bgcolor: '#f1f5f9',
-                            color: '#334155',
-                            fontWeight: 700,
-                            height: 20,
-                            fontSize: '0.7rem',
+                        sx={{
+                          bgcolor: UI.panelSoft,
+                          color: UI.text,
+                          fontWeight: 700,
+                          height: 20,
+                          fontSize: '0.7rem',
                           }}
                         />
                       ))}

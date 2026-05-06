@@ -25,33 +25,23 @@ import {
   DialogContent,
   Paper,
   Stack,
-  Step,
-  StepLabel,
-  Stepper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
   TextField,
   Typography,
 } from '@mui/material';
+import { alpha, useTheme } from '@mui/material/styles';
+import { StatusBadge, JBFarmTable, JBFarmTableColumn, DialogTitleWithClose } from '@/design-system';
 import { PurchaseRequestResponse } from '../types';
 import { formatNumber } from '@/lib/utils/format.util';
 import { formatDateTime } from '@/lib/utils/date.util';
-import { DialogTitleWithClose, JBFarmTable, JBFarmTableColumn } from '@/components/common';
 import { DOCUMENT_STATUS_THAI } from '@/lib/constants/status-labels';
 import { DocumentStatus } from '@/types/status.types';
 import { getPurchaseStatusChipSx, toPurchaseStatusLabel } from '../utils/purchase-status.util';
 import {
-  PURCHASE_DIALOG_ACTIONS_SX,
-  PURCHASE_DIALOG_CONTENT_SX,
-  PURCHASE_DIALOG_INFO_ALERT_SX,
-  PURCHASE_DIALOG_PAPER_SX,
-  PURCHASE_DIALOG_PRIMARY_BUTTON_SX,
-  PURCHASE_DIALOG_SECONDARY_BUTTON_SX,
-  PURCHASE_DIALOG_TITLE_SX,
+  getPurchaseDialogPaperSx,
+  getPurchaseDialogContentSx,
+  getPurchaseDialogTableSx,
+  getPurchaseDialogActionsSx,
+  getPurchaseDialogInfoAlertSx,
 } from './purchase-dialog.constants';
 
 interface PRDetailsDialogProps {
@@ -69,10 +59,10 @@ interface PRDetailsDialogProps {
 }
 
 
-const urgencyChipSx: Record<string, object> = {
-  Normal: { bgcolor: '#e8eae9', color: '#4b5563', fontWeight: 800 },
-  High: { bgcolor: '#ff9800', color: '#fff', fontWeight: 800 },
-  Urgent: { bgcolor: '#d32f2f', color: '#fff', fontWeight: 800 },
+const urgencyTypeMap: Record<string, 'default' | 'warning' | 'error'> = {
+  Normal: 'default',
+  High: 'warning',
+  Urgent: 'error',
 };
 
 const urgencyLabel: Record<string, string> = {
@@ -82,18 +72,6 @@ const urgencyLabel: Record<string, string> = {
 };
 
 const panelSx = { border: '1px solid', borderColor: 'divider', borderRadius: 3, p: 1.75 };
-
-const tableSx = {
-  '& .MuiTableCell-head': {
-    bgcolor: '#1a5c50 !important',
-    color: '#fff !important',
-    fontWeight: 900,
-    borderColor: 'rgba(255,255,255,0.1)',
-  },
-  '& .MuiTableCell-body': {
-    borderColor: '#E5EEE8',
-  },
-} as const;
 
 export function PRDetailsDialog({
   open,
@@ -108,6 +86,7 @@ export function PRDetailsDialog({
   onReject,
   onCancelRequest,
 }: PRDetailsDialogProps) {
+  const theme = useTheme();
   const [comment, setComment] = useState('');
   const [actionError, setActionError] = useState<string | null>(null);
   const approval = request?.approval;
@@ -172,7 +151,7 @@ export function PRDetailsDialog({
       label: 'สินค้า',
       width: 250,
       render: (line) => (
-        <Typography variant="body2" sx={{ fontWeight: 800, color: '#1a5c50' }}>
+        <Typography variant="body2" sx={{ fontWeight: 800, color: 'primary.main' }}>
           {line.itemCode} - {line.itemName}
         </Typography>
       ),
@@ -281,19 +260,20 @@ export function PRDetailsDialog({
   };
 
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="lg" fullWidth PaperProps={{ sx: PURCHASE_DIALOG_PAPER_SX }}>
-      <DialogTitleWithClose onClose={onClose} disabled={actionLoading} sx={PURCHASE_DIALOG_TITLE_SX}>
+    <Dialog open={open} onClose={onClose} maxWidth="lg" fullWidth PaperProps={{ sx: getPurchaseDialogPaperSx(theme) }}>
+      <DialogTitleWithClose onClose={onClose} disabled={actionLoading} variant="master">
         <Stack alignItems="center" spacing={0.5}>
           <Typography variant="h6" sx={{ fontWeight: 900 }}>
             รายละเอียดใบขอซื้อ
           </Typography>
-          <Chip
+          <StatusBadge
             label={urgencyLabel[request.urgency] ?? request.urgency}
-            sx={{ ...(urgencyChipSx[request.urgency] ?? urgencyChipSx.Normal), fontSize: '0.75rem', height: 24 }}
+            type={urgencyTypeMap[request.urgency] ?? 'default'}
+            size="small"
           />
         </Stack>
       </DialogTitleWithClose>
-      <DialogContent dividers sx={PURCHASE_DIALOG_CONTENT_SX}>
+      <DialogContent dividers sx={getPurchaseDialogContentSx(theme)}>
         <Stack spacing={2.5}>
           <Stack spacing={2}>
             {/* Header Cards */}
@@ -342,18 +322,19 @@ export function PRDetailsDialog({
                 showPagination={false}
                 emptyMessage="ไม่พบรายการสินค้า"
                 footer={(
-                  <Box sx={{ 
-                    display: 'flex', 
-                    justifyContent: 'space-between', 
+                  <Box sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
                     alignItems: 'center',
-                    bgcolor: '#ecf2ee', 
+                    bgcolor: 'primary.main',
+                    color: '#fff',
                     px: 3,
                     py: 1.5,
                   }}>
-                    <Typography sx={{ fontWeight: 900, color: '#1a5c50', fontSize: '1rem' }}>
+                    <Typography sx={{ fontWeight: 900, color: '#fff', fontSize: '1rem' }}>
                       รวมทั้งหมด
                     </Typography>
-                    <Typography sx={{ fontWeight: 950, color: '#1a5c50', fontSize: '1.1rem' }}>
+                    <Typography sx={{ fontWeight: 950, color: '#fff', fontSize: '1.1rem' }}>
                       {formatNumber(calculateTotal(request), 2)} ฿
                     </Typography>
                   </Box>
@@ -389,43 +370,27 @@ export function PRDetailsDialog({
 
                     let icon = <RadioButtonUnchecked sx={{ fontSize: 20, color: 'text.disabled' }} />;
                     let stateLabel = 'รอดำเนินการ';
-                    let stateChipSx = {
-                      bgcolor: '#e5e7eb',
-                      color: '#4b5563',
-                      fontWeight: 700,
-                    };
+                    let stateType: 'default' | 'success' | 'warning' | 'error' | 'info' = 'default';
+                    let stepStatus: 'default' | 'success' | 'warning' | 'error' = 'default';
                     if (isCompleted) {
                       icon = <TaskAltOutlined sx={{ fontSize: 20, color: 'success.main' }} />;
                       stateLabel = 'อนุมัติแล้ว';
-                      stateChipSx = {
-                        bgcolor: '#ECFDF3',
-                        color: '#15803D',
-                        fontWeight: 700,
-                      };
+                      stateType = 'success';
+                      stepStatus = 'success';
                     } else if (isReturned) {
                       icon = <Refresh sx={{ fontSize: 20, color: 'warning.main' }} />;
                       stateLabel = 'ตีกลับ';
-                      stateChipSx = {
-                        bgcolor: '#fef3c7',
-                        color: '#92400e',
-                        fontWeight: 700,
-                      };
+                      stateType = 'warning';
+                      stepStatus = 'warning';
                     } else if (isRejected) {
                       icon = <CancelOutlined sx={{ fontSize: 20, color: 'error.main' }} />;
                       stateLabel = 'ไม่อนุมัติ';
-                      stateChipSx = {
-                        bgcolor: '#fee2e2',
-                        color: '#991b1b',
-                        fontWeight: 700,
-                      };
+                      stateType = 'error';
+                      stepStatus = 'error';
                     } else if (isCurrentStep && (approvalStatus === 'pending' || approvalStatus === 'pendingapproval')) {
                       icon = <PendingOutlined sx={{ fontSize: 20, color: 'info.main' }} />;
                       stateLabel = 'กำลังรออนุมัติ';
-                      stateChipSx = {
-                        bgcolor: '#dbeafe',
-                        color: '#1e40af',
-                        fontWeight: 700,
-                      };
+                      stateType = 'info';
                     }
 
                     return (
@@ -454,7 +419,7 @@ export function PRDetailsDialog({
                               <Typography variant="body2" fontWeight={700}>
                                 Step {step.stepOrder}: {step.stepName}
                               </Typography>
-                              <Chip size="small" label={stateLabel} sx={stateChipSx} />
+                              <StatusBadge size="small" label={stateLabel} type={stateType} />
                             </Stack>
                             <Typography variant="body2" color="text.secondary">
                               Role ที่ต้องอนุมัติ: {step.approverRole || '-'}
@@ -468,12 +433,12 @@ export function PRDetailsDialog({
                               </Typography>
                             )}
                             {stepStatus === 'error' && (
-                              <Typography variant="caption" sx={{ display: 'block', color: 'error.main', mt: 0.5, bgcolor: '#fff5f5', p: 0.5, borderRadius: 1, border: '1px solid #ffe3e3' }}>
+                              <Typography variant="caption" sx={{ display: 'block', color: 'error.dark', mt: 0.5, bgcolor: alpha(theme.palette.error.main, 0.08), p: 0.5, borderRadius: 1, border: '1px solid', borderColor: alpha(theme.palette.error.main, 0.2) }}>
                                 {latestAction?.comment || 'ไม่อนุมัติ'}
                               </Typography>
                             )}
                             {stepStatus === 'warning' && (
-                              <Typography variant="caption" sx={{ display: 'block', color: 'warning.main', mt: 0.5, bgcolor: '#fff9f0', p: 0.5, borderRadius: 1, border: '1px solid #ffecce' }}>
+                              <Typography variant="caption" sx={{ display: 'block', color: 'warning.dark', mt: 0.5, bgcolor: alpha(theme.palette.warning.main, 0.08), p: 0.5, borderRadius: 1, border: '1px solid', borderColor: alpha(theme.palette.warning.main, 0.2) }}>
                                 {latestAction?.comment || 'ตีกลับ'}
                               </Typography>
                             )}
@@ -492,7 +457,7 @@ export function PRDetailsDialog({
               <Typography variant="subtitle2" sx={{ fontWeight: 900, mb: 1.5, color: 'text.secondary' }}>
                 ดำเนินการอนุมัติ
               </Typography>
-              <Alert severity="info" sx={{ ...PURCHASE_DIALOG_INFO_ALERT_SX, mb: 1.5 }}>
+              <Alert severity="info" sx={{ ...getPurchaseDialogInfoAlertSx(theme), mb: 1.5 }}>
                 <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1} alignItems={{ xs: 'flex-start', sm: 'center' }}>
                   <Typography variant="body2" fontWeight={700}>
                     ขั้นตอนที่ต้องอนุมัติ:
@@ -519,7 +484,7 @@ export function PRDetailsDialog({
         </Stack>
       </DialogContent>
 
-      <DialogActions sx={PURCHASE_DIALOG_ACTIONS_SX}>
+      <DialogActions sx={getPurchaseDialogActionsSx(theme)}>
         {/* Approval Flow Buttons */}
         {(canApprove || canReturn || canReject) && (
           <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap justifyContent="flex-end" sx={{ width: '100%' }}>
@@ -541,7 +506,7 @@ export function PRDetailsDialog({
                 startIcon={<TaskAltOutlined sx={{ fontSize: 18 }} />} 
                 onClick={handleApprove} 
                 disabled={actionLoading} 
-                sx={{ borderRadius: 999, px: 2, bgcolor: '#2e7d32', '&:hover': { bgcolor: '#1b5e20' } }}
+                sx={{ borderRadius: 999, px: 2, bgcolor: 'success.main', '&:hover': { bgcolor: 'success.dark' } }}
               >
                 {DOCUMENT_STATUS_THAI[DocumentStatus.Approved]}
               </Button>
@@ -576,7 +541,7 @@ export function PRDetailsDialog({
           <Button 
             variant="contained" 
             onClick={() => onSubmit(request.id)} 
-            sx={{ borderRadius: 999, px: 2.5, bgcolor: '#1a5c50', '&:hover': { bgcolor: '#124840' } }}
+            sx={{ borderRadius: 999, px: 2.5, bgcolor: 'primary.main', '&:hover': { bgcolor: 'primary.dark' } }}
           >
             ส่งอนุมัติ
           </Button>
@@ -585,7 +550,7 @@ export function PRDetailsDialog({
           <Button 
             variant="outlined" 
             onClick={() => onEdit(request)} 
-            sx={{ borderRadius: 999, px: 2.5, borderColor: '#1a5c50', color: '#1a5c50' }}
+            sx={{ borderRadius: 999, px: 2.5, borderColor: 'primary.main', color: 'primary.main' }}
           >
             แก้ไข
           </Button>

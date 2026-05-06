@@ -13,6 +13,7 @@ import {
   resolvePlanStatusLabel,
   resolveWarehouseSummaryMeta,
 } from '../utils';
+import { UI } from '../constants';
 
 export default function PlanSuggestionPanel({
   planSuggestions,
@@ -24,14 +25,14 @@ export default function PlanSuggestionPanel({
   return (
     <Box
       sx={{
-        border: '1px dashed #93c5fd',
-        borderRadius: 2,
+        border: `1px solid ${UI.border}`,
+        borderRadius: 3,
         p: 1.5,
-        bgcolor: '#eff6ff',
+        bgcolor: UI.panelSoft,
       }}
     >
       <Stack spacing={1}>
-        <Typography sx={{ fontWeight: 700, color: '#1e3a8a' }}>
+        <Typography sx={{ fontWeight: 700, color: UI.text }}>
           แผนวัคซีนของวันที่เลือก
         </Typography>
 
@@ -50,7 +51,7 @@ export default function PlanSuggestionPanel({
               ไม่พบแผนวัคซีนของโรงเรือนนี้ในวันที่เลือก
             </Typography>
             {otherHousePlanSuggestions.length > 0 && (
-              <Alert severity="info" sx={{ borderRadius: 1.5 }}>
+              <Alert severity="info" sx={{ borderRadius: 2, border: `1px solid ${UI.border}` }}>
                 <Stack spacing={0.75}>
                   <Typography variant="body2" sx={{ fontWeight: 700 }}>
                     แต่ยังมีแผนวัคซีนในโรงเรือนอื่นของฟาร์มนี้
@@ -91,16 +92,16 @@ export default function PlanSuggestionPanel({
                 alignItems={{ xs: 'flex-start', md: 'center' }}
                 justifyContent="space-between"
                 sx={{
-                  border: '1px solid #bfdbfe',
-                  borderRadius: 1.5,
+                  border: `1px solid ${UI.border}`,
+                  borderRadius: 2,
                   px: 1.5,
                   py: 1,
-                  bgcolor: '#ffffff',
+                  bgcolor: UI.panel,
                 }}
                 spacing={1}
               >
                 <Box>
-                  <Typography sx={{ fontWeight: 700, color: '#0f172a' }}>
+                  <Typography sx={{ fontWeight: 700, color: UI.text }}>
                     {task.vaccineName}
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
@@ -119,8 +120,8 @@ export default function PlanSuggestionPanel({
                         size="small"
                         label={`แผน ${task.documentCode}`}
                         sx={{
-                          bgcolor: '#dbeafe',
-                          color: '#1d4ed8',
+                          bgcolor: UI.accentSurface,
+                          color: UI.accent,
                           fontWeight: 700,
                         }}
                       />
@@ -129,8 +130,8 @@ export default function PlanSuggestionPanel({
                       size="small"
                       label={resolvePlanStatusLabel(task.status)}
                       sx={{
-                        bgcolor: '#ede9fe',
-                        color: '#5b21b6',
+                        bgcolor: '#f3f4f6',
+                        color: UI.text,
                         fontWeight: 700,
                       }}
                     />

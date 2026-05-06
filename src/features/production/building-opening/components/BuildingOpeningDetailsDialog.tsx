@@ -25,7 +25,6 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { alpha } from '@mui/material/styles';
 import dayjs from 'dayjs';
 import Swal from 'sweetalert2';
 import { AxiosError } from 'axios';
@@ -37,7 +36,6 @@ import {
   isWorkflowStatus,
   toThaiWorkflowStatus,
 } from '@/lib/utils/status.util';
-import { MASTER_DIALOG_FORM_SX } from '@/core/ui-patterns/pr-ui.constants';
 import { buildingOpeningService } from '../services/building-opening.service';
 import type {
   BuildingOpeningChecklistResponse,
@@ -46,134 +44,21 @@ import type {
   CompleteBuildingOpeningRequest,
   UpdateBuildingOpeningChecklistsRequest,
 } from '../types';
-
-const UI = {
-  accent: 'rgb(22, 90, 80)',
-  accentDark: '#10473f',
-  panel: '#ffffff',
-  panelSoft: '#f8faf8',
-  panelMuted: '#eef4ef',
-  border: '#d8dfda',
-  borderStrong: '#cad4cf',
-  text: '#2f3a37',
-  muted: '#7d8783',
-  shadow: '0 18px 40px rgba(22, 35, 31, 0.08), 0 3px 10px rgba(22, 35, 31, 0.05)',
-  shadowSoft: '0 10px 24px rgba(22, 35, 31, 0.06), 0 2px 6px rgba(22, 35, 31, 0.04)',
-};
-
-const DIALOG_PAPER_SX = {
-  borderRadius: 3.5,
-  border: `1px solid ${UI.border}`,
-  boxShadow: UI.shadow,
-  overflow: 'hidden',
-  bgcolor: UI.panel,
-};
-
-const DIALOG_TITLE_SX = {
-  bgcolor: UI.accent,
-  color: '#fff',
-  borderBottom: `1px solid ${alpha(UI.accent, 0.24)}`,
-  fontWeight: 800,
-  '& .MuiIconButton-root': {
-    color: '#fff',
-  },
-};
-
-const DIALOG_CONTENT_SX = {
-  ...MASTER_DIALOG_FORM_SX,
-  bgcolor: '#fcfdfc',
-  px: { xs: 1.5, md: 2 },
-  py: { xs: 1.5, md: 2 },
-};
-
-const SECTION_FIELDSET_SX = {
-  border: `1px solid ${UI.border}`,
-  borderRadius: 3,
-  p: { xs: 1.25, md: 1.5 },
-  minWidth: 0,
-  bgcolor: UI.panel,
-  boxShadow: UI.shadowSoft,
-};
-
-const SECTION_LEGEND_SX = {
-  px: 1.1,
-  fontSize: '0.95rem',
-  fontWeight: 800,
-  color: UI.text,
-  letterSpacing: '-0.01em',
-};
-
-const INPUT_SX = {
-  '& .MuiOutlinedInput-root': {
-    borderRadius: 2.2,
-    bgcolor: UI.panelSoft,
-    boxShadow: UI.shadowSoft,
-    '& fieldset': {
-      borderColor: UI.border,
-    },
-    '&:hover fieldset': {
-      borderColor: UI.borderStrong,
-    },
-    '&.Mui-focused fieldset': {
-      borderColor: UI.accent,
-    },
-  },
-  '& .MuiInputLabel-root.Mui-focused': {
-    color: UI.accent,
-  },
-};
-
-const INFO_ALERT_SX = {
-  border: `1px solid ${alpha(UI.accent, 0.14)}`,
-  bgcolor: '#f2f7f4',
-  color: UI.text,
-  boxShadow: UI.shadowSoft,
-};
-
-const ERROR_ALERT_SX = {
-  border: '1px solid #f3c2c2',
-  bgcolor: '#fff4f4',
-  color: '#8c2f2f',
-  boxShadow: UI.shadowSoft,
-};
-
-const SECTION_BOX_SX = {
-  p: 1.25,
-  border: `1px solid ${UI.border}`,
-  borderRadius: 2.4,
-  bgcolor: '#fbfcfb',
-};
-
-const ACTIONS_SX = {
-  px: { xs: 1.5, md: 2 },
-  py: 1.25,
-  borderTop: `1px solid ${UI.border}`,
-  bgcolor: '#fbfcfb',
-  gap: 1,
-};
-
-const PRIMARY_BUTTON_SX = {
-  borderRadius: 2.2,
-  px: 2.2,
-  boxShadow: UI.shadowSoft,
-  bgcolor: UI.accent,
-  '&:hover': {
-    bgcolor: UI.accentDark,
-  },
-};
-
-const OUTLINED_BUTTON_SX = {
-  borderRadius: 2.2,
-  px: 2,
-  boxShadow: UI.shadowSoft,
-  bgcolor: '#fff',
-  borderColor: UI.borderStrong,
-  color: UI.text,
-  '&:hover': {
-    borderColor: UI.accent,
-    bgcolor: '#f7faf7',
-  },
-};
+import {
+  BUILDING_OPENING_UI,
+  buildingOpeningDialogActionsSx,
+  buildingOpeningDialogContentSx,
+  buildingOpeningDialogPaperSx,
+  buildingOpeningDialogTitleSx,
+  buildingOpeningErrorAlertSx,
+  buildingOpeningFieldsetSx,
+  buildingOpeningInfoAlertSx,
+  buildingOpeningInputSx,
+  buildingOpeningLegendSx,
+  buildingOpeningOutlinedButtonSx,
+  buildingOpeningPrimaryButtonSx,
+  buildingOpeningSectionBoxSx,
+} from './BuildingOpeningWorkspaceChrome';
 
 type ReceiveDraftLine = {
   uid: string;
@@ -498,11 +383,11 @@ export function BuildingOpeningDetailsDialog({
   };
 
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth PaperProps={{ sx: DIALOG_PAPER_SX }}>
-      <DialogTitleWithClose onClose={onClose} disabled={processing} sx={DIALOG_TITLE_SX}>รายละเอียดเปิดโรงเรือน</DialogTitleWithClose>
-      <DialogContent dividers sx={DIALOG_CONTENT_SX}>
+    <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth PaperProps={{ sx: buildingOpeningDialogPaperSx }}>
+      <DialogTitleWithClose onClose={onClose} disabled={processing} sx={buildingOpeningDialogTitleSx}>รายละเอียดเปิดโรงเรือน</DialogTitleWithClose>
+      <DialogContent dividers sx={buildingOpeningDialogContentSx}>
         <Stack spacing={2}>
-          {actionError ? <Alert severity="error" sx={ERROR_ALERT_SX}>{actionError}</Alert> : null}
+          {actionError ? <Alert severity="error" sx={buildingOpeningErrorAlertSx}>{actionError}</Alert> : null}
 
           <Stack direction="row" spacing={1}>
             <Chip label={statusLabel(request.status)} size="small" sx={getWorkflowStatusChipSx(request.status)} />
@@ -510,12 +395,12 @@ export function BuildingOpeningDetailsDialog({
               label={`Checklist ${request.checklistCompleted}/${request.checklistTotal}`}
               size="small"
               variant="outlined"
-              sx={{ borderColor: UI.borderStrong, color: UI.text, bgcolor: '#fff' }}
+              sx={{ borderColor: BUILDING_OPENING_UI.borderStrong, color: BUILDING_OPENING_UI.text, bgcolor: '#fff' }}
             />
           </Stack>
 
-          <Box component="fieldset" sx={SECTION_FIELDSET_SX}>
-            <Typography component="legend" sx={SECTION_LEGEND_SX}>
+          <Box component="fieldset" sx={buildingOpeningFieldsetSx}>
+            <Typography component="legend" sx={buildingOpeningLegendSx}>
               ข้อมูลเอกสาร
             </Typography>
             <Box
@@ -538,11 +423,11 @@ export function BuildingOpeningDetailsDialog({
                 ['มูลค่ารวม', Number(request.totalAmount || 0).toLocaleString()],
                 ['หมายเหตุ', request.remarks || '-'],
               ].map(([label, value]) => (
-                <Box key={label} sx={SECTION_BOX_SX}>
-                  <Typography sx={{ fontSize: '0.78rem', color: UI.muted, fontWeight: 700, mb: 0.35 }}>
+                <Box key={label} sx={buildingOpeningSectionBoxSx}>
+                  <Typography sx={{ fontSize: '0.78rem', color: BUILDING_OPENING_UI.muted, fontWeight: 700, mb: 0.35 }}>
                     {label}
                   </Typography>
-                  <Typography variant="body2" sx={{ color: UI.text, fontWeight: 600 }}>
+                  <Typography variant="body2" sx={{ color: BUILDING_OPENING_UI.text, fontWeight: 600 }}>
                     {value}
                   </Typography>
                 </Box>
@@ -551,7 +436,7 @@ export function BuildingOpeningDetailsDialog({
           </Box>
 
           {checklistDone ? (
-            <Box component="fieldset" sx={SECTION_FIELDSET_SX}>
+            <Box component="fieldset" sx={buildingOpeningFieldsetSx}>
               <Stack direction="row" justifyContent="space-between" alignItems="center" mb={1}>
                 <Typography component="div" sx={{ fontSize: '0.95rem', fontWeight: 700 }}>
                   ปิดงานรับเข้าสุกรจริง (หลายล็อต)
@@ -563,7 +448,7 @@ export function BuildingOpeningDetailsDialog({
                     startIcon={<AddCircleOutline />}
                     onClick={addReceiveLine}
                     disabled={loadingReceiveOptions || processing || !canComplete}
-                    sx={OUTLINED_BUTTON_SX}
+                    sx={buildingOpeningOutlinedButtonSx}
                   >
                     เพิ่มล็อต
                   </Button>
@@ -588,7 +473,7 @@ export function BuildingOpeningDetailsDialog({
                           onChange={(event) => updateReceiveLine(line.uid, { pigBatchId: event.target.value })}
                           disabled={loadingReceiveOptions || processing || !isLineEditable}
                           fullWidth
-                          sx={INPUT_SX}
+                          sx={buildingOpeningInputSx}
                         >
                           <MenuItem value="">เลือกรุ่นหมู</MenuItem>
                           {!hasCurrentBatchInOptions && line.pigBatchId ? (
@@ -622,7 +507,7 @@ export function BuildingOpeningDetailsDialog({
                           inputProps={{ inputMode: 'decimal', style: { textAlign: 'right' } }}
                           fullWidth
                           disabled={processing || !isLineEditable}
-                          sx={INPUT_SX}
+                          sx={buildingOpeningInputSx}
                         />
                         <TextField
                           size="small"
@@ -633,7 +518,7 @@ export function BuildingOpeningDetailsDialog({
                           InputLabelProps={{ shrink: true }}
                           fullWidth
                           disabled={processing || !isLineEditable}
-                          sx={INPUT_SX}
+                          sx={buildingOpeningInputSx}
                         />
                         {isLineEditable ? (
                           <IconButton
@@ -657,21 +542,21 @@ export function BuildingOpeningDetailsDialog({
               })}
               </Stack>
 
-              <Alert severity="info" icon={false} sx={{ ...INFO_ALERT_SX, mt: 1.2 }}>
+              <Alert severity="info" icon={false} sx={{ ...buildingOpeningInfoAlertSx, mt: 1.2 }}>
                 จำนวนที่ขอ: {Number(request.quantity || 0).toLocaleString()} | รับเข้าแล้ว: {Number(existingTotalQty || 0).toLocaleString()} | รับได้คงเหลือ: {Number(remainingReceivableQty || 0).toLocaleString()} | รอบนี้: {Number(totalDraftQty || 0).toLocaleString()}
               </Alert>
             </Box>
           ) : null}
 
-          <Divider sx={{ borderColor: UI.border }} />
-          <Box component="fieldset" sx={SECTION_FIELDSET_SX}>
-            <Typography component="legend" sx={SECTION_LEGEND_SX}>
+          <Divider sx={{ borderColor: BUILDING_OPENING_UI.border }} />
+          <Box component="fieldset" sx={buildingOpeningFieldsetSx}>
+            <Typography component="legend" sx={buildingOpeningLegendSx}>
               Checklist ก่อนเปิดโรงเรือน
             </Typography>
             <Stack spacing={1}>
               {checklistGroups.map(([category, rows]) => (
-                <Box key={category} sx={{ ...SECTION_BOX_SX, p: 1.25 }}>
-                  <Typography variant="subtitle2" sx={{ mb: 0.75, color: UI.text, fontWeight: 800 }}>{category}</Typography>
+                <Box key={category} sx={{ ...buildingOpeningSectionBoxSx, p: 1.25 }}>
+                  <Typography variant="subtitle2" sx={{ mb: 0.75, color: BUILDING_OPENING_UI.text, fontWeight: 800 }}>{category}</Typography>
                   <Stack>
                     {rows
                       .slice()
@@ -693,8 +578,8 @@ export function BuildingOpeningDetailsDialog({
                               )));
                             }}
                             sx={{
-                              color: UI.borderStrong,
-                              '&.Mui-checked': { color: UI.accent },
+                              color: BUILDING_OPENING_UI.borderStrong,
+                              '&.Mui-checked': { color: BUILDING_OPENING_UI.accent },
                             }}
                           />
                           <Typography variant="body2" sx={{ flex: 1 }}>{item.checklistLabel}</Typography>
@@ -714,7 +599,7 @@ export function BuildingOpeningDetailsDialog({
           </Box>
         </Stack>
       </DialogContent>
-      <DialogActions sx={ACTIONS_SX}>
+      <DialogActions sx={buildingOpeningDialogActionsSx}>
         {canToggle ? (
           <Button
             size="small"
@@ -722,7 +607,7 @@ export function BuildingOpeningDetailsDialog({
             startIcon={<SaveOutlined />}
             onClick={handleSaveChecklist}
             disabled={!canSaveChecklist || processing}
-            sx={OUTLINED_BUTTON_SX}
+            sx={buildingOpeningOutlinedButtonSx}
           >
             บันทึก Checklist
           </Button>
@@ -734,7 +619,7 @@ export function BuildingOpeningDetailsDialog({
             startIcon={<EditOutlined />}
             onClick={() => onEdit(request)}
             disabled={processing}
-            sx={OUTLINED_BUTTON_SX}
+            sx={buildingOpeningOutlinedButtonSx}
           >
             แก้ไข
           </Button>
@@ -746,7 +631,7 @@ export function BuildingOpeningDetailsDialog({
             startIcon={<SendOutlined />}
             onClick={handleSubmit}
             disabled={processing}
-            sx={PRIMARY_BUTTON_SX}
+            sx={buildingOpeningPrimaryButtonSx}
           >
             ส่งอนุมัติ
           </Button>
@@ -759,7 +644,7 @@ export function BuildingOpeningDetailsDialog({
             onClick={handleComplete}
             disabled={processing || !canComplete}
             title={(!canComplete && completeDisabledReason) ? completeDisabledReason : undefined}
-            sx={PRIMARY_BUTTON_SX}
+            sx={buildingOpeningPrimaryButtonSx}
           >
             บันทึกรับเข้าจริง
           </Button>

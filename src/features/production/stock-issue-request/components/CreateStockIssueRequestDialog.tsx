@@ -41,7 +41,8 @@ import {
   validatePositiveStockNumber,
   validateIssueDraft,
 } from '@/features/production/stock/utils/stock-validation';
-import { STOCK_DIALOG_UI } from '../../stock/components/stock-dialog.constants';
+import { getStockDialogTitleSx, getStockDialogTableSx } from '../../stock/components/stock-dialog.constants';
+import { useTheme } from '@mui/material/styles';
 
 type DraftLine = {
   itemId: number | '';
@@ -174,6 +175,7 @@ export function CreateStockIssueRequestDialog({
   onClose,
   onSubmit,
 }: Props) {
+  const theme = useTheme();
   const toLocalDateTimeInputValue = () => {
     const now = new Date();
     const offset = now.getTimezoneOffset();
@@ -650,15 +652,7 @@ export function CreateStockIssueRequestDialog({
       <DialogTitleWithClose
         onClose={onClose}
         disabled={loading}
-        sx={{
-          textAlign: 'center',
-          bgcolor: STOCK_DIALOG_UI.accent,
-          color: '#fff',
-          borderBottom: `1px solid ${STOCK_DIALOG_UI.accentDark}`,
-          '& .MuiIconButton-root': {
-            color: '#fff',
-          },
-        }}
+        sx={getStockDialogTitleSx(theme)}
       >
         สร้างใบขอตัดสต๊อก
       </DialogTitleWithClose>
@@ -986,11 +980,9 @@ export function CreateStockIssueRequestDialog({
                 size="small"
                 stickyHeader
                 sx={{
+                  ...getStockDialogTableSx(theme),
                   '& .MuiTableCell-head': {
-                    bgcolor: STOCK_DIALOG_UI.accent,
-                    color: '#fff',
-                    fontWeight: 700,
-                    fontSize: '0.95rem',
+                    ...getStockDialogTableSx(theme)['& .MuiTableCell-head'],
                     height: 44,
                     py: 0.5,
                     whiteSpace: 'nowrap',

@@ -33,7 +33,7 @@ export default function OverviewTab({
         severity="info"
         sx={{
           borderRadius: 2.4,
-          border: `1px solid rgba(22, 90, 80, 0.14)`,
+          border: `1px solid ${UI.border}`,
           bgcolor: UI.accentSurface,
           color: UI.text,
           '& .MuiAlert-icon': { color: UI.accent },
@@ -81,19 +81,20 @@ export default function OverviewTab({
                 { label: 'อุณหภูมิเย็น (°C)', value: '28.0' },
                 { label: 'ความชื้นรวม (%)', value: '70' },
               ].map((item) => (
-                <TextField
-                  key={item.label}
-                  size="small"
-                  label={item.label}
-                  value={item.value}
-                  InputProps={{ readOnly: true }}
-                  sx={{
-                    '& .MuiOutlinedInput-root': {
-                      borderRadius: 2,
-                      bgcolor: UI.panelSoft,
-                    },
-                  }}
-                />
+              <TextField
+                key={item.label}
+                size="small"
+                label={item.label}
+                value={item.value}
+                InputProps={{ readOnly: true }}
+                sx={{
+                  '& .MuiOutlinedInput-root': {
+                    borderRadius: 2.25,
+                    bgcolor: UI.panelSoft,
+                    boxShadow: UI.shadowSoft,
+                  },
+                }}
+              />
               ))}
             </Box>
 
@@ -107,17 +108,18 @@ export default function OverviewTab({
               {['กลิ่นแอมโมเนีย', 'การระบายอากาศ', 'แสงสว่าง'].map(
                 (label) => (
                   <FormControl key={label} size="small" fullWidth>
-                    <InputLabel>{label}</InputLabel>
-                    <Select
-                      defaultValue="ปกติ"
-                      label={label}
-                      sx={{
-                        '& .MuiOutlinedInput-root': {
-                          borderRadius: 2,
-                          bgcolor: UI.panelSoft,
-                        },
-                      }}
-                    >
+                  <InputLabel>{label}</InputLabel>
+                  <Select
+                    defaultValue="ปกติ"
+                    label={label}
+                    sx={{
+                      '& .MuiOutlinedInput-root': {
+                        borderRadius: 2.25,
+                        bgcolor: UI.panelSoft,
+                        boxShadow: UI.shadowSoft,
+                      },
+                    }}
+                  >
                       <MenuItem value="ปกติ">ปกติ</MenuItem>
                       <MenuItem value="เฝ้าระวัง">เฝ้าระวัง</MenuItem>
                       <MenuItem value="ผิดปกติ">ผิดปกติ</MenuItem>

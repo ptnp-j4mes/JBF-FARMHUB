@@ -64,38 +64,48 @@ export const STATIC_MED_OPTIONS = [
 ];
 
 export const UI = {
+  bg: '#f5f7f6',
   panel: '#ffffff',
-  panelSoft: '#f8faf8',
-  panelMuted: '#f2f6f3',
-  border: '#dde2de',
-  borderStrong: '#cad4cf',
-  text: '#2f3a37',
-  muted: '#7d8783',
+  panelSoft: '#f7f9f8',
+  panelMuted: '#eef3ef',
+  border: 'rgba(148, 163, 184, 0.34)',
+  borderStrong: 'rgba(100, 116, 139, 0.42)',
+  text: '#1f2937',
+  muted: '#6b7280',
   accent: 'rgb(22, 90, 80)',
   accentSurface: '#edf5f1',
   shadow:
-    '0 18px 40px rgba(22, 35, 31, 0.08), 0 3px 10px rgba(22, 35, 31, 0.05)',
+    '0 18px 40px rgba(15, 23, 42, 0.08), 0 4px 12px rgba(15, 23, 42, 0.05)',
   shadowSoft:
-    '0 10px 24px rgba(22, 35, 31, 0.06), 0 2px 6px rgba(22, 35, 31, 0.04)',
+    '0 10px 24px rgba(15, 23, 42, 0.06), 0 2px 8px rgba(15, 23, 42, 0.04)',
 };
 
 export const FORM_INPUT_SX = {
   '& .MuiOutlinedInput-root': {
-    borderRadius: 2,
+    borderRadius: 2.25,
     bgcolor: UI.panelSoft,
     boxShadow: UI.shadowSoft,
+    '& .MuiOutlinedInput-notchedOutline': {
+      borderColor: UI.border,
+    },
+    '&:hover .MuiOutlinedInput-notchedOutline': {
+      borderColor: UI.borderStrong,
+    },
+    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+      borderColor: UI.accent,
+    },
   },
 };
 
 export const FORM_CARD_SX = {
-  borderRadius: 2.6,
-  borderColor: UI.border,
-  bgcolor: '#fff',
+  borderRadius: 3,
+  border: `1px solid ${UI.border}`,
+  bgcolor: UI.panel,
   boxShadow: UI.shadowSoft,
 };
 
 export const SECTION_CARD_SX = {
-  borderRadius: 2.6,
+  borderRadius: 3,
   border: `1px solid ${UI.border}`,
   bgcolor: UI.panel,
   boxShadow: UI.shadowSoft,
@@ -103,14 +113,17 @@ export const SECTION_CARD_SX = {
 };
 
 export const PRIMARY_ACTION_SX = {
-  borderRadius: 2,
+  minHeight: 40,
+  borderRadius: 2.25,
   boxShadow: UI.shadowSoft,
   bgcolor: UI.accent,
   '&:hover': { bgcolor: '#10473f' },
 };
 
 export const SECONDARY_ACTION_SX = {
-  borderRadius: 2,
+  minHeight: 40,
+  borderRadius: 2.25,
+  border: `1px solid ${UI.border}`,
   boxShadow: UI.shadowSoft,
-  bgcolor: '#fff',
+  bgcolor: UI.panel,
 };

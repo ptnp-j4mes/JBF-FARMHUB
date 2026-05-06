@@ -6,11 +6,10 @@ import {
   Alert,
   Box,
   Button,
-  Chip,
   Dialog,
   DialogActions,
   DialogContent,
-  FormControl,
+  Grid,
   IconButton,
   InputAdornment,
   InputLabel,
@@ -35,31 +34,29 @@ import {
 } from '@mui/material';
 import type { SelectChangeEvent } from '@mui/material/Select';
 import { alpha, useTheme } from '@mui/material/styles';
+import type { Theme } from '@mui/material/styles';
 import {
   Add as AddIcon,
   Refresh as RefreshIcon,
   PendingActionsOutlined,
   TaskAltOutlined,
-  DraftsOutlined,
   ReceiptLongOutlined,
   Delete as DeleteIcon,
-  Search as SearchIcon,
   CancelOutlined as CancelOutlinedIcon,
   CheckCircle as CheckCircleIcon,
   LocalShippingOutlined as LocalShippingIcon,
 } from '@mui/icons-material';
 import { DocumentStatus } from '@/types/status.types';
-import { toThaiWorkflowStatus, getWorkflowStatusChipSx } from '@/lib/utils/status.util';
-import DialogTitleWithClose from '@/components/common/DialogTitleWithClose';
+import { toThaiWorkflowStatus, getWorkflowStatusType } from '@/lib/utils/status.util';
+import { DialogTitleWithClose, StatsCard } from '@/components/common';
+import { StatusBadge, WorkspaceHeader } from '@/design-system';
 import { PR_DIALOG_TABLE_HEIGHT } from '@/core/ui-patterns/pr-ui.constants';
 import {
-  StockReplenishmentSectionLayout,
-  StockReplenishmentSummaryCards,
   StockReplenishmentRequestTable,
+  StockReplenishmentFilters,
 } from '../components';
-import { StatsWrapper, ContentWrapper, PageRootWrapper } from '@/components/common/SectionWrappers';
-import { JBFarmTable } from '@/components/common';
 import { authService } from '@/features/auth/services/auth.service';
+import { JBFarmTable } from '@/components/common';
 import { approvalService } from '@/features/reports/approvals/services/approval.service';
 import { FACILITY_CHANGED_EVENT, getCurrentFacilityCode, getCurrentFacilityId } from '@/lib/facility-context';
 import {
@@ -68,17 +65,14 @@ import {
   type StockReplenishmentRequestResponse,
 } from '../services/stock-replenishment.service';
 import {
-  PURCHASE_DIALOG_ACTIONS_SX,
-  PURCHASE_DIALOG_CONTENT_SX,
-  PURCHASE_DIALOG_FIELDSET_SX,
-  PURCHASE_DIALOG_INFO_ALERT_SX,
+  getPurchaseDialogActionsSx,
+  getPurchaseDialogContentSx,
+  getPurchaseDialogFieldsetSx,
+  getPurchaseDialogPaperSx,
+  getPurchaseDialogPrimaryButtonSx,
+  getPurchaseDialogSecondaryButtonSx,
+  getPurchaseDialogTableSx,
   PURCHASE_DIALOG_LEGEND_SX,
-  PURCHASE_DIALOG_PAPER_SX,
-  PURCHASE_DIALOG_PRIMARY_BUTTON_SX,
-  PURCHASE_DIALOG_SECONDARY_BUTTON_SX,
-  PURCHASE_DIALOG_TABLE_SX,
-  PURCHASE_DIALOG_UI,
-  PURCHASE_DIALOG_TITLE_SX,
 } from '@/features/production/purchase/components/purchase-dialog.constants';
 
 export type CentralAlertScope = 'farm' | 'central';
@@ -176,7 +170,7 @@ type DraftLine = {
   note: string;
 };
 
-// Remove statusCopy as we now use toThaiWorkflowStatus and getWorkflowStatusChipSx
+// Remove statusCopy as we now use toThaiWorkflowStatus and StatusBadge
 
 const lineStatusCopy: Record<CentralAlertRequestLineStatus, { label: string; tone: 'success' | 'warning' | 'error' | 'info' | 'default' }> = {
   open: { label: 'รอดำเนินการ', tone: 'info' },
@@ -190,11 +184,10 @@ const urgencyLabel: Record<CentralAlertRequest['urgency'], string> = {
   critical: 'เร่งด่วน',
 };
 
-const urgencyChipSx: Record<CentralAlertRequest['urgency'], object> = {
-  normal: { bgcolor: '#e8eae9', color: '#4b5563', fontWeight: 800 },
-  important: { bgcolor: '#ff9800', color: '#fff', fontWeight: 800 },
-  critical: { bgcolor: '#d32f2f', color: '#fff', fontWeight: 800 },
-};
+
+function getUrgencyBadgeType(urgency: CentralAlertRequest['urgency']): 'default' | 'warning' | 'error' {
+  return urgency === 'critical' ? 'error' : urgency === 'important' ? 'warning' : 'default';
+}
 
 const buildDraftId = () => `draft-${Math.random().toString(36).slice(2, 8)}`;
 
@@ -300,25 +293,26 @@ const mapRequestResponse = (request: StockReplenishmentRequestResponse): Central
 });
 
 const panelSx = {
+  borderRadius: 3.5,
   border: '1px solid',
   borderColor: 'divider',
-  borderRadius: 2,
   bgcolor: 'background.paper',
-  overflow: 'hidden',
-  p: 1.75,
+  boxShadow: 2,
 } as const;
 
-const tableSx = {
-  '& .MuiTableCell-head': {
-    bgcolor: PURCHASE_DIALOG_UI.accent + ' !important',
-    color: '#fff !important',
-    fontWeight: 900,
-    borderColor: alpha('#fff', 0.1),
-  },
-  '& .MuiTableCell-body': {
-    borderColor: '#E5EEE8',
-  },
-} as const;
+function getTableSx(theme: Theme) {
+  return {
+    '& .MuiTableCell-head': {
+      bgcolor: theme.palette.primary.main,
+      color: theme.palette.primary.contrastText,
+      fontWeight: 900,
+      borderColor: alpha('#fff', 0.1),
+    },
+    '& .MuiTableCell-body': {
+      borderColor: theme.palette.divider,
+    },
+  };
+}
 
 export default function StockReplenishmentHub({
   scope: scopeProp,
@@ -397,9 +391,9 @@ export default function StockReplenishmentHub({
     // Use approval history if available (New Workflow System)
     if (approvalHistory && approvalHistory.history && approvalHistory.history.length > 0) {
       const authTypeConfig: Record<string, { label: string; bgcolor: string; color: string; border: string }> = {
-        RolePermission: { label: 'ตามตำแหน่ง', bgcolor: '#e8f5e9', color: '#2e7d32', border: '#c8e6c9' },
-        UserOverride: { label: 'สิทธิพิเศษ', bgcolor: '#fff9e6', color: '#b28900', border: '#ffeeba' },
-        SuperAdmin: { label: 'ผู้ดูแลระบบสูงสุด', bgcolor: '#fce4ec', color: '#c62828', border: '#f8bbd0' },
+        RolePermission: { label: 'ตามตำแหน่ง', bgcolor: alpha(theme.palette.success.main, 0.08), color: theme.palette.success.dark, border: alpha(theme.palette.success.main, 0.2) },
+        UserOverride: { label: 'สิทธิพิเศษ', bgcolor: alpha(theme.palette.warning.main, 0.08), color: theme.palette.warning.dark ?? theme.palette.warning.main, border: alpha(theme.palette.warning.main, 0.2) },
+        SuperAdmin: { label: 'ผู้ดูแลระบบสูงสุด', bgcolor: alpha(theme.palette.error.main, 0.08), color: theme.palette.error.dark, border: alpha(theme.palette.error.main, 0.2) },
       };
 
       // Ensure we display pending state if not completed and no actions yet
@@ -429,9 +423,9 @@ export default function StockReplenishmentHub({
                       error={isStepError}
                       StepIconProps={{
                         sx: {
-                          ...(isStepCompleted && { color: '#2e7d32 !important' }),
-                          ...(isStepWarning && { color: '#ed6c02 !important' }),
-                          ...(isStepError && { color: '#d32f2f !important' })
+                          ...(isStepCompleted && { color: 'success.main' }),
+                          ...(isStepWarning && { color: 'warning.main' }),
+                          ...(isStepError && { color: 'error.main' })
                         }
                       }}
                     >
@@ -448,17 +442,17 @@ export default function StockReplenishmentHub({
                           {formatDateTime(step.actionDate)}
                         </Typography>
                         {isStepError && (
-                          <Typography variant="caption" sx={{ display: 'block', color: 'error.main', mt: 0.5, bgcolor: '#fff5f5', p: 0.5, borderRadius: 1, border: '1px solid #ffe3e3' }}>
+                          <Typography variant="caption" sx={{ display: 'block', color: 'error.main', mt: 0.5, bgcolor: alpha(theme.palette.error.main, 0.04), p: 0.5, borderRadius: 1, border: '1px solid', borderColor: alpha(theme.palette.error.main, 0.2) }}>
                             ไม่อนุมัติ: {step.comment || '-'}
                           </Typography>
                         )}
                         {isStepWarning && (
-                          <Typography variant="caption" sx={{ display: 'block', color: 'warning.main', mt: 0.5, bgcolor: '#fff9f0', p: 0.5, borderRadius: 1, border: '1px solid #ffecce' }}>
+                          <Typography variant="caption" sx={{ display: 'block', color: 'warning.main', mt: 0.5, bgcolor: alpha(theme.palette.warning.main, 0.04), p: 0.5, borderRadius: 1, border: '1px solid', borderColor: alpha(theme.palette.warning.main, 0.2) }}>
                             ตีกลับ: {step.comment || '-'}
                           </Typography>
                         )}
                         {isStepCompleted && step.comment && (
-                          <Typography variant="caption" sx={{ display: 'block', color: 'success.main', mt: 0.5, bgcolor: '#f6fdf6', p: 0.5, borderRadius: 1, border: '1px solid #e0f2e0' }}>
+                          <Typography variant="caption" sx={{ display: 'block', color: 'success.main', mt: 0.5, bgcolor: alpha(theme.palette.success.main, 0.04), p: 0.5, borderRadius: 1, border: '1px solid', borderColor: alpha(theme.palette.success.main, 0.2) }}>
                             {step.comment}
                           </Typography>
                         )}
@@ -495,9 +489,9 @@ export default function StockReplenishmentHub({
                 error={isRejected}
                 StepIconProps={{
                   sx: {
-                    ...(isCompleted && { color: '#2e7d32 !important' }),
-                    ...(isReturned && { color: '#ed6c02 !important' }),
-                    ...(isPending && { color: '#1976d2 !important' }),
+                    ...(isCompleted && { color: 'success.main' }),
+                    ...(isReturned && { color: 'warning.main' }),
+                    ...(isPending && { color: 'info.main' }),
                   }
                 }}
               >
@@ -506,9 +500,9 @@ export default function StockReplenishmentHub({
                     <Typography variant="body2" sx={{ fontWeight: 900 }}>
                       ผู้มีอำนาจอนุมัติ
                     </Typography>
-                    <Typography variant="caption" sx={{ 
-                      px: 0.5, py: 0.1, bgcolor: '#e3f2fd', color: '#1565c0', 
-                      borderRadius: 0.5, fontSize: '0.6rem', fontWeight: 800, border: '1px solid #bbdefb'
+                    <Typography variant="caption" sx={{
+                      px: 0.5, py: 0.1, bgcolor: alpha(theme.palette.info.main, 0.08), color: theme.palette.info.dark ?? theme.palette.info.main,
+                      borderRadius: 0.5, fontSize: '0.6rem', fontWeight: 800, border: '1px solid', borderColor: alpha(theme.palette.info.main, 0.2)
                     }}>
                       Lv.1
                     </Typography>
@@ -522,12 +516,12 @@ export default function StockReplenishmentHub({
                     </Typography>
                   )}
                   {isRejected && (
-                    <Typography variant="caption" sx={{ display: 'block', color: 'error.main', mt: 0.5, bgcolor: '#fff5f5', p: 0.5, borderRadius: 1, border: '1px solid #ffe3e3' }}>
+                    <Typography variant="caption" sx={{ display: 'block', color: 'error.main', mt: 0.5, bgcolor: alpha(theme.palette.error.main, 0.04), p: 0.5, borderRadius: 1, border: '1px solid', borderColor: alpha(theme.palette.error.main, 0.2) }}>
                       ไม่อนุมัติ
                     </Typography>
                   )}
                   {isReturned && (
-                    <Typography variant="caption" sx={{ display: 'block', color: 'warning.main', mt: 0.5, bgcolor: '#fff9f0', p: 0.5, borderRadius: 1, border: '1px solid #ffecce' }}>
+                    <Typography variant="caption" sx={{ display: 'block', color: 'warning.main', mt: 0.5, bgcolor: alpha(theme.palette.warning.main, 0.04), p: 0.5, borderRadius: 1, border: '1px solid', borderColor: alpha(theme.palette.warning.main, 0.2) }}>
                       ตีกลับเพื่อแก้ไข
                     </Typography>
                   )}
@@ -614,14 +608,9 @@ export default function StockReplenishmentHub({
   const openRequests = requests.filter((request) => request.status !== DocumentStatus.Rejected);
   const lowCentralItems = centralItems.filter((item) => item.stockOnHand <= item.reorderPoint);
   const totalDraftQuantity = draftLines.reduce((sum, line) => sum + line.requestedQuantity, 0);
-  const draftCount = requests.filter((request) => request.status === DocumentStatus.Draft).length;
   const pendingCount = requests.filter((request) => request.status === DocumentStatus.Pending).length;
   const approvedCount = requests.filter((request) => request.status === DocumentStatus.Approved).length;
   const processingCount = requests.filter((request) => request.status === DocumentStatus.PartiallyReceived).length;
-  const completedCount = requests.filter((request) => request.status === DocumentStatus.Completed).length;
-  const returnedCount = requests.filter((request) => request.status === DocumentStatus.Returned).length;
-  const rejectedCount = requests.filter((request) => request.status === DocumentStatus.Rejected).length;
-  const cancelledCount = requests.filter((request) => request.status === DocumentStatus.Cancelled).length;
 
   const filteredRequests = useMemo(() => {
     const normalizedSearch = searchText.trim().toLowerCase();
@@ -643,95 +632,6 @@ export default function StockReplenishmentHub({
       return matchesStatus && matchesUrgency && (!normalizedSearch || haystack.includes(normalizedSearch));
     });
   }, [requests, searchText, statusFilter, urgencyFilter]);
-
-  const summaryCards = useMemo(() => {
-    const totalCount = requests.length;
-    const cards = [
-      {
-        title: 'ใบแจ้งทั้งหมด',
-        value: totalCount,
-        subtitle: 'เอกสารทั้งหมด',
-        color: '#4a6982',
-        iconBg: '#e9f0f6',
-        icon: <ReceiptLongOutlined sx={{ fontSize: 20 }} />,
-        status: 'all',
-      },
-      {
-        title: toThaiWorkflowStatus(DocumentStatus.Approved),
-        value: approvedCount,
-        subtitle: 'สถานะ Approved',
-        color: '#2e7d32',
-        iconBg: '#ecf7ee',
-        icon: <TaskAltOutlined sx={{ fontSize: 20 }} />,
-        status: DocumentStatus.Approved,
-      },
-      {
-        title: toThaiWorkflowStatus(DocumentStatus.PartiallyReceived),
-        value: processingCount,
-        subtitle: 'กำลังดำเนินการ (PR)',
-        color: '#1e40af',
-        iconBg: '#eff6ff',
-        icon: <LocalShippingIcon sx={{ fontSize: 20 }} />,
-        status: DocumentStatus.PartiallyReceived,
-      },
-      {
-        title: toThaiWorkflowStatus(DocumentStatus.Completed),
-        value: completedCount,
-        subtitle: 'ได้รับของแล้ว',
-        color: '#912018',
-        iconBg: '#FEF3F2',
-        icon: <CheckCircleIcon sx={{ fontSize: 20 }} />,
-        status: DocumentStatus.Completed,
-      },
-      {
-        title: toThaiWorkflowStatus(DocumentStatus.Rejected),
-        value: rejectedCount,
-        subtitle: 'สถานะ Rejected',
-        color: '#d32f2f',
-        iconBg: '#ffebee',
-        icon: <CancelOutlinedIcon sx={{ fontSize: 20 }} />,
-        status: DocumentStatus.Rejected,
-      },
-      {
-        title: toThaiWorkflowStatus(DocumentStatus.Pending),
-        value: pendingCount,
-        subtitle: 'สถานะ Pending',
-        color: '#d68b00',
-        iconBg: '#fff3df',
-        icon: <PendingActionsOutlined sx={{ fontSize: 20 }} />,
-        status: DocumentStatus.Pending,
-      },
-      {
-        title: toThaiWorkflowStatus(DocumentStatus.Returned),
-        value: returnedCount,
-        subtitle: 'สถานะ Returned',
-        color: '#7c3aed',
-        iconBg: '#f5f3ff',
-        icon: <RefreshIcon sx={{ fontSize: 20 }} />,
-        status: DocumentStatus.Returned,
-      },
-      {
-        title: toThaiWorkflowStatus(DocumentStatus.Draft),
-        value: draftCount,
-        subtitle: 'สถานะ Draft',
-        color: '#7c5ce5',
-        iconBg: '#e4ddf4',
-        icon: <DraftsOutlined sx={{ fontSize: 20 }} />,
-        status: DocumentStatus.Draft,
-      },
-      {
-        title: toThaiWorkflowStatus(DocumentStatus.Cancelled),
-        value: cancelledCount,
-        subtitle: 'สถานะ Cancelled',
-        color: '#be123c',
-        iconBg: '#fff1f2',
-        icon: <CancelOutlinedIcon sx={{ fontSize: 20 }} />,
-        status: DocumentStatus.Cancelled,
-      },
-    ];
-
-    return cards;
-  }, [approvedCount, draftCount, requests.length, pendingCount, returnedCount, rejectedCount, cancelledCount]);
 
   const resolveItem = (itemId: string) => centralItems.find((item) => item.id === itemId);
 
@@ -923,7 +823,7 @@ export default function StockReplenishmentHub({
               variant="contained"
               onClick={() => void handleActionRequest(request.id, 'submit')}
               disabled={loading}
-              sx={{ borderRadius: 999, bgcolor: PURCHASE_DIALOG_UI.accent }}
+              sx={{ borderRadius: 999, bgcolor: 'primary.main' }}
             >
               ส่ง
             </Button>
@@ -941,7 +841,7 @@ export default function StockReplenishmentHub({
               startIcon={<TaskAltOutlined sx={{ fontSize: 18 }} />}
               onClick={() => void handleActionRequest(request.id, 'approve')}
               disabled={loading}
-              sx={{ borderRadius: 999, px: 2, bgcolor: '#2e7d32', '&:hover': { bgcolor: '#1b5e20' } }}
+              sx={{ borderRadius: 999, px: 2, bgcolor: 'success.main', '&:hover': { bgcolor: 'success.dark' } }}
             >
               อนุมัติ
             </Button>
@@ -973,7 +873,7 @@ export default function StockReplenishmentHub({
               variant="contained"
               onClick={() => void handleActionRequest(request.id, 'submit')}
               disabled={loading}
-              sx={{ borderRadius: 999, px: 2.5, bgcolor: '#1a5c50', '&:hover': { bgcolor: '#124840' } }}
+              sx={{ borderRadius: 999, px: 2.5, bgcolor: 'primary.main', '&:hover': { bgcolor: 'primary.dark' } }}
             >
               ส่งอนุมัติ
             </Button>
@@ -990,7 +890,7 @@ export default function StockReplenishmentHub({
                 })));
                 setCreateDialogOpen(true);
               }}
-              sx={{ borderRadius: 999, px: 2.5, borderColor: '#1a5c50', color: '#1a5c50' }}
+              sx={{ borderRadius: 999, px: 2.5, borderColor: 'primary.main', color: 'primary.main' }}
             >
               แก้ไข
             </Button>
@@ -1002,7 +902,7 @@ export default function StockReplenishmentHub({
 
   const renderFarmComposer = () => (
     <Stack spacing={2}>
-      <Box component="fieldset" sx={PURCHASE_DIALOG_FIELDSET_SX}>
+      <Box component="fieldset" sx={getPurchaseDialogFieldsetSx(theme)}>
         <Typography component="legend" sx={PURCHASE_DIALOG_LEGEND_SX}>
           ข้อมูลใบแจ้งเติมสต็อก
         </Typography>
@@ -1063,7 +963,7 @@ export default function StockReplenishmentHub({
         </Stack>
       </Box>
 
-      <Box component="fieldset" sx={PURCHASE_DIALOG_FIELDSET_SX}>
+      <Box component="fieldset" sx={getPurchaseDialogFieldsetSx(theme)}>
         <Typography component="legend" sx={PURCHASE_DIALOG_LEGEND_SX}>
           รายการสินค้า
         </Typography>
@@ -1164,7 +1064,7 @@ export default function StockReplenishmentHub({
             />
             <Box sx={{ gridColumn: { xs: '1', md: '1 / -1' }, display: 'flex', width: '100%' }}>
               <Button
-                sx={{ ...PURCHASE_DIALOG_SECONDARY_BUTTON_SX, minHeight: 56, whiteSpace: 'nowrap', width: '100%' }}
+                sx={{ ...getPurchaseDialogSecondaryButtonSx(theme), minHeight: 56, whiteSpace: 'nowrap', width: '100%' }}
                 variant="outlined"
                 startIcon={<AddIcon sx={{ fontSize: 18 }} />}
                 onClick={addDraftLine}
@@ -1175,8 +1075,8 @@ export default function StockReplenishmentHub({
             </Box>
           </Box>
 
-          <TableContainer sx={{ ...PURCHASE_DIALOG_TABLE_SX, mt: 1.5, maxHeight: PR_DIALOG_TABLE_HEIGHT, height: PR_DIALOG_TABLE_HEIGHT }}>
-            <Table size="small" stickyHeader sx={tableSx}>
+          <TableContainer sx={{ ...getPurchaseDialogTableSx(theme), mt: 1.5, maxHeight: PR_DIALOG_TABLE_HEIGHT, height: PR_DIALOG_TABLE_HEIGHT }}>
+            <Table size="small" stickyHeader sx={getTableSx(theme)}>
               <TableHead>
                 <TableRow>
                   <TableCell width={56}>#</TableCell>
@@ -1217,7 +1117,7 @@ export default function StockReplenishmentHub({
                             size="small"
                             onClick={() => removeDraftLine(line.id)}
                             disabled={draftLines.length <= 1}
-                            sx={{ color: '#d32f2f !important' }}
+                            sx={{ color: 'error.main' }}
                           >
                             <DeleteIcon sx={{ fontSize: 18 }} />
                           </IconButton>
@@ -1241,142 +1141,52 @@ export default function StockReplenishmentHub({
 
 
 
-  const renderFilters = () => (
-    <Box>
-      <Box
-        sx={{
-          display: 'grid',
-          gap: 1.2,
-          gridTemplateColumns: {
-            xs: '1fr',
-            md: 'minmax(280px,1fr) 170px minmax(220px,1.1fr) auto',
-          },
-          alignItems: 'center',
-        }}
-      >
-        <TextField
-          label="ค้นหา"
-          value={searchText}
-          onChange={(event) => setSearchText(event.target.value)}
-          placeholder="เลขที่ใบแจ้ง, ฟาร์ม, item"
-          size="small"
-          sx={{
-            width: '100%',
-            '& .MuiOutlinedInput-root': {
-              height: 40,
-              borderRadius: 2,
-              bgcolor: PURCHASE_DIALOG_UI.panelSoft,
-              boxShadow: PURCHASE_DIALOG_UI.shadowSoft,
-            },
-            '& .MuiInputBase-input::placeholder': {
-              color: PURCHASE_DIALOG_UI.muted,
-              opacity: 1,
-            },
-          }}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon sx={{ fontSize: 18, color: '#8d9592' }} />
-              </InputAdornment>
-            ),
-          }}
-        />
-        <TextField
-          select
-          label="สถานะ"
-          value={statusFilter}
-          onChange={(event) => setStatusFilter(event.target.value as typeof statusFilter)}
-          size="small"
-          SelectProps={{
-            displayEmpty: true,
-            renderValue: (value) => (value === 'all' ? 'ทุกสถานะ' : toThaiWorkflowStatus(value as string)),
-          }}
-          sx={{
-            '& .MuiOutlinedInput-root': {
-              height: 40,
-              minHeight: 40,
-              borderRadius: 2,
-              bgcolor: PURCHASE_DIALOG_UI.panelSoft,
-              boxShadow: PURCHASE_DIALOG_UI.shadowSoft,
-            },
-            '& .MuiSelect-select': {
-              color: statusFilter === 'all' ? 'text.secondary' : 'inherit',
-            },
-          }}
-        >
-          <MenuItem value="all">ทุกสถานะ</MenuItem>
-          {Object.values(DocumentStatus)
-            .map((status) => (
-              <MenuItem key={status} value={status}>
-                {toThaiWorkflowStatus(status)}
-              </MenuItem>
-            ))}
-        </TextField>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-          <TextField
-            select
-            label="ความเร่งด่วน"
-            value={urgencyFilter}
-            onChange={(event) =>
-              setUrgencyFilter(event.target.value as typeof urgencyFilter)
-            }
-            size="small"
-            SelectProps={{
-              displayEmpty: true,
-            renderValue: (value) => (value === 'all' ? 'ทั้งหมด' : urgencyLabel[value as CentralAlertRequest['urgency']]),
-            }}
-            sx={{
-              flex: 1,
-              '& .MuiOutlinedInput-root': {
-                height: 40,
-                minHeight: 40,
-                borderRadius: 2,
-                bgcolor: PURCHASE_DIALOG_UI.panelSoft,
-                boxShadow: PURCHASE_DIALOG_UI.shadowSoft,
-              },
-              '& .MuiSelect-select': {
-                color: urgencyFilter === 'all' ? 'text.secondary' : 'inherit',
-              },
-            }}
-          >
-            <MenuItem value="all">ทั้งหมด</MenuItem>
-            {Object.entries(urgencyLabel).map(([value, label]) => (
-              <MenuItem key={value} value={value}>
-                {label}
-              </MenuItem>
-            ))}
-          </TextField>
-        </Box>
-        <Button
-          variant="contained"
-          onClick={() => {
-            setSearchText('');
-            setStatusFilter('all');
-            setUrgencyFilter('all');
-          }}
-          sx={{
-            height: 40,
-            minWidth: 110,
-            borderRadius: 2,
-            bgcolor: PURCHASE_DIALOG_UI.accent,
-            boxShadow: PURCHASE_DIALOG_UI.shadowSoft,
-            '&:hover': { bgcolor: PURCHASE_DIALOG_UI.accentDark },
-          }}
-        >
-          ล้างตัวกรอง
-        </Button>
-      </Box>
-    </Box>
-  );
 
   const renderFarmScope = () => (
     <>
-      <StatsWrapper>
-        <StockReplenishmentSummaryCards cards={summaryCards} />
-      </StatsWrapper>
+      <Box>
+        <Grid container spacing={1.5}>
+          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+            <StatsCard
+              title="ใบแจ้งทั้งหมด"
+              value={requests.length}
+              subtitle="เอกสารทั้งหมด"
+              icon={<ReceiptLongOutlined />}
+              color="info"
+            />
+          </Grid>
+          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+            <StatsCard
+              title="รออนุมัติ"
+              value={pendingCount}
+              subtitle="สถานะ Pending"
+              icon={<PendingActionsOutlined />}
+              color="warning"
+            />
+          </Grid>
+          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+            <StatsCard
+              title="อนุมัติแล้ว"
+              value={approvedCount}
+              subtitle="สถานะ Approved"
+              icon={<CheckCircleIcon />}
+              color="success"
+            />
+          </Grid>
+          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+            <StatsCard
+              title="รับเข้าบางส่วน"
+              value={processingCount}
+              subtitle="กำลังดำเนินการ"
+              icon={<LocalShippingIcon />}
+              color="primary"
+            />
+          </Grid>
+        </Grid>
+      </Box>
 
-      <ContentWrapper>
-        <Stack spacing={1.75} sx={{ minHeight: 680 }}>
+      <Box sx={{ ...panelSx, p: 1.5 }}>
+        <Stack spacing={1.5}>
           <Box
             sx={{
               ...panelSx,
@@ -1385,6 +1195,8 @@ export default function StockReplenishmentHub({
               justifyContent: 'flex-start',
               gap: 1,
               flexWrap: 'wrap',
+              minHeight: 64,
+              alignItems: 'center',
             }}
           >
             <Button
@@ -1393,9 +1205,9 @@ export default function StockReplenishmentHub({
               onClick={handleOpenCreate}
               sx={{
                 borderRadius: 2.2,
-                bgcolor: PURCHASE_DIALOG_UI.accent,
-                boxShadow: PURCHASE_DIALOG_UI.shadowSoft,
-                '&:hover': { bgcolor: PURCHASE_DIALOG_UI.accentDark },
+                bgcolor: 'primary.main',
+                boxShadow: 1,
+                '&:hover': { bgcolor: 'primary.dark' },
               }}
             >
               สร้างใบแจ้ง
@@ -1406,9 +1218,9 @@ export default function StockReplenishmentHub({
               onClick={handleOpenCreate}
               sx={{
                 borderRadius: 2.2,
-                bgcolor: '#4d7f7b',
-                boxShadow: PURCHASE_DIALOG_UI.shadowSoft,
-                '&:hover': { bgcolor: '#3e6965' },
+                bgcolor: 'primary.dark',
+                boxShadow: 1,
+                '&:hover': { bgcolor: theme.palette.primary.dark },
               }}
             >
               สร้างใบแจ้งสุกร
@@ -1416,27 +1228,35 @@ export default function StockReplenishmentHub({
             <Button
               variant="outlined"
               startIcon={<RefreshIcon sx={{ fontSize: 18 }} />}
-              onClick={() => {
-                setSearchText('');
-                setStatusFilter('all');
-                setUrgencyFilter('all');
-              }}
+              onClick={() => void loadData()}
               sx={{
                 borderRadius: 2.2,
-                bgcolor: '#fff',
-                borderColor: PURCHASE_DIALOG_UI.borderStrong,
-                color: PURCHASE_DIALOG_UI.text,
-                boxShadow: PURCHASE_DIALOG_UI.shadowSoft,
+                bgcolor: 'background.paper',
+                borderColor: 'divider',
+                color: 'text.primary',
+                boxShadow: 1,
                 '&:hover': {
-                  borderColor: PURCHASE_DIALOG_UI.accent,
-                  bgcolor: '#f7faf7',
+                  borderColor: 'primary.main',
+                  bgcolor: 'background.paper',
                 },
               }}
             >
               รีเฟรช
             </Button>
           </Box>
-          {renderFilters()}
+          <StockReplenishmentFilters
+            searchText={searchText}
+            statusFilter={statusFilter}
+            urgencyFilter={urgencyFilter}
+            onSearchTextChange={setSearchText}
+            onStatusFilterChange={setStatusFilter}
+            onUrgencyFilterChange={setUrgencyFilter}
+            onClear={() => {
+              setSearchText('');
+              setStatusFilter('all');
+              setUrgencyFilter('all');
+            }}
+          />
           <StockReplenishmentRequestTable
             rows={filteredRequests}
             variant="farm"
@@ -1444,26 +1264,59 @@ export default function StockReplenishmentHub({
             rowsPerPage={rowsPerPage}
             selectedRequestId={selectedRequestId}
             onSelectedRequestIdChange={setSelectedRequestId}
-            onPageChange={setPage}
+            onPageChange={(_, nextPage) => setPage(nextPage)}
             onRowsPerPageChange={setRowsPerPage}
           />
         </Stack>
-      </ContentWrapper>
+      </Box>
     </>
   );
 
   const renderCentralScope = () => (
     <>
-      <StatsWrapper>
-        <StockReplenishmentSummaryCards
-          cards={summaryCards.filter((card) => card.title !== 'ฉบับร่าง')}
-          onCardClick={(status) => setStatusFilter(status as any)}
-          selectedStatus={statusFilter}
-        />
-      </StatsWrapper>
+      <Box>
+        <Grid container spacing={1.5}>
+          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+            <StatsCard
+              title="ใบแจ้งทั้งหมด"
+              value={requests.length}
+              subtitle="เอกสารทั้งหมด"
+              icon={<ReceiptLongOutlined />}
+              color="info"
+            />
+          </Grid>
+          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+            <StatsCard
+              title="รออนุมัติ"
+              value={pendingCount}
+              subtitle="สถานะ Pending"
+              icon={<PendingActionsOutlined />}
+              color="warning"
+            />
+          </Grid>
+          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+            <StatsCard
+              title="อนุมัติแล้ว"
+              value={approvedCount}
+              subtitle="สถานะ Approved"
+              icon={<CheckCircleIcon />}
+              color="success"
+            />
+          </Grid>
+          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+            <StatsCard
+              title="รับเข้าบางส่วน"
+              value={processingCount}
+              subtitle="กำลังดำเนินการ"
+              icon={<LocalShippingIcon />}
+              color="primary"
+            />
+          </Grid>
+        </Grid>
+      </Box>
 
-      <ContentWrapper>
-        <Stack spacing={2}>
+      <Box sx={{ ...panelSx, p: 1.5 }}>
+        <Stack spacing={1.5}>
           <Box
             sx={{
               ...panelSx,
@@ -1472,6 +1325,8 @@ export default function StockReplenishmentHub({
               justifyContent: 'flex-start',
               gap: 1,
               flexWrap: 'wrap',
+              minHeight: 64,
+              alignItems: 'center',
             }}
           >
             <Button
@@ -1480,13 +1335,13 @@ export default function StockReplenishmentHub({
               href="/warehouse/purchase-request"
               sx={{
                 borderRadius: 2.2,
-                bgcolor: '#fff',
-                borderColor: PURCHASE_DIALOG_UI.borderStrong,
-                color: PURCHASE_DIALOG_UI.text,
-                boxShadow: PURCHASE_DIALOG_UI.shadowSoft,
+                bgcolor: 'background.paper',
+                borderColor: 'divider',
+                color: 'text.primary',
+                boxShadow: 1,
                 '&:hover': {
-                  borderColor: PURCHASE_DIALOG_UI.accent,
-                  bgcolor: '#f7faf7',
+                  borderColor: 'primary.main',
+                  bgcolor: 'background.paper',
                 },
               }}
             >
@@ -1499,16 +1354,28 @@ export default function StockReplenishmentHub({
               disabled={loading}
               sx={{
                 borderRadius: 2.2,
-                bgcolor: '#fff',
-                borderColor: PURCHASE_DIALOG_UI.borderStrong,
-                color: PURCHASE_DIALOG_UI.text,
-                boxShadow: PURCHASE_DIALOG_UI.shadowSoft,
+                bgcolor: 'background.paper',
+                borderColor: 'divider',
+                color: 'text.primary',
+                boxShadow: 1,
               }}
             >
               รีเฟรช
             </Button>
           </Box>
-          {renderFilters()}
+          <StockReplenishmentFilters
+            searchText={searchText}
+            statusFilter={statusFilter}
+            urgencyFilter={urgencyFilter}
+            onSearchTextChange={setSearchText}
+            onStatusFilterChange={setStatusFilter}
+            onUrgencyFilterChange={setUrgencyFilter}
+            onClear={() => {
+              setSearchText('');
+              setStatusFilter('all');
+              setUrgencyFilter('all');
+            }}
+          />
           <StockReplenishmentRequestTable
             rows={filteredRequests}
             variant="central"
@@ -1516,11 +1383,11 @@ export default function StockReplenishmentHub({
             rowsPerPage={rowsPerPage}
             selectedRequestId={selectedRequestId}
             onSelectedRequestIdChange={setSelectedRequestId}
-            onPageChange={setPage}
+            onPageChange={(_, nextPage) => setPage(nextPage)}
             onRowsPerPageChange={setRowsPerPage}
           />
         </Stack>
-      </ContentWrapper>
+      </Box>
     </>
   );
 
@@ -1530,26 +1397,26 @@ export default function StockReplenishmentHub({
       onClose={() => setCreateDialogOpen(false)}
       maxWidth="lg"
       fullWidth
-      PaperProps={{ sx: PURCHASE_DIALOG_PAPER_SX }}
+      PaperProps={{ sx: getPurchaseDialogPaperSx(theme) }}
     >
       <DialogTitleWithClose
         onClose={() => setCreateDialogOpen(false)}
-        sx={PURCHASE_DIALOG_TITLE_SX}
+        variant="master"
       >
         {draftLines.length > 0 && requests.some(r => r.lines[0]?.id === draftLines[0]?.id) ? 'แก้ไขใบแจ้งเติมสต็อกคลังกลาง' : 'สร้างใบแจ้งเติมสต็อกคลังกลาง'}
       </DialogTitleWithClose>
-      <DialogContent dividers sx={PURCHASE_DIALOG_CONTENT_SX}>
+      <DialogContent dividers sx={getPurchaseDialogContentSx(theme)}>
         {formError ? <Alert severity="error" sx={{ mb: 2 }}>{formError}</Alert> : null}
         {renderFarmComposer()}
       </DialogContent>
-      <DialogActions sx={PURCHASE_DIALOG_ACTIONS_SX}>
+      <DialogActions sx={getPurchaseDialogActionsSx(theme)}>
         <Box sx={{ flexGrow: 1 }} />
-        <Button onClick={() => setCreateDialogOpen(false)} sx={PURCHASE_DIALOG_SECONDARY_BUTTON_SX}>ยกเลิก</Button>
+        <Button onClick={() => setCreateDialogOpen(false)} sx={getPurchaseDialogSecondaryButtonSx(theme)}>ยกเลิก</Button>
         <Button
           variant="contained"
           onClick={submitRequest}
           disabled={draftLines.length === 0}
-          sx={PURCHASE_DIALOG_PRIMARY_BUTTON_SX}
+          sx={getPurchaseDialogPrimaryButtonSx(theme)}
         >
           บันทึก
         </Button>
@@ -1566,28 +1433,29 @@ export default function StockReplenishmentHub({
         onClose={() => setSelectedRequestId('')}
         maxWidth="lg"
         fullWidth
-        PaperProps={{ sx: PURCHASE_DIALOG_PAPER_SX }}
+        PaperProps={{ sx: getPurchaseDialogPaperSx(theme) }}
       >
-      <DialogTitleWithClose onClose={() => setSelectedRequestId('')} sx={PURCHASE_DIALOG_TITLE_SX}>
+      <DialogTitleWithClose onClose={() => setSelectedRequestId('')} variant="master">
         <Stack alignItems="center" spacing={0.5}>
           <Typography variant="h6" sx={{ fontWeight: 900 }}>
             รายละเอียดคำขอเติมสต็อกกลาง
           </Typography>
           {selectedRequest && (
-            <Chip
+            <StatusBadge
               label={urgencyLabel[selectedRequest?.urgency]}
-              sx={{ ...(urgencyChipSx[selectedRequest?.urgency] ?? urgencyChipSx.normal), fontSize: '0.75rem', height: 24 }}
+              type={getUrgencyBadgeType(selectedRequest?.urgency)}
+              size="small"
             />
           )}
         </Stack>
       </DialogTitleWithClose>
-      <DialogContent dividers sx={PURCHASE_DIALOG_CONTENT_SX}>
+      <DialogContent dividers sx={getPurchaseDialogContentSx(theme)}>
         {selectedRequest ? (
           <Stack spacing={2.5}>
             <Stack spacing={2}>
               <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr 1fr' }, gap: 1.5 }}>
                 {/* เลขที่ใบแจ้ง */}
-                <Paper elevation={0} sx={panelSx}>
+                <Paper elevation={0} sx={{ ...panelSx, p: 1.75 }}>
                   <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 0.25 }}>
                     เลขที่ใบแจ้ง
                   </Typography>
@@ -1600,7 +1468,7 @@ export default function StockReplenishmentHub({
                 </Paper>
 
                 {/* ฟาร์มผู้ส่ง */}
-                <Paper elevation={0} sx={panelSx}>
+                <Paper elevation={0} sx={{ ...panelSx, p: 1.75 }}>
                   <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 0.25 }}>
                     ฟาร์มผู้ส่ง
                   </Typography>
@@ -1613,14 +1481,15 @@ export default function StockReplenishmentHub({
                 </Paper>
 
                 {/* สถานะ */}
-                <Paper elevation={0} sx={panelSx}>
+                <Paper elevation={0} sx={{ ...panelSx, p: 1.75 }}>
                   <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 0.25 }}>
                     สถานะเอกสาร
                   </Typography>
                   <Box sx={{ mt: 0.5 }}>
-                    <Chip 
-                      label={toThaiWorkflowStatus(selectedRequest.status)} 
-                      sx={{ ...getWorkflowStatusChipSx(selectedRequest.status), fontWeight: 900, fontSize: '0.85rem', height: 28 }} 
+                    <StatusBadge
+                      label={toThaiWorkflowStatus(selectedRequest.status)}
+                      type={getWorkflowStatusType(selectedRequest.status)}
+                      size="small"
                     />
                   </Box>
                 </Paper>
@@ -1644,7 +1513,7 @@ export default function StockReplenishmentHub({
                       label: 'สินค้า',
                       width: 250,
                       render: (line) => (
-                        <Typography variant="body2" sx={{ fontWeight: 800, color: '#1a5c50' }}>
+                        <Typography variant="body2" sx={{ fontWeight: 800, color: 'primary.main' }}>
                           {line.itemCode} - {line.itemName}
                         </Typography>
                       ),
@@ -1699,18 +1568,18 @@ export default function StockReplenishmentHub({
                   showPagination={false}
                   emptyMessage="ไม่พบรายการสินค้า"
                   footer={(
-                    <Box sx={{ 
-                      display: 'flex', 
-                      justifyContent: 'space-between', 
+                    <Box sx={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
                       alignItems: 'center',
-                      bgcolor: '#ecf2ee', 
+                      bgcolor: (t) => alpha(t.palette.primary.main, 0.06),
                       px: 3,
                       py: 1.5,
                     }}>
-                      <Typography sx={{ fontWeight: 900, color: '#1a5c50', fontSize: '1rem' }}>
+                      <Typography sx={{ fontWeight: 900, color: 'primary.main', fontSize: '1rem' }}>
                         รวมทั้งหมด
                       </Typography>
-                      <Typography sx={{ fontWeight: 950, color: '#1a5c50', fontSize: '1.1rem' }}>
+                      <Typography sx={{ fontWeight: 900, color: 'primary.main', fontSize: '1.1rem' }}>
                         {selectedRequest.lines.reduce((sum, line) => sum + (line.requestedQuantity * line.estimatedUnitPrice), 0).toLocaleString()} ฿
                       </Typography>
                     </Box>
@@ -1736,7 +1605,7 @@ export default function StockReplenishmentHub({
         ) : null}
       </DialogContent>
       {(scope === 'central' || [DocumentStatus.Draft, DocumentStatus.Returned].includes(selectedRequest?.status as DocumentStatus)) && selectedRequest ? (
-        <DialogActions sx={PURCHASE_DIALOG_ACTIONS_SX}>
+        <DialogActions sx={getPurchaseDialogActionsSx(theme)}>
           {renderActionButtons(selectedRequest)}
         </DialogActions>
       ) : null}
@@ -1745,18 +1614,23 @@ export default function StockReplenishmentHub({
 };
 
   return (
-    <PageRootWrapper>
-      <StockReplenishmentSectionLayout
-        scope={scope}
-        centralHubName={centralHubName}
-        currentFacilityName={currentFacilityName}
-      >
+    <Box sx={{ maxWidth: 1400, mx: 'auto', p: { xs: 1.5, md: 2 } }}>
+      <WorkspaceHeader
+        chipLabel={scope === 'central' ? 'คลังกลาง' : 'ฟาร์ม'}
+        title="ใบแจ้งเติมสต็อกคลังกลาง"
+        meta="Warehouse / เติมสต็อกกลาง"
+      />
+
+      {/* Stats + Content */}
+      <Stack spacing={2.5}>
         {apiError ? <Alert severity="error" sx={{ mb: 2 }}>{apiError}</Alert> : null}
         {loading ? <Alert severity="info" sx={{ mb: 2 }}>กำลังโหลด/บันทึกข้อมูลใบแจ้งเติมสต็อก...</Alert> : null}
         {scope === 'farm' ? renderFarmScope() : renderCentralScope()}
-        {scope === 'farm' ? renderCreateDialog() : null}
-        {renderDetailDialog()}
-      </StockReplenishmentSectionLayout>
-    </PageRootWrapper>
+      </Stack>
+
+      {/* Dialogs */}
+      {scope === 'farm' ? renderCreateDialog() : null}
+      {renderDetailDialog()}
+    </Box>
   );
 }

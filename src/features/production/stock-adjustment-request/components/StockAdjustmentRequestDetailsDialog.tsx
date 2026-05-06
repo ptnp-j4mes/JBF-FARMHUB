@@ -20,12 +20,17 @@ import {
   Typography,
   Button,
 } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import { DialogTitleWithClose } from '@/components/common';
 import { formatDateTime } from '@/lib/utils/date.util';
 import { formatNumber } from '@/lib/utils/format.util';
 import { getWorkflowStatusChipSx, toThaiWorkflowStatus } from '@/lib/utils/status.util';
 import type { StockAdjustmentRequestResponse } from '@/features/production/stock/types';
-import { STOCK_WORKSPACE_UI } from '@/features/production/stock/components/StockWorkspaceChrome';
+import {
+  getStockDialogPaperSx,
+  getStockDialogSectionBoxSx,
+  getStockDialogTableSx,
+} from '@/features/production/stock/components/stock-dialog.constants';
 
 type Props = {
   open: boolean;
@@ -46,6 +51,7 @@ export function StockAdjustmentRequestDetailsDialog({
   onApprove,
   onReject,
 }: Props) {
+  const theme = useTheme();
   const [comment, setComment] = useState('');
   const [actionError, setActionError] = useState<string | null>(null);
 
@@ -71,11 +77,11 @@ export function StockAdjustmentRequestDetailsDialog({
   };
 
   return (
-    <Dialog open={open} onClose={onClose} fullWidth maxWidth="lg">
+    <Dialog open={open} onClose={onClose} fullWidth maxWidth="lg" PaperProps={{ sx: getStockDialogPaperSx(theme) }}>
       <DialogTitleWithClose onClose={onClose}>
         {request?.documentNumber ?? 'รายละเอียดคำขอปรับสต๊อก'}
       </DialogTitleWithClose>
-      <DialogContent dividers sx={{ bgcolor: STOCK_WORKSPACE_UI.panelSoft }}>
+      <DialogContent dividers sx={{ bgcolor: theme.palette.background.paper }}>
         {!request ? null : (
           <Stack spacing={2}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 1.5, flexWrap: 'wrap' }}>
@@ -106,7 +112,7 @@ export function StockAdjustmentRequestDetailsDialog({
             </Box>
 
             {request.remarks ? (
-              <Paper variant="outlined" sx={{ p: 1.5, borderColor: STOCK_WORKSPACE_UI.border }}>
+              <Paper variant="outlined" sx={getStockDialogSectionBoxSx(theme)}>
                 <Typography variant="subtitle2" fontWeight={800} sx={{ mb: 0.5 }}>
                   หมายเหตุ
                 </Typography>
@@ -117,7 +123,7 @@ export function StockAdjustmentRequestDetailsDialog({
             ) : null}
 
             {request.rejectionReason ? (
-              <Paper variant="outlined" sx={{ p: 1.5, borderColor: STOCK_WORKSPACE_UI.border }}>
+              <Paper variant="outlined" sx={getStockDialogSectionBoxSx(theme)}>
                 <Typography variant="subtitle2" fontWeight={800} sx={{ mb: 0.5 }}>
                   เหตุผลไม่อนุมัติ
                 </Typography>
@@ -128,7 +134,7 @@ export function StockAdjustmentRequestDetailsDialog({
             ) : null}
 
             {canAct ? (
-              <Paper variant="outlined" sx={{ p: 1.5, borderColor: STOCK_WORKSPACE_UI.border }}>
+              <Paper variant="outlined" sx={getStockDialogSectionBoxSx(theme)}>
                 <Typography variant="subtitle2" fontWeight={800} sx={{ mb: 0.5 }}>
                   หมายเหตุการอนุมัติ
                 </Typography>
@@ -149,7 +155,7 @@ export function StockAdjustmentRequestDetailsDialog({
               </Paper>
             ) : null}
 
-            <TableContainer component={Paper} sx={{ borderRadius: 3, border: `1px solid ${STOCK_WORKSPACE_UI.border}`, boxShadow: 'none' }}>
+            <TableContainer component={Paper} sx={{ ...getStockDialogTableSx(theme), boxShadow: 'none' }}>
               <Table size="small">
                 <TableHead>
                   <TableRow>
@@ -219,8 +225,10 @@ export function StockAdjustmentRequestDetailsDialog({
 }
 
 function InfoCard({ label, value }: { label: string; value: string }) {
+  const theme = useTheme();
+
   return (
-    <Paper variant="outlined" sx={{ p: 1.25, borderColor: STOCK_WORKSPACE_UI.border, bgcolor: '#fff' }}>
+    <Paper variant="outlined" sx={getStockDialogSectionBoxSx(theme)}>
       <Typography variant="caption" color="text.secondary">
         {label}
       </Typography>

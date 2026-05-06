@@ -23,7 +23,9 @@ import {
 } from '@mui/icons-material';
 import { AxiosError } from 'axios';
 import Swal from 'sweetalert2';
+import { QuickStatusButtonGroup, StatsCard } from '@/components/common';
 import { DataTable, DialogTitleWithClose, type Column } from '@/components/common';
+import { WorkspaceHeader } from '@/design-system';
 import { formatDateShort, toISODateString } from '@/lib/utils/date.util';
 import { formatNumber } from '@/lib/utils/format.util';
 import { getWorkflowStatusChipSx, toThaiWorkflowStatus } from '@/lib/utils/status.util';
@@ -31,10 +33,25 @@ import { buildingOpeningService } from '@/features/production/building-opening/s
 import type {
   BuildingOpeningFacilityOption,
   BuildingOpeningHouseOption,
+  BuildingOpeningFilterParams,
   BuildingOpeningResponse,
 } from '@/features/production/building-opening/types';
 import { PR_MAIN_TABLE_BOTTOM_PADDING, PR_MAIN_TABLE_HEIGHT } from '@/core/ui-patterns/pr-ui.constants';
-import { alpha } from '@mui/material/styles';
+import {
+  buildingOpeningDialogActionsSx,
+  buildingOpeningDialogContentSx,
+  buildingOpeningDialogPaperSx,
+  buildingOpeningDialogTitleSx,
+  buildingOpeningInputSx,
+  buildingOpeningPageShellSx,
+  buildingOpeningPrimaryButtonSx,
+  buildingOpeningOutlinedButtonSx,
+} from '@/features/production/building-opening/components/BuildingOpeningWorkspaceChrome';
+import { stockPanelSx } from '@/features/production/stock/components/StockWorkspaceChrome';
+import {
+  buildBuildingOpeningStatusItems,
+  matchesBuildingOpeningFilters,
+} from '@/features/production/building-opening/utils/building-opening-filters';
 
 type Props = {
   initialData?: BuildingOpeningResponse[];
@@ -44,72 +61,12 @@ type Props = {
   onClose?: () => void;
 };
 
-const UI = {
-  panel: '#f6f7f6',
-  border: '#dde2de',
-  borderStrong: '#cad4cf',
-  text: '#2f3a37',
-  muted: '#7d8783',
-  accent: 'rgb(22, 90, 80)',
-  accentDark: '#10473f',
-  shadow: '0 8px 18px rgba(22, 35, 31, 0.10), 0 1px 4px rgba(22, 35, 31, 0.06)',
-  softShadow: '0 6px 14px rgba(22, 35, 31, 0.08), 0 1px 3px rgba(22, 35, 31, 0.05)',
-};
-
-const DIALOG_PAPER_SX = {
-  borderRadius: 3.5,
-  border: `1px solid ${UI.border}`,
-  boxShadow: UI.shadow,
-  overflow: 'hidden',
-  bgcolor: UI.panel,
-};
-
-const DIALOG_TITLE_SX = {
-  bgcolor: UI.accent,
-  color: '#fff',
-  borderBottom: `1px solid ${alpha(UI.accent, 0.24)}`,
-  fontWeight: 800,
-  '& .MuiIconButton-root': {
-    color: '#fff',
-  },
-};
-
-const DIALOG_CONTENT_SX = {
-  bgcolor: '#fcfdfc',
-  px: { xs: 1.5, md: 2 },
-  py: { xs: 1.5, md: 2 },
-};
-
-const DIALOG_ACTIONS_SX = {
-  px: { xs: 1.5, md: 2 },
-  py: 1.25,
-  borderTop: `1px solid ${UI.border}`,
-  bgcolor: '#fbfcfb',
-  gap: 1,
-};
-
-const OUTLINED_BUTTON_SX = {
-  borderRadius: 2.2,
-  px: 2,
-  boxShadow: UI.softShadow,
-  bgcolor: '#fff',
-  borderColor: UI.borderStrong,
-  color: UI.text,
-  '&:hover': {
-    borderColor: UI.accent,
-    bgcolor: '#f7faf7',
-  },
-};
-
-const PRIMARY_BUTTON_SX = {
-  borderRadius: 2.2,
-  px: 2.2,
-  boxShadow: UI.softShadow,
-  bgcolor: UI.accent,
-  '&:hover': {
-    bgcolor: UI.accentDark,
-  },
-};
+const DIALOG_PAPER_SX = buildingOpeningDialogPaperSx;
+const DIALOG_TITLE_SX = buildingOpeningDialogTitleSx;
+const DIALOG_CONTENT_SX = buildingOpeningDialogContentSx;
+const DIALOG_ACTIONS_SX = buildingOpeningDialogActionsSx;
+const OUTLINED_BUTTON_SX = buildingOpeningOutlinedButtonSx;
+const PRIMARY_BUTTON_SX = buildingOpeningPrimaryButtonSx;
 
 function escapeCsv(value: string): string {
   if (value.includes('"') || value.includes(',') || value.includes('\n')) {
@@ -161,6 +118,8 @@ export function BuildingOpeningApprovalPage({ initialData = [], mode = 'approval
   const [appliedHouseCode, setAppliedHouseCode] = useState('');
   const [appliedRequestDateFrom, setAppliedRequestDateFrom] = useState(today);
   const [appliedRequestDateTo, setAppliedRequestDateTo] = useState(today);
+  const [statusFilter, setStatusFilter] = useState<BuildingOpeningFilterParams['status']>('all');
+  const [appliedStatusFilter, setAppliedStatusFilter] = useState<BuildingOpeningFilterParams['status']>('all');
 
   const loadRows = useCallback(async () => {
     try {
@@ -211,6 +170,14 @@ export function BuildingOpeningApprovalPage({ initialData = [], mode = 'approval
     return houses.filter((house) => house.facilityNodeId === targetFacilityId);
   }, [facilityId, houses]);
 
+  const houseOptionById = useMemo(() => {
+    const map = new Map<number, BuildingOpeningHouseOption>();
+    for (const item of houses) {
+      map.set(item.id, item);
+    }
+    return map;
+  }, [houses]);
+
   const openDetails = useCallback(async (row: BuildingOpeningResponse) => {
     try {
       const full = await buildingOpeningService.getById(row.id);
@@ -255,40 +222,62 @@ export function BuildingOpeningApprovalPage({ initialData = [], mode = 'approval
     }
   }, [loadRows, selected]);
 
-  const filteredRows = useMemo(() => {
-    return rows.filter((row) => {
-      if (appliedDocNo.trim()) {
-        const keyword = appliedDocNo.trim().toLowerCase();
-        if (!row.documentNumber.toLowerCase().includes(keyword)) {
-          return false;
-        }
-      }
+  const filteredRowsWithoutStatus = useMemo(() => {
+    const filters = {
+      searchTerm: appliedDocNo,
+      requestDateFrom: appliedRequestDateFrom,
+      requestDateTo: appliedRequestDateTo,
+      facilityId: appliedFacilityId ? Number(appliedFacilityId) : null,
+      houseId: null,
+      status: 'all' as const,
+    };
 
-      if (appliedFacilityId) {
-        if (String(row.facilityId) !== appliedFacilityId) {
-          return false;
-        }
-      }
-
-      if (appliedHouseCode) {
-        if ((row.houseCode || '').toLowerCase() !== appliedHouseCode.toLowerCase()) {
-          return false;
-        }
-      }
-
-      if (appliedRequestDateFrom || appliedRequestDateTo) {
-        const rowDate = (row.requestDate || '').slice(0, 10);
-        if (appliedRequestDateFrom && rowDate < appliedRequestDateFrom) {
-          return false;
-        }
-        if (appliedRequestDateTo && rowDate > appliedRequestDateTo) {
-          return false;
-        }
-      }
-
-      return true;
+    return rows.filter((row) =>
+      matchesBuildingOpeningFilters(
+        row,
+        filters,
+        houseOptionById,
+        false,
+      ),
+    ).filter((row) => {
+      if (!appliedHouseCode) return true;
+      return (row.houseCode || '').toLowerCase() === appliedHouseCode.toLowerCase();
     });
-  }, [appliedDocNo, appliedFacilityId, appliedHouseCode, appliedRequestDateFrom, appliedRequestDateTo, rows]);
+  }, [appliedDocNo, appliedFacilityId, appliedHouseCode, appliedRequestDateFrom, appliedRequestDateTo, houseOptionById, rows]);
+
+  const filteredRows = useMemo(() => {
+    const filters = {
+      searchTerm: appliedDocNo,
+      requestDateFrom: appliedRequestDateFrom,
+      requestDateTo: appliedRequestDateTo,
+      facilityId: appliedFacilityId ? Number(appliedFacilityId) : null,
+      houseId: null,
+      status: appliedStatusFilter,
+    };
+
+    return filteredRowsWithoutStatus.filter((row) =>
+      matchesBuildingOpeningFilters(
+        row,
+        filters,
+        houseOptionById,
+        true,
+      ),
+    );
+  }, [
+    appliedDocNo,
+    appliedFacilityId,
+    appliedHouseCode,
+    appliedRequestDateFrom,
+    appliedRequestDateTo,
+    appliedStatusFilter,
+    filteredRowsWithoutStatus,
+    houseOptionById,
+  ]);
+
+  const statusQuickStatuses = useMemo(
+    () => buildBuildingOpeningStatusItems(filteredRowsWithoutStatus),
+    [filteredRowsWithoutStatus],
+  );
 
   const columns: Column<BuildingOpeningResponse>[] = [
     { id: 'documentNumber', label: 'เลขที่เอกสาร', align: 'left', minWidth: 180 },
@@ -350,36 +339,32 @@ export function BuildingOpeningApprovalPage({ initialData = [], mode = 'approval
         title: 'รายการทั้งหมด',
         subtitle: 'เอกสารเปิดโรงเรือน',
         value: filteredRows.length,
-        icon: <TodayOutlined sx={{ color: '#4a6982', fontSize: 20 }} />,
-        iconBg: '#efe8da',
-        bar: '#4a6982',
+        icon: <TodayOutlined />,
+        color: 'info' as const,
       },
       {
         key: 'submitted',
         title: 'รอดำเนินการ',
         subtitle: 'งานรออนุมัติ',
         value: submitted,
-        icon: <PendingActionsOutlined sx={{ color: '#d09100', fontSize: 20 }} />,
-        iconBg: '#f2ead8',
-        bar: '#d09100',
+        icon: <PendingActionsOutlined />,
+        color: 'warning' as const,
       },
       {
         key: 'approved',
         title: 'อนุมัติแล้ว',
         subtitle: 'พร้อมดำเนินงาน',
         value: approved,
-        icon: <AssignmentTurnedInOutlined sx={{ color: '#2e7d32', fontSize: 20 }} />,
-        iconBg: '#dfe9db',
-        bar: '#2e7d32',
+        icon: <AssignmentTurnedInOutlined />,
+        color: 'success' as const,
       },
       {
         key: 'returned',
         title: 'ตีกลับ',
         subtitle: 'ต้องแก้ไขข้อมูล',
         value: returned,
-        icon: <UndoOutlined sx={{ color: '#7c5ce5', fontSize: 20 }} />,
-        iconBg: '#e4ddf4',
-        bar: '#7c5ce5',
+        icon: <UndoOutlined />,
+        color: 'error' as const,
       },
     ];
   }, [filteredRows]);
@@ -387,201 +372,207 @@ export function BuildingOpeningApprovalPage({ initialData = [], mode = 'approval
   return (
     <Box
       sx={{
+        ...buildingOpeningPageShellSx,
         maxWidth: compact ? 'none' : embedded ? 'none' : 1400,
         mx: compact ? 0 : embedded ? 0 : 'auto',
         p: compact ? 0 : embedded ? 0 : { xs: 1.5, md: 2 },
-        bgcolor: compact ? 'transparent' : embedded ? 'transparent' : UI.bg,
+        bgcolor: compact ? 'transparent' : embedded ? 'transparent' : 'background.default',
       }}
     >
       {!compact ? (
         <>
-          <Box
-            sx={{
-              bgcolor: embedded ? '#fff' : UI.accent,
-              color: embedded ? UI.text : '#fff',
-              borderRadius: 3.5,
-              border: embedded ? `1px solid ${UI.border}` : 'none',
-              boxShadow: embedded ? UI.softShadow : UI.shadow,
-              px: 2.5,
-              py: embedded ? 1.8 : 2,
-              display: 'flex',
-              alignItems: { xs: 'flex-start', md: 'center' },
-              justifyContent: 'space-between',
-              gap: 1.5,
-              mb: 2,
-              flexWrap: 'wrap',
-            }}
-          >
-            <Box>
-              <Typography sx={{ fontSize: embedded ? '1.35rem' : '2rem', fontWeight: 700, lineHeight: 1 }}>
-                {mode === 'report' ? 'รายงานเปิดโรงเรือน' : 'รายการอนุมัติโรงเรือน'}
-              </Typography>
-              {embedded ? (
-                <Typography sx={{ mt: 0.5, fontSize: '0.92rem', color: UI.muted }}>
-                  ตรวจสอบและอนุมัติรายการได้ทันทีจากหน้าเดียวกัน
-                </Typography>
-              ) : null}
-            </Box>
-            {embedded && onClose ? (
-              <Button variant="outlined" onClick={onClose} sx={{ borderColor: UI.borderStrong, color: UI.text }}>
-                ปิดรายการอนุมัติ
-              </Button>
-            ) : null}
-          </Box>
-          <Box sx={{ display: 'grid', gap: 1.5, gridTemplateColumns: { xs: '1fr 1fr', md: 'repeat(4,minmax(0,1fr))' }, mb: 2 }}>
+          <WorkspaceHeader
+            chipLabel={mode === 'report' ? 'Building Opening Report' : 'Building Opening Approval'}
+            title={mode === 'report' ? 'รายงานเปิดโรงเรือน' : 'รายการอนุมัติโรงเรือน'}
+            subtitle="ตรวจสอบและอนุมัติรายการได้จากมุมมองเดียวกัน"
+            meta={embedded ? 'Embedded view' : 'Dashboard / รายการอนุมัติ'}
+          />
+          <Box sx={{ display: 'grid', gap: 1.5, gridTemplateColumns: { xs: '1fr', sm: 'repeat(2,minmax(0,1fr))', md: 'repeat(4,minmax(0,1fr))' } }}>
             {summaryCards.map((card) => (
-              <Box
+              <StatsCard
                 key={card.key}
-                sx={{
-                  borderRadius: 3.5,
-                  border: `1px solid ${UI.border}`,
-                  bgcolor: '#f4f6f4',
-                  p: 1.7,
-                  boxShadow: UI.softShadow,
-                }}
-              >
-                <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', mb: 1 }}>
-                  <Box>
-                    <Typography sx={{ fontSize: '2rem', fontWeight: 700, color: '#1d2624', lineHeight: 1 }}>
-                      {card.value.toLocaleString()}
-                    </Typography>
-                    <Typography sx={{ fontSize: '0.95rem', color: UI.muted, mt: 0.35 }}>{card.title}</Typography>
-                  </Box>
-                  <Box sx={{ width: 46, height: 46, borderRadius: 1.5, bgcolor: card.iconBg, boxShadow: '0 4px 10px rgba(22, 35, 31, 0.10)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
-                    {card.icon}
-                  </Box>
-                </Box>
-                <Typography sx={{ fontSize: '0.82rem', color: UI.muted }}>{card.subtitle}</Typography>
-                <Box sx={{ mt: 1.6, width: 108, height: 8, borderRadius: 999, bgcolor: '#e3e9e4' }}>
-                  <Box sx={{ width: 54, height: '100%', bgcolor: card.bar, borderRadius: 999 }} />
-                </Box>
-              </Box>
+                title={card.title}
+                value={card.value}
+                subtitle={card.subtitle}
+                icon={card.icon}
+                color={card.color}
+              />
             ))}
           </Box>
         </>
       ) : null}
 
-      <Box sx={{ borderRadius: 3.5, border: `1px solid ${UI.border}`, bgcolor: '#fbfcfb', p: { xs: 1.25, md: 1.5 }, boxShadow: UI.softShadow }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 1, mb: 1.25 }}>
-          <Typography sx={{ fontSize: 13, color: '#7d8783', fontWeight: 700 }}>รายการเปิดโรงเรือน</Typography>
-          <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
-            {mode === 'report' ? (
-              <Button
-                variant="contained"
-                startIcon={<Download />}
-                onClick={handleExportExcel}
-                disabled={filteredRows.length === 0}
-              >
-                Export Excel
-              </Button>
-            ) : null}
+      <Box sx={{ ...stockPanelSx, p: 1.5 }}>
+        <Stack spacing={1.5}>
+          <Box sx={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 1.5, flexWrap: 'wrap' }}>
+            <Box>
+              <Typography variant="h6" sx={{ fontWeight: 900, color: 'text.primary', lineHeight: 1.1 }}>
+                {mode === 'report' ? 'รายงานเปิดโรงเรือน' : 'รายการอนุมัติโรงเรือน'}
+              </Typography>
+              <Typography variant="body2" color="text.secondary" sx={{ mt: 0.4 }}>
+                {mode === 'report' ? 'ดูรายการและส่งออกข้อมูลได้จากหน้าจอเดียว' : 'ค้นหา ตรวจสอบ และอนุมัติรายการได้จากมุมมองเดียว'}
+              </Typography>
+            </Box>
+            <Stack direction="row" spacing={1}>
+              {mode === 'report' ? (
+                <Button
+                  variant="contained"
+                  startIcon={<Download />}
+                  onClick={handleExportExcel}
+                  disabled={filteredRows.length === 0}
+                  sx={buildingOpeningPrimaryButtonSx}
+                >
+                  Export Excel
+                </Button>
+              ) : null}
+              {embedded && onClose ? (
+                <Button variant="outlined" onClick={onClose} sx={buildingOpeningOutlinedButtonSx}>
+                  ปิดรายการอนุมัติ
+                </Button>
+              ) : null}
+            </Stack>
           </Box>
-        </Box>
 
-        {error ? <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert> : null}
-
-        <Box sx={{ display: 'grid', gap: 1.5, gridTemplateColumns: { xs: '1fr', md: '1.1fr 1fr 1fr minmax(300px,1.1fr) auto' }, mb: 1.25 }}>
-          <TextField
-            size="small"
-            placeholder="ค้นหาเลขที่เอกสาร"
-            value={docNo}
-            onChange={(event) => setDocNo(event.target.value)}
-            sx={{ '& .MuiOutlinedInput-root': { height: 40, borderRadius: 1.5, bgcolor: '#f8faf8', boxShadow: '0 2px 6px rgba(22, 35, 31, 0.06)' } }}
+          <QuickStatusButtonGroup
+            items={statusQuickStatuses}
+            selectedValue={statusFilter}
+            onChange={(value) => {
+              const nextStatus = value as typeof statusFilter;
+              setStatusFilter(nextStatus);
+              setAppliedStatusFilter(nextStatus);
+            }}
           />
-          <TextField
-            size="small"
-            select
-            label="ฟาร์ม"
-            value={facilityId}
-            onChange={(event) => {
-              setFacilityId(event.target.value);
-              setHouseCode('');
-            }}
-            sx={{ '& .MuiOutlinedInput-root': { height: 40, borderRadius: 1.5, bgcolor: '#f8faf8', boxShadow: '0 2px 6px rgba(22, 35, 31, 0.06)' } }}
-          >
-            <MenuItem value="all">ทั้งหมด</MenuItem>
-            {facilities.map((facility) => (
-              <MenuItem key={facility.id} value={String(facility.id)}>
-                {facility.code} - {facility.name}
-              </MenuItem>
-            ))}
-          </TextField>
-          <TextField
-            size="small"
-            select
-            label="โรงเรือน"
-            value={houseCode}
-            onChange={(event) => setHouseCode(event.target.value)}
-            disabled={!facilityId}
-            sx={{ '& .MuiOutlinedInput-root': { height: 40, borderRadius: 1.5, bgcolor: '#f8faf8', boxShadow: '0 2px 6px rgba(22, 35, 31, 0.06)' } }}
-          >
-            <MenuItem value="all">{facilityId ? 'ทั้งหมด' : 'เลือกฟาร์มก่อน'}</MenuItem>
-            {houseOptions.map((house) => (
-              <MenuItem key={house.id} value={house.houseCode}>
-                {house.zoneName ? `${house.zoneName}/` : ''}{house.houseCode} - {house.houseName}
-              </MenuItem>
-            ))}
-          </TextField>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <TextField
-              size="small"
-              type="date"
-              value={requestDateFrom}
-              onChange={(event) => setRequestDateFrom(event.target.value)}
-              sx={{ flex: 1, '& .MuiOutlinedInput-root': { height: 40, borderRadius: 1.5, bgcolor: '#f8faf8', boxShadow: '0 2px 6px rgba(22, 35, 31, 0.06)' } }}
-            />
-            <Typography variant="body2" color="text.secondary" sx={{ minWidth: 20, textAlign: 'center' }}>
-              ถึง
-            </Typography>
-            <TextField
-              size="small"
-              type="date"
-              value={requestDateTo}
-              onChange={(event) => setRequestDateTo(event.target.value)}
-              sx={{ flex: 1, '& .MuiOutlinedInput-root': { height: 40, borderRadius: 1.5, bgcolor: '#f8faf8', boxShadow: '0 2px 6px rgba(22, 35, 31, 0.06)' } }}
-            />
-          </Box>
-          <Button
-            variant="contained"
-            onClick={() => {
-              setAppliedDocNo(docNo);
-              setAppliedFacilityId(facilityId);
-              setAppliedHouseCode(houseCode);
-              setAppliedRequestDateFrom(requestDateFrom);
-              setAppliedRequestDateTo(requestDateTo);
-            }}
-            sx={{ height: 40, borderRadius: 1.5, bgcolor: UI.accent, boxShadow: '0 4px 10px rgba(22, 35, 31, 0.14)', '&:hover': { bgcolor: '#10473f' } }}
-          >
-            ค้นหา
-          </Button>
-        </Box>
 
-        <Typography variant="caption" color="red" sx={{ display: 'block', mb: 1, textAlign: 'right' }}>
-          *ดับเบิลคลิกที่แถวเพื่อดูรายละเอียดเพิ่มเติม
-        </Typography>
-        <DataTable
-          columns={columns}
-          data={filteredRows}
-          loading={loading}
-          headerCellSx={{
-            bgcolor: '#f3f5f4 !important',
-            color: '#4a5451 !important',
-            fontWeight: 700,
-            fontSize: '15px',
-            py: 0,
-            verticalAlign: 'middle',
-            borderBottom: `1px solid ${UI.border}`,
-          }}
-          onRowDoubleClick={openDetails}
-          emptyMessage="ไม่มีรายการเปิดโรงเรือน"
-          stickyHeader
-          paperSx={{ borderRadius: 3.5, border: `1px solid ${UI.border}`, boxShadow: UI.softShadow, bgcolor: '#f9faf9', height: PR_MAIN_TABLE_HEIGHT, pb: `${PR_MAIN_TABLE_BOTTOM_PADDING}px` }}
-          tableContainerSx={{ overflowX: 'auto', overflowY: 'auto' }}
-          tableSx={{
-            '& .MuiTable-root': { minWidth: { xs: 980, md: 980 }, tableLayout: 'fixed' },
-            '& .MuiTableBody-root .MuiTableCell-root': { py: 1.05, borderBottom: `1px solid ${UI.border}`, color: UI.text },
-          }}
-        />
+          {error ? <Alert severity="error">{error}</Alert> : null}
+
+          <Box
+            sx={{
+              display: 'grid',
+              gap: 1.5,
+              gridTemplateColumns: {
+                xs: '1fr',
+                md: '1.1fr 1fr 1fr minmax(300px,1.1fr) auto',
+              },
+              alignItems: 'center',
+            }}
+          >
+            <TextField
+              size="small"
+              placeholder="ค้นหาเลขที่เอกสาร"
+              value={docNo}
+              onChange={(event) => setDocNo(event.target.value)}
+              sx={buildingOpeningInputSx}
+            />
+            <TextField
+              size="small"
+              select
+              label="ฟาร์ม"
+              value={facilityId}
+              onChange={(event) => {
+                setFacilityId(event.target.value);
+                setHouseCode('');
+              }}
+              sx={buildingOpeningInputSx}
+            >
+              <MenuItem value="all">ทั้งหมด</MenuItem>
+              {facilities.map((facility) => (
+                <MenuItem key={facility.id} value={String(facility.id)}>
+                  {facility.code} - {facility.name}
+                </MenuItem>
+              ))}
+            </TextField>
+            <TextField
+              size="small"
+              select
+              label="โรงเรือน"
+              value={houseCode}
+              onChange={(event) => setHouseCode(event.target.value)}
+              disabled={!facilityId}
+              sx={buildingOpeningInputSx}
+            >
+              <MenuItem value="all">{facilityId ? 'ทั้งหมด' : 'เลือกฟาร์มก่อน'}</MenuItem>
+              {houseOptions.map((house) => (
+                <MenuItem key={house.id} value={house.houseCode}>
+                  {house.zoneName ? `${house.zoneName}/` : ''}{house.houseCode} - {house.houseName}
+                </MenuItem>
+              ))}
+            </TextField>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <TextField
+                size="small"
+                type="date"
+                value={requestDateFrom}
+                onChange={(event) => setRequestDateFrom(event.target.value)}
+                sx={{ flex: 1, ...buildingOpeningInputSx }}
+              />
+              <Typography variant="body2" color="text.secondary" sx={{ minWidth: 20, textAlign: 'center' }}>
+                ถึง
+              </Typography>
+              <TextField
+                size="small"
+                type="date"
+                value={requestDateTo}
+                onChange={(event) => setRequestDateTo(event.target.value)}
+                sx={{ flex: 1, ...buildingOpeningInputSx }}
+              />
+            </Box>
+            <Button
+              variant="contained"
+              onClick={() => {
+                setAppliedDocNo(docNo);
+                setAppliedFacilityId(facilityId);
+                setAppliedHouseCode(houseCode);
+                setAppliedRequestDateFrom(requestDateFrom);
+                setAppliedRequestDateTo(requestDateTo);
+                setAppliedStatusFilter(statusFilter);
+              }}
+              sx={buildingOpeningPrimaryButtonSx}
+            >
+              ค้นหา
+            </Button>
+          </Box>
+
+          <Typography variant="caption" color="text.secondary" sx={{ display: 'block', textAlign: 'right' }}>
+            *ดับเบิลคลิกที่แถวเพื่อดูรายละเอียดเพิ่มเติม
+          </Typography>
+
+          <DataTable
+            columns={columns}
+            data={filteredRows}
+            loading={loading}
+            headerCellSx={{
+              bgcolor: 'background.paper !important',
+              color: 'text.primary !important',
+              fontWeight: 800,
+              fontSize: '15px',
+              py: 0,
+              verticalAlign: 'middle',
+              borderBottom: '1px solid',
+              borderColor: 'divider',
+            }}
+            onRowDoubleClick={openDetails}
+            emptyMessage="ไม่มีรายการเปิดโรงเรือน"
+            stickyHeader
+            paperSx={{
+              borderRadius: 3.5,
+              border: '1px solid',
+              borderColor: 'divider',
+              boxShadow: 2,
+              bgcolor: 'background.paper',
+              height: PR_MAIN_TABLE_HEIGHT,
+              pb: `${PR_MAIN_TABLE_BOTTOM_PADDING}px`,
+            }}
+            tableContainerSx={{ overflowX: 'auto', overflowY: 'auto', scrollbarGutter: 'stable' }}
+            tableSx={{
+              '& .MuiTable-root': { minWidth: { xs: 980, md: 980 }, tableLayout: 'fixed' },
+              '& .MuiTableBody-root .MuiTableCell-root': {
+                py: 1.05,
+                borderBottom: '1px solid',
+                borderColor: 'divider',
+              },
+            }}
+          />
+        </Stack>
       </Box>
 
       <Dialog open={open} onClose={() => setOpen(false)} maxWidth="md" fullWidth PaperProps={{ sx: DIALOG_PAPER_SX }}>

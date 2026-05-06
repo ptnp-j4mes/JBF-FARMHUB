@@ -105,7 +105,7 @@ import {
   canViewWarehouseMaterialStock,
 } from '@/lib/access/modules/warehouse.guard';
 import { QuickStatusButtonGroup, StatsCard } from '@/components/common';
-import { StatusBadge, PageTabs, EmptyState, DialogTitleWithClose } from '@/design-system';
+import { StatusBadge, PageTabs, EmptyState, DialogTitleWithClose, WorkspaceHeader } from '@/design-system';
 
 const ROWS_PER_PAGE = 10;
 const TABLE_COLUMN_WIDTHS_DEFAULT = [
@@ -2784,57 +2784,11 @@ export function StockPage({
     <Box
       sx={{ maxWidth: 1400, mx: 'auto', p: { xs: 1.5, md: 2 } }}
     >
-      <Box
-        sx={{
-          ...panelSx,
-          background: (t) => `linear-gradient(135deg, ${alpha(t.palette.primary.main, 0.06)} 0%, ${t.palette.background.paper} 58%)`,
-          px: { xs: 2, md: 2.6 },
-          py: { xs: 2, md: 2.4 },
-          display: 'grid',
-          gap: 1.4,
-          mb: 2,
-        }}
-      >
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 1,
-            flexWrap: 'wrap',
-          }}
-        >
-          <StatusBadge label="Material Stock" type="default" />
-        </Box>
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'flex-end',
-            justifyContent: 'space-between',
-            gap: 1.5,
-            flexWrap: 'wrap',
-          }}
-        >
-          <Box>
-            <Typography
-              sx={{
-                fontSize: { xs: '1.9rem', md: '2.35rem' },
-                fontWeight: 900,
-                lineHeight: 1.02,
-                color: 'text.primary',
-                letterSpacing: '-0.03em',
-              }}
-            >
-              คลังสินค้าและจัดซื้อ
-            </Typography>
-
-          </Box>
-          <Typography
-            sx={{ fontSize: '0.95rem', color: 'text.secondary', fontWeight: 700 }}
-          >
-            Dashboard / คลังสินค้า
-          </Typography>
-        </Box>
-      </Box>
+      <WorkspaceHeader
+        chipLabel="Material Stock"
+        title="คลังสินค้าและจัดซื้อ"
+        meta="Dashboard / คลังสินค้า"
+      />
 
       <Stack spacing={2.5}>
         <Box>
@@ -2856,7 +2810,7 @@ export function StockPage({
               gap: 1.5,
             }}
           >
-            <Grid container spacing={1.5} mb={2}>
+            <Grid container spacing={1.5}>
               <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                 <StatsCard
                   title="รายการคงคลัง"

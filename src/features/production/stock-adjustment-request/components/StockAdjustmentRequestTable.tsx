@@ -2,6 +2,7 @@
 
 import { useMemo } from 'react';
 import {
+  Button,
   Paper,
   Table,
   TableBody,
@@ -13,29 +14,25 @@ import {
   Typography,
 } from '@mui/material';
 import { alpha } from '@mui/material/styles';
-import { formatDateShort } from '@/lib/utils/date.util';
+import { formatDateTime } from '@/lib/utils/date.util';
+import { formatNumber } from '@/lib/utils/format.util';
 import { getWorkflowStatusType, toThaiWorkflowStatus } from '@/lib/utils/status.util';
-import { URGENCY_LABELS_THAI } from '@/lib/constants/status-labels';
 import { StatusBadge } from '@/design-system';
 import { PR_MAIN_TABLE_HEIGHT } from '@/core/ui-patterns/pr-ui.constants';
-import type { PurchaseRequestResponse } from '../types';
+import type { StockAdjustmentRequestResponse } from '@/features/production/stock/types/stock-adjustment-request.types';
 
-interface PurchaseRequestTableProps {
-  rows: PurchaseRequestResponse[];
-  loading?: boolean;
+interface StockAdjustmentRequestTableProps {
+  rows: StockAdjustmentRequestResponse[];
+  loading: boolean;
   page: number;
   rowsPerPage: number;
   onPageChange: (_event: unknown, newPage: number) => void;
-  onRowDoubleClick: (request: PurchaseRequestResponse) => void;
+  onRowsPerPageChange: (newRowsPerPage: number) => void;
+  onView: (request: StockAdjustmentRequestResponse) => void;
+  onRowDoubleClick: (request: StockAdjustmentRequestResponse) => void;
 }
 
-const urgencyBadgeMap: Record<string, { label: string; type: 'default' | 'warning' | 'error' }> = {
-  Normal: { label: URGENCY_LABELS_THAI['Normal'], type: 'default' },
-  High: { label: URGENCY_LABELS_THAI['High'], type: 'warning' },
-  Urgent: { label: URGENCY_LABELS_THAI['Urgent'], type: 'error' },
-};
-
-const TABLE_COLUMN_WIDTHS = ['6%', '18%', '14%', '23%', '10%', '14%', '15%'] as const;
+const TABLE_COLUMN_WIDTHS = ['6%', '18%', '14%', '22%', '14%', '14%', '12%'] as const;
 
 const paginationSx = {
   '& .MuiTablePagination-toolbar': {
@@ -54,14 +51,16 @@ const paginationSx = {
   },
 } as const;
 
-export function PurchaseRequestTable({
+export function StockAdjustmentRequestTable({
   rows,
-  loading = false,
+  loading,
   page,
   rowsPerPage,
   onPageChange,
+  onRowsPerPageChange,
+  onView,
   onRowDoubleClick,
-}: PurchaseRequestTableProps) {
+}: StockAdjustmentRequestTableProps) {
   const paginatedRows = useMemo(
     () => rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
     [rows, page, rowsPerPage],
@@ -133,18 +132,18 @@ export function PurchaseRequestTable({
         >
           <colgroup>
             {TABLE_COLUMN_WIDTHS.map((width, index) => (
-              <col key={`pr-col-${index}`} style={{ width }} />
+              <col key={`sar-col-${index}`} style={{ width }} />
             ))}
           </colgroup>
           <TableHead>
             <TableRow>
               <TableCell>#</TableCell>
-              <TableCell>เลขที่ใบขอซื้อ</TableCell>
-              <TableCell>วันที่ขอซื้อ</TableCell>
-              <TableCell>ผู้ขอ</TableCell>
-              <TableCell>รายการ</TableCell>
-              <TableCell>ความเร่งด่วน</TableCell>
+              <TableCell>เลขที่เอกสาร</TableCell>
+              <TableCell>วันที่ขอ</TableCell>
+              <TableCell>Facility</TableCell>
+              <TableCell align="right">มูลค่า Diff</TableCell>
               <TableCell>สถานะ</TableCell>
+              <TableCell align="center">จัดการ</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -157,7 +156,7 @@ export function PurchaseRequestTable({
             ) : paginatedRows.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={7} align="center" sx={{ py: 6 }}>
-                  ไม่พบข้อมูลใบขอซื้อ
+                  ยังไม่มีคำขอปรับสต๊อก
                 </TableCell>
               </TableRow>
             ) : (
@@ -179,25 +178,18 @@ export function PurchaseRequestTable({
                   </TableCell>
                   <TableCell align="center">
                     <Typography variant="body2">
-                      {formatDateShort(row.requestDate)}
+                      {formatDateTime(row.requestDate)}
                     </Typography>
                   </TableCell>
                   <TableCell>
                     <Typography variant="body2" sx={{ fontWeight: 800 }}>
-                      {row.requestorName}
+                      {row.facilityName}
                     </Typography>
                   </TableCell>
-                  <TableCell align="center">
-                    <Typography variant="body2" sx={{ fontWeight: 800 }}>
-                      {row.lines.length.toLocaleString()}
+                  <TableCell align="right">
+                    <Typography variant="body2">
+                      {formatNumber(row.totalDeltaValue ?? 0, 2)}
                     </Typography>
-                  </TableCell>
-                  <TableCell align="center">
-                    <StatusBadge
-                      label={urgencyBadgeMap[row.urgency]?.label ?? row.urgency}
-                      type={urgencyBadgeMap[row.urgency]?.type ?? 'default'}
-                      size="small"
-                    />
                   </TableCell>
                   <TableCell align="center">
                     <StatusBadge
@@ -205,6 +197,11 @@ export function PurchaseRequestTable({
                       type={getWorkflowStatusType(row.status)}
                       size="small"
                     />
+                  </TableCell>
+                  <TableCell align="center">
+                    <Button size="small" variant="outlined" onClick={() => onView(row)}>
+                      ดูรายละเอียด
+                    </Button>
                   </TableCell>
                 </TableRow>
               ))
@@ -219,7 +216,8 @@ export function PurchaseRequestTable({
         page={page}
         rowsPerPage={rowsPerPage}
         onPageChange={onPageChange}
-        rowsPerPageOptions={[rowsPerPage]}
+        onRowsPerPageChange={(event) => onRowsPerPageChange(parseInt(event.target.value, 10))}
+        rowsPerPageOptions={[10, 25, 50]}
         labelRowsPerPage=""
         labelDisplayedRows={({ count }) =>
           `ทั้งหมด ${count === -1 ? 0 : count} รายการ`

@@ -72,7 +72,7 @@ export default function HouseSelector({
 
   if (houseGroups.length === 0 || currentGroupHouses.length === 0) {
     return (
-      <Alert severity="warning" sx={{ borderRadius: 2 }}>
+      <Alert severity="warning" sx={{ borderRadius: 2, border: `1px solid ${UI.border}` }}>
         ฟาร์มนี้ยังไม่มีโรงเรือนที่เปิดใช้งาน
       </Alert>
     );
@@ -104,10 +104,11 @@ export default function HouseSelector({
                 ? {
                     bgcolor: UI.accent,
                     color: '#fff',
+                    borderColor: UI.accent,
                     '&:hover': { bgcolor: '#10473f' },
                   }
                 : {
-                    bgcolor: '#fff',
+                    bgcolor: UI.panel,
                     borderColor: UI.border,
                     color: UI.text,
                     '&:hover': {
@@ -139,13 +140,13 @@ export default function HouseSelector({
               key={`${selectedGroup}-${house.code}-${house.name ?? ''}-${houseIndex}`}
               variant="outlined"
               onClick={() => !isLoading && onSelectHouse(house.code)}
-              sx={{
+            sx={{
                 cursor: isLoading ? 'default' : 'pointer',
-                borderRadius: 2.6,
+                borderRadius: 3,
                 borderColor: isActive ? UI.accent : UI.borderStrong,
                 borderWidth: isActive ? 2 : 1,
                 position: 'relative',
-                bgcolor: isActive ? alpha(UI.accent, 0.04) : '#fff',
+                bgcolor: isActive ? alpha(UI.accent, 0.04) : UI.panel,
                 boxShadow: isActive ? UI.shadowSoft : 'none',
                 transition: 'all 0.15s ease',
               }}

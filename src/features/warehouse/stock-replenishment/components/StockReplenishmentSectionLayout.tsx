@@ -1,6 +1,8 @@
 import type { ReactNode } from 'react';
-import { Box, Chip, Stack, Typography } from '@mui/material';
+import { Box, Stack, Typography } from '@mui/material';
+import { alpha, useTheme } from '@mui/material/styles';
 import { ReceiptLongOutlined } from '@mui/icons-material';
+import { StatusBadge } from '@/design-system';
 
 interface StockReplenishmentSectionLayoutProps {
   scope: 'farm' | 'central';
@@ -15,28 +17,37 @@ export default function StockReplenishmentSectionLayout({
   currentFacilityName,
   children,
 }: StockReplenishmentSectionLayoutProps) {
+  const theme = useTheme();
+
   return (
     <Box sx={{ color: 'text.primary' }}>
       <Box
         sx={{
-          px: { xs: 2, md: 3 },
-          py: 2,
+          px: { xs: 2, md: 2.6 },
+          py: { xs: 2, md: 2.4 },
           borderBottom: '1px solid',
           borderColor: 'divider',
-          background: 'linear-gradient(135deg, #F3FAF5 0%, #FFFFFF 62%, #E9F5EE 100%)',
+          background: `linear-gradient(135deg, ${alpha(theme.palette.primary.main, 0.06)} 0%, ${theme.palette.background.paper} 58%)`,
         }}
       >
         <Stack direction={{ xs: 'column', md: 'row' }} spacing={1.5} justifyContent="space-between">
           <Box>
             <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap">
               <ReceiptLongOutlined sx={{ fontSize: 22 }} />
-              <Typography variant="h5" sx={{ fontWeight: 950 }}>
+              <Typography
+                sx={{
+                  fontSize: { xs: '1.9rem', md: '2.35rem' },
+                  fontWeight: 900,
+                  lineHeight: 1.02,
+                  color: 'text.primary',
+                  letterSpacing: '-0.03em',
+                }}
+              >
                 ใบแจ้งเติมสต็อกคลังกลาง
               </Typography>
-              <Chip
+              <StatusBadge
                 label={scope === 'central' ? 'Central scope' : 'Farm scope'}
-                color={scope === 'central' ? 'success' : 'info'}
-                variant="outlined"
+                type={scope === 'central' ? 'success' : 'info'}
                 size="small"
               />
             </Stack>

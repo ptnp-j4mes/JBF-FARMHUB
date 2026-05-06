@@ -48,10 +48,19 @@ export default function StockReplenishmentFilters({
         onChange={(event) => onSearchTextChange(event.target.value)}
         placeholder="เลขที่ใบแจ้ง, ฟาร์ม, item"
         size="small"
+        sx={{
+          width: '100%',
+          '& .MuiOutlinedInput-root': {
+            height: 40,
+            borderRadius: 2,
+            bgcolor: 'background.paper',
+            boxShadow: 1,
+          },
+        }}
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
-              <SearchIcon sx={{ fontSize: 18, color: '#8d9592' }} />
+              <SearchIcon sx={{ fontSize: 18, color: 'text.secondary' }} />
             </InputAdornment>
           ),
         }}
@@ -65,6 +74,18 @@ export default function StockReplenishmentFilters({
         SelectProps={{
           displayEmpty: true,
           renderValue: (value) => (value === 'all' ? 'ทุกสถานะ' : toThaiWorkflowStatus(value as string)),
+        }}
+        sx={{
+          '& .MuiOutlinedInput-root': {
+            height: 40,
+            minHeight: 40,
+            borderRadius: 2,
+            bgcolor: 'background.paper',
+            boxShadow: 1,
+          },
+          '& .MuiSelect-select': {
+            color: statusFilter === 'all' ? 'text.secondary' : 'inherit',
+          },
         }}
       >
         <MenuItem value="all">ทุกสถานะ</MenuItem>
@@ -86,6 +107,18 @@ export default function StockReplenishmentFilters({
           displayEmpty: true,
           renderValue: (value) => (value === 'all' ? 'ทั้งหมด' : urgencyCopy[value as Urgency]),
         }}
+        sx={{
+          '& .MuiOutlinedInput-root': {
+            height: 40,
+            minHeight: 40,
+            borderRadius: 2,
+            bgcolor: 'background.paper',
+            boxShadow: 1,
+          },
+          '& .MuiSelect-select': {
+            color: urgencyFilter === 'all' ? 'text.secondary' : 'inherit',
+          },
+        }}
       >
         <MenuItem value="all">ทั้งหมด</MenuItem>
         {Object.entries(urgencyCopy).map(([value, label]) => (
@@ -94,7 +127,18 @@ export default function StockReplenishmentFilters({
           </MenuItem>
         ))}
       </TextField>
-      <Button variant="contained" onClick={onClear} sx={{ height: 40, minWidth: 110 }}>
+      <Button
+        variant="contained"
+        onClick={onClear}
+        sx={{
+          height: 40,
+          minWidth: 110,
+          borderRadius: 2,
+          bgcolor: 'primary.main',
+          boxShadow: 1,
+          '&:hover': { bgcolor: 'primary.dark' },
+        }}
+      >
         ล้างตัวกรอง
       </Button>
     </Box>

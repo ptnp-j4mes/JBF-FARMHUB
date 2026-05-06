@@ -24,6 +24,7 @@ export { default as ContentCard } from './molecules/ContentCard';
 export { default as CardSummary } from './molecules/CardSummary';
 export { default as EmptyState } from './molecules/EmptyState';
 export { default as PageHeader } from './molecules/PageHeader';
+export { default as WorkspaceHeader } from './molecules/WorkspaceHeader';
 export { default as PageTabs } from './molecules/PageTabs';
 export { default as ConfirmDialog } from './molecules/ConfirmDialog';
 export { default as FormDialog } from './molecules/FormDialog';

@@ -5,22 +5,16 @@ import {
   Alert,
   Box,
   Button,
-  Chip,
   Dialog,
   DialogActions,
   DialogContent,
   IconButton,
   MenuItem,
   Stack,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
   TextField,
   Typography,
 } from '@mui/material';
+import { alpha, useTheme } from '@mui/material/styles';
 import { 
   Add as AddIcon, 
   Delete as DeleteIcon, 
@@ -31,6 +25,7 @@ import { AxiosError } from 'axios';
 import { URGENCY_LABELS_THAI } from '@/lib/constants/status-labels';
 import Swal from 'sweetalert2';
 import { DialogTitleWithClose, JBFarmTable, JBFarmTableColumn } from '@/components/common';
+import { StatusBadge } from '@/design-system';
 import { authService } from '@/features/auth/services/auth.service';
 import { formatUserDisplayName } from '@/lib/user-display';
 import { formatCurrency } from '@/lib/utils/format.util';
@@ -41,16 +36,15 @@ import { PURCHASE_REQUEST_SOURCE, PurchaseRequestType, type PurchaseRequestSourc
 import { PR_DIALOG_TABLE_HEIGHT } from '@/core/ui-patterns/pr-ui.constants';
 import { getCurrentFacilityCode } from '@/lib/facility-context';
 import {
-  PURCHASE_DIALOG_ACTIONS_SX,
-  PURCHASE_DIALOG_CONTENT_SX,
-  PURCHASE_DIALOG_ERROR_ALERT_SX,
-  PURCHASE_DIALOG_FIELDSET_SX,
-  PURCHASE_DIALOG_PRIMARY_BUTTON_SX,
+  getPurchaseDialogPaperSx,
+  getPurchaseDialogContentSx,
+  getPurchaseDialogErrorAlertSx,
+  getPurchaseDialogFieldsetSx,
+  getPurchaseDialogPrimaryButtonSx,
+  getPurchaseDialogSecondaryButtonSx,
   PURCHASE_DIALOG_LEGEND_SX,
-  PURCHASE_DIALOG_PAPER_SX,
-  PURCHASE_DIALOG_SECONDARY_BUTTON_SX,
-  PURCHASE_DIALOG_TABLE_SX,
-  PURCHASE_DIALOG_TITLE_SX,
+  getPurchaseDialogActionsSx,
+  getPurchaseDialogInfoAlertSx,
 } from './purchase-dialog.constants';
 import type {
   CreatePurchaseRequest,
@@ -120,23 +114,11 @@ function parseNumericInput(value: string): number | null {
 }
 
 function formatNumber(value: number): string {
-  return new Intl.NumberFormat('th-TH', { 
-    minimumFractionDigits: 0, 
-    maximumFractionDigits: 4 
+  return new Intl.NumberFormat('th-TH', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 4
   }).format(value);
 }
-
-const tableSx = {
-  '& .MuiTableCell-head': {
-    bgcolor: '#1a5c50 !important',
-    color: '#fff !important',
-    fontWeight: 900,
-    borderColor: 'rgba(255,255,255,0.1)',
-  },
-  '& .MuiTableCell-body': {
-    borderColor: '#E5EEE8',
-  },
-} as const;
 
 // Global memory to persist central items across scope changes and component remounts
 const globalKnownCentralItemIds = new Set<number>();
@@ -150,6 +132,7 @@ export function CreatePRDialog({
   mode = 'create',
   requestType = PurchaseRequestType.Material,
 }: CreatePRDialogProps) {
+  const theme = useTheme();
   const [options, setOptions] = useState<PurchaseRequestCreateOptionsResponse>({
     departments: [],
     facilities: [],
@@ -970,7 +953,7 @@ export function CreatePRDialog({
       render: (line) => {
         const item = activeItemOptions.find(i => i.id === line.itemId);
         return (
-          <Typography variant="body2" sx={{ fontWeight: 800, color: '#1a5c50' }}>
+          <Typography variant="body2" sx={{ fontWeight: 800, color: 'primary.main' }}>
             {item ? `${item.code} - ${item.name}` : `รหัส: ${line.itemId}`}
           </Typography>
         );
@@ -1193,11 +1176,11 @@ export function CreatePRDialog({
   };
 
   return (
-    <Dialog open={open} onClose={handleClose} maxWidth="lg" fullWidth PaperProps={{ sx: PURCHASE_DIALOG_PAPER_SX }}>
+    <Dialog open={open} onClose={handleClose} maxWidth="lg" fullWidth PaperProps={{ sx: getPurchaseDialogPaperSx(theme) }}>
       <DialogTitleWithClose
         onClose={handleClose}
         disabled={saving}
-        sx={PURCHASE_DIALOG_TITLE_SX}
+        variant="master"
       >
         <Stack alignItems="center" spacing={0.5}>
           <Typography variant="h6" sx={{ fontWeight: 900 }}>
@@ -1208,28 +1191,29 @@ export function CreatePRDialog({
                 : 'สร้างใบขอซื้อ'}
           </Typography>
           {isEditMode && initialRequest && (
-            <Chip 
-              label="Draft / Returned" 
-              sx={{ bgcolor: '#ff9800', color: '#fff', fontWeight: 800, fontSize: '0.75rem', height: 24 }} 
+            <StatusBadge
+              label="Draft / Returned"
+              type="warning"
+              size="small"
             />
           )}
         </Stack>
       </DialogTitleWithClose>
-      <DialogContent dividers sx={PURCHASE_DIALOG_CONTENT_SX}>
+      <DialogContent dividers sx={getPurchaseDialogContentSx(theme)}>
         <Stack spacing={2}>
           {isEditMode && !initialRequest ? (
             <Alert severity="warning">
               กำลังโหลดข้อมูลใบขอซื้อสำหรับแก้ไข...
             </Alert>
           ) : null}
-          {error && <Alert severity="error" sx={PURCHASE_DIALOG_ERROR_ALERT_SX}>{error}</Alert>}
+          {error && <Alert severity="error" sx={getPurchaseDialogErrorAlertSx(theme)}>{error}</Alert>}
           {!optionsLoading && !canCreate && (
-            <Alert severity="warning" sx={PURCHASE_DIALOG_ERROR_ALERT_SX}>
+            <Alert severity="warning" sx={getPurchaseDialogInfoAlertSx(theme)}>
               ยังไม่สามารถสร้างใบขอซื้อได้ กรุณาตรวจสอบข้อมูลต้นทางในระบบ: {missingRequirements.join(', ') || 'สินค้า หรือ หน่วยนับ'}
             </Alert>
           )}
 
-          <Box component="fieldset" sx={PURCHASE_DIALOG_FIELDSET_SX}>
+          <Box component="fieldset" sx={getPurchaseDialogFieldsetSx(theme)}>
             <Typography component="legend" sx={PURCHASE_DIALOG_LEGEND_SX}>
               ข้อมูลใบขอซื้อ
             </Typography>
@@ -1331,7 +1315,7 @@ export function CreatePRDialog({
             </Stack>
           </Box>
 
-          <Box component="fieldset" sx={PURCHASE_DIALOG_FIELDSET_SX}>
+          <Box component="fieldset" sx={getPurchaseDialogFieldsetSx(theme)}>
             <Typography component="legend" sx={PURCHASE_DIALOG_LEGEND_SX}>
               {resolvedRequestType === PurchaseRequestType.Pig ? 'รายการสุกร' : 'รายการสินค้า'}
             </Typography>
@@ -1387,19 +1371,10 @@ export function CreatePRDialog({
                               {item.code} - {item.name}
                             </Typography>
                             {isCentral && (
-                              <Chip 
-                                label="คลังกลาง" 
-                                size="small" 
-                                sx={{ 
-                                  ml: 1, 
-                                  height: 20, 
-                                  fontSize: '0.7rem', 
-                                  bgcolor: '#FEF3F2',
-                                  color: '#912018',
-                                  fontWeight: 700,
-                                  borderRadius: '4px',
-                                  border: '1px solid #FEE4E2'
-                                }} 
+                              <StatusBadge
+                                label="คลังกลาง"
+                                type="error"
+                                size="small"
                               />
                             )}
                           </Box>
@@ -1453,7 +1428,7 @@ export function CreatePRDialog({
                   }}
                   inputProps={{ inputMode: 'decimal', pattern: '[0-9]*\\.?[0-9]*' }}
                   disabled={saving}
-                  InputProps={{ sx: { '& input': { textAlign: 'right' }, bgcolor: 'rgba(0,0,0,0.03)' } }}
+                  InputProps={{ sx: { '& input': { textAlign: 'right' }, bgcolor: alpha(theme.palette.text.primary, 0.03) } }}
                 />
 
                 <TextField
@@ -1472,8 +1447,8 @@ export function CreatePRDialog({
                     startIcon={editingIndex !== null ? <CheckCircleIcon /> : <AddIcon />}
                     onClick={addLine}
                     disabled={saving || !draftLine.itemId}
-                    sx={{ 
-                      ...(editingIndex !== null ? PURCHASE_DIALOG_PRIMARY_BUTTON_SX : PURCHASE_DIALOG_SECONDARY_BUTTON_SX), 
+                    sx={{
+                      ...(editingIndex !== null ? getPurchaseDialogPrimaryButtonSx(theme) : getPurchaseDialogSecondaryButtonSx(theme)),
                       minHeight: 48,
                       flex: editingIndex !== null ? 2 : 1
                     }}
@@ -1486,7 +1461,7 @@ export function CreatePRDialog({
                       variant="outlined"
                       onClick={handleCancelEdit}
                       disabled={saving}
-                      sx={{ ...PURCHASE_DIALOG_SECONDARY_BUTTON_SX, minHeight: 48, flex: 1 }}
+                      sx={{ ...getPurchaseDialogSecondaryButtonSx(theme), minHeight: 48, flex: 1 }}
                     >
                       ยกเลิกแก้ไข
                     </Button>
@@ -1500,14 +1475,14 @@ export function CreatePRDialog({
                       variant="outlined"
                       onClick={handleLoadRequests}
                       disabled={saving || hasLoadedRequests}
-                      sx={{ 
-                        ...PURCHASE_DIALOG_SECONDARY_BUTTON_SX, 
+                      sx={{
+                        ...getPurchaseDialogSecondaryButtonSx(theme),
                         minHeight: 48,
-                        color: hasLoadedRequests ? 'text.disabled' : '#2e7d32',
-                        borderColor: hasLoadedRequests ? 'divider' : '#2e7d32',
+                        color: hasLoadedRequests ? 'text.disabled' : 'success.dark',
+                        borderColor: hasLoadedRequests ? 'divider' : 'success.dark',
                         '&:hover': {
-                          borderColor: '#1b5e20',
-                          bgcolor: 'rgba(46, 125, 50, 0.04)'
+                          borderColor: 'success.dark',
+                          bgcolor: alpha(theme.palette.success.main, 0.04)
                         }
                       }}
                     >
@@ -1533,18 +1508,18 @@ export function CreatePRDialog({
                   showPagination={false}
                   emptyMessage="ยังไม่มีรายการสินค้า"
                   footer={lines.length > 0 ? (
-                    <Box sx={{ 
-                      display: 'flex', 
-                      justifyContent: 'space-between', 
+                    <Box sx={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
                       alignItems: 'center',
-                      bgcolor: '#ecf2ee', 
+                      bgcolor: alpha(theme.palette.primary.main, 0.06),
                       px: 3,
                       py: 1.5,
                     }}>
-                      <Typography sx={{ fontWeight: 900, color: '#1a5c50', fontSize: '1rem' }}>
+                      <Typography sx={{ fontWeight: 900, color: 'primary.main', fontSize: '1rem' }}>
                         รวมทั้งหมด
                       </Typography>
-                      <Typography sx={{ fontWeight: 950, color: '#1a5c50', fontSize: '1.1rem' }}>
+                      <Typography sx={{ fontWeight: 950, color: 'primary.main', fontSize: '1.1rem' }}>
                         {formatCurrency(grandTotal)}
                       </Typography>
                     </Box>
@@ -1555,7 +1530,7 @@ export function CreatePRDialog({
           </Box>
         </Stack>
       </DialogContent>
-      <DialogActions sx={PURCHASE_DIALOG_ACTIONS_SX}>
+      <DialogActions sx={getPurchaseDialogActionsSx(theme)}>
         <Button
           variant="outlined"
           onClick={handleClose}
@@ -1568,7 +1543,7 @@ export function CreatePRDialog({
           variant="contained"
           onClick={handleSubmit}
           disabled={saving || optionsLoading || !canCreate || (isEditMode && !initialRequest)}
-          sx={{ borderRadius: 999, px: 3, bgcolor: '#1a5c50', '&:hover': { bgcolor: '#124840' } }}
+          sx={{ borderRadius: 999, px: 3, bgcolor: 'primary.main', '&:hover': { bgcolor: 'primary.dark' } }}
         >
           {isEditMode ? 'บันทึกการแก้ไข' : 'บันทึกใบขอซื้อ'}
         </Button>

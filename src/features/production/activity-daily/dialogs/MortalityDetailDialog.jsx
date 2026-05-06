@@ -33,14 +33,20 @@ export default function MortalityDetailDialog({
       fullWidth
       maxWidth="sm"
       PaperProps={{
-        sx: { borderRadius: 3, overflow: 'hidden' },
+        sx: {
+          borderRadius: 3.5,
+          overflow: 'hidden',
+          border: `1px solid ${UI.border}`,
+          boxShadow: UI.shadowSoft,
+        },
       }}
     >
       <DialogTitle
         sx={{
-          bgcolor: UI.accentSurface,
+          bgcolor: UI.panel,
           color: UI.text,
           fontWeight: 700,
+          borderBottom: `1px solid ${UI.border}`,
         }}
       >
         <Stack direction="row" spacing={1} alignItems="center">
@@ -62,7 +68,7 @@ export default function MortalityDetailDialog({
         </Stack>
       </DialogTitle>
 
-      <DialogContent sx={{ p: 2.5 }} dividers>
+      <DialogContent sx={{ p: 2.5, bgcolor: UI.panel }} dividers>
         <Stack spacing={1.5}>
           <Stack
             direction="row"
@@ -132,7 +138,7 @@ export default function MortalityDetailDialog({
                   objectFit: 'contain',
                   borderRadius: 2,
                   border: `1px solid ${UI.border}`,
-                  bgcolor: '#fafafa',
+                  bgcolor: UI.panelSoft,
                 }}
               />
             </Box>
@@ -140,7 +146,7 @@ export default function MortalityDetailDialog({
         </Stack>
       </DialogContent>
 
-      <DialogActions sx={{ px: 2.5, py: 1.5 }}>
+      <DialogActions sx={{ px: 2.5, py: 1.5, borderTop: `1px solid ${UI.border}`, bgcolor: UI.panel }}>
         <Button
           color="error"
           startIcon={<DeleteIcon />}

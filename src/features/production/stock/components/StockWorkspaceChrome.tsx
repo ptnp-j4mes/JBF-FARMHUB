@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, Card, CardContent, Chip, Stack, Typography } from '@mui/material';
+import { Box, Card, CardContent, Stack, Typography } from '@mui/material';
 import { alpha, useTheme } from '@mui/material/styles';
 import type { ReactNode } from 'react';
 
@@ -10,13 +10,6 @@ export const stockPanelSx = {
   borderColor: 'divider',
   bgcolor: 'background.paper',
   boxShadow: 2,
-};
-
-type StockWorkspaceHeaderProps = {
-  chipLabel: string;
-  title: string;
-  subtitle: string;
-  meta?: string;
 };
 
 type StockSummaryCardProps = {
@@ -34,54 +27,6 @@ type StockSectionProps = {
   action?: ReactNode;
   children: ReactNode;
 };
-
-export function StockWorkspaceHeader({ chipLabel, title, subtitle, meta }: StockWorkspaceHeaderProps) {
-  const theme = useTheme();
-
-  return (
-    <Box
-      sx={{
-        ...stockPanelSx,
-        background: `linear-gradient(135deg, ${alpha(theme.palette.primary.main, 0.06)} 0%, ${theme.palette.background.paper} 58%)`,
-        px: { xs: 2, md: 2.6 },
-        py: { xs: 2, md: 2.4 },
-        display: 'grid',
-        gap: 1.4,
-        mb: 2,
-      }}
-    >
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap' }}>
-        <Chip
-          size="small"
-          label={chipLabel}
-          sx={{
-            bgcolor: 'background.paper',
-            color: 'primary.main',
-            fontWeight: 800,
-            border: '1px solid',
-            borderColor: 'divider',
-            height: 28,
-          }}
-        />
-        <Typography sx={{ fontSize: '0.9rem', color: 'text.secondary' }}>
-          {subtitle}
-        </Typography>
-      </Box>
-      <Box sx={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 1.5, flexWrap: 'wrap' }}>
-        <Box>
-          <Typography sx={{ fontSize: { xs: '1.9rem', md: '2.35rem' }, fontWeight: 900, lineHeight: 1.02, color: 'text.primary', letterSpacing: '-0.03em' }}>
-            {title}
-          </Typography>
-        </Box>
-        {meta ? (
-          <Typography sx={{ fontSize: '0.95rem', color: 'text.secondary', fontWeight: 700 }}>
-            {meta}
-          </Typography>
-        ) : null}
-      </Box>
-    </Box>
-  );
-}
 
 export function StockSummaryCard({ title, value, subtitle, icon, iconBg, bar }: StockSummaryCardProps) {
   const theme = useTheme();

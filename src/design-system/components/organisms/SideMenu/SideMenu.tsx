@@ -561,60 +561,51 @@ export default function SideMenu({
             overflow: 'hidden',
           }}
         >
-          <Box
-            component="img"
-            src="/branding/FH-LOGO-NEW.png"
-            alt="FarmHUB"
-            sx={{
-              height: collapsed ? 34 : 40,
-              width: 'auto',
-              maxWidth: collapsed ? 52 : 'none',
-              objectFit: 'contain',
-              flexShrink: 0,
-              display: 'block',
-            }}
-          />
-          {!collapsed ? (
+          {collapsed ? (
             <Box
+              component="img"
+              src="/branding/FH-LOGO-NEW.png"
+              alt="FarmHUB"
               sx={{
-                minWidth: 0,
-                flex: 1,
-                display: 'flex',
-                flexDirection: 'column',
-                gap: 0.25,
+                height: 34,
+                width: 'auto',
+                maxWidth: 52,
+                objectFit: 'contain',
+                flexShrink: 0,
               }}
-            >
+            />
+          ) : (
+            <Box sx={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 0.25 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25 }}>
+                <Box
+                  component="img"
+                  src="/branding/FH-LOGO-NEW.png"
+                  alt="FarmHUB"
+                  sx={{ height: 36, width: 'auto', objectFit: 'contain', flexShrink: 0 }}
+                />
+                <Box sx={{ width: '1px', height: 22, bgcolor: UI.border, flexShrink: 0 }} />
+                <Box
+                  component="img"
+                  src="/branding/jbf-logo-red.svg"
+                  alt="JBF"
+                  sx={{ height: 28, width: 'auto', objectFit: 'contain', flexShrink: 0 }}
+                />
+              </Box>
               <Typography
-                variant="h6"
+                variant="caption"
                 sx={{
-                  fontWeight: sidemenuTokens.typography.appName.fontWeight,
-                  lineHeight: 1.15,
+                  lineHeight: 1.2,
                   whiteSpace: 'nowrap',
                   overflow: 'hidden',
                   textOverflow: 'ellipsis',
-                  fontSize: sidemenuTokens.typography.appName.fontSize,
-                  color: sidemenuTokens.typography.appName.color,
+                  color: sidemenuTokens.typography.caption.color,
+                  fontSize: sidemenuTokens.typography.caption.fontSize,
                 }}
               >
-                FarmHUB
+                ฟาร์ม{activeFarmDisplayName && activeFarmDisplayName !== '-' ? ` ${activeFarmDisplayName}` : ''}
               </Typography>
-              {activeFarmDisplayName && activeFarmDisplayName !== '-' ? (
-                <Typography
-                  variant="caption"
-                  sx={{
-                    lineHeight: 1.2,
-                    whiteSpace: 'nowrap',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    color: sidemenuTokens.typography.caption.color,
-                    fontSize: sidemenuTokens.typography.caption.fontSize,
-                  }}
-                >
-                  {activeFarmDisplayName}
-                </Typography>
-              ) : null}
             </Box>
-          ) : null}
+          )}
         </Toolbar>
       </Box>
 

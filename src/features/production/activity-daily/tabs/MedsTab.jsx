@@ -192,6 +192,7 @@ export default function MedsTab({
             label="โรงเรือน"
             value={selectedHouse || ''}
             InputProps={{ readOnly: true }}
+            sx={FORM_INPUT_SX}
           />
 
           <FormControl size="small">
@@ -199,6 +200,7 @@ export default function MedsTab({
             <Select
               value={medForm.medName}
               label="ยา/วัคซีน"
+              sx={FORM_INPUT_SX}
               onChange={(e) => {
                 const selectedName = String(e.target.value);
                 const matched = medItemOptions.find(
@@ -236,6 +238,7 @@ export default function MedsTab({
             <Select
               value={medForm.method}
               label="วิธีให้"
+              sx={FORM_INPUT_SX}
               onChange={(e) =>
                 setMedForm((prev) => ({ ...prev, method: e.target.value }))
               }
@@ -266,6 +269,7 @@ export default function MedsTab({
             }
             InputProps={{ readOnly: medBatchAllocations.length > 0 }}
             inputProps={{ inputMode: 'numeric' }}
+            sx={FORM_INPUT_SX}
           />
           <TextField
             size="small"
@@ -274,6 +278,7 @@ export default function MedsTab({
             onChange={(e) =>
               setMedForm((prev) => ({ ...prev, dose: e.target.value }))
             }
+            sx={FORM_INPUT_SX}
           />
           <FormControl
             size="small"
@@ -283,6 +288,7 @@ export default function MedsTab({
             <Select
               value={medForm.warehouseId}
               label="คลังวัคซีน"
+              sx={FORM_INPUT_SX}
               onChange={(e) =>
                 setMedForm((prev) => ({
                   ...prev,
@@ -315,6 +321,7 @@ export default function MedsTab({
             <Select
               value={medForm.stockLotId}
               label="Lot (ไม่บังคับ)"
+              sx={FORM_INPUT_SX}
               onChange={(e) =>
                 setMedForm((prev) => ({
                   ...prev,
@@ -356,9 +363,10 @@ export default function MedsTab({
           <Paper
             variant="outlined"
             sx={{
-              borderRadius: 2,
-              borderColor: '#bfdbfe',
-              bgcolor: '#f8fbff',
+              borderRadius: 3,
+              borderColor: UI.border,
+              bgcolor: UI.panelSoft,
+              boxShadow: UI.shadowSoft,
               p: 1.25,
             }}
           >
@@ -369,7 +377,7 @@ export default function MedsTab({
                 justifyContent="space-between"
                 alignItems={{ xs: 'flex-start', md: 'center' }}
               >
-                <Typography sx={{ fontWeight: 700, color: '#0f172a' }}>
+                <Typography sx={{ fontWeight: 700, color: UI.text }}>
                   Batch สุกรและสถานะคลังของรายการนี้
                 </Typography>
                 <Chip
@@ -395,8 +403,8 @@ export default function MedsTab({
                       size="small"
                       label={`หมูคงเหลือรวม ${medExecutionContext.currentQuantity} ตัว`}
                       sx={{
-                        bgcolor: '#e0f2fe',
-                        color: '#075985',
+                        bgcolor: UI.accentSurface,
+                        color: UI.accent,
                         fontWeight: 700,
                       }}
                     />
@@ -406,8 +414,8 @@ export default function MedsTab({
                       size="small"
                       label={`กำลังบันทึก ${medAllocatedHeadcount} ตัว`}
                       sx={{
-                        bgcolor: '#FEF3F2',
-                        color: '#912018',
+                        bgcolor: '#fef3f2',
+                        color: '#991b1b',
                         fontWeight: 700,
                       }}
                     />
@@ -421,7 +429,12 @@ export default function MedsTab({
                     <Paper
                       key={`med-batch-${allocation.pigBatchId}-${allocation.buildingOpeningRequestId}`}
                       variant="outlined"
-                      sx={{ borderRadius: 1.5, p: 1.25 }}
+                      sx={{
+                        borderRadius: 2,
+                        borderColor: UI.border,
+                        p: 1.25,
+                        bgcolor: UI.panel,
+                      }}
                     >
                       <Stack
                         direction={{ xs: 'column', md: 'row' }}
@@ -431,7 +444,7 @@ export default function MedsTab({
                       >
                         <Box sx={{ flex: 1 }}>
                           <Typography
-                            sx={{ fontWeight: 700, color: '#0f172a' }}
+                            sx={{ fontWeight: 700, color: UI.text }}
                           >
                             {allocation.batchNo}
                           </Typography>
@@ -456,8 +469,8 @@ export default function MedsTab({
                               size="small"
                               label={`คงเหลือ ${allocation.availableQuantity} ตัว`}
                               sx={{
-                                bgcolor: '#e2e8f0',
-                                color: '#334155',
+                                bgcolor: UI.panelMuted,
+                                color: UI.text,
                                 fontWeight: 700,
                               }}
                             />
@@ -479,14 +492,14 @@ export default function MedsTab({
                             max: allocation.availableQuantity,
                             step: 1,
                           }}
-                          sx={{ width: { xs: '100%', md: 180 } }}
+                          sx={{ ...FORM_INPUT_SX, width: { xs: '100%', md: 180 } }}
                         />
                       </Stack>
                     </Paper>
                   ))}
                 </Stack>
               ) : !medExecutionLoading ? (
-                <Alert severity="warning" sx={{ borderRadius: 2 }}>
+                <Alert severity="warning" sx={{ borderRadius: 2, border: `1px solid ${UI.border}` }}>
                   ยังไม่พบข้อมูล batch สุกรของโรงเรือนนี้สำหรับวัคซีนรายการนี้
                 </Alert>
               ) : null}

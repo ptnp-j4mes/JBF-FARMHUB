@@ -17,8 +17,9 @@ export default function FeedRecordTable({ records, onDelete }) {
           key={row.id}
           variant="outlined"
           sx={{
-            borderRadius: 2.6,
+            borderRadius: 3,
             borderColor: UI.border,
+            bgcolor: UI.panel,
             boxShadow: UI.shadowSoft,
             transition: 'all 0.15s ease',
             '&:hover': {
@@ -46,11 +47,11 @@ export default function FeedRecordTable({ records, onDelete }) {
                   {row.feedNo && (
                     <Chip
                       size="small"
-                      label={row.feedNo}
-                      sx={{
-                        bgcolor: UI.accentSurface,
-                        color: UI.accent,
-                        fontWeight: 700,
+                    label={row.feedNo}
+                    sx={{
+                      bgcolor: UI.accentSurface,
+                      color: UI.accent,
+                      fontWeight: 700,
                         height: 22,
                       }}
                     />
