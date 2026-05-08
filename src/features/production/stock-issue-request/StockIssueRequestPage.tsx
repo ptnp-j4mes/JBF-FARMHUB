@@ -232,14 +232,14 @@ export function StockIssueRequestPage() {
 
   if (!canViewIssue) {
     return (
-      <Box sx={{ p: { xs: 1.5, md: 2 } }}>
+      <Box sx={{ p: { xs: 1, md: 2 } }}>
         <Alert severity="warning">คุณไม่มีสิทธิ์เข้าถึงหน้าขอตัดสต๊อก</Alert>
       </Box>
     );
   }
 
   return (
-    <Box sx={{ maxWidth: 1400, mx: 'auto', p: { xs: 1.5, md: 2 } }}>
+    <Box sx={{ maxWidth: 1400, mx: 'auto', p: { xs: 1, md: 2 } }}>
       <WorkspaceHeader
         chipLabel="Stock Issue Request"
         title="ใบขอตัดสต๊อก"

@@ -20,13 +20,19 @@ import type { MenuListResponse } from '../types';
 import {
   Alert,
   Box,
-  Chip,
+  Button,
+  Grid,
   Stack,
-  Typography,
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
+import {
+  AccountTreeOutlined,
+  EditNoteOutlined,
+  FolderOutlined,
+  Menu as MenuIcon,
+} from '@mui/icons-material';
 import Swal, { type SweetAlertOptions } from 'sweetalert2';
-import { StockActionButton } from '@/features/production/stock/components/StockActionButton';
+import { WorkspaceHeader, StatsCard } from '@/design-system';
 import {
   MenuManagementDialog,
   MenuManagementFolderAccordion,
@@ -38,6 +44,14 @@ import type {
   MenuManagementFormState,
 } from '@/features/admin/user-assignment/components/menu-management.types';
 import { normalizeSlug, sortMenuRows } from '@/features/admin/user-assignment/components/menu-management.utils';
+
+const panelSx = {
+  borderRadius: 3.5,
+  border: '1px solid',
+  borderColor: 'divider',
+  bgcolor: 'background.paper',
+  boxShadow: 2,
+};
 
 function createMenuFormState(overrides: Partial<MenuManagementFormState> = {}): MenuManagementFormState {
   return {
@@ -518,129 +532,145 @@ export default function MenuManagementPage() {
   }, [baselineIndex, displayIndex]);
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.5 }}>
-      <Box
-        sx={{
-          borderRadius: 3.5,
-          border: '1px solid',
-          borderColor: 'divider',
-          bgcolor: '#fff',
-          boxShadow: '0 18px 40px rgba(22,35,31,0.08), 0 3px 10px rgba(22,35,31,0.05)',
-          background: 'linear-gradient(135deg, #edf5f1 0%, #ffffff 58%)',
-          px: { xs: 2, md: 2.6 },
-          py: { xs: 2, md: 2.4 },
-          display: 'grid',
-          gap: 1.4,
-          mb: 1,
-        }}
-      >
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap' }}>
-          <Chip
-            size="small"
-            label="Menu Management"
-            sx={{
-              bgcolor: '#fff',
-              color: 'rgb(22, 90, 80)',
-              fontWeight: 800,
-              border: '1px solid #cad4cf',
-              height: 28,
-            }}
-          />
-        </Box>
-        <Box sx={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 1.5, flexWrap: 'wrap' }}>
-          <Box>
-            <Typography sx={{ fontSize: { xs: '1.9rem', md: '2.35rem' }, fontWeight: 900, lineHeight: 1.02, color: '#2f3a37', letterSpacing: '-0.03em' }}>
-              จัดการโครงสร้างเมนู
-            </Typography>
-          </Box>
-          <Typography sx={{ fontSize: '0.95rem', color: '#7d8783', fontWeight: 700 }}>
-            Dashboard / จัดการเมนู
-          </Typography>
-        </Box>
-      </Box>
+    <Box sx={{ maxWidth: 1400, mx: 'auto', p: { xs: 1, md: 2 } }}>
+      <WorkspaceHeader
+        chipLabel="Menu Management"
+        title="จัดการโครงสร้างเมนู"
+        meta="Dashboard / จัดการเมนู"
+      />
 
-      <Box
-        sx={{
-          borderRadius: 3.5,
-          border: '1px solid',
-          borderColor: 'divider',
-          bgcolor: '#fff',
-          boxShadow: '0 10px 24px rgba(22,35,31,0.06), 0 2px 6px rgba(22,35,31,0.04)',
-          mb: 2,
-          p: { xs: 1.25, md: 1.5 },
-          display: 'flex',
-          justifyContent: 'flex-start',
-          gap: 1,
-          flexWrap: 'wrap',
-        }}
-      >
-        <StockActionButton tone="success" startIcon={<AddIcon />} onClick={openCreate} disabled={isLoading || isSaving}>
-          เพิ่มเมนู/โฟลเดอร์
-        </StockActionButton>
-      </Box>
-
-      {error && <Alert severity="error">{error}</Alert>}
-
-      <DndContext
-        sensors={sensors}
-        collisionDetection={closestCenter}
-        onDragOver={(event) => {
-          void handleDragOver(event);
-        }}
-        onDragCancel={(_event: DragCancelEvent) => {
-          setDisplayNodes(nodes);
-        }}
-        onDragEnd={() => undefined}
-      >
-        <Stack spacing={2}>
-          {displayIndex.rootItems.length > 0 ? (
-            <MenuManagementTableSection
+      <Stack spacing={2.5}>
+        {/* ── Stat cards ── */}
+        <Grid container spacing={1.5}>
+          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+            <StatsCard
+              title="เมนูทั้งหมด"
+              value={nodes.length}
+              subtitle="รายการทั้งหมด"
+              icon={<MenuIcon />}
+              color="info"
+            />
+          </Grid>
+          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+            <StatsCard
+              title="โฟลเดอร์"
+              value={displayIndex.folders.length}
+              subtitle="กลุ่มเมนู"
+              icon={<FolderOutlined />}
+              color="primary"
+            />
+          </Grid>
+          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+            <StatsCard
               title="เมนูระดับบนสุด"
-              borderColor="divider"
-              headerBackground="action.hover"
-              items={displayIndex.rootItems}
-              isSaving={isSaving}
-              emptyMessage="ยังไม่มีเมนูระดับบนสุด"
-              onEdit={openEdit}
-              onToggle={toggleItem}
-              onDelete={deactivateItem}
+              value={displayIndex.rootItems.length}
+              subtitle="เมนูหลัก"
+              icon={<AccountTreeOutlined />}
+              color="success"
             />
-          ) : null}
-
-          {displayIndex.orphanItems.length > 0 ? (
-            <MenuManagementTableSection
-              title="เมนูที่ยังไม่อยู่ใต้หมวดหลัก"
-              borderColor="warning.main"
-              headerBackground="warning.light"
-              items={displayIndex.orphanItems}
-              isSaving={isSaving}
-              emptyMessage="ยังไม่มีเมนูที่ยังไม่อยู่ใต้หมวดหลัก"
-              onEdit={openEdit}
-              onToggle={toggleItem}
-              onDelete={deactivateItem}
+          </Grid>
+          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+            <StatsCard
+              title="มีการเปลี่ยนแปลง"
+              value={dirtyFolderIds.size}
+              subtitle="ยังไม่บันทึกลำดับ"
+              icon={<EditNoteOutlined />}
+              color="warning"
             />
-          ) : null}
+          </Grid>
+        </Grid>
 
-          {displayIndex.folders.map((folder) => {
-            const children = displayIndex.childrenByParentId.get(folder.id) ?? [];
+        {/* ── Action buttons ── */}
+        <Box
+          sx={{
+            ...panelSx,
+            p: { xs: 1.25, md: 1.5 },
+            display: 'flex',
+            justifyContent: 'flex-start',
+            gap: 1,
+            flexWrap: 'wrap',
+          }}
+        >
+          <Button
+            variant="contained"
+            startIcon={<AddIcon />}
+            onClick={openCreate}
+            disabled={isLoading || isSaving}
+            sx={{
+              borderRadius: 2.2,
+              bgcolor: 'primary.main',
+              boxShadow: 1,
+              '&:hover': { bgcolor: 'primary.dark' },
+            }}
+          >
+            เพิ่มเมนู/โฟลเดอร์
+          </Button>
+        </Box>
 
-            return (
-              <MenuManagementFolderAccordion
-                key={folder.id}
-                folder={folder}
-                children={children}
+        {error && <Alert severity="error">{error}</Alert>}
+
+        {/* ── DnD sections ── */}
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragOver={(event) => {
+            void handleDragOver(event);
+          }}
+          onDragCancel={(_event: DragCancelEvent) => {
+            setDisplayNodes(nodes);
+          }}
+          onDragEnd={() => undefined}
+        >
+          <Stack spacing={2}>
+            {displayIndex.rootItems.length > 0 ? (
+              <MenuManagementTableSection
+                title="เมนูระดับบนสุด"
+                borderColor="divider"
+                headerBackground="action.hover"
+                items={displayIndex.rootItems}
                 isSaving={isSaving}
-                isDirty={dirtyFolderIds.has(folder.id)}
-                onToggle={toggleItem}
+                emptyMessage="ยังไม่มีเมนูระดับบนสุด"
                 onEdit={openEdit}
+                onToggle={toggleItem}
                 onDelete={deactivateItem}
-                onCreateChild={openCreateChild}
-                onSaveOrder={saveFolderOrder}
               />
-            );
-          })}
-        </Stack>
-      </DndContext>
+            ) : null}
+
+            {displayIndex.orphanItems.length > 0 ? (
+              <MenuManagementTableSection
+                title="เมนูที่ยังไม่อยู่ใต้หมวดหลัก"
+                borderColor="warning.main"
+                headerBackground="warning.light"
+                items={displayIndex.orphanItems}
+                isSaving={isSaving}
+                emptyMessage="ยังไม่มีเมนูที่ยังไม่อยู่ใต้หมวดหลัก"
+                onEdit={openEdit}
+                onToggle={toggleItem}
+                onDelete={deactivateItem}
+              />
+            ) : null}
+
+            {displayIndex.folders.map((folder) => {
+              const children = displayIndex.childrenByParentId.get(folder.id) ?? [];
+
+              return (
+                <MenuManagementFolderAccordion
+                  key={folder.id}
+                  folder={folder}
+                  children={children}
+                  isSaving={isSaving}
+                  isDirty={dirtyFolderIds.has(folder.id)}
+                  onToggle={toggleItem}
+                  onEdit={openEdit}
+                  onDelete={deactivateItem}
+                  onCreateChild={openCreateChild}
+                  onSaveOrder={saveFolderOrder}
+                />
+              );
+            })}
+          </Stack>
+        </DndContext>
+      </Stack>
 
       <MenuManagementDialog
         open={dialogOpen}

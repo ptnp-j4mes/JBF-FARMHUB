@@ -58,10 +58,9 @@ const ID_COLUMN_LABEL = 'ID';
 const CODE_COLUMN_LABEL = 'รหัส';
 const STATUS_COLUMN_LABEL = 'สถานะ';
 const MANAGE_COLUMN_LABEL = 'จัดการ';
-const TABLE_HEADER_BACKGROUND = (theme: Theme) =>
-  theme.palette.mode === 'dark'
-    ? alpha(theme.palette.primary.main, 0.12)
-    : alpha(theme.palette.primary.main, 0.06);
+const TABLE_HEADER_SOLID_BG = (theme: Theme) => theme.palette.background.paper;
+const TABLE_HEADER_TINT_OVERLAY = (theme: Theme) =>
+  `linear-gradient(${alpha(theme.palette.primary.main, theme.palette.mode === 'dark' ? 0.12 : 0.06)}, ${alpha(theme.palette.primary.main, theme.palette.mode === 'dark' ? 0.12 : 0.06)})`;
 const HIDDEN_NATIVE_SCROLLBAR_SX: SxProps<Theme> = {
   scrollbarWidth: 'none',
   msOverflowStyle: 'none',
@@ -849,7 +848,8 @@ export default function DataTable<T extends { id?: number | string }>({
           const widthSx: Record<string, unknown> = resolveColumnWidthSx(column);
           const cellSx: SxProps<Theme> = {
             fontWeight: 700,
-            bgcolor: TABLE_HEADER_BACKGROUND,
+            bgcolor: TABLE_HEADER_SOLID_BG,
+            backgroundImage: TABLE_HEADER_TINT_OVERLAY,
             fontSize: TABLE_HEADER_FONT_SIZE,
             minHeight: TABLE_HEADER_MIN_HEIGHT,
             height: TABLE_HEADER_MIN_HEIGHT,
@@ -998,7 +998,8 @@ export default function DataTable<T extends { id?: number | string }>({
                 minWidth: `${EXTERNAL_SCROLLBAR_WIDTH}px`,
                 borderLeft: '1px solid',
                 borderColor: 'divider',
-                bgcolor: TABLE_HEADER_BACKGROUND,
+                bgcolor: TABLE_HEADER_SOLID_BG,
+            backgroundImage: TABLE_HEADER_TINT_OVERLAY,
               }}
             />
           </Box>
@@ -1125,8 +1126,8 @@ export default function DataTable<T extends { id?: number | string }>({
                   },
                   '& .MuiTableCell-stickyHeader': {
                     zIndex: 2,
-                    backgroundColor: TABLE_HEADER_BACKGROUND,
-                    backgroundImage: 'none',
+                    backgroundColor: TABLE_HEADER_SOLID_BG,
+                    backgroundImage: TABLE_HEADER_TINT_OVERLAY,
                   },
                   '& .MuiTableBody-root .MuiTableCell-root': {
                     verticalAlign: 'middle',

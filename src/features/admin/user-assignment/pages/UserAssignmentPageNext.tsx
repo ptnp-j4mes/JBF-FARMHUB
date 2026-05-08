@@ -2,17 +2,16 @@
 
 import { useMemo, useState } from 'react';
 import { DataTable, SearchField, type Column } from '@/components/common';
-import { alpha } from '@mui/material/styles';
+import { useTheme, alpha } from '@mui/material/styles';
 import {
   Alert,
   Box,
   Button,
   Chip,
   CircularProgress,
+  Grid,
   Paper,
   Stack,
-  Tab,
-  Tabs,
   Typography,
 } from '@mui/material';
 import {
@@ -24,6 +23,7 @@ import {
   VpnKeyOutlined,
   WarehouseOutlined,
 } from '@mui/icons-material';
+import { WorkspaceHeader, StatsCard, PageTabs } from '@/design-system';
 import Swal from 'sweetalert2';
 import { deleteUserAssignment } from '../services/user-assignment.api';
 import { useUserAssignmentTabs, useUserAssignmentWorkspace } from '../hooks';
@@ -34,29 +34,12 @@ import RolePage from './RolePage';
 import PermissionPage from './PermissionPage';
 import type { UserAssignmentUserSummary } from '../types';
 
-/* ── UI tokens (match warehouse/material-stock) ────────────────────── */
-const UI = {
-  panel: '#ffffff',
-  panelSoft: '#f8faf8',
-  panelMuted: '#f2f6f3',
-  field: '#fbfcfb',
-  border: '#dde2de',
-  borderStrong: '#cad4cf',
-  text: '#2f3a37',
-  muted: '#7d8783',
-  accent: 'rgb(22, 90, 80)',
-  accentSurface: '#edf5f1',
-  shadow:
-    '0 18px 40px rgba(22, 35, 31, 0.08), 0 3px 10px rgba(22, 35, 31, 0.05)',
-  shadowSoft:
-    '0 10px 24px rgba(22, 35, 31, 0.06), 0 2px 6px rgba(22, 35, 31, 0.04)',
-};
-
 const panelSx = {
   borderRadius: 3.5,
-  border: `1px solid ${UI.border}`,
-  bgcolor: UI.panel,
-  boxShadow: UI.shadow,
+  border: '1px solid',
+  borderColor: 'divider',
+  bgcolor: 'background.paper',
+  boxShadow: 2,
 };
 
 const SECTION_TABS = [
@@ -65,30 +48,6 @@ const SECTION_TABS = [
   { key: 'role', label: 'บทบาท' },
   { key: 'permission-pool', label: 'คลังสิทธิ' },
 ] as const;
-
-const menuButtonSx = {
-  minHeight: 40,
-  px: 2.2,
-  py: 0.82,
-  borderRadius: 4,
-  border: '1px solid',
-  borderColor: '#c8d0cb',
-  bgcolor: UI.panelSoft,
-  color: '#8b9390',
-  textTransform: 'none' as const,
-  fontWeight: 800,
-  fontSize: '0.96rem',
-  lineHeight: 1.2,
-  '&:hover': {
-    bgcolor: UI.accentSurface,
-    borderColor: alpha(UI.accent, 0.22),
-  },
-  '&.Mui-selected': {
-    bgcolor: UI.accentSurface,
-    color: UI.accent,
-    borderColor: alpha(UI.accent, 0.22),
-  },
-};
 
 /* ── helpers ───────────────────────────────────────────────────────── */
 function matchesSearch(user: UserAssignmentUserSummary, query: string): boolean {
@@ -105,6 +64,7 @@ function matchesSearch(user: UserAssignmentUserSummary, query: string): boolean 
 
 /* ── Component ─────────────────────────────────────────────────────── */
 export function UserAssignmentPage() {
+  const theme = useTheme();
   const { workspace, loading, error, reload } = useUserAssignmentWorkspace(true);
   const { activeTabKey, setActiveTabKey } = useUserAssignmentTabs();
   const [search, setSearch] = useState('');
@@ -124,14 +84,20 @@ export function UserAssignmentPage() {
       .sort((a, b) => a.id - b.id);
   }, [workspace, search]);
 
+  const totalUsers = workspace?.users.length ?? 0;
+  const activeUsers = workspace?.users.filter((u) => u.isActive).length ?? 0;
+  const activeRoles = workspace?.roles.filter((r) => r.isActive).length ?? 0;
+  const facilities = workspace?.facilities.length ?? 0;
+
   const roleChipSx = useMemo(
     () => ({
       height: 28,
       borderRadius: '999px' as const,
       fontWeight: 700,
-      bgcolor: `${UI.panelSoft} !important`,
-      color: UI.text,
-      border: `1px solid ${UI.border}`,
+      bgcolor: 'action.hover',
+      color: 'text.primary',
+      border: '1px solid',
+      borderColor: 'divider',
       '& .MuiChip-label': { px: 1.25 },
     }),
     [],
@@ -141,9 +107,12 @@ export function UserAssignmentPage() {
     height: 28,
     borderRadius: '999px' as const,
     fontWeight: 700,
-    bgcolor: active ? '#FEF3F2 !important' : '#f3f4f6 !important',
-    color: active ? '#912018' : '#6b7280',
-    border: active ? 'none' : `1px solid #d1d5db`,
+    bgcolor: active
+      ? alpha(theme.palette.error.main, 0.08)
+      : alpha(theme.palette.text.disabled, 0.08),
+    color: active ? theme.palette.error.main : theme.palette.text.disabled,
+    border: active ? 'none' : '1px solid',
+    borderColor: active ? undefined : 'divider',
     '& .MuiChip-label': { px: 1.25 },
   });
 
@@ -159,7 +128,7 @@ export function UserAssignmentPage() {
       },
       {
         id: 'username',
-        label: '\u0E1C\u0E39\u0E49\u0E43\u0E0A\u0E49\u0E07\u0E32\u0E19',
+        label: 'ผู้ใช้งาน',
         sortable: true,
         sortAccessor: (r) => r.username,
       },
@@ -171,7 +140,7 @@ export function UserAssignmentPage() {
       },
       {
         id: 'companyName',
-        label: '\u0E1A\u0E23\u0E34\u0E29\u0E31\u0E17',
+        label: 'บริษัท',
         sortable: true,
         sortAccessor: (r) => r.companyName,
       },
@@ -193,7 +162,7 @@ export function UserAssignmentPage() {
       },
       {
         id: 'isActive',
-        label: '\u0E2A\u0E16\u0E32\u0E19\u0E30',
+        label: 'สถานะ',
         sortable: true,
         sortAccessor: (r) => Number(r.isActive),
         format: (_v, row) => (
@@ -205,64 +174,13 @@ export function UserAssignmentPage() {
         ),
       },
     ],
-    [roleChipSx],
+    [roleChipSx, theme.palette.error.main, theme.palette.text.disabled],
   );
 
   const paginatedRows = useMemo(
     () => rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
     [rows, page, rowsPerPage],
   );
-
-  /* ---- stat cards ---- */
-  const statCards = useMemo(() => {
-    const totalUsers = workspace?.users.length ?? 0;
-    const activeUsers = workspace?.users.filter((u) => u.isActive).length ?? 0;
-    const activeRoles = workspace?.roles.filter((r) => r.isActive).length ?? 0;
-    const facilities = workspace?.facilities.length ?? 0;
-
-    return [
-      {
-        key: 'users',
-        title: 'ผู้ใช้ทั้งหมด',
-        value: totalUsers,
-        subtitle: `${activeUsers} ใช้งานอยู่`,
-        icon: <GroupsOutlined sx={{ color: UI.accent, fontSize: 22 }} />,
-        iconBg: UI.accentSurface,
-        bar: UI.accent,
-      },
-      {
-        key: 'roles',
-        title: 'บทบาทที่ใช้งาน',
-        value: activeRoles,
-        subtitle: `จาก ${workspace?.roles.length ?? 0} บทบาท`,
-        icon: <VpnKeyOutlined sx={{ color: '#2563eb', fontSize: 22 }} />,
-        iconBg: '#eff3ff',
-        bar: '#2563eb',
-      },
-      {
-        key: 'facilities',
-        title: 'ฟาร์ม / สถานที่',
-        value: facilities,
-        subtitle: 'ขอบเขตการมอบหมาย',
-        icon: <WarehouseOutlined sx={{ color: '#b45309', fontSize: 22 }} />,
-        iconBg: '#fef6e9',
-        bar: '#b45309',
-      },
-      {
-        key: 'permissions',
-        title: 'สิทธิ์พร้อมใช้',
-        value: '--',
-        subtitle: 'โหลดตาม demand',
-        icon: (
-          <CheckCircleOutlineOutlined
-            sx={{ color: '#B42318', fontSize: 22 }}
-          />
-        ),
-        iconBg: '#edfce9',
-        bar: '#B42318',
-      },
-    ];
-  }, [workspace]);
 
   /* ---- handlers ---- */
   const openCreate = () => {
@@ -335,7 +253,7 @@ export function UserAssignmentPage() {
         sx={{
           maxWidth: 1400,
           mx: 'auto',
-          p: { xs: 1.5, md: 2 },
+          p: { xs: 1, md: 2 },
           minHeight: '100dvh',
           display: 'grid',
           placeItems: 'center',
@@ -348,371 +266,232 @@ export function UserAssignmentPage() {
 
   /* ── render ── */
   return (
-    <Box sx={{ maxWidth: 1400, mx: 'auto', p: { xs: 1.5, md: 2 } }}>
-      {/* ── Hero panel ── */}
-      <Box
-        sx={{
-          ...panelSx,
-          background: `linear-gradient(135deg, ${UI.accentSurface} 0%, ${UI.panel} 58%)`,
-          px: { xs: 2, md: 2.6 },
-          py: { xs: 2, md: 2.4 },
-          display: 'grid',
-          gap: 1.4,
-          mb: 2,
-        }}
-      >
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap' }}>
-          <Chip
-            size="small"
-            label="Admin / User Assignment"
-            sx={{
-              bgcolor: '#fff',
-              color: UI.accent,
-              fontWeight: 800,
-              border: `1px solid ${UI.borderStrong}`,
-              height: 28,
-              borderRadius: '999px',
-              '& .MuiChip-label': { px: 1.25 },
-            }}
-          />
-        </Box>
+    <Box sx={{ maxWidth: 1400, mx: 'auto', p: { xs: 1, md: 2 } }}>
+      <WorkspaceHeader
+        chipLabel="Admin / User Assignment"
+        title="จัดการผู้ใช้งาน"
+        meta="Admin / กำหนดสิทธิ"
+      />
 
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'flex-end',
-            justifyContent: 'space-between',
-            gap: 1.5,
-            flexWrap: 'wrap',
-          }}
-        >
-          <Box>
-            <Typography
-              sx={{
-                fontSize: { xs: '1.9rem', md: '2.35rem' },
-                fontWeight: 900,
-                lineHeight: 1.02,
-                color: UI.text,
-                letterSpacing: '-0.03em',
-              }}
-            >
-              จัดการผู้ใช้งาน
-            </Typography>
-          </Box>
-          <Typography sx={{ fontSize: '0.95rem', color: UI.muted, fontWeight: 700 }}>
-            Admin / กำหนดสิทธิ
-          </Typography>
-        </Box>
-      </Box>
-
-      {/* ── Stat cards ── */}
-      <Box
-        mb={2}
-        sx={{
-          display: 'grid',
-          gridTemplateColumns: {
-            xs: 'repeat(2, minmax(0, 1fr))',
-            md: 'repeat(4, minmax(0, 1fr))',
-          },
-          gap: 1.2,
-        }}
-      >
-        {statCards.map((item) => (
-          <Paper
-            key={item.key}
-            variant="outlined"
-            sx={{
-              position: 'relative',
-              overflow: 'hidden',
-              p: 1.5,
-              borderColor: UI.border,
-              bgcolor: UI.panel,
-              boxShadow: UI.shadow,
-              borderRadius: 3,
-              '&::before': {
-                content: '""',
-                position: 'absolute',
-                inset: 0,
-                background: `linear-gradient(135deg, ${alpha(item.iconBg, 0.8)} 0%, rgba(255,255,255,0) 55%)`,
-                pointerEvents: 'none',
-              },
-            }}
-          >
-            <Box
-              sx={{
-                position: 'relative',
-                zIndex: 1,
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'flex-start',
-                mb: 1,
-              }}
-            >
-              <Box>
-                <Typography
-                  variant="h5"
-                  sx={{ fontWeight: 700, lineHeight: 1.1, color: '#172422' }}
-                >
-                  {item.value}
-                </Typography>
-                <Typography
-                  variant="body2"
-                  sx={{ color: UI.text, mt: 0.45, fontWeight: 800 }}
-                >
-                  {item.title}
-                </Typography>
-              </Box>
-              <Box
-                sx={{
-                  width: 42,
-                  height: 42,
-                  borderRadius: 1.75,
-                  bgcolor: '#fff',
-                  border: `1px solid ${alpha(item.bar, 0.15)}`,
-                  boxShadow: UI.shadowSoft,
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  flexShrink: 0,
-                }}
-              >
-                {item.icon}
-              </Box>
-            </Box>
-            <Box
-              sx={{
-                position: 'relative',
-                zIndex: 1,
-                width: 96,
-                height: 6,
-                borderRadius: 999,
-                bgcolor: alpha(item.bar, 0.2),
-              }}
-            >
-              <Box
-                sx={{
-                  width: 54,
-                  height: '100%',
-                  borderRadius: 999,
-                  bgcolor: item.bar,
-                }}
-              />
-            </Box>
-            <Typography
-              variant="caption"
-              sx={{
-                position: 'relative',
-                zIndex: 1,
-                display: 'block',
-                color: UI.muted,
-                mt: 0.8,
-              }}
-            >
-              {item.subtitle}
-            </Typography>
-          </Paper>
-        ))}
-      </Box>
-
-      {/* ── Tab bar (StockPage style) ── */}
-      <Box sx={{ ...panelSx, px: 1, py: 1, mb: 2 }}>
-        <Tabs
-          value={activeTabKey}
-          onChange={(_, value) => setActiveTabKey(value)}
-          variant="scrollable"
-          scrollButtons="auto"
-          sx={{
-            minHeight: 0,
-            '& .MuiTabs-indicator': { display: 'none' },
-            '& .MuiTabs-flexContainer': {
-              gap: 0.8,
-              flexWrap: { xs: 'nowrap', md: 'wrap' },
-            },
-          }}
-        >
-          {SECTION_TABS.map((tab) => (
-            <Tab
-              key={tab.key}
-              value={tab.key}
-              label={tab.label}
-              sx={menuButtonSx}
+      <Stack spacing={2.5}>
+        {/* ── Stat cards ── */}
+        <Grid container spacing={1.5}>
+          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+            <StatsCard
+              title="ผู้ใช้ทั้งหมด"
+              value={totalUsers}
+              subtitle={`${activeUsers} ใช้งานอยู่`}
+              icon={<GroupsOutlined />}
+              color="info"
             />
-          ))}
-        </Tabs>
-      </Box>
+          </Grid>
+          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+            <StatsCard
+              title="บทบาทที่ใช้งาน"
+              value={activeRoles}
+              subtitle={`จาก ${workspace?.roles.length ?? 0} บทบาท`}
+              icon={<VpnKeyOutlined />}
+              color="primary"
+            />
+          </Grid>
+          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+            <StatsCard
+              title="ฟาร์ม / สถานที่"
+              value={facilities}
+              subtitle="ขอบเขตการมอบหมาย"
+              icon={<WarehouseOutlined />}
+              color="warning"
+            />
+          </Grid>
+          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+            <StatsCard
+              title="สิทธิ์พร้อมใช้"
+              value="--"
+              subtitle="โหลดตาม demand"
+              icon={<CheckCircleOutlineOutlined />}
+              color="error"
+            />
+          </Grid>
+        </Grid>
 
-      {/* ── Tab content ── */}
-      {activeTabKey === 'organization' && <OrganizationPage />}
-      {activeTabKey === 'role' && <RolePage />}
-      {activeTabKey === 'permission-pool' && <PermissionPage />}
+        {/* ── Tab bar ── */}
+        <PageTabs
+          tabs={SECTION_TABS.map((tab) => ({ key: tab.key, label: tab.label }))}
+          activeKey={activeTabKey}
+          onChange={(key) => setActiveTabKey(key as typeof activeTabKey)}
+        />
 
-      {activeTabKey === 'assignment' && (
-        <Stack spacing={2.5}>
-          {/* ── Error alert ── */}
-          {error && <Alert severity="error">{error}</Alert>}
+        {/* ── Tab content ── */}
+        {activeTabKey === 'organization' && <OrganizationPage />}
+        {activeTabKey === 'role' && <RolePage />}
+        {activeTabKey === 'permission-pool' && <PermissionPage />}
 
-          {/* ── Table panel ── */}
-          <Paper sx={{ ...panelSx, p: { xs: 1.5, md: 2 } }}>
-            <Stack spacing={2.25}>
-              {/* header row */}
-              <Stack
-                direction={{ xs: 'column', md: 'row' }}
-                spacing={1.5}
-                justifyContent="space-between"
-                alignItems={{ xs: 'stretch', md: 'center' }}
-                sx={{ pb: 1.5, borderBottom: '1px solid', borderColor: UI.border }}
-              >
+        {activeTabKey === 'assignment' && (
+          <Stack spacing={2.5}>
+            {/* ── Error alert ── */}
+            {error && <Alert severity="error">{error}</Alert>}
+
+            {/* ── Table panel ── */}
+            <Box sx={{ ...panelSx, p: { xs: 1.5, md: 2 } }}>
+              <Stack spacing={2.25}>
+                {/* header row */}
                 <Stack
-                  direction="row"
-                  spacing={1}
-                  flexWrap="wrap"
-                  useFlexGap
-                  sx={{ justifyContent: { xs: 'flex-start', md: 'flex-end' } }}
+                  direction={{ xs: 'column', md: 'row' }}
+                  spacing={1.5}
+                  justifyContent="space-between"
+                  alignItems={{ xs: 'stretch', md: 'center' }}
+                  sx={{ pb: 1.5, borderBottom: '1px solid', borderColor: 'divider' }}
                 >
-                  <Button
-                    startIcon={<Refresh />}
-                    variant="outlined"
-                    onClick={() => {
-                      void reload().catch(() => undefined);
-                    }}
-                    disabled={loading}
-                    sx={{
-                      minHeight: 36,
-                      textTransform: 'none',
-                      fontWeight: 700,
-                      fontSize: '0.85rem',
-                      borderColor: UI.border,
-                      bgcolor: UI.panelSoft,
-                      borderRadius: 2,
-                      '&:hover': {
-                        bgcolor: UI.accentSurface,
-                        borderColor: alpha(UI.accent, 0.22),
-                      },
-                    }}
+                  <Stack
+                    direction="row"
+                    spacing={1}
+                    flexWrap="wrap"
+                    useFlexGap
+                    sx={{ justifyContent: { xs: 'flex-start', md: 'flex-end' } }}
                   >
-                    Refresh
-                  </Button>
-                  <Button
-                    startIcon={<Security />}
-                    variant="outlined"
-                    onClick={() => {
-                      if (rows.length === 1) openPermDialog(rows[0]);
-                    }}
-                    disabled={!workspace || rows.length !== 1}
-                    title={
-                      rows.length !== 1
-                        ? '\u0E01\u0E23\u0E38\u0E13\u0E32\u0E04\u0E49\u0E19\u0E2B\u0E32\u0E43\u0E2B\u0E49\u0E40\u0E2B\u0E25\u0E37\u0E2D\u0E1C\u0E39\u0E49\u0E43\u0E0A\u0E49\u0E40\u0E1E\u0E35\u0E22\u0E07 1 \u0E04\u0E19'
-                        : `\u0E08\u0E31\u0E14\u0E01\u0E32\u0E23\u0E2A\u0E34\u0E17\u0E18\u0E34\u0E4C ${rows[0]?.username}`
-                    }
-                    sx={{
-                      minHeight: 36,
-                      textTransform: 'none',
-                      fontWeight: 700,
-                      fontSize: '0.85rem',
-                      borderColor: UI.border,
-                      bgcolor: UI.panelSoft,
-                      borderRadius: 2,
-                      '&:hover': {
-                        bgcolor: UI.accentSurface,
-                        borderColor: alpha(UI.accent, 0.22),
-                      },
-                    }}
-                  >
-                    จัดการสิทธิ์
-                  </Button>
-                  <Button
-                    startIcon={<Add />}
-                    variant="contained"
-                    onClick={openCreate}
-                    disabled={!workspace}
-                    sx={{
-                      minHeight: 36,
-                      textTransform: 'none',
-                      fontWeight: 700,
-                      fontSize: '0.85rem',
-                      boxShadow: 'none',
-                      bgcolor: '#1d4ed8',
-                      borderRadius: 2,
-                      '&:hover': {
-                        bgcolor: '#1e40af',
+                    <Button
+                      startIcon={<Refresh />}
+                      variant="outlined"
+                      onClick={() => {
+                        void reload().catch(() => undefined);
+                      }}
+                      disabled={loading}
+                      sx={{
+                        minHeight: 36,
+                        textTransform: 'none',
+                        fontWeight: 700,
+                        fontSize: '0.85rem',
+                        borderColor: 'divider',
+                        borderRadius: 2,
+                        '&:hover': {
+                          bgcolor: 'action.hover',
+                          borderColor: 'primary.main',
+                        },
+                      }}
+                    >
+                      Refresh
+                    </Button>
+                    <Button
+                      startIcon={<Security />}
+                      variant="outlined"
+                      onClick={() => {
+                        if (rows.length === 1) openPermDialog(rows[0]);
+                      }}
+                      disabled={!workspace || rows.length !== 1}
+                      title={
+                        rows.length !== 1
+                          ? 'กรุณาค้นหาให้เหลือผู้ใช้เพียง 1 คน'
+                          : `จัดการสิทธิ์ ${rows[0]?.username}`
+                      }
+                      sx={{
+                        minHeight: 36,
+                        textTransform: 'none',
+                        fontWeight: 700,
+                        fontSize: '0.85rem',
+                        borderColor: 'divider',
+                        borderRadius: 2,
+                        '&:hover': {
+                          bgcolor: 'action.hover',
+                          borderColor: 'primary.main',
+                        },
+                      }}
+                    >
+                      จัดการสิทธิ์
+                    </Button>
+                    <Button
+                      startIcon={<Add />}
+                      variant="contained"
+                      onClick={openCreate}
+                      disabled={!workspace}
+                      sx={{
+                        minHeight: 36,
+                        textTransform: 'none',
+                        fontWeight: 700,
+                        fontSize: '0.85rem',
                         boxShadow: 'none',
-                      },
-                    }}
-                  >
-                    Add User
-                  </Button>
+                        bgcolor: 'primary.main',
+                        borderRadius: 2,
+                        '&:hover': {
+                          bgcolor: 'primary.dark',
+                          boxShadow: 'none',
+                        },
+                      }}
+                    >
+                      Add User
+                    </Button>
+                  </Stack>
                 </Stack>
-              </Stack>
 
-              {/* search row */}
-              <Stack
-                direction={{ xs: 'column', lg: 'row' }}
-                spacing={1.5}
-                alignItems={{ xs: 'stretch', lg: 'center' }}
-                justifyContent="space-between"
-                sx={{ pb: 0.5 }}
-              >
-                <SearchField
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  placeholder="Search by username, name, email, company, or role"
-                  fullWidth
-                  sx={{
-                    maxWidth: { xs: '100%', lg: 560 },
-                    '& .MuiOutlinedInput-root': { bgcolor: UI.field },
+                {/* search row */}
+                <Stack
+                  direction={{ xs: 'column', lg: 'row' }}
+                  spacing={1.5}
+                  alignItems={{ xs: 'stretch', lg: 'center' }}
+                  justifyContent="space-between"
+                  sx={{ pb: 0.5 }}
+                >
+                  <SearchField
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    placeholder="Search by username, name, email, company, or role"
+                    fullWidth
+                    sx={{
+                      maxWidth: { xs: '100%', lg: 560 },
+                      '& .MuiOutlinedInput-root': { bgcolor: 'action.hover' },
+                    }}
+                  />
+                </Stack>
+
+                {/* data table */}
+                <DataTable<UserAssignmentUserSummary>
+                  columns={columns}
+                  data={paginatedRows}
+                  loading={loading}
+                  emptyMessage={
+                    search ? 'No users match your search.' : 'No users available.'
+                  }
+                  onEditRow={openEdit}
+                  onDeleteRow={handleDelete}
+                  includeCodeColumn={false}
+                  includeStatusColumn={false}
+                  includeManagementColumn
+                  rowHeight={68}
+                  idColumnWidth={64}
+                  statusColumnWidth={100}
+                  page={page}
+                  rowsPerPage={rowsPerPage}
+                  totalCount={rows.length}
+                  onPageChange={setPage}
+                  onRowsPerPageChange={(n) => {
+                    setRowsPerPage(n);
+                    setPage(0);
+                  }}
+                  paperSx={{
+                    borderRadius: 2.5,
+                    borderColor: 'divider',
+                    bgcolor: 'background.paper',
+                    boxShadow: 'none',
+                  }}
+                  tableContainerSx={{ overflowX: 'auto' }}
+                  tableSx={{
+                    '& .MuiTableCell-root': { py: 1.25 },
+                    '& .MuiTableHead-root .MuiTableCell-root': {
+                      fontWeight: 800,
+                      letterSpacing: 0.2,
+                      color: 'text.primary',
+                    },
+                    '& .MuiTableBody-root .MuiTableRow-root': {
+                      '&:hover': {
+                        backgroundColor: alpha(theme.palette.primary.main, 0.04),
+                      },
+                    },
                   }}
                 />
               </Stack>
-
-              {/* data table */}
-              <DataTable<UserAssignmentUserSummary>
-                columns={columns}
-                data={paginatedRows}
-                loading={loading}
-                emptyMessage={
-                  search ? 'No users match your search.' : 'No users available.'
-                }
-                onEditRow={openEdit}
-                onDeleteRow={handleDelete}
-                includeCodeColumn={false}
-                includeStatusColumn={false}
-                includeManagementColumn
-                rowHeight={68}
-                idColumnWidth={64}
-                statusColumnWidth={100}
-                page={page}
-                rowsPerPage={rowsPerPage}
-                totalCount={rows.length}
-                onPageChange={setPage}
-                onRowsPerPageChange={(n) => {
-                  setRowsPerPage(n);
-                  setPage(0);
-                }}
-                paperSx={{
-                  borderRadius: 2.5,
-                  borderColor: UI.border,
-                  bgcolor: UI.panel,
-                  boxShadow: 'none',
-                }}
-                tableContainerSx={{ overflowX: 'auto' }}
-                tableSx={{
-                  '& .MuiTableCell-root': { py: 1.25 },
-                  '& .MuiTableHead-root .MuiTableCell-root': {
-                    fontWeight: 800,
-                    letterSpacing: 0.2,
-                    color: UI.text,
-                  },
-                  '& .MuiTableBody-root .MuiTableRow-root': {
-                    '&:hover': {
-                      backgroundColor: alpha(UI.accent, 0.04),
-                    },
-                  },
-                }}
-              />
-            </Stack>
-          </Paper>
-        </Stack>
-      )}
+            </Box>
+          </Stack>
+        )}
+      </Stack>
 
       {/* ── Dialogs (always rendered) ── */}
       <UserAssignmentEditorDialog

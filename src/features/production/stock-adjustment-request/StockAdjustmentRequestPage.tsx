@@ -637,7 +637,7 @@ export function StockAdjustmentRequestPage() {
 
   if (!canViewPage) {
     return (
-      <Box sx={{ p: { xs: 1.5, md: 2 } }}>
+      <Box sx={{ p: { xs: 1, md: 2 } }}>
         <Alert severity="warning">
           คุณไม่มีสิทธิ์เข้าถึงหน้าคำขอปรับสต๊อก
         </Alert>
@@ -646,7 +646,7 @@ export function StockAdjustmentRequestPage() {
   }
 
   return (
-    <Box sx={{ maxWidth: 1400, mx: 'auto', p: { xs: 1.5, md: 2 } }}>
+    <Box sx={{ maxWidth: 1400, mx: 'auto', p: { xs: 1, md: 2 } }}>
       <WorkspaceHeader
         chipLabel="Adjust Request"
         title="คำขอปรับสต๊อก"

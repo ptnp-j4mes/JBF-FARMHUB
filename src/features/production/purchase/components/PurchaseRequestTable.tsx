@@ -102,7 +102,9 @@ export function PurchaseRequestTable({
               verticalAlign: 'middle',
             },
             '& .MuiTableCell-head': {
-              bgcolor: (t) => alpha(t.palette.primary.main, 0.06),
+              bgcolor: 'background.paper',
+              backgroundImage: (t) =>
+                `linear-gradient(${alpha(t.palette.primary.main, 0.06)}, ${alpha(t.palette.primary.main, 0.06)})`,
               color: 'text.primary',
               fontWeight: 800,
               fontSize: '15px',

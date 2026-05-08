@@ -270,6 +270,7 @@ export function BuildingOpeningPage({ initialData = [] }: BuildingOpeningPagePro
         meta="Dashboard / เปิดโรงเรือน"
       />
 
+      <Stack spacing={2.5}>
       <Box sx={{ display: 'grid', gap: 1.5, gridTemplateColumns: { xs: '1fr', sm: 'repeat(2,minmax(0,1fr))', md: 'repeat(4,minmax(0,1fr))' } }}>
         {summaryCards.map((card) => (
           <StatsCard
@@ -283,7 +284,7 @@ export function BuildingOpeningPage({ initialData = [] }: BuildingOpeningPagePro
         ))}
       </Box>
 
-      <Box sx={{ ...stockPanelSx, px: 1, py: 1, mb: 1.6 }}>
+      <Box sx={{ ...stockPanelSx, px: 1, py: 1 }}>
         <PageTabs
           tabs={[
             { key: 'openings', label: 'รายการเปิดโรงเรือน' },
@@ -452,6 +453,8 @@ export function BuildingOpeningPage({ initialData = [] }: BuildingOpeningPagePro
       ) : (
         <BuildingOpeningApprovalPage mode="approval" compact embedded />
       )}
+
+      </Stack>
 
       <BuildingOpeningDetailsDialog
         open={detailsOpen}

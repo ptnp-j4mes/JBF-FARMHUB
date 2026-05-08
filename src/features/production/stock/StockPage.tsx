@@ -505,7 +505,9 @@ function StockFacilityList({
               verticalAlign: 'middle',
             },
             '& .MuiTableCell-head': {
-              bgcolor: (t) => alpha(t.palette.primary.main, 0.06),
+              bgcolor: 'background.paper',
+              backgroundImage: (t) =>
+                `linear-gradient(${alpha(t.palette.primary.main, 0.06)}, ${alpha(t.palette.primary.main, 0.06)})`,
               color: 'text.primary',
               fontWeight: 800,
               fontSize: '15px',
@@ -691,7 +693,9 @@ function StockList({
               verticalAlign: 'middle',
             },
             '& .MuiTableCell-head': {
-              bgcolor: (t) => alpha(t.palette.primary.main, 0.06),
+              bgcolor: 'background.paper',
+              backgroundImage: (t) =>
+                `linear-gradient(${alpha(t.palette.primary.main, 0.06)}, ${alpha(t.palette.primary.main, 0.06)})`,
               color: 'text.primary',
               fontWeight: 800,
               fontSize: '15px',
@@ -1242,10 +1246,10 @@ export function StockPage({
       const status =
         warehouseScope === 'central'
           ? getStockLevel(
-              row.availableQuantity ?? Math.max(0, row.quantity - (row.reservedQuantity ?? 0)),
-              row.itemId != null ? itemStockThresholdMap.get(row.itemId)?.minStockQty ?? null : null,
-              row.itemId != null ? itemStockThresholdMap.get(row.itemId)?.maxStockQty ?? null : null,
-            )
+            row.availableQuantity ?? Math.max(0, row.quantity - (row.reservedQuantity ?? 0)),
+            row.itemId != null ? itemStockThresholdMap.get(row.itemId)?.minStockQty ?? null : null,
+            row.itemId != null ? itemStockThresholdMap.get(row.itemId)?.maxStockQty ?? null : null,
+          )
           : normalizeStockFacilityStatus(row.status);
       counts[status] += 1;
     }
@@ -2770,7 +2774,7 @@ export function StockPage({
 
   if (!canViewInventory) {
     return (
-      <Box sx={{ maxWidth: 1200, mx: 'auto', p: { xs: 1.5, md: 2 } }}>
+      <Box sx={{ maxWidth: 1200, mx: 'auto', p: { xs: 1, md: 2 } }}>
         <Stack spacing={2}>
           <Alert severity="warning">
             คุณไม่มีสิทธิ์เข้าถึงหน้าคลังสินค้า
@@ -2782,7 +2786,7 @@ export function StockPage({
 
   return (
     <Box
-      sx={{ maxWidth: 1400, mx: 'auto', p: { xs: 1.5, md: 2 } }}
+      sx={{ maxWidth: 1400, mx: 'auto', p: { xs: 1, md: 2 } }}
     >
       <WorkspaceHeader
         chipLabel="Material Stock"
@@ -2791,19 +2795,7 @@ export function StockPage({
       />
 
       <Stack spacing={2.5}>
-        <Box>
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'flex-end',
-              justifyContent: 'space-between',
-              gap: 1.5,
-              flexWrap: 'wrap',
-              mb: 1.2,
-            }}
-          >
-
-          </Box>
+        <Stack spacing={2.5}>
           <Box
             sx={{
               gridTemplateColumns: { xs: '1fr', lg: 'minmax(0,1fr) 240px' },
@@ -2854,7 +2846,6 @@ export function StockPage({
               ...panelSx,
               px: 1,
               py: 1,
-              mb: 1.6,
             }}
           >
             <PageTabs
@@ -2874,7 +2865,6 @@ export function StockPage({
               sx={{
                 width: '100%',
                 alignItems: 'center',
-                mb: 1.6,
                 '& .MuiAlert-message': { width: '100%' },
               }}
               action={
@@ -2898,7 +2888,6 @@ export function StockPage({
               sx={{
                 width: '100%',
                 alignItems: 'center',
-                mb: 1.6,
                 '& .MuiAlert-message': { width: '100%' },
               }}
             >
@@ -2911,7 +2900,7 @@ export function StockPage({
               severity="error"
               onClose={() => setError(null)}
               icon={<WarningAmberRounded fontSize="inherit" />}
-              sx={{ mb: 1.6 }}
+              sx={{}}
             >
               {error}
             </Alert>
@@ -3057,7 +3046,7 @@ export function StockPage({
               )}
             </Box>
           </Box>
-        </Box>
+        </Stack>
         <StockTransactionDialog
           open={transactionDialogOpen}
           mode={transactionMode}

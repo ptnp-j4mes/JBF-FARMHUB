@@ -1,12 +1,13 @@
 'use client';
 
-import { Add, DeleteOutline, EditOutlined, FilterList } from '@mui/icons-material';
+import { Add, CheckCircleOutlineOutlined, DeleteOutline, EditOutlined, FilterList, LayersOutlined, Search as SearchIcon, WarningAmberRounded } from '@mui/icons-material';
 import {
   Box,
   Button,
   Collapse,
   Divider,
   FormControl,
+  Grid,
   IconButton,
   InputLabel,
   MenuItem,
@@ -25,6 +26,7 @@ import { useTheme } from '@mui/material/styles';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ContentCard, SearchField, SectionTabsCard } from '@/components/common';
 import DataTable, { type Column } from '@/components/common/DataTable';
+import { WorkspaceHeader, StatsCard } from '@/design-system';
 import {
   getOrLoadClientQueryCache,
   invalidateClientQueryCache,
@@ -242,11 +244,13 @@ export function MasterDataPage({ title }: MasterDataPageProps) {
   }, [loadLookups]);
 
   const colors = useMemo(
-    () =>
-      theme.palette.mode === 'dark'
-        ? { cardBg: '#0f172a', line: alpha('#94a3b8', 0.24), title: '#e2e8f0', subtitle: '#94a3b8' }
-        : { cardBg: '#ffffff', line: '#e2e8f0', title: '#1e293b', subtitle: '#64748b' },
-    [theme.palette.mode],
+    () => ({
+      cardBg: theme.palette.background.paper,
+      line: theme.palette.divider,
+      title: theme.palette.text.primary,
+      subtitle: theme.palette.text.secondary,
+    }),
+    [theme],
   );
   const primary = theme.palette.primary.main;
   const primaryHover = theme.palette.primary.dark;
@@ -1083,14 +1087,61 @@ export function MasterDataPage({ title }: MasterDataPageProps) {
   const isOverview = currentTabKey === 'overview';
 
   return (
-    <Box sx={{ height: 'calc(100dvh - 52px)', display: 'flex', flexDirection: 'column', overflow: 'hidden', p: { xs: 2, md: 3 } }}>
+    <Box sx={{ maxWidth: 1400, mx: 'auto', p: { xs: 1, md: 2 } }}>
+      <WorkspaceHeader
+        chipLabel="Master Data"
+        title="ข้อมูลหลัก"
+        meta="Admin / ข้อมูลหลัก"
+      />
+
+      {!isOverview && !isSpecialTab && (
+        <Grid container spacing={1.5} sx={{ mt: 0.5, mb: 2 }}>
+          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+            <StatsCard
+              title={`รายการ${contentTitle}`}
+              value={data.length}
+              subtitle="ทั้งหมด"
+              icon={<LayersOutlined />}
+              color="info"
+            />
+          </Grid>
+          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+            <StatsCard
+              title="ใช้งาน"
+              value={data.filter((d: any) => d.isActive).length}
+              subtitle="เปิดใช้งาน"
+              icon={<CheckCircleOutlineOutlined />}
+              color="success"
+            />
+          </Grid>
+          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+            <StatsCard
+              title="ไม่ใช้งาน"
+              value={data.filter((d: any) => !d.isActive).length}
+              subtitle="ปิดใช้งาน"
+              icon={<WarningAmberRounded />}
+              color="warning"
+            />
+          </Grid>
+          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+            <StatsCard
+              title="ผลการค้นหา"
+              value={filteredRows.length}
+              subtitle={`จาก ${data.length} รายการ`}
+              icon={<SearchIcon />}
+              color="primary"
+            />
+          </Grid>
+        </Grid>
+      )}
+
       <MasterSectionLayout
         activeTabKey={currentTabKey}
         onTabChange={handleTabChange}
         activeCategoryKey={currentCategoryKey}
         onCategoryChange={handleCategoryChange}
         hideTabsForCategoryKeys={['warehouse']}
-        sx={{ flex: 1, minHeight: 0, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}
+        sx={{ minHeight: 0, display: 'flex', flexDirection: 'column' }}
       >
         {isOverview ? (
           <MasterOverviewPage lookups={lookups} />
@@ -1140,11 +1191,11 @@ export function MasterDataPage({ title }: MasterDataPageProps) {
                 sx={{
                   minHeight: 40,
                   textTransform: 'none',
-                  borderColor: activeFilterCount > 0 || isFilterExpanded ? alpha('#1d4ed8', 0.65) : colors.line,
-                  color: activeFilterCount > 0 || isFilterExpanded ? '#1d4ed8' : colors.subtitle,
+                  borderColor: activeFilterCount > 0 || isFilterExpanded ? alpha(theme.palette.primary.main, 0.65) : colors.line,
+                  color: activeFilterCount > 0 || isFilterExpanded ? 'primary.main' : colors.subtitle,
                   bgcolor: alpha(colors.cardBg, 0.6),
                   '&:hover': {
-                    borderColor: activeFilterCount > 0 || isFilterExpanded ? '#1d4ed8' : colors.title,
+                    borderColor: activeFilterCount > 0 || isFilterExpanded ? 'primary.main' : colors.title,
                     bgcolor: alpha(colors.cardBg, 0.76),
                   },
                 }}
@@ -1161,13 +1212,13 @@ export function MasterDataPage({ title }: MasterDataPageProps) {
                   minWidth: 132,
                   minHeight: 40,
                   ml: { md: 'auto' },
-                  bgcolor: '#1d4ed8',
+                  bgcolor: 'primary.main',
                   color: '#ffffff',
                   fontSize: '13px',
                   fontWeight: 700,
                   textTransform: 'none',
                   whiteSpace: 'nowrap',
-                  '&:hover': { bgcolor: '#1e40af' },
+                  '&:hover': { bgcolor: 'primary.dark' },
                 }}
               >
                 เพิ่ม{contentTitle}

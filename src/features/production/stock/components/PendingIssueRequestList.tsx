@@ -41,7 +41,9 @@ export function PendingIssueRequestList({ rows, loading = false, onView }: Props
           minWidth: 1320,
           tableLayout: 'fixed',
             '& .MuiTableCell-head': {
-              bgcolor: (t: any) => alpha(t.palette.primary.main, 0.06),
+              bgcolor: 'background.paper',
+              backgroundImage: (t: any) =>
+                `linear-gradient(${alpha(t.palette.primary.main, 0.06)}, ${alpha(t.palette.primary.main, 0.06)})`,
               color: 'text.primary',
               fontWeight: 800,
             textAlign: 'center',

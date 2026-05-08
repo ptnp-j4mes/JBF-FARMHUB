@@ -375,18 +375,21 @@ export function BuildingOpeningApprovalPage({ initialData = [], mode = 'approval
         ...buildingOpeningPageShellSx,
         maxWidth: compact ? 'none' : embedded ? 'none' : 1400,
         mx: compact ? 0 : embedded ? 0 : 'auto',
-        p: compact ? 0 : embedded ? 0 : { xs: 1.5, md: 2 },
+        p: compact ? 0 : embedded ? 0 : { xs: 1, md: 2 },
         bgcolor: compact ? 'transparent' : embedded ? 'transparent' : 'background.default',
       }}
     >
       {!compact ? (
-        <>
-          <WorkspaceHeader
-            chipLabel={mode === 'report' ? 'Building Opening Report' : 'Building Opening Approval'}
-            title={mode === 'report' ? 'รายงานเปิดโรงเรือน' : 'รายการอนุมัติโรงเรือน'}
-            subtitle="ตรวจสอบและอนุมัติรายการได้จากมุมมองเดียวกัน"
-            meta={embedded ? 'Embedded view' : 'Dashboard / รายการอนุมัติ'}
-          />
+        <WorkspaceHeader
+          chipLabel={mode === 'report' ? 'Building Opening Report' : 'Building Opening Approval'}
+          title={mode === 'report' ? 'รายงานเปิดโรงเรือน' : 'รายการอนุมัติโรงเรือน'}
+          subtitle="ตรวจสอบและอนุมัติรายการได้จากมุมมองเดียวกัน"
+          meta={embedded ? 'Embedded view' : 'Dashboard / รายการอนุมัติ'}
+        />
+      ) : null}
+
+      <Stack spacing={2.5}>
+        {!compact ? (
           <Box sx={{ display: 'grid', gap: 1.5, gridTemplateColumns: { xs: '1fr', sm: 'repeat(2,minmax(0,1fr))', md: 'repeat(4,minmax(0,1fr))' } }}>
             {summaryCards.map((card) => (
               <StatsCard
@@ -399,10 +402,9 @@ export function BuildingOpeningApprovalPage({ initialData = [], mode = 'approval
               />
             ))}
           </Box>
-        </>
-      ) : null}
+        ) : null}
 
-      <Box sx={{ ...stockPanelSx, p: 1.5 }}>
+        <Box sx={{ ...stockPanelSx, p: 1.5 }}>
         <Stack spacing={1.5}>
           <Box sx={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 1.5, flexWrap: 'wrap' }}>
             <Box>
@@ -574,6 +576,7 @@ export function BuildingOpeningApprovalPage({ initialData = [], mode = 'approval
           />
         </Stack>
       </Box>
+      </Stack>
 
       <Dialog open={open} onClose={() => setOpen(false)} maxWidth="md" fullWidth PaperProps={{ sx: DIALOG_PAPER_SX }}>
         <DialogTitleWithClose onClose={() => setOpen(false)} disabled={actionLoading} sx={DIALOG_TITLE_SX}>

@@ -833,7 +833,7 @@ export default function SideMenu({
                           },
                         }}
                       >
-                        <ListItemIcon sx={{ minWidth: 0 }}>{resolveMenuIcon(item.icon)}</ListItemIcon>
+                        <ListItemIcon sx={{ minWidth: 0, color: 'inherit' }}>{resolveMenuIcon(item.icon)}</ListItemIcon>
                         <ListItemText
                           primary={itemLabel}
                           sx={{

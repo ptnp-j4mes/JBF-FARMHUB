@@ -1614,7 +1614,7 @@ export default function StockReplenishmentHub({
 };
 
   return (
-    <Box sx={{ maxWidth: 1400, mx: 'auto', p: { xs: 1.5, md: 2 } }}>
+    <Box sx={{ maxWidth: 1400, mx: 'auto', p: { xs: 1, md: 2 } }}>
       <WorkspaceHeader
         chipLabel={scope === 'central' ? 'คลังกลาง' : 'ฟาร์ม'}
         title="ใบแจ้งเติมสต็อกคลังกลาง"

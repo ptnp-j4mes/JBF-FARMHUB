@@ -595,7 +595,7 @@ export default function OperationsDashboardPage() {
           }}
         >
           <Grid container spacing={3} alignItems="stretch">
-            <Grid size={{ xs: 12, md: 7 }}>
+            <Grid size={{ xs: 12, md: 7 }} sx={{ minWidth: 0 }}>
               <Box sx={{ display: 'grid', gap: 1.6, height: '100%', position: 'relative', zIndex: 1 }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap' }}>
                   <Chip
@@ -623,7 +623,7 @@ export default function OperationsDashboardPage() {
                       fontSize: { xs: '1.6rem', sm: '1.9rem', md: '2.2rem', lg: '2.5rem' },
                       lineHeight: 1.05,
                       letterSpacing: '-0.03em',
-                      maxWidth: 740,
+                      maxWidth: '100%',
                     }}
                   >
                     ศูนย์ควบคุมการดำเนินงาน
@@ -676,7 +676,7 @@ export default function OperationsDashboardPage() {
               </Box>
             </Grid>
 
-            <Grid size={{ xs: 12, md: 5 }}>
+            <Grid size={{ xs: 12, md: 5 }} sx={{ minWidth: 0 }}>
               <Box sx={{ height: '100%', display: 'grid', alignContent: 'center', gap: 2, position: 'relative', zIndex: 1 }}>
                 {/* Budget trend row */}
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 1 }}>
@@ -721,7 +721,7 @@ export default function OperationsDashboardPage() {
                           border: `1px solid ${UI.border}`,
                           borderLeft: `3px solid ${item.color}`,
                           p: 1.35,
-                          minHeight: 80,
+                          minHeight: { xs: 70, sm: 80 },
                           display: 'grid',
                           alignContent: 'space-between',
                         }}
@@ -772,7 +772,7 @@ export default function OperationsDashboardPage() {
                   : data.summaryCards.feedCostMonth === 0;
 
           return (
-            <Grid key={metric.key} size={{ xs: 12, sm: 6, md: 6, xl: 3 }}>
+            <Grid key={metric.key} size={{ xs: 12, sm: 6, md: 6, xl: 3 }} sx={{ minWidth: 0 }}>
               <AnimatedSection delay={120 + index * 60}>
                 <Box
                   sx={{
@@ -786,8 +786,8 @@ export default function OperationsDashboardPage() {
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 1 }}>
                       <Box
                         sx={{
-                          width: 46,
-                          height: 46,
+                          width: { xs: 40, sm: 46 },
+                          height: { xs: 40, sm: 46 },
                           borderRadius: 1.5,
                           bgcolor: UI.panelSoft,
                           border: `1px solid ${metric.accent}30`,
@@ -821,11 +821,14 @@ export default function OperationsDashboardPage() {
                           fontSize: '0.86rem',
                           mb: 0.5,
                           letterSpacing: '0.01em',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          whiteSpace: 'nowrap',
                         }}
                       >
                         {metric.title}
                       </Typography>
-                      <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 0.5, flexWrap: 'wrap' }}>
+                      <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 0.5, flexWrap: 'wrap', minWidth: 0 }}>
                         <Typography
                           sx={{
                             color: isZero ? UI.label : UI.text,
@@ -851,10 +854,10 @@ export default function OperationsDashboardPage() {
                     </Box>
 
                     <Box>
-                      <Typography sx={{ color: UI.muted, fontSize: '0.86rem', lineHeight: 1.5 }}>
+                      <Typography sx={{ color: UI.muted, fontSize: '0.86rem', lineHeight: 1.5, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                         {metric.note}
                       </Typography>
-                      <Typography sx={{ color: UI.text, fontSize: '0.9rem', fontWeight: 700, mt: 0.4 }}>
+                      <Typography sx={{ color: UI.text, fontSize: '0.9rem', fontWeight: 700, mt: 0.4, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                         {metric.detail}
                       </Typography>
                     </Box>
@@ -897,7 +900,7 @@ export default function OperationsDashboardPage() {
           CHARTS ROW: FEED USAGE + FARM PIE
           ═══════════════════════════════════════════════════════════ */}
       <Grid container spacing={2}>
-        <Grid size={{ xs: 12, md: 8 }}>
+        <Grid size={{ xs: 12, md: 8 }} sx={{ minWidth: 0 }}>
           <AnimatedSection delay={420}>
             <Box
               sx={{
@@ -940,7 +943,7 @@ export default function OperationsDashboardPage() {
                 />
               </Box>
 
-              <Box sx={{ height: 320, position: 'relative' }}>
+              <Box sx={{ height: { xs: 240, sm: 280, md: 320 }, position: 'relative' }}>
                 {usageChartRows.length === 0 ||
                 usageChartRows.every((r) => r.actualTon === 0 && r.targetTon === 0) ? (
                   <Box
@@ -1000,7 +1003,7 @@ export default function OperationsDashboardPage() {
           </AnimatedSection>
         </Grid>
 
-        <Grid size={{ xs: 12, md: 4 }}>
+        <Grid size={{ xs: 12, md: 4 }} sx={{ minWidth: 0 }}>
           <AnimatedSection delay={480}>
             <Box
               sx={{
@@ -1137,9 +1140,9 @@ export default function OperationsDashboardPage() {
       {/* ═══════════════════════════════════════════════════════════
           ALERTS + FARM TABLE ROW
           ═══════════════════════════════════════════════════════════ */}
-      <Box sx={{ display: 'flex', gap: 2, flexWrap: 'nowrap' }}>
+      <Box sx={{ display: 'flex', gap: 2, flexWrap: { xs: 'wrap', md: 'nowrap' } }}>
         {/* Alerts */}
-        <Box sx={{ flex: '0 0 380px', minWidth: 0, height: '100%' }}>
+        <Box sx={{ flex: { xs: '1 1 100%', md: '0 0 380px' }, minWidth: 0 }}>
           <AnimatedSection delay={540}>
             <Box
               sx={{
@@ -1239,7 +1242,7 @@ export default function OperationsDashboardPage() {
                           mb: 0.4,
                         }}
                       >
-                        <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 0.8 }}>
+                        <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 0.8, minWidth: 0 }}>
                           {alert.severity === 'critical' && (
                             <Box
                               sx={{
@@ -1258,6 +1261,10 @@ export default function OperationsDashboardPage() {
                               color: UI.text,
                               fontSize: '0.92rem',
                               lineHeight: 1.35,
+                              overflow: 'hidden',
+                              textOverflow: 'ellipsis',
+                              whiteSpace: 'nowrap',
+                              minWidth: 0,
                             }}
                           >
                             {alert.title}
@@ -1276,7 +1283,7 @@ export default function OperationsDashboardPage() {
                           }}
                         />
                       </Box>
-                      <Typography sx={{ color: UI.muted, fontSize: '0.84rem', lineHeight: 1.55 }}>
+                      <Typography sx={{ color: UI.muted, fontSize: '0.84rem', lineHeight: 1.55, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
                         {alert.description}
                       </Typography>
                     </Box>
@@ -1288,7 +1295,7 @@ export default function OperationsDashboardPage() {
         </Box>
 
         {/* Farm Table */}
-        <Box sx={{ flex: '1 1 0%', minWidth: 0, height: '100%' }}>
+        <Box sx={{ flex: { xs: '1 1 100%', md: '1 1 0%' }, minWidth: 0 }}>
           <AnimatedSection delay={600}>
             <Box sx={{ ...panelSx(UI), p: 0, borderLeft: `3px solid ${UI.deepGreen}` }}>
               <Box
@@ -1423,7 +1430,7 @@ export default function OperationsDashboardPage() {
                             }}
                           >
                             <TableCell>
-                              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, minWidth: 0 }}>
                                 <Box
                                   sx={{
                                     width: 8,
@@ -1435,7 +1442,7 @@ export default function OperationsDashboardPage() {
                                   }}
                                 />
                                 <Typography
-                                  sx={{ fontWeight: 800, color: UI.text, fontSize: '0.88rem' }}
+                                  sx={{ fontWeight: 800, color: UI.text, fontSize: '0.88rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', minWidth: 0 }}
                                 >
                                   {row.farmName}
                                 </Typography>
@@ -1465,7 +1472,7 @@ export default function OperationsDashboardPage() {
                                   display: 'inline-flex',
                                   alignItems: 'center',
                                   gap: 1,
-                                  minWidth: 150,
+                                  minWidth: { xs: 120, sm: 150 },
                                   justifyContent: 'flex-end',
                                 }}
                               >

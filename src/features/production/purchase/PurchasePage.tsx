@@ -7,7 +7,7 @@
 'use client';
 
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
-import { Box, Button, Alert, Typography, Stack, Grid } from '@mui/material';
+import { Box, Button, Alert, Typography, Stack, Grid, TextField } from '@mui/material';
 import { DocumentStatus } from '@/types/status.types';
 import {
   Add as AddIcon,
@@ -23,13 +23,14 @@ import {
   PurchaseRequestFilters,
   PurchaseRequestTable,
 } from './components';
-import { StatsCard } from '@/components/common';
+import { StatsCard, QuickStatusButtonGroup } from '@/components/common';
 import { WorkspaceHeader } from '@/design-system';
 import { purchaseService } from './services/purchase.service';
 import { authService } from '@/features/auth/services/auth.service';
 import { PURCHASE_REQUEST_ROUTE_TYPE, PURCHASE_REQUEST_SOURCE, PurchaseRequestType } from './types';
 import type { PurchaseRequestResponse } from './types';
 import { AxiosError } from 'axios';
+import dayjs from '@/lib/dayjs';
 import Swal from 'sweetalert2';
 import {
   FACILITY_CHANGED_EVENT,
@@ -167,6 +168,8 @@ export function PurchasePage({
   const [searchTerm, setSearchTerm] = useState(initialSearchTerm);
   const [statusFilter, setStatusFilter] = useState('all');
   const [urgencyFilter, setUrgencyFilter] = useState('all');
+  const [startDate, setStartDate] = useState(() => dayjs().subtract(7, 'day').format('YYYY-MM-DD'));
+  const [endDate, setEndDate] = useState(() => dayjs().format('YYYY-MM-DD'));
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(25);
   const [selectedRequest, setSelectedRequest] = useState<PurchaseRequestResponse | null>(null);
@@ -257,6 +260,20 @@ export function PurchasePage({
         return false;
       }
 
+      if (startDate) {
+        const reqDate = dayjs(toSafeString(req.requestDate));
+        if (reqDate.isValid() && reqDate.isBefore(dayjs(startDate), 'day')) {
+          return false;
+        }
+      }
+
+      if (endDate) {
+        const reqDate = dayjs(toSafeString(req.requestDate));
+        if (reqDate.isValid() && reqDate.isAfter(dayjs(endDate), 'day')) {
+          return false;
+        }
+      }
+
       if (statusFilter !== 'all' && toSafeString(req.status) !== statusFilter) {
         return false;
       }
@@ -307,11 +324,21 @@ export function PurchasePage({
 
       return toSafeNumber(b.id) - toSafeNumber(a.id);
     });
-  }, [currentFacilityId, requests, searchTerm, statusFilter, urgencyFilter]);
+  }, [currentFacilityId, requests, searchTerm, statusFilter, urgencyFilter, startDate, endDate]);
+
+  const quickStatuses = useMemo(() => [
+    { value: 'all', label: 'ทั้งหมด', count: requests.length },
+    { value: DocumentStatus.Pending, label: 'รออนุมัติ', count: requests.filter((r) => toSafeString(r.status) === DocumentStatus.Pending).length },
+    { value: DocumentStatus.Approved, label: 'อนุมัติแล้ว', count: requests.filter((r) => toSafeString(r.status) === DocumentStatus.Approved).length },
+    { value: DocumentStatus.PartiallyReceived, label: 'รับเข้าบางส่วน', count: requests.filter((r) => toSafeString(r.status) === DocumentStatus.PartiallyReceived).length },
+    { value: DocumentStatus.Completed, label: 'เสร็จสมบูรณ์', count: requests.filter((r) => toSafeString(r.status) === DocumentStatus.Completed).length },
+    { value: DocumentStatus.Rejected, label: 'ไม่อนุมัติ', count: requests.filter((r) => toSafeString(r.status) === DocumentStatus.Rejected).length },
+    { value: DocumentStatus.Cancelled, label: 'ยกเลิก', count: requests.filter((r) => toSafeString(r.status) === DocumentStatus.Cancelled).length },
+  ], [requests]);
 
   useEffect(() => {
     setPage(0);
-  }, [searchTerm, statusFilter, urgencyFilter]);
+  }, [searchTerm, statusFilter, urgencyFilter, startDate, endDate]);
 
   const handleViewDetails = async (request: PurchaseRequestResponse) => {
     try {
@@ -480,14 +507,14 @@ export function PurchasePage({
   };
   if (!canViewPR) {
     return (
-      <Box sx={{ p: { xs: 1.5, md: 2 } }}>
+      <Box sx={{ p: { xs: 1, md: 2 } }}>
         <Alert severity="warning">คุณไม่มีสิทธิ์เข้าถึงหน้าขอซื้อ</Alert>
       </Box>
     );
   }
 
   return (
-    <Box sx={{ maxWidth: 1400, mx: 'auto', p: { xs: 1.5, md: 2 } }}>
+    <Box sx={{ maxWidth: 1400, mx: 'auto', p: { xs: 1, md: 2 } }}>
       <WorkspaceHeader
         chipLabel="Purchase Request"
         title="ใบขอซื้อ"
@@ -616,6 +643,61 @@ export function PurchasePage({
               </Button>
             </Box>
 
+            {/* Quick Status Filter */}
+            <QuickStatusButtonGroup
+              items={quickStatuses}
+              selectedValue={statusFilter}
+              onChange={(value) => {
+                setStatusFilter(value);
+                setPage(0);
+              }}
+            />
+
+            {/* Date Range Filter */}
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+              <TextField
+                type="date"
+                label="วันที่เริ่ม"
+                size="small"
+                value={startDate}
+                onChange={(e) => {
+                  setStartDate(e.target.value);
+                  setPage(0);
+                }}
+                InputLabelProps={{ shrink: true }}
+                sx={{
+                  minWidth: 160,
+                  '& .MuiOutlinedInput-root': {
+                    height: 40,
+                    borderRadius: 2,
+                    bgcolor: 'background.paper',
+                    boxShadow: 1,
+                  },
+                }}
+              />
+              <Typography color="text.secondary">ถึง</Typography>
+              <TextField
+                type="date"
+                label="วันที่สิ้นสุด"
+                size="small"
+                value={endDate}
+                onChange={(e) => {
+                  setEndDate(e.target.value);
+                  setPage(0);
+                }}
+                InputLabelProps={{ shrink: true }}
+                sx={{
+                  minWidth: 160,
+                  '& .MuiOutlinedInput-root': {
+                    height: 40,
+                    borderRadius: 2,
+                    bgcolor: 'background.paper',
+                    boxShadow: 1,
+                  },
+                }}
+              />
+            </Box>
+
             {/* Filters */}
             <PurchaseRequestFilters
               searchTerm={searchTerm}
@@ -628,6 +710,8 @@ export function PurchasePage({
                 setSearchTerm('');
                 setStatusFilter('all');
                 setUrgencyFilter('all');
+                setStartDate(dayjs().subtract(7, 'day').format('YYYY-MM-DD'));
+                setEndDate(dayjs().format('YYYY-MM-DD'));
                 setPage(0);
               }}
             />

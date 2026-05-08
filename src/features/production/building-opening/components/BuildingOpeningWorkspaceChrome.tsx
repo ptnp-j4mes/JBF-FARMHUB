@@ -21,7 +21,7 @@ export const BUILDING_OPENING_UI = {
 
 export const buildingOpeningPageShellSx = {
   minHeight: '100%',
-  p: { xs: 1.5, md: 2 },
+  p: { xs: 1, md: 2 },
 };
 
 export const buildingOpeningPanelSx = {
