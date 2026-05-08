@@ -30,28 +30,28 @@ export const glassPanel = {
     background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.62), rgba(255, 255, 255, 0.48))',
     backdropFilter: 'blur(28px) saturate(150%)',
     border: '1px solid rgba(255, 255, 255, 0.7)',
-    borderRadius: 20,
+    borderRadius: 10,
   },
   /** Header glass panel */
   header: {
     background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.65), rgba(255, 255, 255, 0.5))',
     backdropFilter: 'blur(28px) saturate(150%)',
     border: '1px solid rgba(255, 255, 255, 0.7)',
-    borderRadius: 16,
+    borderRadius: 10,
   },
   /** Dialog/dropdown glass */
   dialog: {
     background: 'rgba(255, 255, 255, 0.78)',
     backdropFilter: 'blur(28px) saturate(140%)',
     border: '1px solid rgba(255, 255, 255, 0.7)',
-    borderRadius: 16,
+    borderRadius: 10,
   },
   /** Dropdown/popup glass */
   dropdown: {
     background: 'rgba(255, 255, 255, 0.85)',
     backdropFilter: 'blur(22px) saturate(140%)',
     border: '1px solid rgba(255, 255, 255, 0.65)',
-    borderRadius: 16,
+    borderRadius: 10,
   },
 } as const;
 
@@ -61,25 +61,25 @@ export const glassPanelDark = {
     background: 'linear-gradient(180deg, rgba(26, 26, 27, 0.80), rgba(26, 26, 27, 0.65))',
     backdropFilter: 'blur(28px) saturate(150%)',
     border: '1px solid rgba(255, 255, 255, 0.08)',
-    borderRadius: 20,
+    borderRadius: 10,
   },
   header: {
     background: 'linear-gradient(180deg, rgba(26, 26, 27, 0.75), rgba(26, 26, 27, 0.60))',
     backdropFilter: 'blur(28px) saturate(150%)',
     border: '1px solid rgba(255, 255, 255, 0.08)',
-    borderRadius: 16,
+    borderRadius: 10,
   },
   dialog: {
     background: 'rgba(26, 26, 27, 0.90)',
     backdropFilter: 'blur(28px) saturate(140%)',
     border: '1px solid rgba(255, 255, 255, 0.10)',
-    borderRadius: 16,
+    borderRadius: 10,
   },
   dropdown: {
     background: 'rgba(26, 26, 27, 0.92)',
     backdropFilter: 'blur(22px) saturate(140%)',
     border: '1px solid rgba(255, 255, 255, 0.08)',
-    borderRadius: 16,
+    borderRadius: 10,
   },
 } as const;
 

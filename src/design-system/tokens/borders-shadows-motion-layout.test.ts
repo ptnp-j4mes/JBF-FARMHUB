@@ -6,11 +6,11 @@ import { sidebar, header, zIndex, breakpoints } from './layout';
 
 describe('Border Tokens', () => {
   it('should have all radius levels', () => {
-    expect(radius.xs).toBe(8);
-    expect(radius.sm).toBe(12);
-    expect(radius.md).toBe(16);
-    expect(radius.lg).toBe(20);
-    expect(radius.xl).toBe(24);
+    expect(radius.xs).toBe(10);
+    expect(radius.sm).toBe(10);
+    expect(radius.md).toBe(10);
+    expect(radius.lg).toBe(10);
+    expect(radius.xl).toBe(10);
     expect(radius.pill).toBe(999);
   });
 

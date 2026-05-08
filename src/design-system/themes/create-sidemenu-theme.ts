@@ -95,7 +95,7 @@ export function createSidemenuMasterTheme(mode: PaletteMode): SidemenuMasterThem
   const primaryDarkVal = isDark ? '#D92D20' : '#912018';
   const primaryLightVal = isDark ? '#F97066' : '#D92D20';
 
-  const radius: SidemenuRadiusScale = { xs: 1, sm: 1.5, md: 2, lg: 2.5, xl: 3, pill: 999 };
+  const radius: SidemenuRadiusScale = { xs: 10, sm: 10, md: 10, lg: 10, xl: 10, pill: 999 };
   const shadow: SidemenuShadowScale = {
     tiny: isDark ? '0 4px 12px rgba(0,0,0,0.2)' : '0 4px 12px rgba(0,0,0,0.04)',
     soft: '0 4px 15px -3px rgba(180,35,24,0.15)',
@@ -246,7 +246,7 @@ export function createSidemenuTheme(mode: PaletteMode) {
       divider: mode === 'dark' ? '#2D2D30' : '#E5E5E5',
       action: { hover: mode === 'dark' ? 'rgba(240,68,56,0.10)' : 'rgba(180,35,24,0.08)', selected: mode === 'dark' ? 'rgba(240,68,56,0.16)' : 'rgba(180,35,24,0.12)' },
     },
-    shape: { borderRadius: 8 },
+    shape: { borderRadius: 1 },
     typography: { fontFamily: 'var(--font-bai-jamjuree), "Bai Jamjuree", "Noto Sans Thai", "Noto Sans", "Segoe UI", system-ui, -apple-system, sans-serif', h5: { fontWeight: 700, letterSpacing: '-0.02em' }, h6: { fontWeight: 700, letterSpacing: '-0.01em' }, button: { textTransform: 'none', fontWeight: 600 } },
     components: sidemenuComponentOverrides(mode),
   });

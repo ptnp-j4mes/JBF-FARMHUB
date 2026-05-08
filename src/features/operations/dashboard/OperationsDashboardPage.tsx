@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
+import Image from 'next/image';
 import {
   Alert,
   Box,
@@ -1185,6 +1186,50 @@ function HeroPanel({
         bgcolor: '#ffffff',
       }}
     >
+      <Box
+        sx={{
+          position: 'absolute',
+          inset: 0,
+          zIndex: 0,
+          pointerEvents: 'none',
+          overflow: 'hidden',
+        }}
+      >
+        <Box
+          sx={{
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            bottom: 0,
+            width: { xs: '100%', lg: '58%' },
+            transform: { lg: 'translateX(-24px)' },
+            overflow: 'hidden',
+            maskImage: 'linear-gradient(90deg, transparent 0%, #000 16%, #000 84%, transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(90deg, transparent 0%, #000 16%, #000 84%, transparent 100%)',
+            opacity: 0.42,
+          }}
+        >
+          <Image
+            src="/branding/banner-farmhub.png"
+            alt=""
+            fill
+            priority
+            sizes="(min-width: 1200px) 58vw, 100vw"
+            style={{
+              objectFit: 'cover',
+              objectPosition: 'center center',
+            }}
+          />
+        </Box>
+        <Box
+          sx={{
+            position: 'absolute',
+            inset: 0,
+            background:
+              'linear-gradient(90deg, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.90) 30%, rgba(255,255,255,0.42) 58%, rgba(255,255,255,0.10) 82%, rgba(255,255,255,0) 100%)',
+          }}
+        />
+      </Box>
       <Box sx={{ p: { xs: 2.25, md: 2.75 }, position: 'relative', zIndex: 1 }}>
         <Box
           sx={{

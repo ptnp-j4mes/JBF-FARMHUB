@@ -50,7 +50,7 @@ export const createAppTheme = (mode: PaletteMode) => {
       },
     },
     shape: {
-      borderRadius: 8,
+      borderRadius: 1,
     },
     typography: {
       fontFamily:
@@ -124,7 +124,7 @@ export const createAppTheme = (mode: PaletteMode) => {
           root: {
             backgroundImage: 'none',
             border: `1px solid ${tokens.border}`,
-            borderRadius: 16,
+            borderRadius: 10,
             boxShadow: tokens.shadow.card,
           },
         },
@@ -133,7 +133,7 @@ export const createAppTheme = (mode: PaletteMode) => {
         styleOverrides: {
           root: {
             border: `1px solid ${tokens.border}`,
-            borderRadius: 16,
+            borderRadius: 10,
             boxShadow: tokens.shadow.card,
           },
         },
@@ -193,7 +193,7 @@ export const createAppTheme = (mode: PaletteMode) => {
       MuiButton: {
         styleOverrides: {
           root: {
-            borderRadius: 12,
+            borderRadius: 10,
             textTransform: 'none',
             fontWeight: 700,
             boxShadow: 'none',
@@ -242,7 +242,7 @@ export const createAppTheme = (mode: PaletteMode) => {
           root: {
             backgroundColor:
               mode === 'dark' ? tokens.background.surfaceMuted : tokens.background.surface,
-            borderRadius: 12,
+            borderRadius: 10,
             transition: 'border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease',
             '& .MuiOutlinedInput-notchedOutline': {
               borderColor: tokens.border,
@@ -331,7 +331,7 @@ export const createAppTheme = (mode: PaletteMode) => {
         },
         styleOverrides: {
           paper: {
-            borderRadius: 16,
+            borderRadius: 10,
             border: `1px solid ${tokens.border}`,
             boxShadow: tokens.shadow.raised,
           },

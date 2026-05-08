@@ -11,7 +11,7 @@ import type { PaletteMode, SxProps, Theme } from '@mui/material';
 export function createGlassStyle(
   mode: PaletteMode,
   variant: 'sidebar' | 'header' | 'dialog' | 'dropdown' = 'sidebar',
-  borderRadius: number = 2,
+  borderRadius: number = 10,
 ): SxProps {
   const isDark = mode === 'dark';
 
@@ -60,7 +60,7 @@ export function createGlassStyle(
  */
 export function glassPanelSx(
   mode: PaletteMode,
-  borderRadius: number = 2,
+  borderRadius: number = 10,
 ): SxProps {
   const isDark = mode === 'dark';
   return {

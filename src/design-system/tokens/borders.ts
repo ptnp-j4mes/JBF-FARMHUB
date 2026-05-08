@@ -5,16 +5,16 @@
 
 // ─── Border Radius Scale ──────────────────────────────────────────
 export const radius = {
-  xs: 8,     // Sub-menu items, icon containers
-  sm: 12,    // Buttons, inputs, chips, default Paper
-  md: 16,    // Cards, glass panels (sidebar/header)
-  lg: 20,    // Group menu buttons
-  xl: 24,    // Decorative, login card
+  xs: 10,    // Sub-menu items, icon containers
+  sm: 10,    // Buttons, inputs, chips, default Paper
+  md: 10,    // Cards, glass panels (sidebar/header)
+  lg: 10,    // Group menu buttons
+  xl: 10,    // Decorative, login card
   pill: 999, // Chips, badges, status pills, avatars
 } as const;
 
 // ─── Default MUI shape ────────────────────────────────────────────
-export const defaultBorderRadius = 12; // sm - matches spec for Paper
+export const defaultBorderRadius = 10; // matches the standard surface radius
 
 // ─── Border Widths ────────────────────────────────────────────────
 export const borderWidth = {
