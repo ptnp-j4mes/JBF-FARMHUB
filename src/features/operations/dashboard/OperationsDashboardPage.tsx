@@ -1182,7 +1182,7 @@ function HeroPanel({
     <DashboardCard
       sx={{
         position: 'relative',
-        background: `linear-gradient(180deg, ${alpha(ui.card, 0.98)} 0%, ${alpha(ui.cardSoft, 0.94)} 100%)`,
+        bgcolor: '#ffffff',
       }}
     >
       <Box sx={{ p: { xs: 2.25, md: 2.75 }, position: 'relative', zIndex: 1 }}>
