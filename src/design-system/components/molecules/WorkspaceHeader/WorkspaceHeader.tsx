@@ -15,7 +15,7 @@ export type WorkspaceHeaderProps = {
 };
 
 const workspaceHeaderSx = {
-  borderRadius: 3.5,
+  borderRadius: '10px',
   border: '1px solid',
   borderColor: 'divider',
   bgcolor: 'background.paper',

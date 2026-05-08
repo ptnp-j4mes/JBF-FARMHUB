@@ -31,14 +31,14 @@ export const UI = {
 
 // ── Shared Style Objects ──
 export const panelSx = {
-  borderRadius: 3.6,
+  borderRadius: 10,
   border: `1px solid ${UI.border}`,
   bgcolor: UI.panel,
   boxShadow: UI.shadow,
 };
 
 export const softPanelSx = {
-  borderRadius: 3.2,
+  borderRadius: 10,
   border: `1px solid ${UI.border}`,
   bgcolor: UI.panelSoft,
   boxShadow: UI.shadowSoft,
@@ -46,7 +46,7 @@ export const softPanelSx = {
 
 export const inputSx = {
   '& .MuiOutlinedInput-root': {
-    borderRadius: 2.2,
+    borderRadius: 10,
     bgcolor: UI.panelSoft,
     boxShadow: UI.shadowSoft,
     '& fieldset': {
@@ -65,7 +65,7 @@ export const inputSx = {
 };
 
 export const primaryButtonSx = {
-  borderRadius: 2.4,
+  borderRadius: 10,
   boxShadow: UI.shadowSoft,
   bgcolor: UI.accent,
   '&:hover': {
@@ -74,7 +74,7 @@ export const primaryButtonSx = {
 };
 
 export const secondaryButtonSx = {
-  borderRadius: 2.4,
+  borderRadius: 10,
   boxShadow: UI.shadowSoft,
   bgcolor: '#fff',
   color: UI.text,
@@ -86,7 +86,7 @@ export const secondaryButtonSx = {
 };
 
 export const dialogPaperSx = {
-  borderRadius: 3.75,
+  borderRadius: 10,
   border: `1px solid ${UI.border}`,
   boxShadow: UI.shadow,
   overflow: 'hidden',

@@ -79,7 +79,7 @@ export default function UserMenu({ userName, userEmail, avatarUrl }: UserMenuPro
         PaperProps={{
           sx: {
             mt: 1,
-            borderRadius: 2,
+            borderRadius: '10px',
             border: `1px solid ${theme.palette.divider}`,
             boxShadow:
               theme.palette.mode === 'dark'

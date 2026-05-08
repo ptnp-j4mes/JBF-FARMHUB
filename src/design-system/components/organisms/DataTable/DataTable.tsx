@@ -446,7 +446,7 @@ export default function DataTable<T extends { id?: number | string }>({
             position: 'relative',
             width: `${EXTERNAL_SCROLLBAR_VISUAL_WIDTH}px`,
             height: '100%',
-            borderRadius: 999,
+            borderRadius: 10,
             bgcolor: alpha(theme.palette.primary.main, theme.palette.mode === 'dark' ? 0.18 : 0.12),
           }}
         >
@@ -458,7 +458,7 @@ export default function DataTable<T extends { id?: number | string }>({
                 width: '100%',
                 height: `${externalScrollbarThumb.height}px`,
                 transform: `translateY(${externalScrollbarThumb.top}px)`,
-                borderRadius: 999,
+                borderRadius: 10,
                 bgcolor: alpha(theme.palette.primary.main, theme.palette.mode === 'dark' ? 0.72 : 0.55),
                 transition: 'transform 0.08s linear',
               }}
@@ -754,7 +754,7 @@ export default function DataTable<T extends { id?: number | string }>({
                 height: 24,
                 fontSize: '11px',
                 fontWeight: 600,
-                borderRadius: 999,
+                borderRadius: 10,
                 minWidth: 68,
                 bgcolor: statusBg,
                 color: statusColor,
@@ -947,7 +947,7 @@ export default function DataTable<T extends { id?: number | string }>({
     <Paper
       sx={withOptionalSx(
         {
-          borderRadius: 3,
+          borderRadius: 10,
           overflow: 'hidden',
           border: '1px solid',
           borderColor: 'divider',

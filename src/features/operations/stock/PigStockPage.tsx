@@ -77,7 +77,7 @@ const UI = {
 };
 
 const panelSx = {
-  borderRadius: 3.5,
+  borderRadius: 10,
   border: `1px solid ${UI.border}`,
   bgcolor: UI.panel,
   boxShadow: UI.shadow,
@@ -407,7 +407,7 @@ export function PigStockPage() {
                 minHeight: 40,
                 px: 2.2,
                 py: 0.82,
-                borderRadius: 4,
+                borderRadius: 10,
                 border: '1px solid #c8d0cb',
                 bgcolor: UI.panelSoft,
                 color: '#8b9390',
@@ -423,7 +423,7 @@ export function PigStockPage() {
                 minHeight: 40,
                 px: 2.2,
                 py: 0.82,
-                borderRadius: 4,
+                borderRadius: 10,
                 border: '1px solid #c8d0cb',
                 bgcolor: UI.panelSoft,
                 color: '#8b9390',
@@ -465,7 +465,7 @@ export function PigStockPage() {
                       borderColor: UI.border,
                       bgcolor: UI.panel,
                       boxShadow: UI.shadow,
-                      borderRadius: 3,
+                      borderRadius: 10,
                       '&::before': {
                         content: '""',
                         position: 'absolute',
@@ -488,7 +488,7 @@ export function PigStockPage() {
                         sx={{
                           width: 42,
                           height: 42,
-                          borderRadius: 2,
+                          borderRadius: 10,
                           bgcolor: '#fff',
                           border: `1px solid ${alpha(card.bar, 0.15)}`,
                           boxShadow: UI.shadowSoft,
@@ -501,8 +501,8 @@ export function PigStockPage() {
                         {card.icon}
                       </Box>
                     </Box>
-                    <Box sx={{ position: 'relative', zIndex: 1, width: 96, height: 6, borderRadius: 999, bgcolor: alpha(card.bar, 0.2) }}>
-                      <Box sx={{ width: 54, height: '100%', borderRadius: 999, bgcolor: card.bar }} />
+                    <Box sx={{ position: 'relative', zIndex: 1, width: 96, height: 6, borderRadius: 10, bgcolor: alpha(card.bar, 0.2) }}>
+                      <Box sx={{ width: 54, height: '100%', borderRadius: 10, bgcolor: card.bar }} />
                     </Box>
                     <Typography variant="caption" sx={{ position: 'relative', zIndex: 1, display: 'block', color: UI.muted, mt: 0.8 }}>
                       {card.subtitle}
@@ -516,7 +516,7 @@ export function PigStockPage() {
                   ...BLOCK_ACTION_FIELDSET_SX,
                   flexDirection: 'column',
                   p: 1.5,
-                  borderRadius: 3,
+                  borderRadius: 10,
                   bgcolor: UI.panel,
                   boxShadow: UI.shadow,
                 }}
@@ -540,7 +540,7 @@ export function PigStockPage() {
             <Box
               sx={{
                 p: 1.5,
-                borderRadius: 3.5,
+                borderRadius: 10,
                 bgcolor: UI.panel,
                 boxShadow: UI.shadow,
               }}
@@ -593,7 +593,7 @@ export function PigStockPage() {
                     setSelectedItemId(value === '' ? '' : Number(value));
                     setPage(0);
                   }}
-                  sx={{ '& .MuiOutlinedInput-root': { height: 40, borderRadius: 2, bgcolor: UI.panelSoft, boxShadow: UI.shadowSoft } }}
+                  sx={{ '& .MuiOutlinedInput-root': { height: 40, borderRadius: 10, bgcolor: UI.panelSoft, boxShadow: UI.shadowSoft } }}
                 >
                   <MenuItem value="">ทั้งหมด</MenuItem>
                   {itemOptions.map((item) => (
@@ -611,7 +611,7 @@ export function PigStockPage() {
                     setStatus(event.target.value);
                     setPage(0);
                   }}
-                  sx={{ '& .MuiOutlinedInput-root': { height: 40, borderRadius: 2, bgcolor: UI.panelSoft, boxShadow: UI.shadowSoft } }}
+                  sx={{ '& .MuiOutlinedInput-root': { height: 40, borderRadius: 10, bgcolor: UI.panelSoft, boxShadow: UI.shadowSoft } }}
                 >
                   {STATUS_OPTIONS.map((option) => (
                     <MenuItem key={option.value} value={option.value}>
@@ -650,7 +650,7 @@ export function PigStockPage() {
                 }}
                 stickyHeader
                 paperSx={{
-                  borderRadius: '14px',
+                  borderRadius: 10,
                   border: `1px solid ${UI.border}`,
                   boxShadow: UI.shadow,
                   height: PR_MAIN_TABLE_HEIGHT,
@@ -707,7 +707,7 @@ export function PigStockPage() {
         maxWidth="md"
         PaperProps={{
           sx: {
-            borderRadius: 2,
+            borderRadius: 10,
             border: '1px solid #8a9aac',
             overflow: 'hidden',
           },
@@ -762,7 +762,7 @@ export function PigStockPage() {
                 <Box
                   sx={{
                     border: '1px solid #8a9aac',
-                    borderRadius: '12px 12px 0 0',
+                    borderRadius: 10,
                     overflowX: 'auto',
                     overflowY: 'auto',
                     height: `${PR_DIALOG_TABLE_HEIGHT}px`,

@@ -648,7 +648,7 @@ export default function FiManagementPage() {
           height: 24,
           fontSize: '11px',
           fontWeight: 600,
-          borderRadius: '6px',
+          borderRadius: 10,
           minWidth: 68,
           '& .MuiChip-label': { px: 1 },
         };
@@ -717,7 +717,7 @@ export default function FiManagementPage() {
         variant="outlined"
         sx={{
           p: { xs: 1.5, md: 2 },
-          borderRadius: 2,
+          borderRadius: 10,
           background: `linear-gradient(135deg, ${alpha('#0f766e', 0.12)} 0%, ${alpha('#0369a1', 0.08)} 100%)`,
         }}
       >
@@ -738,7 +738,7 @@ export default function FiManagementPage() {
       {error ? <Alert severity="error">{error}</Alert> : null}
       {message ? <Alert severity="success">{message}</Alert> : null}
 
-      <Paper variant="outlined" sx={{ p: 2, borderRadius: 2, boxShadow: '0 8px 20px rgba(15, 23, 42, 0.05)' }}>
+      <Paper variant="outlined" sx={{ p: 2, borderRadius: 10, boxShadow: '0 8px 20px rgba(15, 23, 42, 0.05)' }}>
         <Typography fontWeight={800} sx={{ mb: 1 }}>รายการ FI Draft</Typography>
         <DataTable
           columns={profileDraftColumns}
@@ -778,7 +778,7 @@ export default function FiManagementPage() {
 
           <Box sx={{ display: 'grid', gap: 1.5, gridTemplateColumns: { xs: '1fr', lg: '360px 1fr' }, alignItems: 'start' }}>
             <Stack spacing={1.5}>
-              <Paper variant="outlined" sx={{ p: 1.25, borderRadius: 2 }}>
+              <Paper variant="outlined" sx={{ p: 1.25, borderRadius: 10}}>
                 <Stack spacing={1.25}>
                   <TextField
                     fullWidth
@@ -846,7 +846,7 @@ export default function FiManagementPage() {
                 </Stack>
               </Paper>
 
-              <Paper variant="outlined" sx={{ p: 1.25, borderRadius: 2 }}>
+              <Paper variant="outlined" sx={{ p: 1.25, borderRadius: 10}}>
                 <Typography variant="caption" color="text.secondary">รายละเอียดที่จะใช้งาน</Typography>
                 <Typography variant="body2">Draft Name: {newDraftProfileName || '-'}</Typography>
                 <Typography variant="body2">
@@ -857,7 +857,7 @@ export default function FiManagementPage() {
                 <Typography variant="body2">Cycle: {DEFAULT_CYCLE_DAYS} วัน</Typography>
               </Paper>
 
-              <Paper variant="outlined" sx={{ p: 1.25, borderRadius: 2 }}>
+              <Paper variant="outlined" sx={{ p: 1.25, borderRadius: 10}}>
                 <Stack direction={{ xs: 'column', md: 'row' }} spacing={1} flexWrap="wrap">
                   <Button variant="outlined" onClick={handlePreview} disabled={loading}>Preview</Button>
                   <Button variant="contained" startIcon={<SaveOutlined />} onClick={handleSaveDraft} disabled={loading}>Save Draft</Button>
@@ -868,7 +868,7 @@ export default function FiManagementPage() {
             </Stack>
 
             <Stack spacing={1.5}>
-              <Paper variant="outlined" sx={{ p: 1.25, borderRadius: 2 }}>
+              <Paper variant="outlined" sx={{ p: 1.25, borderRadius: 10}}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
               <Typography fontWeight={800}>Block เบอร์อาหาร (Auto map จาก Items)</Typography>
               <Chip label="Priority: SEMI > FG" size="small" color="primary" variant="outlined" />
@@ -880,7 +880,7 @@ export default function FiManagementPage() {
                   sx={{
                     border: '1px solid',
                     borderColor: 'divider',
-                    borderRadius: 1.5,
+                    borderRadius: 10,
                     p: 1,
                     bgcolor: zone.color,
                   }}
@@ -901,7 +901,7 @@ export default function FiManagementPage() {
               </Paper>
 
               {preview ? (
-                <Paper variant="outlined" sx={{ p: 1.25, display: 'grid', gap: 0.5, borderRadius: 2 }}>
+                <Paper variant="outlined" sx={{ p: 1.25, display: 'grid', gap: 0.5, borderRadius: 10}}>
                   <Typography fontWeight={800}>Preview Summary</Typography>
                   <Typography variant="body2">Target FI เริ่มต้น: {targetFiStartG.toFixed(0)} g</Typography>
                   <Typography variant="body2">Target Feed Total: {preview.targetFeedTotalKg.toFixed(3)} kg/head</Typography>
@@ -913,7 +913,7 @@ export default function FiManagementPage() {
                 </Paper>
               ) : null}
 
-              <Paper variant="outlined" sx={{ p: 1.25, borderRadius: 2 }}>
+              <Paper variant="outlined" sx={{ p: 1.25, borderRadius: 10}}>
                 <Typography fontWeight={800} sx={{ mb: 1 }}>Daily FI (Generated)</Typography>
                 <DataTable
                   columns={dailyColumns}

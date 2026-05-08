@@ -46,7 +46,7 @@ import type {
 import { normalizeSlug, sortMenuRows } from '@/features/admin/user-assignment/components/menu-management.utils';
 
 const panelSx = {
-  borderRadius: 3.5,
+  borderRadius: 10,
   border: '1px solid',
   borderColor: 'divider',
   bgcolor: 'background.paper',
@@ -597,7 +597,7 @@ export default function MenuManagementPage() {
             onClick={openCreate}
             disabled={isLoading || isSaving}
             sx={{
-              borderRadius: 2.2,
+              borderRadius: 10,
               bgcolor: 'primary.main',
               boxShadow: 1,
               '&:hover': { bgcolor: 'primary.dark' },

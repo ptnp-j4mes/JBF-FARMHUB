@@ -142,7 +142,7 @@ export default function FeedTab({
               p: 1,
               bgcolor: UI.panel,
               borderColor: UI.border,
-              borderRadius: 2.5,
+              borderRadius: 10,
               boxShadow: UI.shadowSoft,
             }}
           >

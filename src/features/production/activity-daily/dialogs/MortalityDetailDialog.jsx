@@ -34,7 +34,7 @@ export default function MortalityDetailDialog({
       maxWidth="sm"
       PaperProps={{
         sx: {
-          borderRadius: 3.5,
+          borderRadius: 10,
           overflow: 'hidden',
           border: `1px solid ${UI.border}`,
           boxShadow: UI.shadowSoft,
@@ -136,7 +136,7 @@ export default function MortalityDetailDialog({
                   width: '100%',
                   maxHeight: 400,
                   objectFit: 'contain',
-                  borderRadius: 2,
+                  borderRadius: 10,
                   border: `1px solid ${UI.border}`,
                   bgcolor: UI.panelSoft,
                 }}

@@ -22,7 +22,7 @@ export const getPurchaseStatusChipSx = (status?: string | null) => {
       bgcolor: '#e5e7eb !important',
       color: '#4b5563 !important',
       fontWeight: 700,
-      borderRadius: '999px',
+      borderRadius: 10,
       height: 28,
       '& .MuiChip-label': {
         px: 1.25,
@@ -35,7 +35,7 @@ export const getPurchaseStatusChipSx = (status?: string | null) => {
       bgcolor: '#fef3c7 !important',
       color: '#92400e !important',
       fontWeight: 700,
-      borderRadius: '999px',
+      borderRadius: 10,
       height: 28,
       '& .MuiChip-label': {
         px: 1.25,

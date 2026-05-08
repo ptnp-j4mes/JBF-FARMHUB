@@ -1535,7 +1535,7 @@ export function CreatePRDialog({
           variant="outlined"
           onClick={handleClose}
           disabled={saving}
-          sx={{ borderRadius: 999, px: 3, borderColor: 'divider', color: 'text.secondary' }}
+          sx={{ borderRadius: 10, px: 3, borderColor: 'divider', color: 'text.secondary' }}
         >
           ยกเลิก
         </Button>
@@ -1543,7 +1543,7 @@ export function CreatePRDialog({
           variant="contained"
           onClick={handleSubmit}
           disabled={saving || optionsLoading || !canCreate || (isEditMode && !initialRequest)}
-          sx={{ borderRadius: 999, px: 3, bgcolor: 'primary.main', '&:hover': { bgcolor: 'primary.dark' } }}
+          sx={{ borderRadius: 10, px: 3, bgcolor: 'primary.main', '&:hover': { bgcolor: 'primary.dark' } }}
         >
           {isEditMode ? 'บันทึกการแก้ไข' : 'บันทึกใบขอซื้อ'}
         </Button>

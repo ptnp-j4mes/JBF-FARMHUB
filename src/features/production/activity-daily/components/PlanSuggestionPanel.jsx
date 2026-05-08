@@ -26,7 +26,7 @@ export default function PlanSuggestionPanel({
     <Box
       sx={{
         border: `1px solid ${UI.border}`,
-        borderRadius: 3,
+        borderRadius: 10,
         p: 1.5,
         bgcolor: UI.panelSoft,
       }}
@@ -51,7 +51,7 @@ export default function PlanSuggestionPanel({
               ไม่พบแผนวัคซีนของโรงเรือนนี้ในวันที่เลือก
             </Typography>
             {otherHousePlanSuggestions.length > 0 && (
-              <Alert severity="info" sx={{ borderRadius: 2, border: `1px solid ${UI.border}` }}>
+              <Alert severity="info" sx={{ borderRadius: 10, border: `1px solid ${UI.border}` }}>
                 <Stack spacing={0.75}>
                   <Typography variant="body2" sx={{ fontWeight: 700 }}>
                     แต่ยังมีแผนวัคซีนในโรงเรือนอื่นของฟาร์มนี้
@@ -93,7 +93,7 @@ export default function PlanSuggestionPanel({
                 justifyContent="space-between"
                 sx={{
                   border: `1px solid ${UI.border}`,
-                  borderRadius: 2,
+                  borderRadius: 10,
                   px: 1.5,
                   py: 1,
                   bgcolor: UI.panel,

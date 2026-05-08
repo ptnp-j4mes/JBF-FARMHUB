@@ -132,7 +132,7 @@ export function ReceiveTransactionDetailsDialog({
                     key={line.id}
                     container
                     spacing={1.5}
-                    sx={{ ...getStockDialogSectionBoxSx(theme), px: 2, py: 1.5, border: 'none', borderRadius: 0, bgcolor: 'transparent' }}
+                    sx={{ ...getStockDialogSectionBoxSx(theme), px: 2, py: 1.5, border: 'none', borderRadius: 10, bgcolor: 'transparent' }}
                   >
                     <Grid size={{ xs: 12, md: 3 }}>
                       <Typography variant="body2" fontWeight={700}>

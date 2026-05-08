@@ -55,10 +55,10 @@ export function MenuManagementFolderAccordion({
         mt: 1,
         border: '1px solid',
         borderColor: 'divider',
-        borderRadius: 2,
+        borderRadius: 10,
         overflow: 'hidden',
         '&:before': { display: 'none' },
-        '&:first-of-type, &:last-of-type': { borderRadius: 2 },
+        '&:first-of-type, &:last-of-type': { borderRadius: 10},
         '&.Mui-expanded': { margin: 0, mt: 1 },
       }}
     >
@@ -133,7 +133,7 @@ export function MenuManagementFolderAccordion({
             </Stack>
           </Stack>
 
-          <TableContainer sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 1 }}>
+          <TableContainer sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 10}}>
             <Table size="small">
               <TableHead>
                 <TableRow>

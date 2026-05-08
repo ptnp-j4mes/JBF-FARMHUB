@@ -42,8 +42,8 @@ const sharedButtonSx = {
 };
 
 const shapeButtonSx: Record<StockButtonShape, Record<string, unknown>> = {
-  rounded: { borderRadius: 12 },
-  pill: { borderRadius: 999 },
+  rounded: { borderRadius: 10},
+  pill: { borderRadius: 10},
 };
 
 const sizeButtonSx: Record<NonNullable<ButtonProps['size']>, Record<string, unknown>> = {

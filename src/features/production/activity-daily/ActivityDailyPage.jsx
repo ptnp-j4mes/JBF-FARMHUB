@@ -1141,7 +1141,7 @@ export default function ActivityDailyPage() {
 
         <Box
           sx={{
-            borderRadius: 3.5,
+            borderRadius: 10,
             border: `1px solid ${UI.border}`,
             bgcolor: UI.panel,
             boxShadow: UI.shadowSoft,
@@ -1203,7 +1203,7 @@ export default function ActivityDailyPage() {
 
         <Box
           sx={{
-            borderRadius: 3.5,
+            borderRadius: 10,
             border: `1px solid ${UI.border}`,
             bgcolor: UI.panel,
             boxShadow: UI.shadowSoft,
@@ -1226,7 +1226,7 @@ export default function ActivityDailyPage() {
 
         <Box
           sx={{
-            borderRadius: 3.5,
+            borderRadius: 10,
             border: '1px solid',
             borderColor: UI.border,
             bgcolor: UI.panel,
@@ -1324,7 +1324,7 @@ export default function ActivityDailyPage() {
 
         <Box
           sx={{
-            borderRadius: 3.5,
+            borderRadius: 10,
             border: `1px solid ${UI.border}`,
             bgcolor: UI.panel,
             boxShadow: UI.shadowSoft,

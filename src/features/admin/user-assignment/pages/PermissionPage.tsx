@@ -59,7 +59,7 @@ const UI = {
 };
 
 const panelSx = {
-  borderRadius: 3.5,
+  borderRadius: 10,
   border: `1px solid ${UI.border}`,
   bgcolor: UI.panel,
   boxShadow: UI.shadow,
@@ -560,7 +560,7 @@ export default function PermissionPage() {
               <Paper
                 variant="outlined"
                 sx={{
-                  borderRadius: 2,
+                  borderRadius: 10,
                   borderColor: UI.border,
                   bgcolor: UI.panelSoft,
                   p: { xs: 1.25, md: 1.5 },
@@ -659,7 +659,7 @@ export default function PermissionPage() {
               paperSx={{
                 flex: 1,
                 minHeight: 0,
-                borderRadius: 2.5,
+                borderRadius: 10,
                 borderColor: UI.border,
                 bgcolor: UI.panel,
                 display: 'flex',
@@ -678,12 +678,12 @@ export default function PermissionPage() {
                 '&::-webkit-scrollbar-track': {
                   backgroundColor: alpha(UI.border, 0.08),
                   borderLeft: `1px solid ${alpha(UI.border, 0.45)}`,
-                  borderRadius: 999,
+                  borderRadius: 10,
                   marginBlock: 6,
                 },
                 '&::-webkit-scrollbar-thumb': {
                   backgroundColor: alpha(UI.muted, 0.58),
-                  borderRadius: 999,
+                  borderRadius: 10,
                   border: `1px solid ${alpha(UI.panel, 0.65)}`,
                 },
                 '&::-webkit-scrollbar-thumb:hover': {

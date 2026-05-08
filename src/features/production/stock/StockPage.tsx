@@ -118,7 +118,7 @@ const TABLE_COLUMN_WIDTHS_DEFAULT = [
 const TABLE_COLUMN_WIDTHS_MOBILE = ['40%', '22%', '14%', '24%'] as const;
 
 const panelSx = {
-  borderRadius: 3.5,
+  borderRadius: 10,
   border: '1px solid',
   borderColor: 'divider',
   bgcolor: 'background.paper',
@@ -338,7 +338,7 @@ function StockFilters({
             onChange={(event) => setPendingSearch(String(event.target.value))}
             sx={{
               height: 40,
-              borderRadius: 2,
+              borderRadius: 10,
               bgcolor: 'background.paper',
               boxShadow: 1,
             }}
@@ -364,7 +364,7 @@ function StockFilters({
               }}
               sx={{
                 height: 40,
-                borderRadius: 2,
+                borderRadius: 10,
                 bgcolor: 'background.paper',
                 boxShadow: 1,
               }}
@@ -389,7 +389,7 @@ function StockFilters({
             }
             sx={{
               height: 40,
-              borderRadius: 2,
+              borderRadius: 10,
               bgcolor: 'background.paper',
               boxShadow: 1,
             }}
@@ -418,7 +418,7 @@ function StockFilters({
               }
               sx={{
                 height: 40,
-                borderRadius: 2,
+                borderRadius: 10,
                 bgcolor: 'background.paper',
                 boxShadow: 1,
               }}
@@ -479,7 +479,7 @@ function StockFacilityList({
   return (
     <Paper
       sx={{
-        borderRadius: '18px',
+        borderRadius: 10,
         overflow: 'hidden',
         boxShadow: 2,
         border: '1px solid',
@@ -661,7 +661,7 @@ function StockList({
   return (
     <Paper
       sx={{
-        borderRadius: '18px',
+        borderRadius: 10,
         overflow: 'hidden',
         boxShadow: 2,
         border: '1px solid',
@@ -3110,7 +3110,7 @@ export function StockPage({
               <Paper
                 sx={{
                   p: 2,
-                  borderRadius: 3,
+                  borderRadius: 10,
                   border: '1px solid',
                   borderColor: 'divider',
                   boxShadow: 'none',
@@ -3175,7 +3175,7 @@ export function StockPage({
               <TableContainer
                 component={Paper}
                 sx={{
-                  borderRadius: 3,
+                  borderRadius: 10,
                   border: '1px solid',
                   borderColor: 'divider',
                   boxShadow: 'none',

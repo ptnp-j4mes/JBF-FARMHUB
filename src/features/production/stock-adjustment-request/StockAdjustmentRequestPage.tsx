@@ -178,7 +178,7 @@ function validateDraftLines(lines: DraftLine[], warehouses: WarehouseResponse[],
 }
 
 const panelSx = {
-  borderRadius: 3.5,
+  borderRadius: 10,
   border: '1px solid',
   borderColor: 'divider',
   bgcolor: 'background.paper',
@@ -727,7 +727,7 @@ export function StockAdjustmentRequestPage() {
                   minHeight: 40,
                   px: 2.2,
                   py: 0.82,
-                  borderRadius: 4,
+                  borderRadius: 10,
                   border: '1px solid',
                   borderColor: 'divider',
                   bgcolor: 'background.paper',
@@ -773,7 +773,7 @@ export function StockAdjustmentRequestPage() {
                 onClick={() => void refreshAll()}
                 disabled={masterLoading || loading}
                 sx={{
-                  borderRadius: 2.2,
+                  borderRadius: 10,
                   bgcolor: 'background.paper',
                   borderColor: 'divider',
                   color: 'text.primary',
@@ -792,7 +792,7 @@ export function StockAdjustmentRequestPage() {
                   startIcon={<AddCircleOutlineRounded />}
                   onClick={() => setActiveTab('request')}
                   sx={{
-                    borderRadius: 2.2,
+                    borderRadius: 10,
                     bgcolor: 'primary.main',
                     boxShadow: 1,
                     '&:hover': { bgcolor: 'primary.dark' },
@@ -809,7 +809,7 @@ export function StockAdjustmentRequestPage() {
             <Stack spacing={2}>
               <Box
                 component="fieldset"
-                sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 3, p: { xs: 1.25, md: 1.5 }, minWidth: 0, bgcolor: 'background.paper', boxShadow: 1 }}
+                sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 10, p: { xs: 1.25, md: 1.5 }, minWidth: 0, bgcolor: 'background.paper', boxShadow: 1 }}
               >
                 <Typography component="legend" sx={{ px: 1.1, fontSize: '0.95rem', fontWeight: 800, color: 'text.primary' }}>
                   ฟอร์มส่งคำขอปรับ
@@ -825,7 +825,7 @@ export function StockAdjustmentRequestPage() {
                         value={selectedFacilityId}
                         onChange={(event) => handleFacilityChange(Number(event.target.value))}
                         disabled={!facilityOptions.length}
-                        sx={{ height: 40, borderRadius: 2, bgcolor: 'background.paper' }}
+                        sx={{ height: 40, borderRadius: 10, bgcolor: 'background.paper' }}
                       >
                         {facilityOptions.map((facility) => (
                           <MenuItem key={facility.facilityNodeId} value={facility.facilityNodeId}>
@@ -881,7 +881,7 @@ export function StockAdjustmentRequestPage() {
                       startIcon={<AddCircleOutlineRounded />}
                       onClick={addLine}
                       sx={{
-                        borderRadius: 2.2,
+                        borderRadius: 10,
                         borderColor: 'divider',
                         color: 'text.primary',
                         '&:hover': { borderColor: 'primary.main', bgcolor: (t) => alpha(t.palette.primary.main, 0.04) },
@@ -893,7 +893,7 @@ export function StockAdjustmentRequestPage() {
 
                   <TableContainer
                     component={Paper}
-                    sx={{ borderRadius: 3, border: '1px solid', borderColor: 'divider', boxShadow: 'none' }}
+                    sx={{ borderRadius: 10, border: '1px solid', borderColor: 'divider', boxShadow: 'none' }}
                   >
                     <Table size="small">
                       <TableHead>
@@ -1016,7 +1016,7 @@ export function StockAdjustmentRequestPage() {
                         setRequestDate(dayjs().format('YYYY-MM-DDTHH:mm'));
                       }}
                       sx={{
-                        borderRadius: 2.2,
+                        borderRadius: 10,
                         borderColor: 'divider',
                         color: 'text.primary',
                       }}
@@ -1027,7 +1027,7 @@ export function StockAdjustmentRequestPage() {
                       variant="contained"
                       onClick={() => void handleSubmit()}
                       disabled={saving || masterLoading || loading || selectedFacilityId === ''}
-                      sx={{ borderRadius: 2.2, bgcolor: 'primary.main', boxShadow: 1, '&:hover': { bgcolor: 'primary.dark' } }}
+                      sx={{ borderRadius: 10, bgcolor: 'primary.main', boxShadow: 1, '&:hover': { bgcolor: 'primary.dark' } }}
                     >
                       {saving ? 'กำลังส่ง...' : 'ส่งคำขอปรับ'}
                     </Button>

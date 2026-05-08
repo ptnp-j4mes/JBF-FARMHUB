@@ -17,7 +17,7 @@ export default function FeedRecordTable({ records, onDelete }) {
           key={row.id}
           variant="outlined"
           sx={{
-            borderRadius: 3,
+            borderRadius: 10,
             borderColor: UI.border,
             bgcolor: UI.panel,
             boxShadow: UI.shadowSoft,

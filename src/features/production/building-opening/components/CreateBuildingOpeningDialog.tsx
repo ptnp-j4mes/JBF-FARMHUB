@@ -357,7 +357,7 @@ export function CreateBuildingOpeningDialog({
       <DialogTitleWithClose onClose={handleClose} disabled={saving} sx={buildingOpeningDialogTitleSx}>
         {isEdit ? 'แก้ไขรายการเปิดโรงเรือน' : 'สร้างรายการเปิดโรงเรือน'}
       </DialogTitleWithClose>
-      <DialogContent dividers sx={{ ...buildingOpeningDialogContentSx, '& .MuiAlert-root': { borderRadius: 2.4 } }}>
+      <DialogContent dividers sx={{ ...buildingOpeningDialogContentSx, '& .MuiAlert-root': { borderRadius: 10} }}>
         <Stack spacing={2}>
           {error ? <Alert severity="error" sx={buildingOpeningErrorAlertSx}>{error}</Alert> : null}
 

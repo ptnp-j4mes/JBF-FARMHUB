@@ -18,7 +18,7 @@ export default function FiScheduleRow({ row }: FiScheduleRowProps) {
   return (
     <Box
       sx={{
-        borderRadius: 3,
+        borderRadius: 10,
         border: `1px solid ${UI.border}`,
         bgcolor: '#FFFFFF',
         boxShadow: UI.shadowSoft,
@@ -34,7 +34,7 @@ export default function FiScheduleRow({ row }: FiScheduleRowProps) {
       {/* Header */}
       <Box sx={{ px: { xs: 1.6, md: 2 }, py: 1.3, bgcolor: alpha(UI.accentSurface, 0.82), display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 1.2, flexWrap: 'wrap' }}>
         <Stack direction="row" spacing={1} alignItems="center">
-          <Box sx={{ width: 34, height: 34, borderRadius: 1.7, bgcolor: '#fff', color: UI.accent, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: UI.shadowSoft }}>
+          <Box sx={{ width: 34, height: 34, borderRadius: 10, bgcolor: '#fff', color: UI.accent, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: UI.shadowSoft }}>
             <FeedIcon sx={{ fontSize: 18 }} />
           </Box>
           <Box>
@@ -100,25 +100,25 @@ export default function FiScheduleRow({ row }: FiScheduleRowProps) {
           mt: 1.2,
         }}
         >
-          <Box sx={{ textAlign: 'center', py: 0.85, borderRadius: 1.7, bgcolor: '#F0FDF4' }}>
+          <Box sx={{ textAlign: 'center', py: 0.85, borderRadius: 10, bgcolor: '#F0FDF4' }}>
             <Typography variant="caption" sx={{ color: UI.muted, display: 'block', fontWeight: 600 }}>แนะนำ</Typography>
             <Typography sx={{ fontWeight: 800, color: '#15803D', fontSize: '0.88rem' }}>
               {formatFeedQuantityWithSecondaryKg(row.suggestedKg ?? row.targetFeedKg, row)}
             </Typography>
           </Box>
-          <Box sx={{ textAlign: 'center', py: 0.85, borderRadius: 1.7, bgcolor: '#FEF3C7' }}>
+          <Box sx={{ textAlign: 'center', py: 0.85, borderRadius: 10, bgcolor: '#FEF3C7' }}>
             <Typography variant="caption" sx={{ color: UI.muted, display: 'block', fontWeight: 600 }}>Backlog</Typography>
             <Typography sx={{ fontWeight: 800, color: '#B45309', fontSize: '0.88rem' }}>
               {(row.backlogKg ?? 0).toLocaleString(undefined, { maximumFractionDigits: 3 })} กก.
             </Typography>
           </Box>
-          <Box sx={{ textAlign: 'center', py: 0.85, borderRadius: 1.7, bgcolor: UI.accentSurface }}>
+          <Box sx={{ textAlign: 'center', py: 0.85, borderRadius: 10, bgcolor: UI.accentSurface }}>
             <Typography variant="caption" sx={{ color: UI.muted, display: 'block', fontWeight: 600 }}>แผน</Typography>
             <Typography sx={{ fontWeight: 800, color: UI.accent, fontSize: '0.88rem' }}>
               {formatFeedQuantityWithSecondaryKg(row.plannedKg ?? row.targetFeedKg, row)}
             </Typography>
           </Box>
-          <Box sx={{ textAlign: 'center', py: 0.85, borderRadius: 1.7, bgcolor: '#EFF6FF' }}>
+          <Box sx={{ textAlign: 'center', py: 0.85, borderRadius: 10, bgcolor: '#EFF6FF' }}>
             <Typography variant="caption" sx={{ color: UI.muted, display: 'block', fontWeight: 600 }}>รถเข็น</Typography>
             <Typography sx={{ fontWeight: 800, color: '#1D4ED8', fontSize: '0.88rem' }}>
               {row.cartWeightKg != null ? `${row.cartWeightKg.toLocaleString()} กก./เที่ยว` : '-'}

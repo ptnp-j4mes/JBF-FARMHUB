@@ -96,7 +96,7 @@ export default function UserPermissionEditorDialog({
     : alpha('#f8faf8', 0.9);
 
   const sectionPaperSx = {
-    borderRadius: 2.5,
+    borderRadius: 10,
     border: '1px solid',
     borderColor: alpha(theme.palette.divider, theme.palette.mode === 'dark' ? 0.7 : 1),
     bgcolor: theme.palette.mode === 'dark'
@@ -117,7 +117,7 @@ export default function UserPermissionEditorDialog({
 
   const chipSx = {
     height: 28,
-    borderRadius: 999,
+    borderRadius: 10,
     fontWeight: 700,
     bgcolor: mutedBg,
     border: `1px solid ${borderColor}`,
@@ -404,7 +404,7 @@ export default function UserPermissionEditorDialog({
       maxWidth="md"
       PaperProps={{
         sx: {
-          borderRadius: 3,
+          borderRadius: 10,
           maxHeight: '85dvh',
         },
       }}
@@ -513,7 +513,7 @@ export default function UserPermissionEditorDialog({
             <Paper
               variant="outlined"
               sx={{
-                borderRadius: 2,
+                borderRadius: 10,
                 borderColor: alpha(theme.palette.warning.main, 0.4),
                 bgcolor: alpha(theme.palette.warning.main, 0.04),
                 p: 1.5,
@@ -534,7 +534,7 @@ export default function UserPermissionEditorDialog({
             <Paper
               variant="outlined"
               sx={{
-                borderRadius: 2,
+                borderRadius: 10,
                 borderColor: alpha(theme.palette.error.main, 0.4),
                 bgcolor: alpha(theme.palette.error.main, 0.04),
                 p: 1.5,
@@ -550,7 +550,7 @@ export default function UserPermissionEditorDialog({
           {loading && (
             <Stack spacing={1.5}>
               {[1, 2, 3, 4].map((i) => (
-                <Skeleton key={i} variant="rounded" height={48} sx={{ borderRadius: 1.5 }} />
+                <Skeleton key={i} variant="rounded" height={48} sx={{ borderRadius: 10}} />
               ))}
             </Stack>
           )}
@@ -612,7 +612,7 @@ export default function UserPermissionEditorDialog({
                 <TableContainer
                   sx={{
                     maxHeight: 400,
-                    borderRadius: 2,
+                    borderRadius: 10,
                     border: `1px solid ${borderColor}`,
                     bgcolor: alpha(panelBg, 0.5),
                   }}

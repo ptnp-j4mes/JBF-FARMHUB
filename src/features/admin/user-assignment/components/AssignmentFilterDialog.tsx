@@ -60,7 +60,7 @@ export default function AssignmentFilterDialog({
   const fieldSx = {
     '& .MuiOutlinedInput-root': {
       bgcolor: modalInputBg,
-      borderRadius: 1.6,
+      borderRadius: 10,
       '& fieldset': { borderColor: borderStrong },
     },
   } as const;
@@ -99,7 +99,7 @@ export default function AssignmentFilterDialog({
       fullWidth
       PaperProps={{
         sx: {
-          borderRadius: 2,
+          borderRadius: 10,
           bgcolor: modalPaperBg,
           border: `1px solid ${borderStrong}`,
           color: textPrimary,

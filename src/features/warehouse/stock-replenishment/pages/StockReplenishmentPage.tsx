@@ -293,7 +293,7 @@ const mapRequestResponse = (request: StockReplenishmentRequestResponse): Central
 });
 
 const panelSx = {
-  borderRadius: 3.5,
+  borderRadius: 10,
   border: '1px solid',
   borderColor: 'divider',
   bgcolor: 'background.paper',
@@ -442,17 +442,17 @@ export default function StockReplenishmentHub({
                           {formatDateTime(step.actionDate)}
                         </Typography>
                         {isStepError && (
-                          <Typography variant="caption" sx={{ display: 'block', color: 'error.main', mt: 0.5, bgcolor: alpha(theme.palette.error.main, 0.04), p: 0.5, borderRadius: 1, border: '1px solid', borderColor: alpha(theme.palette.error.main, 0.2) }}>
+                          <Typography variant="caption" sx={{ display: 'block', color: 'error.main', mt: 0.5, bgcolor: alpha(theme.palette.error.main, 0.04), p: 0.5, borderRadius: 10, border: '1px solid', borderColor: alpha(theme.palette.error.main, 0.2) }}>
                             ไม่อนุมัติ: {step.comment || '-'}
                           </Typography>
                         )}
                         {isStepWarning && (
-                          <Typography variant="caption" sx={{ display: 'block', color: 'warning.main', mt: 0.5, bgcolor: alpha(theme.palette.warning.main, 0.04), p: 0.5, borderRadius: 1, border: '1px solid', borderColor: alpha(theme.palette.warning.main, 0.2) }}>
+                          <Typography variant="caption" sx={{ display: 'block', color: 'warning.main', mt: 0.5, bgcolor: alpha(theme.palette.warning.main, 0.04), p: 0.5, borderRadius: 10, border: '1px solid', borderColor: alpha(theme.palette.warning.main, 0.2) }}>
                             ตีกลับ: {step.comment || '-'}
                           </Typography>
                         )}
                         {isStepCompleted && step.comment && (
-                          <Typography variant="caption" sx={{ display: 'block', color: 'success.main', mt: 0.5, bgcolor: alpha(theme.palette.success.main, 0.04), p: 0.5, borderRadius: 1, border: '1px solid', borderColor: alpha(theme.palette.success.main, 0.2) }}>
+                          <Typography variant="caption" sx={{ display: 'block', color: 'success.main', mt: 0.5, bgcolor: alpha(theme.palette.success.main, 0.04), p: 0.5, borderRadius: 10, border: '1px solid', borderColor: alpha(theme.palette.success.main, 0.2) }}>
                             {step.comment}
                           </Typography>
                         )}
@@ -502,7 +502,7 @@ export default function StockReplenishmentHub({
                     </Typography>
                     <Typography variant="caption" sx={{
                       px: 0.5, py: 0.1, bgcolor: alpha(theme.palette.info.main, 0.08), color: theme.palette.info.dark ?? theme.palette.info.main,
-                      borderRadius: 0.5, fontSize: '0.6rem', fontWeight: 800, border: '1px solid', borderColor: alpha(theme.palette.info.main, 0.2)
+                      borderRadius: 10, fontSize: '0.6rem', fontWeight: 800, border: '1px solid', borderColor: alpha(theme.palette.info.main, 0.2)
                     }}>
                       Lv.1
                     </Typography>
@@ -516,12 +516,12 @@ export default function StockReplenishmentHub({
                     </Typography>
                   )}
                   {isRejected && (
-                    <Typography variant="caption" sx={{ display: 'block', color: 'error.main', mt: 0.5, bgcolor: alpha(theme.palette.error.main, 0.04), p: 0.5, borderRadius: 1, border: '1px solid', borderColor: alpha(theme.palette.error.main, 0.2) }}>
+                    <Typography variant="caption" sx={{ display: 'block', color: 'error.main', mt: 0.5, bgcolor: alpha(theme.palette.error.main, 0.04), p: 0.5, borderRadius: 10, border: '1px solid', borderColor: alpha(theme.palette.error.main, 0.2) }}>
                       ไม่อนุมัติ
                     </Typography>
                   )}
                   {isReturned && (
-                    <Typography variant="caption" sx={{ display: 'block', color: 'warning.main', mt: 0.5, bgcolor: alpha(theme.palette.warning.main, 0.04), p: 0.5, borderRadius: 1, border: '1px solid', borderColor: alpha(theme.palette.warning.main, 0.2) }}>
+                    <Typography variant="caption" sx={{ display: 'block', color: 'warning.main', mt: 0.5, bgcolor: alpha(theme.palette.warning.main, 0.04), p: 0.5, borderRadius: 10, border: '1px solid', borderColor: alpha(theme.palette.warning.main, 0.2) }}>
                       ตีกลับเพื่อแก้ไข
                     </Typography>
                   )}
@@ -823,7 +823,7 @@ export default function StockReplenishmentHub({
               variant="contained"
               onClick={() => void handleActionRequest(request.id, 'submit')}
               disabled={loading}
-              sx={{ borderRadius: 999, bgcolor: 'primary.main' }}
+              sx={{ borderRadius: 10, bgcolor: 'primary.main' }}
             >
               ส่ง
             </Button>
@@ -841,7 +841,7 @@ export default function StockReplenishmentHub({
               startIcon={<TaskAltOutlined sx={{ fontSize: 18 }} />}
               onClick={() => void handleActionRequest(request.id, 'approve')}
               disabled={loading}
-              sx={{ borderRadius: 999, px: 2, bgcolor: 'success.main', '&:hover': { bgcolor: 'success.dark' } }}
+              sx={{ borderRadius: 10, px: 2, bgcolor: 'success.main', '&:hover': { bgcolor: 'success.dark' } }}
             >
               อนุมัติ
             </Button>
@@ -851,7 +851,7 @@ export default function StockReplenishmentHub({
               startIcon={<RefreshIcon sx={{ fontSize: 18 }} />}
               onClick={() => void handleActionRequest(request.id, 'return')}
               disabled={loading}
-              sx={{ borderRadius: 999, px: 2 }}
+              sx={{ borderRadius: 10, px: 2 }}
             >
               ตีกลับ
             </Button>
@@ -861,7 +861,7 @@ export default function StockReplenishmentHub({
               startIcon={<CancelOutlinedIcon sx={{ fontSize: 18 }} />}
               onClick={() => void handleActionRequest(request.id, 'reject')}
               disabled={loading}
-              sx={{ borderRadius: 999, px: 2 }}
+              sx={{ borderRadius: 10, px: 2 }}
             >
               ไม่อนุมัติ
             </Button>
@@ -873,7 +873,7 @@ export default function StockReplenishmentHub({
               variant="contained"
               onClick={() => void handleActionRequest(request.id, 'submit')}
               disabled={loading}
-              sx={{ borderRadius: 999, px: 2.5, bgcolor: 'primary.main', '&:hover': { bgcolor: 'primary.dark' } }}
+              sx={{ borderRadius: 10, px: 2.5, bgcolor: 'primary.main', '&:hover': { bgcolor: 'primary.dark' } }}
             >
               ส่งอนุมัติ
             </Button>
@@ -890,7 +890,7 @@ export default function StockReplenishmentHub({
                 })));
                 setCreateDialogOpen(true);
               }}
-              sx={{ borderRadius: 999, px: 2.5, borderColor: 'primary.main', color: 'primary.main' }}
+              sx={{ borderRadius: 10, px: 2.5, borderColor: 'primary.main', color: 'primary.main' }}
             >
               แก้ไข
             </Button>
@@ -1204,7 +1204,7 @@ export default function StockReplenishmentHub({
               startIcon={<AddIcon sx={{ fontSize: 18 }} />}
               onClick={handleOpenCreate}
               sx={{
-                borderRadius: 2.2,
+                borderRadius: 10,
                 bgcolor: 'primary.main',
                 boxShadow: 1,
                 '&:hover': { bgcolor: 'primary.dark' },
@@ -1217,7 +1217,7 @@ export default function StockReplenishmentHub({
               startIcon={<AddIcon sx={{ fontSize: 18 }} />}
               onClick={handleOpenCreate}
               sx={{
-                borderRadius: 2.2,
+                borderRadius: 10,
                 bgcolor: 'primary.dark',
                 boxShadow: 1,
                 '&:hover': { bgcolor: theme.palette.primary.dark },
@@ -1230,7 +1230,7 @@ export default function StockReplenishmentHub({
               startIcon={<RefreshIcon sx={{ fontSize: 18 }} />}
               onClick={() => void loadData()}
               sx={{
-                borderRadius: 2.2,
+                borderRadius: 10,
                 bgcolor: 'background.paper',
                 borderColor: 'divider',
                 color: 'text.primary',
@@ -1334,7 +1334,7 @@ export default function StockReplenishmentHub({
               startIcon={<LocalShippingIcon sx={{ fontSize: 18 }} />}
               href="/warehouse/purchase-request"
               sx={{
-                borderRadius: 2.2,
+                borderRadius: 10,
                 bgcolor: 'background.paper',
                 borderColor: 'divider',
                 color: 'text.primary',
@@ -1353,7 +1353,7 @@ export default function StockReplenishmentHub({
               onClick={() => void loadData()}
               disabled={loading}
               sx={{
-                borderRadius: 2.2,
+                borderRadius: 10,
                 bgcolor: 'background.paper',
                 borderColor: 'divider',
                 color: 'text.primary',

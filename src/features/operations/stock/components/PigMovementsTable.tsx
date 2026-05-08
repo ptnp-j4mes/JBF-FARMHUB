@@ -118,7 +118,7 @@ export function PigMovementsTable({ onRowDoubleClick }: PigMovementsTableProps) 
     <Box
       sx={{
         p: 1.5,
-        borderRadius: 3.5,
+        borderRadius: 10,
         border: `1px solid ${UI.border}`,
         bgcolor: UI.panel,
         boxShadow: UI.shadow,
@@ -157,7 +157,7 @@ export function PigMovementsTable({ onRowDoubleClick }: PigMovementsTableProps) 
         }}
         stickyHeader
         paperSx={{
-          borderRadius: '14px',
+          borderRadius: 10,
           border: `1px solid ${UI.border}`,
           boxShadow: UI.shadow,
           bgcolor: UI.panelSoft,

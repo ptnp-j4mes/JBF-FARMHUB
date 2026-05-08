@@ -38,7 +38,7 @@ const UI = {
 };
 
 const panelSx = {
-  borderRadius: 3.5,
+  borderRadius: 10,
   border: `1px solid ${UI.border}`,
   bgcolor: UI.panel,
   boxShadow: UI.shadow,
@@ -252,7 +252,7 @@ export default function FarmHouseDetailPage({ buildingOpeningId }: Props) {
             sx={{
               borderColor: '#b8c5bf',
               color: UI.text,
-              borderRadius: 2,
+              borderRadius: 10,
               boxShadow: UI.shadowSoft,
               '&:hover': { borderColor: UI.accent, bgcolor: alpha(UI.accent, 0.06) },
             }}
@@ -352,7 +352,7 @@ export default function FarmHouseDetailPage({ buildingOpeningId }: Props) {
                   variant={tableMode === 'feeding' ? 'contained' : 'outlined'}
                   onClick={() => setTableMode('feeding')}
                   sx={{
-                    borderRadius: 2,
+                    borderRadius: 10,
                     boxShadow: UI.shadowSoft,
                     ...(tableMode === 'feeding'
                       ? { bgcolor: UI.accent, '&:hover': { bgcolor: '#154e46' } }
@@ -366,7 +366,7 @@ export default function FarmHouseDetailPage({ buildingOpeningId }: Props) {
                   variant={tableMode === 'daily' ? 'contained' : 'outlined'}
                   onClick={() => setTableMode('daily')}
                   sx={{
-                    borderRadius: 2,
+                    borderRadius: 10,
                     boxShadow: UI.shadowSoft,
                     ...(tableMode === 'daily'
                       ? { bgcolor: UI.accent, '&:hover': { bgcolor: '#154e46' } }
@@ -381,7 +381,7 @@ export default function FarmHouseDetailPage({ buildingOpeningId }: Props) {
             {data.dailyRows.length === 0 ? (
               <EmptyState title="ยังไม่มีข้อมูลรายวัน" message="ไม่พบข้อมูล feeding/fact สำหรับโรงเรือนนี้" />
             ) : tableMode === 'feeding' ? (
-              <TableContainer sx={{ maxHeight: 560, overflow: 'auto', border: `1px solid ${UI.border}`, borderRadius: 3, boxShadow: UI.shadowSoft, bgcolor: UI.panelSoft, maxWidth: '100%' }}>
+              <TableContainer sx={{ maxHeight: 560, overflow: 'auto', border: `1px solid ${UI.border}`, borderRadius: 10, boxShadow: UI.shadowSoft, bgcolor: UI.panelSoft, maxWidth: '100%' }}>
                 <Table size="small" stickyHeader sx={{ minWidth: 1280 }}>
                   <TableHead>
                     <TableRow>
@@ -489,7 +489,7 @@ export default function FarmHouseDetailPage({ buildingOpeningId }: Props) {
                 </Table>
               </TableContainer>
             ) : (
-              <TableContainer sx={{ maxHeight: 560, overflow: 'auto', border: `1px solid ${UI.border}`, borderRadius: 3, boxShadow: UI.shadowSoft, bgcolor: UI.panelSoft, maxWidth: '100%' }}>
+              <TableContainer sx={{ maxHeight: 560, overflow: 'auto', border: `1px solid ${UI.border}`, borderRadius: 10, boxShadow: UI.shadowSoft, bgcolor: UI.panelSoft, maxWidth: '100%' }}>
                 <Table size="small" stickyHeader sx={{ minWidth: 1120 }}>
                   <TableHead>
                     <TableRow>
@@ -539,7 +539,7 @@ export default function FarmHouseDetailPage({ buildingOpeningId }: Props) {
             {(data.activityDailyRows?.length ?? 0) === 0 ? (
               <EmptyState title="ยังไม่มีรายการบันทึก Activity Daily" message="ยังไม่พบบันทึกรายวันสำหรับโรงเรือนนี้" />
             ) : (
-              <TableContainer sx={{ maxHeight: 420, overflow: 'auto', border: `1px solid ${UI.border}`, borderRadius: 3, boxShadow: UI.shadowSoft, bgcolor: UI.panelSoft, maxWidth: '100%' }}>
+              <TableContainer sx={{ maxHeight: 420, overflow: 'auto', border: `1px solid ${UI.border}`, borderRadius: 10, boxShadow: UI.shadowSoft, bgcolor: UI.panelSoft, maxWidth: '100%' }}>
                 <Table size="small" stickyHeader sx={{ minWidth: 980 }}>
                   <TableHead>
                     <TableRow>

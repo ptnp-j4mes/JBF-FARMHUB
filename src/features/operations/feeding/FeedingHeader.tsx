@@ -28,7 +28,7 @@ export default function FeedingHeader({
       sx={{
         position: 'relative',
         overflow: 'hidden',
-        borderRadius: 4,
+        borderRadius: 10,
         border: `1px solid ${UI.border}`,
         bgcolor: UI.panel,
         background: `linear-gradient(135deg, rgba(237, 246, 242, 0.98) 0%, rgba(255,255,255,0.98) 45%, rgba(231, 241, 236, 0.96) 100%)`,
@@ -44,7 +44,7 @@ export default function FeedingHeader({
           inset: 'auto -12% -34% auto',
           width: 240,
           height: 240,
-          borderRadius: '50%',
+          borderRadius: 10,
           bgcolor: alpha(UI.accent, 0.08),
           filter: 'blur(10px)',
         },
@@ -54,7 +54,7 @@ export default function FeedingHeader({
           inset: '-28% auto auto -10%',
           width: 200,
           height: 200,
-          borderRadius: '50%',
+          borderRadius: 10,
           bgcolor: alpha('#9dc3b7', 0.18),
           filter: 'blur(18px)',
         },
@@ -92,7 +92,7 @@ export default function FeedingHeader({
               sx={{
                 width: { xs: 48, md: 56 },
                 height: { xs: 48, md: 56 },
-                borderRadius: 2.5,
+                borderRadius: 10,
                 bgcolor: UI.accent,
                 color: '#fff',
                 display: 'flex',
@@ -126,7 +126,7 @@ export default function FeedingHeader({
         <Stack spacing={1} sx={{ minWidth: { xs: '100%', lg: 300 }, alignSelf: 'flex-start' }}>
           <Box
             sx={{
-              borderRadius: 2.6,
+              borderRadius: 10,
               border: `1px solid ${UI.border}`,
               bgcolor: alpha('#fff', 0.85),
               px: 1.5,
@@ -171,7 +171,7 @@ export default function FeedingHeader({
           position: 'relative',
           zIndex: 1,
           height: 8,
-          borderRadius: 999,
+          borderRadius: 10,
           bgcolor: alpha(UI.accentSoft, 0.72),
           overflow: 'hidden',
         }}
@@ -180,7 +180,7 @@ export default function FeedingHeader({
           sx={{
             height: '100%',
             width: `${completionRate}%`,
-            borderRadius: 999,
+            borderRadius: 10,
             background: `linear-gradient(90deg, ${UI.accent} 0%, #2d7a6f 100%)`,
           }}
         />

@@ -143,7 +143,7 @@ export default function AccessContextSwitchDialog({
           boxShadow: isDark
             ? '0 8px 32px rgba(0, 0, 0, 0.4)'
             : '0 8px 32px rgba(18, 54, 37, 0.10)',
-          borderRadius: 2,
+          borderRadius: 10,
           overflow: 'hidden',
         },
       }}
@@ -205,7 +205,7 @@ export default function AccessContextSwitchDialog({
                       : isDark
                         ? 'rgba(17, 26, 21, 0.6)'
                         : 'rgba(255, 255, 255, 0.5)',
-                    borderRadius: 2,
+                    borderRadius: 10,
                     transition: 'all 200ms ease',
                     '&:hover': {
                       borderColor: isCurrent
@@ -240,7 +240,7 @@ export default function AccessContextSwitchDialog({
                           minWidth: 'auto',
                           height: 26,
                           px: 1,
-                          borderRadius: 99,
+                          borderRadius: 10,
                           textTransform: 'none',
                           fontSize: '0.72rem',
                           borderColor: isDark
@@ -286,7 +286,7 @@ export default function AccessContextSwitchDialog({
                           }
                           disabled
                           sx={{
-                            borderRadius: 1.5,
+                            borderRadius: 10,
                             textTransform: 'none',
                             fontWeight: 600,
                           }}
@@ -302,7 +302,7 @@ export default function AccessContextSwitchDialog({
                           }
                           disabled={Boolean(switchingAssignmentId)}
                           sx={{
-                            borderRadius: 1.5,
+                            borderRadius: 10,
                             textTransform: 'none',
                             fontWeight: 600,
                           }}

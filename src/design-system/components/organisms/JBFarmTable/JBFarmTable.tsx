@@ -76,7 +76,7 @@ export default function JBFarmTable<T>({
       sx={{
         border: '1px solid',
         borderColor: 'divider',
-        borderRadius: 3,
+        borderRadius: 10,
         overflow: 'hidden',
         bgcolor: 'background.paper',
       }}
@@ -126,7 +126,7 @@ export default function JBFarmTable<T>({
             overflowY: 'scroll',
             overflowX: 'auto',
             '&::-webkit-scrollbar': { width: 8, height: 8 },
-            '&::-webkit-scrollbar-thumb': { bgcolor: '#2e7d32', borderRadius: 8 },
+            '&::-webkit-scrollbar-thumb': { bgcolor: '#2e7d32', borderRadius: 10},
             '&::-webkit-scrollbar-track': { bgcolor: 'transparent' },
           }}
         >

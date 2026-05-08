@@ -35,7 +35,7 @@ export default function Placeholder({ title, subtitle }: PlaceholderProps) {
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          borderRadius: 4,
+          borderRadius: 10,
           borderStyle: 'dashed',
           // หัวใจสำคัญ: ใช้สีพื้นหลังที่เปลี่ยนตามโหมดอัตโนมัติ
           bgcolor: (theme) =>
@@ -49,7 +49,7 @@ export default function Placeholder({ title, subtitle }: PlaceholderProps) {
             height: 80,
             // ใช้ฟังก์ชัน alpha เพื่อให้สีพื้นหลังไอคอนนุ่มนวลทั้งสองโหมด
             bgcolor: (theme) => alpha(theme.palette.primary.main, 0.12),
-            borderRadius: '50%',
+            borderRadius: 10,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',

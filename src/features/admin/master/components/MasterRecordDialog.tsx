@@ -109,7 +109,7 @@ export function MasterRecordDialog({
     '& .MuiOutlinedInput-root': {
       bgcolor: modalInputBg,
       color: textPrimary,
-      borderRadius: 1.6,
+      borderRadius: 10,
       '& fieldset': { borderColor: borderStrong },
       '&:hover fieldset': { borderColor: alpha(primary, 0.7) },
       '&.Mui-focused fieldset': { borderColor: primary },
@@ -187,7 +187,7 @@ export function MasterRecordDialog({
       keepMounted
       PaperProps={{
         sx: {
-          borderRadius: 2,
+          borderRadius: 10,
           bgcolor: modalPaperBg,
           border: `1px solid ${borderStrong}`,
           color: textPrimary,

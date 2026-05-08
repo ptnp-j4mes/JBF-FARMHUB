@@ -5,7 +5,7 @@ import { alpha, useTheme } from '@mui/material/styles';
 import type { ReactNode } from 'react';
 
 export const stockPanelSx = {
-  borderRadius: 3.5,
+  borderRadius: 10,
   border: '1px solid',
   borderColor: 'divider',
   bgcolor: 'background.paper',
@@ -41,7 +41,7 @@ export function StockSummaryCard({ title, value, subtitle, icon, iconBg, bar }: 
         borderColor: 'divider',
         bgcolor: 'background.paper',
         boxShadow: 2,
-        borderRadius: 3,
+        borderRadius: 10,
         '&::before': {
           content: '""',
           position: 'absolute',
@@ -65,7 +65,7 @@ export function StockSummaryCard({ title, value, subtitle, icon, iconBg, bar }: 
             sx={{
               width: 42,
               height: 42,
-              borderRadius: 1.75,
+              borderRadius: 10,
               bgcolor: 'background.paper',
               border: `1px solid ${alpha(bar, 0.15)}`,
               boxShadow: 1,
@@ -78,8 +78,8 @@ export function StockSummaryCard({ title, value, subtitle, icon, iconBg, bar }: 
             {icon}
           </Box>
         </Box>
-        <Box sx={{ width: 96, height: 6, borderRadius: 999, bgcolor: alpha(bar, 0.2) }}>
-          <Box sx={{ width: 54, height: '100%', borderRadius: 999, bgcolor: bar }} />
+        <Box sx={{ width: 96, height: 6, borderRadius: 10, bgcolor: alpha(bar, 0.2) }}>
+          <Box sx={{ width: 54, height: '100%', borderRadius: 10, bgcolor: bar }} />
         </Box>
         <Typography variant="caption" sx={{ display: 'block', color: 'text.secondary', mt: 0.8 }}>
           {subtitle}
@@ -97,7 +97,7 @@ export function StockSection({ title, description, action, children }: StockSect
       component="fieldset"
       sx={{
         ...stockPanelSx,
-        borderRadius: 3,
+        borderRadius: 10,
         p: { xs: 1.5, md: 2 },
       }}
     >

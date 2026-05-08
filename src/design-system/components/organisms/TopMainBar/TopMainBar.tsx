@@ -336,7 +336,7 @@ export default function TopMainBar({ onSidebarOpen }: TopMainBarProps) {
     alignItems: 'center',
     justifyContent: 'center',
     flexShrink: 0,
-    borderRadius: 1.5,
+    borderRadius: '10px',
     transition: 'all 0.2s ease',
     '&:hover': {
       bgcolor: 'rgba(180, 35, 24, 0.08)',
@@ -385,7 +385,7 @@ export default function TopMainBar({ onSidebarOpen }: TopMainBarProps) {
         backgroundColor: isDark ? 'rgba(26, 26, 27, 0.84)' : 'rgba(255, 255, 255, 0.72)',
         backdropFilter: 'blur(20px)',
         border: `1px solid ${isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(229, 229, 229, 0.9)'}`,
-        borderRadius: 2,
+        borderRadius: '10px',
         boxShadow: isDark ? '0 8px 30px rgba(0,0,0,0.32)' : '0 8px 30px rgba(20,20,20,0.04)',
         color: 'text.primary',
         gap: 2,
@@ -407,7 +407,7 @@ export default function TopMainBar({ onSidebarOpen }: TopMainBarProps) {
           sx={{
             width: { xs: 34, sm: 36 },
             height: { xs: 34, sm: 36 },
-            borderRadius: 1.5,
+            borderRadius: '10px',
             ml: { xs: 0.2, sm: 0 },
             bgcolor: 'rgba(255,255,255,0.4)',
             color: 'text.secondary',
@@ -491,7 +491,7 @@ export default function TopMainBar({ onSidebarOpen }: TopMainBarProps) {
             py: 1,
             bgcolor: 'rgba(255,255,255,0.4)',
             border: '1px solid rgba(255,255,255,0.6)',
-            borderRadius: 2,
+            borderRadius: '10px',
             fontSize: '0.875rem',
             width: 250,
             transition: 'all 0.3s',
@@ -548,7 +548,7 @@ export default function TopMainBar({ onSidebarOpen }: TopMainBarProps) {
               py: 0.35,
               pl: 0.55,
               pr: 0.8,
-              borderRadius: 999,
+              borderRadius: '10px',
               transition: 'all 0.2s ease',
               bgcolor: 'rgba(255,255,255,0.18)',
               '&:hover': {
@@ -621,7 +621,7 @@ export default function TopMainBar({ onSidebarOpen }: TopMainBarProps) {
               theme.palette.mode === 'dark'
                 ? '0 8px 32px rgba(0, 0, 0, 0.4)'
                 : '0 8px 32px rgba(18, 54, 37, 0.10)',
-            borderRadius: 2,
+            borderRadius: '10px',
             width: 304,
             '&:before': {
               content: '""',
@@ -768,7 +768,7 @@ export default function TopMainBar({ onSidebarOpen }: TopMainBarProps) {
         maxWidth="sm"
         PaperProps={{
           sx: {
-            borderRadius: 2,
+            borderRadius: '10px',
             maxWidth: 540,
             mx: 2,
             overflow: 'hidden',
@@ -805,7 +805,7 @@ export default function TopMainBar({ onSidebarOpen }: TopMainBarProps) {
               <Box
                 key={item.title}
                 sx={{
-                  borderRadius: 1.5,
+                  borderRadius: '10px',
                   bgcolor: alpha(theme.palette.common.black, 0.03),
                   px: 2,
                   py: 1.6,

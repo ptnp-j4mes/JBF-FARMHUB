@@ -47,7 +47,7 @@ import {
 } from '@/lib/access/modules/warehouse.guard';
 
 const panelSx = {
-  borderRadius: 3.5,
+  borderRadius: 10,
   border: '1px solid',
   borderColor: 'divider',
   bgcolor: 'background.paper',
@@ -311,7 +311,7 @@ export function StockIssueRequestPage() {
                   startIcon={<AddIcon />}
                   onClick={() => setOpenCreate(true)}
                   sx={{
-                    borderRadius: 2.2,
+                    borderRadius: 10,
                     bgcolor: 'primary.main',
                     boxShadow: 1,
                     '&:hover': { bgcolor: 'primary.dark' },
@@ -328,7 +328,7 @@ export function StockIssueRequestPage() {
                   void loadPage();
                 }}
                 sx={{
-                  borderRadius: 2.2,
+                  borderRadius: 10,
                   bgcolor: 'background.paper',
                   borderColor: 'divider',
                   color: 'text.primary',

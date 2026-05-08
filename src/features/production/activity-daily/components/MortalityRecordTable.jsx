@@ -22,7 +22,7 @@ export default function MortalityRecordTable({
           key={row.id}
           variant="outlined"
           sx={{
-            borderRadius: 3,
+            borderRadius: 10,
             borderColor: UI.border,
             bgcolor: UI.panel,
             boxShadow: UI.shadowSoft,
@@ -105,7 +105,7 @@ export default function MortalityRecordTable({
                     sx={{
                       width: 48,
                       height: 48,
-                      borderRadius: 1.5,
+                      borderRadius: 10,
                       objectFit: 'cover',
                       border: `1px solid ${UI.border}`,
                       cursor: 'pointer',

@@ -42,7 +42,7 @@ export default function EmptyState({
         sx={{
           width: 72,
           height: 72,
-          borderRadius: 999,
+          borderRadius: 10,
           display: 'grid',
           placeItems: 'center',
           mb: 2,

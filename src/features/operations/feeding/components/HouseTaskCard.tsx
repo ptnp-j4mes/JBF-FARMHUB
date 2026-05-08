@@ -44,7 +44,7 @@ export default function HouseTaskCard({ house, onViewExecution }: HouseTaskCardP
       sx={{
         position: 'relative',
         p: 0,
-        borderRadius: 3,
+        borderRadius: 10,
         border: `1px solid ${UI.border}`,
         bgcolor: '#FFFFFF',
         boxShadow: UI.shadowSoft,
@@ -68,7 +68,7 @@ export default function HouseTaskCard({ house, onViewExecution }: HouseTaskCardP
               sx={{
                 width: 40,
                 height: 40,
-                borderRadius: 2.2,
+                borderRadius: 10,
                 bgcolor: house.status === 'COMPLETED' ? '#F0FDF4' : house.status === 'IN_PROGRESS' ? '#FFFBEB' : UI.accentSurface,
                 color: statusColor,
                 display: 'flex',
@@ -118,19 +118,19 @@ export default function HouseTaskCard({ house, onViewExecution }: HouseTaskCardP
           mt: 1,
         }}
         >
-          <Box sx={{ textAlign: 'center', py: 0.95, borderRadius: 1.8, bgcolor: UI.accentSurface }}>
+          <Box sx={{ textAlign: 'center', py: 0.95, borderRadius: 10, bgcolor: UI.accentSurface }}>
             <Typography variant="caption" sx={{ color: UI.muted, display: 'block', fontWeight: 600 }}>เป้าหมาย</Typography>
             <Typography sx={{ fontWeight: 800, color: UI.accent, fontSize: '0.95rem' }}>
               {house.targetFeedKg.toLocaleString()} <Typography component="span" variant="caption">กก.</Typography>
             </Typography>
           </Box>
-          <Box sx={{ textAlign: 'center', py: 0.95, borderRadius: 1.8, bgcolor: '#EFF6FF' }}>
+          <Box sx={{ textAlign: 'center', py: 0.95, borderRadius: 10, bgcolor: '#EFF6FF' }}>
             <Typography variant="caption" sx={{ color: UI.muted, display: 'block', fontWeight: 600 }}>แผน</Typography>
             <Typography sx={{ fontWeight: 800, color: '#1D4ED8', fontSize: '0.95rem' }}>
               {house.plannedKg.toLocaleString()} <Typography component="span" variant="caption">กก.</Typography>
             </Typography>
           </Box>
-          <Box sx={{ textAlign: 'center', py: 0.95, borderRadius: 1.8, bgcolor: '#F0FDF4' }}>
+          <Box sx={{ textAlign: 'center', py: 0.95, borderRadius: 10, bgcolor: '#F0FDF4' }}>
             <Typography variant="caption" sx={{ color: UI.muted, display: 'block', fontWeight: 600 }}>จริง</Typography>
             <Typography sx={{ fontWeight: 800, color: '#15803D', fontSize: '0.95rem' }}>
               {house.actualKg.toLocaleString()} <Typography component="span" variant="caption">กก.</Typography>
@@ -153,11 +153,11 @@ export default function HouseTaskCard({ house, onViewExecution }: HouseTaskCardP
             value={completionPct}
             sx={{
               height: 6,
-              borderRadius: 99,
+              borderRadius: 10,
               bgcolor: '#E5E7EB',
               '& .MuiLinearProgress-bar': {
                 bgcolor: statusColor,
-                borderRadius: 99,
+                borderRadius: 10,
               },
             }}
           />

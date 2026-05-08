@@ -52,7 +52,7 @@ export default function FeedingFilterBar({
   return (
     <Box
       sx={{
-        borderRadius: 3.4,
+        borderRadius: 10,
         border: `1px solid ${UI.border}`,
         bgcolor: alpha('#fff', 0.94),
         boxShadow: UI.shadow,
@@ -116,11 +116,11 @@ export default function FeedingFilterBar({
               }}
               sx={{
                 height: roleButtonHeight,
-                borderRadius: '999px',
+                borderRadius: 10,
                 overflow: 'hidden',
                 '& .MuiToggleButton-root': {
                   height: roleButtonHeight,
-                  borderRadius: '999px',
+                  borderRadius: 10,
                   border: `1px solid ${UI.borderStrong}`,
                   color: UI.muted,
                   textTransform: 'none',

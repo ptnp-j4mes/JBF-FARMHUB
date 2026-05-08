@@ -144,7 +144,7 @@ const resolveRouteTypeFromLines = (lines: PurchaseRequestResponse['lines']): Pur
 };
 
 const panelSx = {
-  borderRadius: 3.5,
+  borderRadius: 10,
   border: '1px solid',
   borderColor: 'divider',
   bgcolor: 'background.paper',
@@ -592,7 +592,7 @@ export function PurchasePage({
                       setCreateDialogOpen(true);
                     }}
                     sx={{
-                      borderRadius: 2.2,
+                      borderRadius: 10,
                       bgcolor: 'primary.main',
                       boxShadow: 1,
                       '&:hover': { bgcolor: 'primary.dark' },
@@ -610,7 +610,7 @@ export function PurchasePage({
                       setCreateDialogOpen(true);
                     }}
                     sx={{
-                      borderRadius: 2.2,
+                      borderRadius: 10,
                       bgcolor: 'primary.dark',
                       boxShadow: 1,
                     }}
@@ -628,7 +628,7 @@ export function PurchasePage({
                   void loadRequests();
                 }}
                 sx={{
-                  borderRadius: 2.2,
+                  borderRadius: 10,
                   bgcolor: 'background.paper',
                   borderColor: 'divider',
                   color: 'text.primary',
@@ -669,7 +669,7 @@ export function PurchasePage({
                   minWidth: 160,
                   '& .MuiOutlinedInput-root': {
                     height: 40,
-                    borderRadius: 2,
+                    borderRadius: 10,
                     bgcolor: 'background.paper',
                     boxShadow: 1,
                   },
@@ -690,7 +690,7 @@ export function PurchasePage({
                   minWidth: 160,
                   '& .MuiOutlinedInput-root': {
                     height: 40,
-                    borderRadius: 2,
+                    borderRadius: 10,
                     bgcolor: 'background.paper',
                     boxShadow: 1,
                   },

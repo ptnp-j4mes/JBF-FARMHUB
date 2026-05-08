@@ -711,7 +711,7 @@ export function CreateStockIssueRequestDialog({
 
           <Box
             component="fieldset"
-            sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 2, p: 1.5, minWidth: 0 }}
+            sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 10, p: 1.5, minWidth: 0 }}
           >
             <Typography component="legend" sx={{ px: 1, fontSize: '0.95rem', fontWeight: 700 }}>
               ข้อมูลใบขอตัด
@@ -818,7 +818,7 @@ export function CreateStockIssueRequestDialog({
 
           <Box
             component="fieldset"
-            sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 2, p: 1.5, minWidth: 0 }}
+            sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 10, p: 1.5, minWidth: 0 }}
           >
             <Typography component="legend" sx={{ px: 1, fontSize: '0.95rem', fontWeight: 700 }}>
               รายการสินค้า
@@ -973,7 +973,7 @@ export function CreateStockIssueRequestDialog({
                 overflowY: 'auto',
                 border: '1px solid',
                 borderColor: 'divider',
-                borderRadius: '15px 15px 0 0',
+                borderRadius: 10,
               }}
             >
               <Table

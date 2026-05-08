@@ -444,7 +444,7 @@ export default function SectionTabsCard({
                   bottom:  variant === 'minimalist' ? 0 : 0,
                   height: isActive ? (variant === 'minimalist' ? 2 : 2.5) : 0,
                   bgcolor: isActive ? activeColor : 'transparent',
-                  borderRadius: variant === 'minimalist' ? 0 : '2px 2px 0 0',
+                  borderRadius: 10,
                   transition: 'all 0.2s ease-in-out',
                 },
               }}
@@ -530,7 +530,7 @@ export default function SectionTabsCard({
         <Paper
           elevation={0}
           sx={{
-            borderRadius: 1.5,
+            borderRadius: 10,
             border: `1px solid ${lineColor}`,
             borderBottom: `1px solid ${lineColor}`,
             bgcolor: cardBackground,
@@ -548,7 +548,7 @@ export default function SectionTabsCard({
       <Paper
         elevation={0}
         sx={{
-          borderRadius: 1.5,
+          borderRadius: 10,
           border: `1px solid ${lineColor}`,
           borderBottom: `1px solid ${lineColor}`,
           bgcolor: cardBackground,
@@ -595,7 +595,7 @@ export default function SectionTabsCard({
               width: { xs: '94%', md: '90%' },
               mx: 'auto',
               height: TAB_SCROLLBAR_TRACK_HEIGHT,
-              borderRadius: 999,
+              borderRadius: 10,
               bgcolor: alpha(lineColor, 0.28),
               cursor: hasHorizontalOverflow ? 'pointer' : 'default',
             }}
@@ -608,7 +608,7 @@ export default function SectionTabsCard({
                   bottom: 0,
                   left: `${thumbLeftPercent}%`,
                   width: `${thumbWidthPercent}%`,
-                  borderRadius: 999,
+                  borderRadius: 10,
                   bgcolor: alpha(tabIdleColor, 0.78),
                 }}
               />

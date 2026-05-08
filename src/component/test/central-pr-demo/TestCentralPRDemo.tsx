@@ -168,7 +168,7 @@ export default function TestCentralPRDemo({ scope, initialStandardLines = [], mo
                     {step.requiredLevel > 0 && (
                       <Typography variant="caption" sx={{ 
                         px: 0.5, py: 0.1, bgcolor: '#e3f2fd', color: '#1565c0', 
-                        borderRadius: 0.5, fontSize: '0.6rem', fontWeight: 800, border: '1px solid #bbdefb'
+                        borderRadius: 10, fontSize: '0.6rem', fontWeight: 800, border: '1px solid #bbdefb'
                       }}>
                         Lv.{step.requiredLevel}
                       </Typography>
@@ -208,12 +208,12 @@ export default function TestCentralPRDemo({ scope, initialStandardLines = [], mo
                     </Typography>
                   )}
                   {step.status === 'error' && (
-                    <Typography variant="caption" sx={{ display: 'block', color: 'error.main', mt: 0.5, bgcolor: '#fff5f5', p: 0.5, borderRadius: 1, border: '1px solid #ffe3e3' }}>
+                    <Typography variant="caption" sx={{ display: 'block', color: 'error.main', mt: 0.5, bgcolor: '#fff5f5', p: 0.5, borderRadius: 10, border: '1px solid #ffe3e3' }}>
                       ไม่อนุมัติ: ข้อมูลสินค้าไม่ถูกต้อง
                     </Typography>
                   )}
                   {step.status === 'warning' && (
-                    <Typography variant="caption" sx={{ display: 'block', color: 'warning.main', mt: 0.5, bgcolor: '#fff9f0', p: 0.5, borderRadius: 1, border: '1px solid #ffecce' }}>
+                    <Typography variant="caption" sx={{ display: 'block', color: 'warning.main', mt: 0.5, bgcolor: '#fff9f0', p: 0.5, borderRadius: 10, border: '1px solid #ffecce' }}>
                       ตีกลับ: กรุณาแนบไฟล์เพิ่มเติม
                     </Typography>
                   )}
@@ -387,7 +387,7 @@ export default function TestCentralPRDemo({ scope, initialStandardLines = [], mo
   return (
     <Box
       sx={{
-        borderRadius: 3,
+        borderRadius: 10,
         border: '1px solid',
         borderColor: 'divider',
         bgcolor: 'background.paper',
@@ -439,7 +439,7 @@ export default function TestCentralPRDemo({ scope, initialStandardLines = [], mo
         >
           {summaryCards.map((card) => (
             <Box key={card.title} sx={{
-              borderRadius: 3,
+              borderRadius: 10,
               border: `1px solid`,
               borderColor: 'divider',
               bgcolor: 'background.paper',
@@ -461,7 +461,7 @@ export default function TestCentralPRDemo({ scope, initialStandardLines = [], mo
                   sx={{
                     width: 46,
                     height: 46,
-                    borderRadius: 2,
+                    borderRadius: 10,
                     bgcolor: '#fff',
                     border: `1px solid ${alpha(card.bar, 0.15)}`,
                     boxShadow: PURCHASE_DIALOG_UI.shadowSoft,
@@ -477,15 +477,15 @@ export default function TestCentralPRDemo({ scope, initialStandardLines = [], mo
               <Typography sx={{ position: 'relative', zIndex: 1, fontSize: '0.84rem', color: PURCHASE_DIALOG_UI.muted }}>
                 {card.subtitle}
               </Typography>
-              <Box sx={{ position: 'relative', zIndex: 1, mt: 1.8, width: 118, height: 8, borderRadius: 999, bgcolor: '#e7ece8' }}>
-                <Box sx={{ width: 58, height: '100%', bgcolor: card.bar, borderRadius: 999 }} />
+              <Box sx={{ position: 'relative', zIndex: 1, mt: 1.8, width: 118, height: 8, borderRadius: 10, bgcolor: '#e7ece8' }}>
+                <Box sx={{ width: 58, height: '100%', bgcolor: card.bar, borderRadius: 10}} />
               </Box>
             </Box>
           ))}
         </Box>
 
         <Box sx={{
-          borderRadius: 3,
+          borderRadius: 10,
           border: '1px solid',
           borderColor: 'divider',
           bgcolor: 'background.paper',
@@ -500,7 +500,7 @@ export default function TestCentralPRDemo({ scope, initialStandardLines = [], mo
             startIcon={<AddIcon sx={{ fontSize: 18 }} />}
             onClick={handleOpenStandard}
             sx={{
-              borderRadius: 2.2,
+              borderRadius: 10,
               bgcolor: PURCHASE_DIALOG_UI.accent,
               boxShadow: PURCHASE_DIALOG_UI.shadowSoft,
               '&:hover': { bgcolor: '#124840' },
@@ -512,7 +512,7 @@ export default function TestCentralPRDemo({ scope, initialStandardLines = [], mo
             variant="contained"
             startIcon={<AddIcon sx={{ fontSize: 18 }} />}
             sx={{
-              borderRadius: 2.2,
+              borderRadius: 10,
               bgcolor: '#4d7f7b',
               boxShadow: PURCHASE_DIALOG_UI.shadowSoft,
               '&:hover': { bgcolor: '#3e6965' },
@@ -525,7 +525,7 @@ export default function TestCentralPRDemo({ scope, initialStandardLines = [], mo
             variant="outlined"
             startIcon={<RefreshIcon sx={{ fontSize: 18 }} />}
             sx={{
-              borderRadius: 2.2,
+              borderRadius: 10,
               bgcolor: '#fff',
               borderColor: PURCHASE_DIALOG_UI.borderStrong,
               color: PURCHASE_DIALOG_UI.text,
@@ -560,7 +560,7 @@ export default function TestCentralPRDemo({ scope, initialStandardLines = [], mo
                 width: '100%',
                 '& .MuiOutlinedInput-root': {
                   height: 40,
-                  borderRadius: 2,
+                  borderRadius: 10,
                   bgcolor: PURCHASE_DIALOG_UI.panelSoft,
                   boxShadow: PURCHASE_DIALOG_UI.shadowSoft,
                 },
@@ -591,7 +591,7 @@ export default function TestCentralPRDemo({ scope, initialStandardLines = [], mo
                 '& .MuiOutlinedInput-root': {
                   height: 40,
                   minHeight: 40,
-                  borderRadius: 2,
+                  borderRadius: 10,
                   bgcolor: PURCHASE_DIALOG_UI.panelSoft,
                   boxShadow: PURCHASE_DIALOG_UI.shadowSoft,
                 },
@@ -623,7 +623,7 @@ export default function TestCentralPRDemo({ scope, initialStandardLines = [], mo
                   '& .MuiOutlinedInput-root': {
                     height: 40,
                     minHeight: 40,
-                    borderRadius: 2,
+                    borderRadius: 10,
                     bgcolor: PURCHASE_DIALOG_UI.panelSoft,
                     boxShadow: PURCHASE_DIALOG_UI.shadowSoft,
                   },
@@ -649,7 +649,7 @@ export default function TestCentralPRDemo({ scope, initialStandardLines = [], mo
               sx={{
                 height: 40,
                 minWidth: 110,
-                borderRadius: 2,
+                borderRadius: 10,
                 bgcolor: PURCHASE_DIALOG_UI.accent,
                 boxShadow: PURCHASE_DIALOG_UI.shadowSoft,
                 '&:hover': { bgcolor: '#124840' },
@@ -661,7 +661,7 @@ export default function TestCentralPRDemo({ scope, initialStandardLines = [], mo
         </Box>
 
         <Box sx={{
-          borderRadius: 3,
+          borderRadius: 10,
           border: '1px solid',
           borderColor: 'divider',
           bgcolor: 'background.paper',
@@ -706,7 +706,7 @@ export default function TestCentralPRDemo({ scope, initialStandardLines = [], mo
                 overflowY: 'scroll', // Always show vertical scrollbar
                 overflowX: 'auto',
                 '&::-webkit-scrollbar': { width: 8, height: 8 },
-                '&::-webkit-scrollbar-thumb': { bgcolor: '#2e7d32', borderRadius: 8 },
+                '&::-webkit-scrollbar-thumb': { bgcolor: '#2e7d32', borderRadius: 10},
                 '&::-webkit-scrollbar-track': { bgcolor: 'transparent' },
               }}
             >
@@ -1021,7 +1021,7 @@ export default function TestCentralPRDemo({ scope, initialStandardLines = [], mo
               <Stack spacing={2}>
                 <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr 1fr' }, gap: 1.5 }}>
                   {/* เลขที่เอกสาร */}
-                  <Paper elevation={0} sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 3, p: 1.75 }}>
+                  <Paper elevation={0} sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 10, p: 1.75 }}>
                     <Typography variant="caption" color="text.secondary">เลขที่เอกสาร</Typography>
                     <Typography variant="body1" sx={{ fontWeight: 900, color: 'primary.main' }}>
                       {selectedPRId}
@@ -1031,7 +1031,7 @@ export default function TestCentralPRDemo({ scope, initialStandardLines = [], mo
                     </Typography>
                   </Paper>
                   {/* ผู้ขอ */}
-                  <Paper elevation={0} sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 3, p: 1.75 }}>
+                  <Paper elevation={0} sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 10, p: 1.75 }}>
                     <Typography variant="caption" color="text.secondary">ผู้ขอ</Typography>
                     <Typography variant="body1" sx={{ fontWeight: 900 }}>
                       {mockPRData.find(p => p.id === selectedPRId)?.requester}
@@ -1042,7 +1042,7 @@ export default function TestCentralPRDemo({ scope, initialStandardLines = [], mo
                   <Paper elevation={0} sx={{ 
                     border: '1px solid', 
                     borderColor: 'divider', 
-                    borderRadius: 3, 
+                    borderRadius: 10, 
                     p: 1.75 
                   }}>
                     <Typography variant="caption" color="text.secondary">สถานะเอกสาร</Typography>
@@ -1055,7 +1055,7 @@ export default function TestCentralPRDemo({ scope, initialStandardLines = [], mo
                   </Paper>
                 </Box>
 
-                <TableContainer component={Paper} elevation={0} sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 3, overflow: 'hidden' }}>
+                <TableContainer component={Paper} elevation={0} sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 10, overflow: 'hidden' }}>
                   <Table size="small" sx={tableSx}>
                     <TableHead>
                       <TableRow>
@@ -1113,7 +1113,7 @@ export default function TestCentralPRDemo({ scope, initialStandardLines = [], mo
               <Button
                 variant="contained"
                 onClick={() => setDetailOpen(false)}
-                sx={{ borderRadius: 999, px: 2, bgcolor: PURCHASE_DIALOG_UI.accent, '&:hover': { bgcolor: '#124840' } }}
+                sx={{ borderRadius: 10, px: 2, bgcolor: PURCHASE_DIALOG_UI.accent, '&:hover': { bgcolor: '#124840' } }}
               >
                 ส่งอนุมัติ
               </Button>
@@ -1125,7 +1125,7 @@ export default function TestCentralPRDemo({ scope, initialStandardLines = [], mo
                   setHasLoaded(false);
                   setOpen(true);
                 }}
-                sx={{ borderRadius: 999, px: 2 }}
+                sx={{ borderRadius: 10, px: 2 }}
               >
                 แก้ไข
               </Button>
@@ -1139,7 +1139,7 @@ export default function TestCentralPRDemo({ scope, initialStandardLines = [], mo
                 variant="contained"
                 startIcon={<TaskAltOutlined sx={{ fontSize: 18 }} />}
                 onClick={() => setDetailOpen(false)}
-                sx={{ borderRadius: 999, px: 2, bgcolor: '#2e7d32', '&:hover': { bgcolor: '#1b5e20' } }}
+                sx={{ borderRadius: 10, px: 2, bgcolor: '#2e7d32', '&:hover': { bgcolor: '#1b5e20' } }}
               >
                 อนุมัติ
               </Button>
@@ -1148,7 +1148,7 @@ export default function TestCentralPRDemo({ scope, initialStandardLines = [], mo
                 color="warning"
                 startIcon={<RefreshIcon sx={{ fontSize: 18 }} />}
                 onClick={() => setDetailOpen(false)}
-                sx={{ borderRadius: 999, px: 2 }}
+                sx={{ borderRadius: 10, px: 2 }}
               >
                 ตีกลับ
               </Button>
@@ -1157,7 +1157,7 @@ export default function TestCentralPRDemo({ scope, initialStandardLines = [], mo
                 color="error"
                 startIcon={<CancelOutlinedIcon sx={{ fontSize: 18 }} />}
                 onClick={() => setDetailOpen(false)}
-                sx={{ borderRadius: 999, px: 2 }}
+                sx={{ borderRadius: 10, px: 2 }}
               >
                 ไม่อนุมัติ
               </Button>

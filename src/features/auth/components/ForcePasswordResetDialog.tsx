@@ -112,7 +112,7 @@ export default function ForcePasswordResetDialog() {
       fullWidth
       PaperProps={{
         sx: {
-          borderRadius: 2,
+          borderRadius: 10,
           borderTop: `4px solid ${theme.palette.primary.main}`,
         }
       }}
@@ -121,7 +121,7 @@ export default function ForcePasswordResetDialog() {
         <Box sx={{ 
             display: 'inline-flex', 
             p: 2, 
-            borderRadius: '50%', 
+            borderRadius: 10, 
             bgcolor: alpha(theme.palette.primary.main, 0.1),
             color: theme.palette.primary.main,
             mb: 2
@@ -198,7 +198,7 @@ export default function ForcePasswordResetDialog() {
                 fullWidth
                 size="large"
                 disabled={submitting}
-                sx={{ mt: 4, borderRadius: 1.5, py: 1.5, fontSize: '15px' }}
+                sx={{ mt: 4, borderRadius: 10, py: 1.5, fontSize: '15px' }}
             >
                 {submitting ? 'กำลังบันทึก...' : 'บันทึกและเข้าสู่ระบบ'}
             </Button>

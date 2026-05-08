@@ -872,7 +872,7 @@ export function ReceivePurchaseRequestDialog({
                         p: 1.25,
                         border: '1px dashed',
                         borderColor: theme.palette.divider,
-                        borderRadius: 2,
+                        borderRadius: 10,
                         bgcolor: '#f8f7ff',
                       }}
                     >
@@ -899,7 +899,7 @@ export function ReceivePurchaseRequestDialog({
                               p: 1.1,
                               border: '1px solid',
                               borderColor: theme.palette.divider,
-                              borderRadius: 1.5,
+                              borderRadius: 10,
                               bgcolor: theme.palette.background.paper,
                             }}
                           >
@@ -968,7 +968,7 @@ export function ReceivePurchaseRequestDialog({
                       p: 1.25,
                       border: '1px dashed',
                       borderColor: theme.palette.divider,
-                      borderRadius: 2,
+                      borderRadius: 10,
                       bgcolor: '#f4f8f5',
                     }}
                   >
@@ -1007,7 +1007,7 @@ export function ReceivePurchaseRequestDialog({
                               p: 0.85,
                               border: '1px solid',
                               borderColor: theme.palette.divider,
-                              borderRadius: 1.5,
+                              borderRadius: 10,
                               bgcolor: theme.palette.background.paper,
                             }}
                           >

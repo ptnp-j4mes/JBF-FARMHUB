@@ -39,7 +39,7 @@ export default function SearchField({
           width: '100%',
           '& .MuiOutlinedInput-root': {
             minHeight: 40,
-            borderRadius: 1.5,
+            borderRadius: 10,
             bgcolor: backgroundColor,
             color: 'text.primary',
             transition: theme.transitions.create(

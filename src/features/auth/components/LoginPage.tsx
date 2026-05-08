@@ -262,7 +262,7 @@ export default function LoginPage() {
           left: -100,
           width: 400,
           height: 400,
-          borderRadius: '50%',
+          borderRadius: 10,
           background:
             theme.palette.mode === 'dark'
               ? 'radial-gradient(circle, rgba(180, 35, 24, 0.18) 0%, transparent 70%)'
@@ -278,7 +278,7 @@ export default function LoginPage() {
           right: -100,
           width: 500,
           height: 500,
-          borderRadius: '50%',
+          borderRadius: 10,
           background:
             theme.palette.mode === 'dark'
               ? 'radial-gradient(circle, rgba(180, 35, 24, 0.15) 0%, transparent 70%)'
@@ -302,7 +302,7 @@ export default function LoginPage() {
         }
 
         .swal-clean-popup {
-          border-radius: 12px !important;
+          border-radius: 10px;
           box-shadow: 0 10px 34px 0 rgba(180, 35, 24, 0.22) !important;
           backdrop-filter: blur(20px) !important;
           border: 1px solid rgba(255, 255, 255, 0.5) !important;
@@ -321,7 +321,7 @@ export default function LoginPage() {
         }
 
         .swal-clean-button {
-          border-radius: 8px !important;
+          border-radius: 10px;
           padding: 12px 24px !important;
           font-size: 1rem !important;
           font-weight: 600 !important;
@@ -341,7 +341,7 @@ export default function LoginPage() {
           elevation={0}
           sx={{
             display: 'flex',
-            borderRadius: 5,
+            borderRadius: 10,
             overflow: 'hidden',
             maxWidth: 950,
             margin: '0 auto',
@@ -396,7 +396,7 @@ export default function LoginPage() {
                 sx={{
                   width: 180,
                   height: 180,
-                  borderRadius: 4,
+                  borderRadius: 10,
                   background:
                     theme.palette.mode === 'dark'
                       ? 'rgba(255, 255, 255, 0.03)'
@@ -543,7 +543,7 @@ export default function LoginPage() {
                   }}
                   sx={{
                     '& .MuiOutlinedInput-root': {
-                      borderRadius: 3,
+                      borderRadius: 10,
                       backgroundColor:
                         theme.palette.mode === 'dark'
                           ? 'rgba(255, 255, 255, 0.03)'
@@ -638,7 +638,7 @@ export default function LoginPage() {
                   }}
                   sx={{
                     '& .MuiOutlinedInput-root': {
-                      borderRadius: 3,
+                      borderRadius: 10,
                       backgroundColor:
                         theme.palette.mode === 'dark'
                           ? 'rgba(255, 255, 255, 0.03)'
@@ -737,7 +737,7 @@ export default function LoginPage() {
                 sx={{
                   mb: 3,
                   py: 1.5,
-                  borderRadius: 3,
+                  borderRadius: 10,
                   textTransform: 'none',
                   fontSize: '1.05rem',
                   fontWeight: 700,

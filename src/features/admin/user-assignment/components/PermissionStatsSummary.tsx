@@ -36,7 +36,7 @@ export default function PermissionStatsSummary({
         pb: 0.2,
         '&::-webkit-scrollbar': { height: 4 },
         '&::-webkit-scrollbar-thumb': {
-          borderRadius: 999,
+          borderRadius: 10,
           backgroundColor: alpha(theme.palette.divider, 0.55),
         },
       }}
@@ -49,7 +49,7 @@ export default function PermissionStatsSummary({
           width: '135px',
           px: 1.5,
           py: 0.75,
-          borderRadius: 1.5,
+          borderRadius: 10,
           bgcolor:
             theme.palette.mode === 'dark'
               ? alpha(theme.palette.common.white, 0.08)
@@ -103,7 +103,7 @@ export default function PermissionStatsSummary({
           width: '135px',
           px: 1.5,
           py: 0.75,
-          borderRadius: 1.5,
+          borderRadius: 10,
           border: 1,
           borderColor:
             added > 0
@@ -133,7 +133,7 @@ export default function PermissionStatsSummary({
           width: '135px',
           px: 1.5,
           py: 0.75,
-          borderRadius: 1.5,
+          borderRadius: 10,
           border: 1,
           borderColor:
             removed > 0
@@ -165,7 +165,7 @@ export default function PermissionStatsSummary({
           width: '135px',
           px: 1.5,
           py: 0.75,
-          borderRadius: 1.5,
+          borderRadius: 10,
           border: 1,
           borderColor:
             added > 0 || removed > 0

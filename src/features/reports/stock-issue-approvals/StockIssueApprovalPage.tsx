@@ -294,7 +294,7 @@ export function StockIssueApprovalPage() {
         sx={{
           bgcolor: UI.accent,
           color: '#fff',
-          borderRadius: 2,
+          borderRadius: 10,
           boxShadow: UI.shadow,
           px: 2.5,
           py: 2,
@@ -312,7 +312,7 @@ export function StockIssueApprovalPage() {
 
       <Box sx={{ mb: 2, display: 'grid', gap: 1.5, gridTemplateColumns: { xs: '1fr', sm: 'repeat(2,1fr)', lg: 'repeat(4,1fr)' } }}>
         {summaryCards.map((card) => (
-          <Paper key={card.key} variant="outlined" sx={{ borderRadius: 2, borderColor: UI.border, bgcolor: UI.panel, boxShadow: UI.shadow, px: 2, py: 1.8 }}>
+          <Paper key={card.key} variant="outlined" sx={{ borderRadius: 10, borderColor: UI.border, bgcolor: UI.panel, boxShadow: UI.shadow, px: 2, py: 1.8 }}>
             <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', mb: 1 }}>
               <Box>
                 <Typography sx={{ fontSize: '2.1rem', fontWeight: 700, color: '#1d2624', lineHeight: 1 }}>
@@ -320,26 +320,26 @@ export function StockIssueApprovalPage() {
                 </Typography>
                 <Typography sx={{ fontSize: '0.95rem', color: UI.muted, mt: 0.4 }}>{card.title}</Typography>
               </Box>
-              <Box sx={{ width: 46, height: 46, borderRadius: 1.5, bgcolor: card.iconBg, boxShadow: '0 4px 10px rgba(22, 35, 31, 0.10)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Box sx={{ width: 46, height: 46, borderRadius: 10, bgcolor: card.iconBg, boxShadow: '0 4px 10px rgba(22, 35, 31, 0.10)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
                 {card.icon}
               </Box>
             </Box>
             <Typography sx={{ fontSize: '0.8rem', color: UI.muted }}>{card.subtitle}</Typography>
-            <Box sx={{ mt: 1.8, width: 108, height: 8, borderRadius: 999, bgcolor: '#e7ece8' }}>
-              <Box sx={{ width: 54, height: '100%', bgcolor: card.bar, borderRadius: 999 }} />
+            <Box sx={{ mt: 1.8, width: 108, height: 8, borderRadius: 10, bgcolor: '#e7ece8' }}>
+              <Box sx={{ width: 54, height: '100%', bgcolor: card.bar, borderRadius: 10}} />
             </Box>
           </Paper>
         ))}
       </Box>
 
-      <Box sx={{ borderRadius: 2.5, border: `1px solid ${UI.border}`, bgcolor: UI.panel, boxShadow: UI.shadow, p: { xs: 1.5, md: 2 } }}>
+      <Box sx={{ borderRadius: 10, border: `1px solid ${UI.border}`, bgcolor: UI.panel, boxShadow: UI.shadow, p: { xs: 1.5, md: 2 } }}>
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 1.5, mb: 1.6 }}>
           <Chip variant="outlined" sx={{ borderColor: '#e2c26a', color: '#8a6400', bgcolor: '#f8efd6', fontWeight: 700 }} label={`รออนุมัติ ${canApprove ? filteredRows.length : 0} รายการ`} />
           <Button
             variant="outlined"
             startIcon={<RefreshIcon />}
             onClick={() => void loadRows()}
-            sx={{ borderRadius: 1.5, borderColor: '#b8c5bf', boxShadow: '0 3px 8px rgba(22, 35, 31, 0.08)', color: UI.text, '&:hover': { borderColor: UI.accent, bgcolor: alpha(UI.accent, 0.08) } }}
+            sx={{ borderRadius: 10, borderColor: '#b8c5bf', boxShadow: '0 3px 8px rgba(22, 35, 31, 0.08)', color: UI.text, '&:hover': { borderColor: UI.accent, bgcolor: alpha(UI.accent, 0.08) } }}
           >
             รีเฟรช
           </Button>
@@ -375,7 +375,7 @@ export function StockIssueApprovalPage() {
             value={draftFilters.searchTerm}
             onChange={(event) => setDraftFilters((prev) => ({ ...prev, searchTerm: event.target.value }))}
             size="small"
-            sx={{ width: '100%', '& .MuiOutlinedInput-root': { height: 40, borderRadius: 1.5, bgcolor: '#f8faf8', boxShadow: '0 2px 6px rgba(22, 35, 31, 0.06)' } }}
+            sx={{ width: '100%', '& .MuiOutlinedInput-root': { height: 40, borderRadius: 10, bgcolor: '#f8faf8', boxShadow: '0 2px 6px rgba(22, 35, 31, 0.06)' } }}
             InputProps={{ startAdornment: <InputAdornment position="start"><SearchIcon sx={{ color: '#8d9592' }} /></InputAdornment> }}
           />
           <TextField
@@ -385,7 +385,7 @@ export function StockIssueApprovalPage() {
             size="small"
             SelectProps={{ displayEmpty: true, renderValue: (value) => (value ? String(value) : 'สถานะ') }}
             sx={{
-              '& .MuiOutlinedInput-root': { height: 40, borderRadius: 1.5, bgcolor: '#f8faf8', boxShadow: '0 2px 6px rgba(22, 35, 31, 0.06)' },
+              '& .MuiOutlinedInput-root': { height: 40, borderRadius: 10, bgcolor: '#f8faf8', boxShadow: '0 2px 6px rgba(22, 35, 31, 0.06)' },
               '& .MuiSelect-select': { color: draftFilters.status ? 'inherit' : 'text.secondary' },
             }}
           >
@@ -405,7 +405,7 @@ export function StockIssueApprovalPage() {
               }}
               inputRef={dateFromInputRef}
               size="small"
-              sx={{ flex: 1, '& .MuiOutlinedInput-root': { height: 40, cursor: 'pointer', borderRadius: 1.5, bgcolor: '#f8faf8', boxShadow: '0 2px 6px rgba(22, 35, 31, 0.06)' }, '& input': { cursor: 'pointer' } }}
+              sx={{ flex: 1, '& .MuiOutlinedInput-root': { height: 40, cursor: 'pointer', borderRadius: 10, bgcolor: '#f8faf8', boxShadow: '0 2px 6px rgba(22, 35, 31, 0.06)' }, '& input': { cursor: 'pointer' } }}
             />
             <Typography variant="body2" color="text.secondary" sx={{ minWidth: 20, textAlign: 'center' }}>ถึง</Typography>
             <TextField
@@ -419,11 +419,11 @@ export function StockIssueApprovalPage() {
               }}
               inputRef={dateToInputRef}
               size="small"
-              sx={{ flex: 1, '& .MuiOutlinedInput-root': { height: 40, cursor: 'pointer', borderRadius: 1.5, bgcolor: '#f8faf8', boxShadow: '0 2px 6px rgba(22, 35, 31, 0.06)' }, '& input': { cursor: 'pointer' } }}
+              sx={{ flex: 1, '& .MuiOutlinedInput-root': { height: 40, cursor: 'pointer', borderRadius: 10, bgcolor: '#f8faf8', boxShadow: '0 2px 6px rgba(22, 35, 31, 0.06)' }, '& input': { cursor: 'pointer' } }}
             />
           </Box>
           <Box sx={{ display: 'flex', justifyContent: { xs: 'stretch', md: 'flex-end' } }}>
-            <Button variant="contained" onClick={() => setAppliedFilters(draftFilters)} sx={{ height: 40, width: { xs: '100%', md: '120px' }, minWidth: '120px', borderRadius: 1.5, bgcolor: UI.accent, boxShadow: '0 4px 10px rgba(22, 35, 31, 0.14)', '&:hover': { bgcolor: '#10473f' } }}>
+            <Button variant="contained" onClick={() => setAppliedFilters(draftFilters)} sx={{ height: 40, width: { xs: '100%', md: '120px' }, minWidth: '120px', borderRadius: 10, bgcolor: UI.accent, boxShadow: '0 4px 10px rgba(22, 35, 31, 0.14)', '&:hover': { bgcolor: '#10473f' } }}>
               ค้นหา
             </Button>
           </Box>
@@ -438,7 +438,7 @@ export function StockIssueApprovalPage() {
           data={canApprove ? filteredRows : []}
           loading={loading}
           emptyMessage={canApprove ? 'ไม่มีรายการรออนุมัติขอตัดสต๊อก' : 'ไม่มีสิทธิ์เข้าถึงรายการอนุมัติ'}
-          paperSx={{ borderRadius: '14px', border: `1px solid ${UI.border}`, height: PR_MAIN_TABLE_HEIGHT, pb: `${PR_MAIN_TABLE_BOTTOM_PADDING}px`, boxShadow: UI.shadow, bgcolor: '#f9faf9' }}
+          paperSx={{ borderRadius: 10, border: `1px solid ${UI.border}`, height: PR_MAIN_TABLE_HEIGHT, pb: `${PR_MAIN_TABLE_BOTTOM_PADDING}px`, boxShadow: UI.shadow, bgcolor: '#f9faf9' }}
           tableContainerSx={{ height: '100%', overflowX: 'auto', overflowY: 'auto', scrollbarGutter: 'stable' }}
           detachedHeader={!isMobile}
           stickyHeader={isMobile}

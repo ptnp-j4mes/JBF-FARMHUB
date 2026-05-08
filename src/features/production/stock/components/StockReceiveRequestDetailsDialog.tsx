@@ -770,7 +770,7 @@ export function StockReceiveRequestDetailsDialog({
                                       p: 0.9,
                                       border: '1px solid',
                                       borderColor: theme.palette.divider,
-                                      borderRadius: 1.5,
+                                      borderRadius: 10,
                                       bgcolor: theme.palette.background.paper,
                                     }}
                                   >
@@ -843,7 +843,7 @@ export function StockReceiveRequestDetailsDialog({
                                       p: 1,
                                       border: '1px solid',
                                       borderColor: theme.palette.divider,
-                                      borderRadius: 1.5,
+                                      borderRadius: 10,
                                       bgcolor: theme.palette.background.paper,
                                     }}
                                   >

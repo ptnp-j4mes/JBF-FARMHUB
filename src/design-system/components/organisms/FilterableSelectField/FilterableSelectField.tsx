@@ -215,7 +215,7 @@ export default function FilterableSelectField({
             maxWidth: 'calc(100vw - 24px)',
             mt: 0.5,
             overflow: 'hidden',
-            borderRadius: 2,
+            borderRadius: 10,
             bgcolor: panelBg,
             border: `1px solid ${border}`,
             boxShadow: '0 18px 28px rgba(0, 0, 0, 0.35)',
@@ -293,7 +293,7 @@ export default function FilterableSelectField({
             '&::-webkit-scrollbar': { width: 8 },
             '&::-webkit-scrollbar-thumb': {
               bgcolor: alpha(theme.palette.divider, 0.9),
-              borderRadius: 999,
+              borderRadius: 10,
             },
           }}
         >

@@ -909,7 +909,7 @@ export default function AddUserDialog({
     '& .MuiOutlinedInput-root': {
       bgcolor: modalInputBg,
       color: textPrimary,
-      borderRadius: 1.6,
+      borderRadius: 10,
       '& fieldset': { borderColor: borderStrong },
       '&:hover fieldset': { borderColor: alpha(primary, 0.7) },
       '&.Mui-focused fieldset': { borderColor: primary },
@@ -922,7 +922,7 @@ export default function AddUserDialog({
     '& .MuiSelect-select.Mui-disabled': { WebkitTextFillColor: alpha(textSecondary, 0.55) },
   } as const;
   const scopeCompactSelectSx = {
-    borderRadius: '12px',
+    borderRadius: 10,
     '& .MuiSelect-select': {
       py: 1,
       fontSize: '0.95rem',
@@ -1044,11 +1044,11 @@ export default function AddUserDialog({
     '&::-webkit-scrollbar': { width: '8px' },
     '&::-webkit-scrollbar-track': {
       background: alpha(theme.palette.background.default, 0.46),
-      borderRadius: '8px',
+      borderRadius: 10,
     },
     '&::-webkit-scrollbar-thumb': {
       backgroundColor: alpha(theme.palette.primary.main, 0.52),
-      borderRadius: '8px',
+      borderRadius: 10,
       border: `2px solid ${alpha(theme.palette.background.default, 0.46)}`,
       backgroundClip: 'content-box',
     },
@@ -1104,7 +1104,7 @@ export default function AddUserDialog({
       keepMounted
       PaperProps={{
         sx: {
-          borderRadius: 2,
+          borderRadius: 10,
           bgcolor: modalPaperBg,
           border: `1px solid ${borderStrong}`,
           color: textPrimary,
@@ -1232,7 +1232,7 @@ export default function AddUserDialog({
                   variant="outlined"
                   sx={{
                     p: 2,
-                    borderRadius: 2,
+                    borderRadius: 10,
                     borderColor: alpha(primary, 0.14),
                     bgcolor: alpha(surface, theme.palette.mode === 'dark' ? 0.9 : 0.98),
                     backgroundImage: `linear-gradient(135deg, ${alpha(primary, 0.08)} 0%, ${alpha(
@@ -1291,7 +1291,7 @@ export default function AddUserDialog({
                             gap: 0.75,
                             px: 1,
                             py: 0.5,
-                            borderRadius: 999,
+                            borderRadius: 10,
                             bgcolor: alpha(primary, 0.1),
                             border: `1px solid ${alpha(primary, 0.15)}`,
                           }}
@@ -1314,7 +1314,7 @@ export default function AddUserDialog({
                       <Box
                         sx={{
                           p: 1.5,
-                          borderRadius: 1.5,
+                          borderRadius: 10,
                           bgcolor: alpha(surface, theme.palette.mode === 'dark' ? 0.36 : 0.76),
                           border: `1px solid ${alpha(borderStrong, 0.75)}`,
                         }}
@@ -1340,7 +1340,7 @@ export default function AddUserDialog({
                       <Box
                         sx={{
                           p: 1.5,
-                          borderRadius: 1.5,
+                          borderRadius: 10,
                           bgcolor: alpha(surface, theme.palette.mode === 'dark' ? 0.36 : 0.76),
                           border: `1px solid ${alpha(borderStrong, 0.75)}`,
                         }}
@@ -1701,7 +1701,7 @@ export default function AddUserDialog({
                       p: 2,
                       bgcolor: modalSectionBg,
                       borderColor: borderStrong,
-                      borderRadius: 1.5,
+                      borderRadius: 10,
                     }}
                   >
                     <Box
@@ -1770,7 +1770,7 @@ export default function AddUserDialog({
                                 autoFocus: false,
                                 PaperProps: {
                                   sx: {
-                                    borderRadius: '12px',
+                                    borderRadius: 10,
                                     mt: 1,
                                     border: 1,
                                     borderColor: 'divider',
@@ -1816,7 +1816,7 @@ export default function AddUserDialog({
                                       </InputAdornment>
                                     ),
                                     sx: {
-                                      borderRadius: '24px',
+                                      borderRadius: 10,
                                       bgcolor: alpha(theme.palette.action.hover, 0.05),
                                     },
                                   }}
@@ -1897,7 +1897,7 @@ export default function AddUserDialog({
                                   autoFocus: false,
                                   PaperProps: {
                                     sx: {
-                                      borderRadius: '12px',
+                                      borderRadius: 10,
                                       mt: 1,
                                       border: 1,
                                       borderColor: 'divider',
@@ -1943,7 +1943,7 @@ export default function AddUserDialog({
                                         </InputAdornment>
                                       ),
                                       sx: {
-                                        borderRadius: '24px',
+                                        borderRadius: 10,
                                         bgcolor: alpha(theme.palette.action.hover, 0.05),
                                       },
                                     }}
@@ -2017,7 +2017,7 @@ export default function AddUserDialog({
                                   autoFocus: false,
                                   PaperProps: {
                                     sx: {
-                                      borderRadius: '12px',
+                                      borderRadius: 10,
                                       mt: 1,
                                       border: 1,
                                       borderColor: 'divider',
@@ -2063,7 +2063,7 @@ export default function AddUserDialog({
                                         </InputAdornment>
                                       ),
                                       sx: {
-                                        borderRadius: '24px',
+                                        borderRadius: 10,
                                         bgcolor: alpha(theme.palette.action.hover, 0.05),
                                       },
                                     }}
@@ -2137,7 +2137,7 @@ export default function AddUserDialog({
                                   autoFocus: false,
                                   PaperProps: {
                                     sx: {
-                                      borderRadius: '12px',
+                                      borderRadius: 10,
                                       mt: 1,
                                       border: 1,
                                       borderColor: 'divider',
@@ -2183,7 +2183,7 @@ export default function AddUserDialog({
                                         </InputAdornment>
                                       ),
                                       sx: {
-                                        borderRadius: '24px',
+                                        borderRadius: 10,
                                         bgcolor: alpha(theme.palette.action.hover, 0.05),
                                       },
                                     }}
@@ -2241,7 +2241,7 @@ export default function AddUserDialog({
                               startIcon={<Settings fontSize="small" />}
                               sx={{
                                 textTransform: 'none',
-                                borderRadius: 99,
+                                borderRadius: 10,
                                 px: 2,
                                 py: 0.7,
                                 bgcolor: alpha(theme.palette.primary.dark, 0.96),

@@ -79,7 +79,7 @@ const UI = {
 };
 
 const panelSx = {
-  borderRadius: 3.5,
+  borderRadius: 10,
   border: `1px solid ${UI.border}`,
   bgcolor: UI.panel,
   boxShadow: UI.shadow,
@@ -189,15 +189,15 @@ export default function FarmInformationDashboardPage() {
 
       <Box sx={{ ...panelSx, p: 1.5, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 1, flexWrap: 'wrap', minWidth: 0 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap', minWidth: 0 }}>
-          <Button component={Link} href="/data/farm-information/feed-inbound-plan" variant="outlined" size="small" sx={{ borderColor: '#b8c5bf', color: UI.text, borderRadius: 2, boxShadow: UI.softShadow, '&:hover': { borderColor: UI.accent, bgcolor: alpha(UI.accent, 0.06) } }}>
+          <Button component={Link} href="/data/farm-information/feed-inbound-plan" variant="outlined" size="small" sx={{ borderColor: '#b8c5bf', color: UI.text, borderRadius: 10, boxShadow: UI.softShadow, '&:hover': { borderColor: UI.accent, bgcolor: alpha(UI.accent, 0.06) } }}>
             แผนเรียกเข้าอาหาร
           </Button>
-          <Button component={Link} href="/data/farm-information/fi-management" variant="outlined" size="small" sx={{ borderColor: '#b8c5bf', color: UI.text, borderRadius: 2, boxShadow: UI.softShadow, '&:hover': { borderColor: UI.accent, bgcolor: alpha(UI.accent, 0.06) } }}>
+          <Button component={Link} href="/data/farm-information/fi-management" variant="outlined" size="small" sx={{ borderColor: '#b8c5bf', color: UI.text, borderRadius: 10, boxShadow: UI.softShadow, '&:hover': { borderColor: UI.accent, bgcolor: alpha(UI.accent, 0.06) } }}>
             จัดการ FI
           </Button>
         </Box>
         <Box sx={{ minWidth: 0, width: { xs: '100%', md: 'auto' } }}>
-          <FormControl size="small" sx={{ minWidth: { xs: '100%', md: 260 }, width: { xs: '100%', md: 260 }, '& .MuiOutlinedInput-root': { borderRadius: 2, bgcolor: UI.panelSoft, boxShadow: UI.softShadow } }}>
+          <FormControl size="small" sx={{ minWidth: { xs: '100%', md: 260 }, width: { xs: '100%', md: 260 }, '& .MuiOutlinedInput-root': { borderRadius: 10, bgcolor: UI.panelSoft, boxShadow: UI.softShadow } }}>
             <Select
               displayEmpty
               value={selectedFacilityId}
@@ -241,19 +241,19 @@ export default function FarmInformationDashboardPage() {
               </Box>
 
               <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr 1fr', md: 'repeat(4, minmax(0,1fr))' }, gap: 1.25, width: { xs: '100%', md: 'auto' }, minWidth: 0 }}>
-                <Box sx={{ borderRadius: 2.6, border: `1px solid ${UI.border}`, bgcolor: UI.panelMuted, p: 1.35 }}>
+                <Box sx={{ borderRadius: 10, border: `1px solid ${UI.border}`, bgcolor: UI.panelMuted, p: 1.35 }}>
                   <Typography sx={{ fontSize: '1.4rem', fontWeight: 800, color: '#15803D', lineHeight: 1 }}>{fmt(data.summary.fcrAverage, 2)}</Typography>
                   <Typography sx={{ fontSize: '0.8rem', color: UI.muted }}>FCR เฉลี่ย</Typography>
                 </Box>
-                <Box sx={{ borderRadius: 2.6, border: `1px solid ${UI.border}`, bgcolor: UI.panelMuted, p: 1.35 }}>
+                <Box sx={{ borderRadius: 10, border: `1px solid ${UI.border}`, bgcolor: UI.panelMuted, p: 1.35 }}>
                   <Typography sx={{ fontSize: '1.4rem', fontWeight: 800, color: '#B45309', lineHeight: 1 }}>{fmt(data.summary.mortalityRatePercent, 2)}%</Typography>
                   <Typography sx={{ fontSize: '0.8rem', color: UI.muted }}>อัตราตาย</Typography>
                 </Box>
-                <Box sx={{ borderRadius: 2.6, border: `1px solid ${UI.border}`, bgcolor: UI.panelMuted, p: 1.35 }}>
+                <Box sx={{ borderRadius: 10, border: `1px solid ${UI.border}`, bgcolor: UI.panelMuted, p: 1.35 }}>
                   <Typography sx={{ fontSize: '1.4rem', fontWeight: 800, color: '#1D4ED8', lineHeight: 1 }}>{fmt(data.summary.totalFeedKg, 0)}</Typography>
                   <Typography sx={{ fontSize: '0.8rem', color: UI.muted }}>อาหารที่ใช้ (กก.)</Typography>
                 </Box>
-                <Box sx={{ borderRadius: 2.6, border: `1px solid ${UI.border}`, bgcolor: UI.panelMuted, p: 1.35 }}>
+                <Box sx={{ borderRadius: 10, border: `1px solid ${UI.border}`, bgcolor: UI.panelMuted, p: 1.35 }}>
                   <Typography sx={{ fontSize: '1.4rem', fontWeight: 800, color: '#BE123C', lineHeight: 1 }}>{fmt(data.summary.alertCount, 0)}</Typography>
                   <Typography sx={{ fontSize: '0.8rem', color: UI.muted }}>การแจ้งเตือน</Typography>
                 </Box>
@@ -311,8 +311,8 @@ export default function FarmInformationDashboardPage() {
                       คงเหลือ {fmt(house.currentHeadCount, 0)}/{fmt(capacity, 0)} ตัว
                     </Typography>
 
-                    <Box sx={{ height: 8, bgcolor: '#E5E7EB', borderRadius: 999, mt: 1.1, mb: 1.3 }}>
-                      <Box sx={{ width: `${Math.min(percent, 100)}%`, height: '100%', borderRadius: 999, bgcolor: UI.accent }} />
+                    <Box sx={{ height: 8, bgcolor: '#E5E7EB', borderRadius: 10, mt: 1.1, mb: 1.3 }}>
+                      <Box sx={{ width: `${Math.min(percent, 100)}%`, height: '100%', borderRadius: 10, bgcolor: UI.accent }} />
                     </Box>
 
                     <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', rowGap: 0.55, columnGap: 1, borderTop: `1px solid ${UI.border}`, pt: 1.1 }}>
@@ -331,7 +331,7 @@ export default function FarmInformationDashboardPage() {
                         href={`/data/farm-information/house/${house.buildingOpeningId}`}
                         size="small"
                         variant="outlined"
-                        sx={{ borderRadius: 2, borderColor: '#b8c5bf', color: UI.text, boxShadow: UI.softShadow, '&:hover': { borderColor: UI.accent, bgcolor: alpha(UI.accent, 0.06) } }}
+                        sx={{ borderRadius: 10, borderColor: '#b8c5bf', color: UI.text, boxShadow: UI.softShadow, '&:hover': { borderColor: UI.accent, bgcolor: alpha(UI.accent, 0.06) } }}
                       >
                         ดูรายละเอียดโรงเรือน
                       </Button>

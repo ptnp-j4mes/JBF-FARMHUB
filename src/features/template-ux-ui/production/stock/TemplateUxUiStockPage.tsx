@@ -58,7 +58,7 @@ const GREEN = {
 
 const FIELDSET_SX = {
   border: `1px solid ${GREEN.border}`,
-  borderRadius: 2,
+  borderRadius: 10,
   backgroundColor: GREEN.bg,
   p: { xs: 1.5, md: 2 },
   mb: 2,
@@ -83,7 +83,7 @@ function statusChip(status: StockTableRow['status']) {
       <Chip
         label={status}
         size="small"
-        sx={{ bgcolor: '#E8F5E9', color: GREEN.deep, fontWeight: 700, borderRadius: 1.5 }}
+        sx={{ bgcolor: '#E8F5E9', color: GREEN.deep, fontWeight: 700, borderRadius: 10}}
       />
     );
   }
@@ -93,7 +93,7 @@ function statusChip(status: StockTableRow['status']) {
       <Chip
         label={status}
         size="small"
-        sx={{ bgcolor: '#FFF8E1', color: '#9A6B00', fontWeight: 700, borderRadius: 1.5 }}
+        sx={{ bgcolor: '#FFF8E1', color: '#9A6B00', fontWeight: 700, borderRadius: 10}}
       />
     );
   }
@@ -102,7 +102,7 @@ function statusChip(status: StockTableRow['status']) {
     <Chip
       label={status}
       size="small"
-      sx={{ bgcolor: '#FDECEA', color: '#B42318', fontWeight: 700, borderRadius: 1.5 }}
+      sx={{ bgcolor: '#FDECEA', color: '#B42318', fontWeight: 700, borderRadius: 10}}
     />
   );
 }
@@ -219,7 +219,7 @@ export function TemplateUxUiStockPage({
           sx={{
             bgcolor: GREEN.main,
             color: '#fff',
-            borderRadius: 1.5,
+            borderRadius: 10,
             px: 1.5,
             '&:hover': { bgcolor: GREEN.deep },
           }}
@@ -247,7 +247,7 @@ export function TemplateUxUiStockPage({
           sx={{
             ...LEGEND_SX,
             bgcolor: GREEN.soft,
-            borderRadius: 1,
+            borderRadius: 10,
             color: GREEN.deep,
           }}
         >
@@ -269,37 +269,37 @@ export function TemplateUxUiStockPage({
             gridTemplateColumns: { xs: 'repeat(2, minmax(0, 1fr))', md: 'repeat(6, minmax(0, 1fr))' },
           }}
         >
-          <Card sx={{ borderRadius: 2, border: `1px solid ${GREEN.border}` }}>
+          <Card sx={{ borderRadius: 10, border: `1px solid ${GREEN.border}` }}>
             <CardContent sx={{ p: 1.25 }}>
               <Typography variant="caption" sx={{ color: GREEN.textSub }}>รายการทั้งหมด</Typography>
               <Typography variant="h6" sx={{ color: GREEN.deep, fontWeight: 700 }}>{formatNumber(summary.totalItems)}</Typography>
             </CardContent>
           </Card>
-          <Card sx={{ borderRadius: 2, border: `1px solid ${GREEN.border}` }}>
+          <Card sx={{ borderRadius: 10, border: `1px solid ${GREEN.border}` }}>
             <CardContent sx={{ p: 1.25 }}>
               <Typography variant="caption" sx={{ color: GREEN.textSub }}>คงเหลือรวม</Typography>
               <Typography variant="h6" sx={{ color: GREEN.deep, fontWeight: 700 }}>{formatNumber(summary.totalQty)}</Typography>
             </CardContent>
           </Card>
-          <Card sx={{ borderRadius: 2, border: `1px solid ${GREEN.border}` }}>
+          <Card sx={{ borderRadius: 10, border: `1px solid ${GREEN.border}` }}>
             <CardContent sx={{ p: 1.25 }}>
               <Typography variant="caption" sx={{ color: GREEN.textSub }}>สถานะปกติ</Typography>
               <Typography variant="h6" sx={{ color: GREEN.main, fontWeight: 700 }}>{formatNumber(summary.normalCount)}</Typography>
             </CardContent>
           </Card>
-          <Card sx={{ borderRadius: 2, border: `1px solid ${GREEN.border}` }}>
+          <Card sx={{ borderRadius: 10, border: `1px solid ${GREEN.border}` }}>
             <CardContent sx={{ p: 1.25 }}>
               <Typography variant="caption" sx={{ color: GREEN.textSub }}>สถานะต่ำ</Typography>
               <Typography variant="h6" sx={{ color: '#B7791F', fontWeight: 700 }}>{formatNumber(summary.lowCount)}</Typography>
             </CardContent>
           </Card>
-          <Card sx={{ borderRadius: 2, border: `1px solid ${GREEN.border}` }}>
+          <Card sx={{ borderRadius: 10, border: `1px solid ${GREEN.border}` }}>
             <CardContent sx={{ p: 1.25 }}>
               <Typography variant="caption" sx={{ color: GREEN.textSub }}>สถานะหมด</Typography>
               <Typography variant="h6" sx={{ color: '#C62828', fontWeight: 700 }}>{formatNumber(summary.outCount)}</Typography>
             </CardContent>
           </Card>
-          <Card sx={{ borderRadius: 2, border: `1px solid ${GREEN.border}` }}>
+          <Card sx={{ borderRadius: 10, border: `1px solid ${GREEN.border}` }}>
             <CardContent sx={{ p: 1.25 }}>
               <Typography variant="caption" sx={{ color: GREEN.textSub }}>มูลค่าคงคลัง (บาท)</Typography>
               <Typography variant="h6" sx={{ color: GREEN.deep, fontWeight: 700 }}>{formatNumber(summary.stockValue)}</Typography>
@@ -400,7 +400,7 @@ export function TemplateUxUiStockPage({
             borderBottom: `1px solid ${GREEN.border}`,
           }}
           tableContainerSx={{
-            borderRadius: 2,
+            borderRadius: 10,
             border: `1px solid ${GREEN.border}`,
             maxHeight: { xs: 460, md: 560 },
           }}

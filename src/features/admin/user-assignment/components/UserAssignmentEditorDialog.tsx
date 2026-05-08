@@ -219,7 +219,7 @@ const FACILITY_TYPE_ORDER: FacilityNodeType[] = ['farm', 'zone', 'house', 'pen']
 
 const fieldSx = {
   '& .MuiOutlinedInput-root': {
-    borderRadius: 2,
+    borderRadius: 10,
     bgcolor: 'background.paper',
   },
 };
@@ -283,7 +283,7 @@ export default function UserAssignmentEditorDialog({
   const editPermissionQuerySignatureRef = useRef<string | null>(null);
 
   const dialogPaperSx = {
-    borderRadius: isMobile ? 0 : 3,
+    borderRadius: 10,
     border: '1px solid',
     borderColor: alpha(theme.palette.divider, theme.palette.mode === 'dark' ? 0.7 : 1),
     bgcolor: theme.palette.mode === 'dark' ? alpha(theme.palette.background.paper, 0.98) : '#fff',
@@ -298,7 +298,7 @@ export default function UserAssignmentEditorDialog({
   };
 
   const sectionPaperSx = {
-    borderRadius: 2.5,
+    borderRadius: 10,
     border: '1px solid',
     borderColor: alpha(theme.palette.divider, theme.palette.mode === 'dark' ? 0.7 : 1),
     bgcolor: theme.palette.mode === 'dark' ? alpha(theme.palette.background.paper, 0.9) : alpha('#f8faf8', 0.95),
@@ -307,7 +307,7 @@ export default function UserAssignmentEditorDialog({
   };
 
   const subsectionPaperSx = {
-    borderRadius: 2,
+    borderRadius: 10,
     border: '1px solid',
     borderColor: alpha(theme.palette.divider, theme.palette.mode === 'dark' ? 0.65 : 0.9),
     bgcolor: theme.palette.mode === 'dark' ? alpha(theme.palette.background.paper, 0.82) : alpha('#ffffff', 0.9),
@@ -325,7 +325,7 @@ export default function UserAssignmentEditorDialog({
 
   const chipSx = {
     height: 28,
-    borderRadius: 999,
+    borderRadius: 10,
     fontWeight: 700,
     bgcolor: theme.palette.mode === 'dark' ? alpha(theme.palette.background.paper, 0.88) : alpha('#f2f7f4', 1),
     border: `1px solid ${alpha(theme.palette.divider, theme.palette.mode === 'dark' ? 0.7 : 1)}`,
@@ -341,7 +341,7 @@ export default function UserAssignmentEditorDialog({
 
   const roleBoardCardSx = (selected: boolean, disabled: boolean) => ({
     width: '100%',
-    borderRadius: 2,
+    borderRadius: 10,
     border: '1px solid',
     borderColor: selected
       ? alpha(theme.palette.primary.main, 0.55)
@@ -1443,7 +1443,7 @@ export default function UserAssignmentEditorDialog({
                 <Paper
                   variant="outlined"
                   sx={{
-                    borderRadius: 2,
+                    borderRadius: 10,
                     borderColor: alpha(theme.palette.warning.main, 0.4),
                     bgcolor: alpha(theme.palette.warning.main, 0.04),
                     p: 2,
@@ -1460,14 +1460,14 @@ export default function UserAssignmentEditorDialog({
               ) : overridePermissionsLoading ? (
                 <Stack spacing={1.5}>
                   {[1, 2, 3, 4].map((i) => (
-                    <Skeleton key={i} variant="rounded" height={44} sx={{ borderRadius: 1.5 }} />
+                    <Skeleton key={i} variant="rounded" height={44} sx={{ borderRadius: 10}} />
                   ))}
                 </Stack>
               ) : (
                 <TableContainer
                   sx={{
                     maxHeight: 520,
-                    borderRadius: 2,
+                    borderRadius: 10,
                     border: '1px solid',
                     borderColor: alpha(theme.palette.divider, theme.palette.mode === 'dark' ? 0.65 : 0.9),
                   }}

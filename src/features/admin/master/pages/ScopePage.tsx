@@ -1233,7 +1233,7 @@ export default function ScopePage({
             borderColor={border}
             backgroundColor={surface}
             sx={{
-              borderRadius: isMasterPattern ? 1.5 : 3,
+              borderRadius: 10,
               overflow: 'hidden',
               ...(isMasterPattern ? {} : { p: 0 }),
             }}
@@ -1371,7 +1371,7 @@ export default function ScopePage({
           <Paper
             variant="outlined"
             sx={{
-              borderRadius: 2,
+              borderRadius: 10,
               borderColor: border,
               bgcolor: alpha(surface, theme.palette.mode === 'dark' ? 0.84 : 0.96),
               p: { xs: 1.25, md: 1.5 },
@@ -1769,7 +1769,7 @@ export default function ScopePage({
           paperSx={{
             flex: 1,
             minHeight: 0,
-            borderRadius: isMasterPattern ? 1.25 : 2,
+            borderRadius: 10,
             borderColor: border,
             bgcolor: surface,
             display: 'flex',
@@ -1787,12 +1787,12 @@ export default function ScopePage({
             '&::-webkit-scrollbar-track': {
               backgroundColor: alpha(borderSoft, 0.12),
               borderLeft: `1px solid ${alpha(border, 0.46)}`,
-              borderRadius: 999,
+              borderRadius: 10,
               marginBlock: 6,
             },
             '&::-webkit-scrollbar-thumb': {
               backgroundColor: alpha(textMuted, 0.62),
-              borderRadius: 999,
+              borderRadius: 10,
               border: `1px solid ${alpha(surface, 0.66)}`,
             },
             '&::-webkit-scrollbar-thumb:hover': {

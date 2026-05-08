@@ -34,7 +34,7 @@ export default function ContentCard({
       elevation={0}
       sx={[
         {
-          borderRadius: 2,
+          borderRadius: 10,
           border: '1px solid',
           borderColor: borderColor ?? 'divider',
           bgcolor: backgroundColor ?? 'background.paper',

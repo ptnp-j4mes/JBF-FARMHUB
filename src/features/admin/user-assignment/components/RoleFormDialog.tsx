@@ -150,7 +150,7 @@ export default function RoleFormDialog({
                           maxWidth: '100%',
                           px: 0.6,
                           py: 0.1,
-                          borderRadius: 0.75,
+                          borderRadius: 10,
                           opacity: permission.isActive === false ? 0.45 : 1,
                           '&:hover': { bgcolor: 'action.hover' },
                         }}
@@ -159,7 +159,7 @@ export default function RoleFormDialog({
                           sx={{
                             px: 1.2,
                             py: 0.45,
-                            borderRadius: 999,
+                            borderRadius: 10,
                             border: '1px solid',
                             borderColor: selectedSet.has(permission.code.trim()) ? 'primary.main' : 'divider',
                             bgcolor: selectedSet.has(permission.code.trim()) ? 'primary.main' : 'background.paper',

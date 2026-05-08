@@ -224,7 +224,7 @@ export function BatchClosingApprovalPage() {
         sx={{
           bgcolor: UI.accent,
           color: '#fff',
-          borderRadius: 2,
+          borderRadius: 10,
           boxShadow: UI.shadow,
           px: 2.5,
           py: 2,
@@ -238,8 +238,8 @@ export function BatchClosingApprovalPage() {
           ปิดรุ่นการเลี้ยง (Report Approval)
         </Typography>
       </Box>
-      <Box sx={{ borderRadius: 2.5, border: `1px solid ${UI.border}`, bgcolor: UI.panel, boxShadow: UI.shadow, p: { xs: 1.5, md: 2 } }}>
-        <Box sx={{ borderRadius: 2, border: `1px solid ${UI.border}`, bgcolor: '#fbfcfb', p: 1.5, mb: 2 }}>
+      <Box sx={{ borderRadius: 10, border: `1px solid ${UI.border}`, bgcolor: UI.panel, boxShadow: UI.shadow, p: { xs: 1.5, md: 2 } }}>
+        <Box sx={{ borderRadius: 10, border: `1px solid ${UI.border}`, bgcolor: '#fbfcfb', p: 1.5, mb: 2 }}>
           <Typography sx={{ fontSize: 13, color: '#7d8783', fontWeight: 700, mb: 1 }}>
             {documentNumber ? `${documentNumber} (${toThaiWorkflowStatus(status)})` : 'สร้างร่างรายงาน'}
           </Typography>
@@ -256,7 +256,7 @@ export function BatchClosingApprovalPage() {
                     sx={{
                       width: 24,
                       height: 24,
-                      borderRadius: '999px',
+                      borderRadius: 10,
                       bgcolor: index <= (status === 'Draft' ? 1 : status === 'Submitted' ? 2 : 4) ? '#B42318' : '#e5e7eb',
                       color: index <= (status === 'Draft' ? 1 : status === 'Submitted' ? 2 : 4) ? '#fff' : '#6b7280',
                       display: 'grid',
@@ -298,7 +298,7 @@ export function BatchClosingApprovalPage() {
         {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
 
         <Box sx={{ display: 'grid', gap: 2, gridTemplateColumns: { xs: '1fr', xl: '1fr 1fr' } }}>
-          <Box sx={{ borderRadius: 2, border: `1px solid ${UI.border}`, bgcolor: '#fbfcfb', p: 1.5 }}>
+          <Box sx={{ borderRadius: 10, border: `1px solid ${UI.border}`, bgcolor: '#fbfcfb', p: 1.5 }}>
             <Typography sx={{ fontSize: 13, color: '#7d8783', fontWeight: 700, mb: 1 }}>ข้อมูลพื้นฐาน</Typography>
             <Box sx={{ display: 'grid', gap: 1.5, gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' } }}>
               <TextField
@@ -375,7 +375,7 @@ export function BatchClosingApprovalPage() {
             </Box>
           </Box>
 
-          <Box sx={{ borderRadius: 2, border: `1px solid ${UI.border}`, bgcolor: '#fbfcfb', p: 1.5 }}>
+          <Box sx={{ borderRadius: 10, border: `1px solid ${UI.border}`, bgcolor: '#fbfcfb', p: 1.5 }}>
             <Typography sx={{ fontSize: 13, color: '#7d8783', fontWeight: 700, mb: 1 }}>รายรับ-รายจ่าย</Typography>
             <Typography variant="subtitle2" color="success.main" sx={{ mb: 1 }}>รายรับ</Typography>
             <Box sx={{ display: 'grid', gap: 1.5, gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' } }}>

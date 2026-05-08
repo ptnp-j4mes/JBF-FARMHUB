@@ -1,14 +1,14 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import type { ReactNode } from 'react';
 import {
   Alert,
   Box,
   Chip,
-  Divider,
-  Grid,
-  LinearProgress,
+  InputAdornment,
   Skeleton,
+  Stack,
   Table,
   TableBody,
   TableCell,
@@ -17,111 +17,32 @@ import {
   TableRow,
   TextField,
   Typography,
-  keyframes,
-  useTheme,
 } from '@mui/material';
+import { alpha, useTheme } from '@mui/material/styles';
 import {
   Activity,
-  AlertTriangle,
   BarChart3,
+  Bell,
+  CheckCircle2,
   ChevronRight,
-  CircleDollarSign,
+  PiggyBank,
   Scale,
-  Skull,
-  TrendingDown,
+  Search,
+  ShieldCheck,
+  OctagonAlert,
   TrendingUp,
 } from 'lucide-react';
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  Cell,
-  Pie,
-  PieChart,
-  ResponsiveContainer,
-  Tooltip as RechartsTooltip,
-  XAxis,
-  YAxis,
-} from 'recharts';
+import type { LucideIcon } from 'lucide-react';
 import { dashboardService } from './services/dashboard.service';
-import type { CommandCenterFeedUsageRow, CommandCenterResponse } from './types';
-import { getThemeTokens } from '@/core/theme/tokens';
-
-/* ═══════════════════════════════════════════════════════════════════
-   ANIMATION KEYFRAMES
-   ═══════════════════════════════════════════════════════════════════ */
-const fadeInUp = keyframes`
-  from {
-    opacity: 0;
-    transform: translateY(18px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-`;
-
-const fadeIn = keyframes`
-  from { opacity: 0; }
-  to { opacity: 1; }
-`;
-
-/* ═══════════════════════════════════════════════════════════════════
-   DESIGN TOKENS (theme-aware, solid panel pattern)
-   ═══════════════════════════════════════════════════════════════════ */
-function buildDashboardUI(isDark: boolean) {
-  const tokens = getThemeTokens(isDark ? 'dark' : 'light');
-
-  return {
-    // Panel backgrounds — solid, matching feeding/stock pattern
-    panel: tokens.background.surface,
-    panelSoft: tokens.background.surfaceMuted,
-    panelMuted: isDark ? '#1E2D25' : '#edf3ef',
-    panelElevated: tokens.background.surfaceStrong,
-
-    // Borders — green-tinted, matching feeding/stock
-    border: tokens.border,
-    borderStrong: isDark ? '#2E4A3C' : '#c6d2cb',
-    borderLight: isDark ? '#1E3028' : '#e8efeb',
-    borderAccent: tokens.primary.soft,
-
-    // Text colors — from theme tokens
-    text: tokens.text.primary,
-    muted: tokens.text.secondary,
-    softText: tokens.text.secondary,
-    label: tokens.text.muted,
-
-    // Semantic colors — from theme tokens
-    deepGreen: tokens.primary.dark,
-    deepGreenSoft: tokens.primary.soft,
-    deepGreenMuted: tokens.primary.soft,
-    amber: tokens.warning.main,
-    amberSoft: tokens.warning.soft,
-    amberMuted: tokens.warning.soft,
-    red: tokens.danger.main,
-    redSoft: tokens.danger.soft,
-    redMuted: tokens.danger.soft,
-    blue: tokens.info.main,
-    blueSoft: tokens.info.soft,
-
-    // Shadows — solid panel shadows
-    shadow: tokens.shadow.card,
-    shadowSoft: isDark
-      ? '0 10px 24px rgba(0, 0, 0, 0.18)'
-      : '0 10px 24px rgba(18, 38, 33, 0.06), 0 2px 6px rgba(18, 38, 33, 0.04)',
-    shadowStrong: tokens.shadow.raised,
-    shadowHover: tokens.shadow.raised,
-
-    // Background
-    bg: tokens.background.page,
-  };
-}
+import type {
+  CommandCenterAlert,
+  CommandCenterFeedUsageRow,
+  CommandCenterFarmTableRow,
+  CommandCenterResponse,
+} from './types';
 
 type DashboardUI = ReturnType<typeof buildDashboardUI>;
 
-/* ═══════════════════════════════════════════════════════════════════
-   EMPTY DATA
-   ═══════════════════════════════════════════════════════════════════ */
 const EMPTY_DASHBOARD: CommandCenterResponse = {
   hasFarmAccess: true,
   accessMessage: '',
@@ -140,83 +61,123 @@ const EMPTY_DASHBOARD: CommandCenterResponse = {
   feedUsageByNumber: [],
 };
 
-/* ═══════════════════════════════════════════════════════════════════
-   UTILITIES
-   ═══════════════════════════════════════════════════════════════════ */
-function formatNumber(value: number, digits = 0): string {
-  return value.toLocaleString('en-US', {
+function buildDashboardUI(mode: 'light' | 'dark') {
+  const isDark = mode === 'dark';
+  return {
+    page: isDark ? '#0f172a' : '#f4f4f1',
+    card: isDark ? '#111827' : '#ffffff',
+    cardSoft: isDark ? '#172033' : '#f6f6f4',
+    border: isDark ? 'rgba(148, 163, 184, 0.18)' : 'rgba(17, 24, 39, 0.08)',
+    borderStrong: isDark ? 'rgba(148, 163, 184, 0.26)' : 'rgba(17, 24, 39, 0.12)',
+    text: isDark ? '#f8fafc' : '#1f2937',
+    muted: isDark ? '#cbd5e1' : '#6b7280',
+    label: isDark ? '#94a3b8' : '#7a7a7a',
+    green: '#219655',
+    greenSoft: isDark ? 'rgba(33, 150, 85, 0.16)' : '#e8f5ee',
+    amber: '#c58d10',
+    amberSoft: isDark ? 'rgba(197, 141, 16, 0.16)' : '#fbf2dd',
+    red: '#b42318',
+    redSoft: isDark ? 'rgba(180, 35, 24, 0.16)' : '#fdecec',
+    blue: '#3778c2',
+    blueSoft: isDark ? 'rgba(55, 120, 194, 0.16)' : '#ebf3ff',
+    shadow: isDark
+      ? '0 18px 38px rgba(15, 23, 42, 0.35)'
+      : '0 10px 28px rgba(17, 24, 39, 0.05)',
+    panelShadow: isDark ? '0 10px 24px rgba(15, 23, 42, 0.28)' : '0 8px 20px rgba(17, 24, 39, 0.04)',
+  };
+}
+
+function formatNumber(value: number, digits = 0) {
+  return value.toLocaleString('th-TH', {
     minimumFractionDigits: digits,
     maximumFractionDigits: digits,
   });
 }
 
-function statusColor(status: string, ui: DashboardUI): string {
-  if (status === 'critical') return ui.red;
-  if (status === 'warning') return ui.amber;
-  return ui.deepGreen;
+function formatMaybeNumber(value: number, digits = 0) {
+  if (!Number.isFinite(value) || value <= 0) {
+    return '—';
+  }
+  return formatNumber(value, digits);
 }
 
-function statusSoftColor(status: string, ui: DashboardUI): string {
-  if (status === 'critical') return ui.redSoft;
-  if (status === 'warning') return ui.amberSoft;
-  return ui.deepGreenSoft;
+function statusTone(status: CommandCenterAlert['severity'], ui: DashboardUI) {
+  if (status === 'critical') {
+    return { color: ui.red, soft: ui.redSoft, label: 'วิกฤต' };
+  }
+  if (status === 'warning') {
+    return { color: ui.amber, soft: ui.amberSoft, label: 'เฝ้าระวัง' };
+  }
+  return { color: ui.green, soft: ui.greenSoft, label: 'ข้อมูล' };
 }
 
-function barColor(status: CommandCenterFeedUsageRow['status'], ui: DashboardUI): string {
-  if (status === 'over') return ui.amber;
-  if (status === 'under') return ui.blue;
-  return ui.deepGreen;
+function farmTone(status: CommandCenterFarmTableRow['statusDot'], ui: DashboardUI) {
+  if (status === 'critical') {
+    return { color: ui.red, soft: ui.redSoft, label: 'วิกฤต' };
+  }
+  if (status === 'warning') {
+    return { color: ui.amber, soft: ui.amberSoft, label: 'เฝ้าระวัง' };
+  }
+  return { color: ui.green, soft: ui.greenSoft, label: 'ปกติ' };
 }
 
-/* ═══════════════════════════════════════════════════════════════════
-   PANEL STYLES — solid panel pattern matching feeding/stock pages
-   ═══════════════════════════════════════════════════════════════════ */
-function panelSx(ui: DashboardUI, accent?: string) {
-  return {
-    bgcolor: ui.panel,
-    borderRadius: 3.5,
-    border: `1px solid ${accent || ui.border}`,
-    boxShadow: ui.shadow,
-    overflow: 'hidden',
-  } as const;
+function feedTone(status: CommandCenterFeedUsageRow['status'], ui: DashboardUI) {
+  if (status === 'over') {
+    return { color: ui.amber, soft: ui.amberSoft, label: 'เกิน' };
+  }
+  if (status === 'under') {
+    return { color: ui.blue, soft: ui.blueSoft, label: 'ต่ำกว่าแผน' };
+  }
+  return { color: ui.green, soft: ui.greenSoft, label: 'ปกติ' };
 }
 
-function metricPanelSx(ui: DashboardUI, accent: string, soft: string) {
-  return {
-    bgcolor: ui.panel,
-    borderRadius: 3,
-    border: `1px solid ${ui.border}`,
-    boxShadow: ui.shadow,
-    overflow: 'hidden',
-    position: 'relative',
-    '&::before': {
-      content: '""',
-      position: 'absolute',
-      inset: 0,
-      background: `linear-gradient(145deg, ${soft} 0%, rgba(255,255,255,0) 45%)`,
-      pointerEvents: 'none',
-    },
-  } as const;
+function topValue(rows: CommandCenterFeedUsageRow[]) {
+  const values = rows.flatMap((row) => [row.actualTon, row.targetTon]);
+  return Math.max(1, ...values);
 }
 
-/* ═══════════════════════════════════════════════════════════════════
-   ANIMATED SECTION WRAPPER
-   ═══════════════════════════════════════════════════════════════════ */
-function AnimatedSection({
+function useDashboardData() {
+  const [data, setData] = useState<CommandCenterResponse>(EMPTY_DASHBOARD);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  const load = useCallback(async () => {
+    setLoading(true);
+    setError('');
+    try {
+      const response = await dashboardService.getCommandCenter();
+      setData(response);
+    } catch {
+      setError('ไม่สามารถโหลดข้อมูล dashboard ได้ชั่วคราว กรุณาลองใหม่อีกครั้ง');
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    void load();
+  }, [load]);
+
+  return { data, loading, error, reload: load };
+}
+
+function DashboardCard({
   children,
-  delay = 0,
+  sx,
 }: {
-  children: React.ReactNode;
-  delay?: number;
+  children: ReactNode;
+  sx?: Record<string, unknown>;
 }) {
-  const theme = useTheme();
-  const prefersReducedMotion = theme.breakpoints.down('sm');
-
   return (
     <Box
       sx={{
-        animation: `${fadeInUp} 0.5s cubic-bezier(0.22, 1, 0.36, 1) ${delay}ms both`,
-        [prefersReducedMotion]: { animation: 'none' },
+        borderRadius: '10px',
+        border: '1px solid',
+        borderColor: 'rgba(17, 24, 39, 0.08)',
+        bgcolor: '#ffffff',
+        boxShadow: '0 8px 20px rgba(17, 24, 39, 0.04)',
+        overflow: 'hidden',
+        ...sx,
       }}
     >
       {children}
@@ -224,304 +185,1195 @@ function AnimatedSection({
   );
 }
 
-/* ═══════════════════════════════════════════════════════════════════
-   LOADING SKELETON
-   ═══════════════════════════════════════════════════════════════════ */
+function SectionHeader({
+  title,
+  subtitle,
+  meta,
+}: {
+  title: string;
+  subtitle: string;
+  meta?: ReactNode;
+}) {
+  return (
+    <Stack spacing={0.45}>
+      <Stack direction="row" alignItems="start" justifyContent="space-between" gap={2}>
+        <Typography
+          sx={{
+            color: 'text.primary',
+            fontSize: { xs: '1rem', md: '1.05rem' },
+            fontWeight: 800,
+            letterSpacing: '-0.02em',
+            lineHeight: 1.2,
+          }}
+        >
+          {title}
+        </Typography>
+        {meta ? (
+          <Box sx={{ flexShrink: 0, lineHeight: 1 }}>{meta}</Box>
+        ) : null}
+      </Stack>
+      <Typography
+        sx={{
+          color: 'text.secondary',
+          fontSize: '0.88rem',
+          lineHeight: 1.55,
+        }}
+      >
+        {subtitle}
+      </Typography>
+    </Stack>
+  );
+}
+
+function HeroBadge({
+  icon: Icon,
+  label,
+  value,
+  accent,
+}: {
+  icon: LucideIcon;
+  label: string;
+  value: number;
+  accent: string;
+}) {
+  return (
+    <Box
+      sx={{
+        display: 'grid',
+        gridTemplateColumns: 'auto minmax(0, 1fr)',
+        alignItems: 'center',
+        columnGap: 1,
+        px: 1,
+        py: 0.9,
+        borderRadius: '10px',
+        border: '1px solid',
+        borderColor: 'rgba(17, 24, 39, 0.10)',
+        bgcolor: 'background.paper',
+        boxShadow: '0 4px 12px rgba(17, 24, 39, 0.03)',
+        minHeight: 62,
+        width: '100%',
+      }}
+    >
+      <Box
+        sx={{
+          width: 42,
+          height: 42,
+          borderRadius: '10px',
+          display: 'grid',
+          placeItems: 'center',
+          bgcolor: accent,
+          color: '#fff',
+          flexShrink: 0,
+          boxShadow: `inset 0 -1px 0 rgba(255,255,255,0.18)`,
+        }}
+      >
+        <Icon size={19} strokeWidth={2.6} />
+      </Box>
+      <Box sx={{ minWidth: 0, display: 'grid', gap: 0.22, alignContent: 'center' }}>
+        <Typography sx={{ color: accent, fontWeight: 800, fontSize: '0.83rem', lineHeight: 1.08 }}>
+          {label}
+        </Typography>
+        <Stack direction="row" alignItems="baseline" spacing={0.55} sx={{ minWidth: 0 }}>
+          <Typography
+            sx={{
+              color: 'text.primary',
+              fontSize: '1.58rem',
+              fontWeight: 900,
+              letterSpacing: '-0.03em',
+              lineHeight: 1,
+              fontVariantNumeric: 'tabular-nums',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            {formatNumber(value, 0)}
+          </Typography>
+          <Typography
+            sx={{
+              color: 'text.secondary',
+              fontSize: '0.74rem',
+              fontWeight: 600,
+              lineHeight: 1,
+              whiteSpace: 'nowrap',
+              pb: 0.1,
+            }}
+          >
+            ฟาร์ม
+          </Typography>
+        </Stack>
+      </Box>
+    </Box>
+  );
+}
+
+function MetricCard({
+  title,
+  value,
+  unit,
+  note,
+  footnote,
+  icon: Icon,
+  accent,
+  soft,
+  chipLabel = 'ปกติ',
+}: {
+  title: string;
+  value: string;
+  unit?: string;
+  note: string;
+  footnote: string;
+  icon: LucideIcon;
+  accent: string;
+  soft: string;
+  chipLabel?: string;
+}) {
+  return (
+    <DashboardCard sx={{ minHeight: 178 }}>
+      <Box sx={{ p: { xs: 2.25, md: 2.5 }, height: '100%', display: 'grid', gap: 1.1 }}>
+        <Stack direction="row" alignItems="start" justifyContent="space-between" gap={1.5}>
+          <Typography
+            sx={{
+              color: 'text.secondary',
+              fontWeight: 800,
+              fontSize: '0.93rem',
+              lineHeight: 1.2,
+            }}
+          >
+            {title}
+          </Typography>
+          <Chip
+            label={chipLabel}
+            size="small"
+            sx={{
+              height: 26,
+              bgcolor: 'rgba(34, 197, 94, 0.10)',
+              color: '#1d8a49',
+              border: '1px solid rgba(34, 197, 94, 0.18)',
+              fontWeight: 800,
+              borderRadius: '10px',
+              '& .MuiChip-label': { px: 1.1 },
+            }}
+          />
+        </Stack>
+
+        <Stack direction="row" alignItems="center" gap={1.5} sx={{ mt: 0.1 }}>
+          <Box
+            sx={{
+              width: 54,
+              height: 54,
+              borderRadius: '50%',
+              display: 'grid',
+              placeItems: 'center',
+              bgcolor: soft,
+              color: accent,
+              flexShrink: 0,
+            }}
+          >
+            <Icon size={25} strokeWidth={2.2} />
+          </Box>
+          <Stack spacing={0.2} sx={{ minWidth: 0 }}>
+            <Stack direction="row" alignItems="baseline" spacing={0.6}>
+              <Typography
+                sx={{
+                  color: 'text.primary',
+                  fontSize: { xs: '2rem', md: '2.15rem' },
+                  fontWeight: 900,
+                  letterSpacing: '-0.04em',
+                  lineHeight: 1,
+                  fontVariantNumeric: 'tabular-nums',
+                }}
+              >
+                {value}
+              </Typography>
+              {unit ? (
+                <Typography sx={{ color: 'text.secondary', fontSize: '0.92rem', fontWeight: 700 }}>
+                  {unit}
+                </Typography>
+              ) : null}
+            </Stack>
+          </Stack>
+        </Stack>
+
+        <Box sx={{ mt: 'auto' }}>
+          <Typography sx={{ color: 'text.secondary', fontSize: '0.85rem', lineHeight: 1.55 }}>
+            {note}
+          </Typography>
+          <Typography
+            sx={{
+              color: accent,
+              fontWeight: 800,
+              fontSize: '0.85rem',
+              lineHeight: 1.4,
+              mt: 0.15,
+            }}
+          >
+            {footnote}
+          </Typography>
+        </Box>
+      </Box>
+    </DashboardCard>
+  );
+}
+
 function DashboardSkeleton() {
   return (
     <Box
       sx={{
-        p: { xs: 1.5, md: 2.5 },
         minHeight: '100vh',
+        px: { xs: 1.5, md: 2.5 },
+        py: { xs: 1.5, md: 2.5 },
         display: 'grid',
-        gap: 2.25,
-        maxWidth: '1440px',
-        mx: 'auto',
+        gap: 2,
+        maxWidth: 1440,
         width: '100%',
+        mx: 'auto',
+        bgcolor: '#f4f4f1',
       }}
     >
-      {/* Hero skeleton */}
-      <Skeleton
-        variant="rounded"
-        sx={{ height: 220, borderRadius: 3.5 }}
-        animation="wave"
-      />
-
-      {/* KPI cards skeleton */}
-      <Grid container spacing={2}>
-        {[0, 1, 2, 3].map((i) => (
-          <Grid key={i} size={{ xs: 12, sm: 6, md: 6, xl: 3 }}>
-            <Skeleton
-              variant="rounded"
-              sx={{ height: 200, borderRadius: 3.5 }}
-              animation="wave"
-            />
-          </Grid>
-        ))}
-      </Grid>
-
-      {/* Charts skeleton */}
-      <Grid container spacing={2}>
-        <Grid size={{ xs: 12, md: 8 }}>
-          <Skeleton
-            variant="rounded"
-            sx={{ height: 400, borderRadius: 3.5 }}
-            animation="wave"
-          />
-        </Grid>
-        <Grid size={{ xs: 12, md: 4 }}>
-          <Skeleton
-            variant="rounded"
-            sx={{ height: 400, borderRadius: 3.5 }}
-            animation="wave"
-          />
-        </Grid>
-      </Grid>
-
-      {/* Alerts + Table skeleton */}
-      <Grid container spacing={2}>
-        <Grid size={{ xs: 12, md: 4 }}>
-          <Skeleton
-            variant="rounded"
-            sx={{ height: 480, borderRadius: 3.5 }}
-            animation="wave"
-          />
-        </Grid>
-        <Grid size={{ xs: 12, md: 8 }}>
-          <Skeleton
-            variant="rounded"
-            sx={{ height: 480, borderRadius: 3.5 }}
-            animation="wave"
-          />
-        </Grid>
-      </Grid>
-    </Box>
-  );
-}
-
-/* ═══════════════════════════════════════════════════════════════════
-   CUSTOM TOOLTIP FOR CHARTS
-   ═══════════════════════════════════════════════════════════════════ */
-function CustomTooltip({
-  active,
-  payload,
-  label,
-  ui,
-}: {
-  active?: boolean;
-  payload?: Array<{ value: number; name: string; color: string }>;
-  label?: string;
-  ui: DashboardUI;
-}) {
-  if (!active || !payload) return null;
-
-  return (
-    <Box
-      sx={{
-        bgcolor: ui.panel,
-        border: `1px solid ${ui.border}`,
-        borderRadius: 1.5,
-        boxShadow: ui.shadowStrong,
-        p: 1.8,
-        minWidth: 180,
-        animation: `${fadeIn} 0.2s ease`,
-      }}
-    >
-      <Typography
+      <Skeleton variant="rounded" height={262} sx={{ borderRadius: '10px'}} animation="wave" />
+      <Box
         sx={{
-          fontWeight: 900,
-          fontSize: '0.88rem',
-          color: ui.text,
-          mb: 1,
-          letterSpacing: '-0.01em',
+          display: 'grid',
+          gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, minmax(0, 1fr))', xl: 'repeat(4, minmax(0, 1fr))' },
+          gap: 2,
         }}
       >
-        {label}
-      </Typography>
-      {payload.map((entry) => (
-        <Box
-          key={entry.name}
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: 2,
-            py: 0.3,
-          }}
-        >
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.8 }}>
-            <Box
-              sx={{
-                width: 8,
-                height: 8,
-                borderRadius: '50%',
-                bgcolor: entry.color,
-              }}
-            />
-            <Typography sx={{ color: ui.muted, fontSize: '0.82rem', fontWeight: 600 }}>
-              {entry.name === 'actualTon' ? 'ใช้จริง' : 'เป้าหมาย'}
-            </Typography>
-          </Box>
-          <Typography sx={{ color: ui.text, fontWeight: 800, fontSize: '0.88rem' }}>
-            {formatNumber(Number(entry.value), 1)} t
-          </Typography>
-        </Box>
-      ))}
+        {Array.from({ length: 4 }).map((_, index) => (
+          <Skeleton key={index} variant="rounded" height={178} sx={{ borderRadius: '10px'}} animation="wave" />
+        ))}
+      </Box>
+      <Box
+        sx={{
+          display: 'grid',
+          gridTemplateColumns: { xs: '1fr', lg: '1.45fr 0.95fr' },
+          gap: 2,
+        }}
+      >
+        <Skeleton variant="rounded" height={372} sx={{ borderRadius: '10px'}} animation="wave" />
+        <Skeleton variant="rounded" height={372} sx={{ borderRadius: '10px'}} animation="wave" />
+      </Box>
+      <Box
+        sx={{
+          display: 'grid',
+          gridTemplateColumns: { xs: '1fr', lg: '0.9fr 1.6fr' },
+          gap: 2,
+        }}
+      >
+        <Skeleton variant="rounded" height={418} sx={{ borderRadius: '10px'}} animation="wave" />
+        <Skeleton variant="rounded" height={418} sx={{ borderRadius: '10px'}} animation="wave" />
+      </Box>
     </Box>
   );
 }
 
-/* ═══════════════════════════════════════════════════════════════════
-   MAIN DASHBOARD
-   ═══════════════════════════════════════════════════════════════════ */
+function FeedUsagePanel({
+  rows,
+  ui,
+}: {
+  rows: CommandCenterFeedUsageRow[];
+  ui: DashboardUI;
+}) {
+  const maxValue = topValue(rows);
+  const visibleRows = rows.slice(0, 10);
+  const statusCounts = visibleRows.reduce(
+    (acc, row) => {
+      acc[row.status] += 1;
+      return acc;
+    },
+    { normal: 0, over: 0, under: 0 } as Record<CommandCenterFeedUsageRow['status'], number>,
+  );
+
+  return (
+    <DashboardCard sx={{ height: '100%' }}>
+      <Box sx={{ p: { xs: 2.25, md: 2.5 }, height: '100%', display: 'grid', gap: 1.8 }}>
+        <SectionHeader
+          title="การใช้อาหารตามรหัส"
+          subtitle="เทียบเป้าหมายกับการใช้งานใน 10 รายการล่าสุด เพื่อลดจุดที่น่าจับตาให้ทีมมองเห็นได้ทันที"
+          meta={
+            <Chip
+              label={`${formatNumber(visibleRows.length, 0)} รายการ`}
+              size="small"
+              sx={{
+                bgcolor: 'rgba(17, 24, 39, 0.06)',
+                color: 'text.secondary',
+                fontWeight: 800,
+                borderRadius: '10px',
+                height: 26,
+                '& .MuiChip-label': { px: 1.1 },
+              }}
+            />
+          }
+        />
+
+        <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+          <Chip
+            label={
+              <Stack direction="row" alignItems="center" gap={0.9}>
+                <Box sx={{ width: 8, height: 8, borderRadius: '10px', bgcolor: ui.green }} />
+                <span>ปกติ</span>
+                <strong>{statusCounts.normal}</strong>
+              </Stack>
+            }
+              sx={{
+                bgcolor: '#f3f7f4',
+                border: '1px solid rgba(33, 150, 85, 0.14)',
+                color: ui.green,
+                fontWeight: 800,
+                borderRadius: '10px',
+                '& .MuiChip-label': { px: 1.35, py: 0.55 },
+              }}
+          />
+          <Chip
+            label={
+              <Stack direction="row" alignItems="center" gap={0.9}>
+                <Box sx={{ width: 8, height: 8, borderRadius: '10px', bgcolor: ui.amber }} />
+                <span>เฝ้าระวัง</span>
+                <strong>{statusCounts.over}</strong>
+              </Stack>
+            }
+              sx={{
+                bgcolor: '#fbf7ee',
+                border: '1px solid rgba(197, 141, 16, 0.16)',
+                color: ui.amber,
+                fontWeight: 800,
+                borderRadius: '10px',
+                '& .MuiChip-label': { px: 1.35, py: 0.55 },
+              }}
+          />
+          <Chip
+            label={
+              <Stack direction="row" alignItems="center" gap={0.9}>
+                <Box sx={{ width: 8, height: 8, borderRadius: '10px', bgcolor: ui.blue }} />
+                <span>ต่ำกว่าแผน</span>
+                <strong>{statusCounts.under}</strong>
+              </Stack>
+            }
+              sx={{
+                bgcolor: '#eef4fc',
+                border: '1px solid rgba(55, 120, 194, 0.16)',
+                color: ui.blue,
+                fontWeight: 800,
+                borderRadius: '10px',
+                '& .MuiChip-label': { px: 1.35, py: 0.55 },
+              }}
+          />
+        </Stack>
+
+        {visibleRows.length === 0 ? (
+          <Box
+            sx={{
+              flex: 1,
+              minHeight: 220,
+              display: 'grid',
+              placeItems: 'center',
+              textAlign: 'center',
+              py: 3,
+            }}
+          >
+            <Stack spacing={1.1} alignItems="center">
+              <Box
+                sx={{
+                  width: 62,
+                  height: 62,
+                  borderRadius: '10px',
+                  display: 'grid',
+                  placeItems: 'center',
+                  bgcolor: '#f7edd0',
+                  border: '1px solid rgba(197, 141, 16, 0.18)',
+                }}
+              >
+                <BarChart3 size={28} color={ui.amber} strokeWidth={1.85} />
+              </Box>
+              <Typography sx={{ fontWeight: 800, color: 'text.primary' }}>ยังไม่มีข้อมูลการใช้อาหาร</Typography>
+              <Typography sx={{ color: 'text.secondary', fontSize: '0.88rem', lineHeight: 1.55, maxWidth: 360 }}>
+                รอข้อมูลผลลดบน็อตสำหรับโครงสารการใช้อาหารเข้าระบบ
+              </Typography>
+            </Stack>
+          </Box>
+        ) : (
+          <Stack spacing={1.35} sx={{ flex: 1 }}>
+            {visibleRows.map((row) => {
+              const tone = feedTone(row.status, ui);
+              const actualWidth = `${Math.max(6, (row.actualTon / maxValue) * 100)}%`;
+              const targetWidth = `${Math.max(6, (row.targetTon / maxValue) * 100)}%`;
+
+              return (
+                <Box key={row.feedCode} sx={{ display: 'grid', gap: 0.72 }}>
+                  <Stack direction="row" alignItems="center" justifyContent="space-between" gap={1.5}>
+                    <Stack direction="row" alignItems="center" gap={1}>
+                      <Box
+                        sx={{
+                          width: 10,
+                          height: 10,
+                          borderRadius: '10px',
+                          bgcolor: tone.color,
+                          boxShadow: `0 0 0 4px ${tone.soft}`,
+                          flexShrink: 0,
+                        }}
+                      />
+                      <Typography sx={{ fontWeight: 800, color: 'text.primary', fontSize: '0.92rem' }}>
+                        {row.feedCode}
+                      </Typography>
+                    </Stack>
+                    <Chip
+                      label={tone.label}
+                      size="small"
+                      sx={{
+                        height: 24,
+                        bgcolor: tone.soft,
+                        color: tone.color,
+                        fontWeight: 800,
+                        borderRadius: '10px',
+                        border: `1px solid ${alpha(tone.color, 0.16)}`,
+                        '& .MuiChip-label': { px: 1 },
+                      }}
+                    />
+                  </Stack>
+
+                  <Box sx={{ display: 'grid', gap: 0.6 }}>
+                    <Box
+                      sx={{
+                        height: 10,
+                        borderRadius: '10px',
+                        bgcolor: 'rgba(17, 24, 39, 0.06)',
+                        overflow: 'hidden',
+                        position: 'relative',
+                      }}
+                    >
+                      <Box
+                        sx={{
+                          position: 'absolute',
+                          inset: 0,
+                          width: targetWidth,
+                          borderRadius: '10px',
+                          bgcolor: alpha(ui.green, 0.18),
+                        }}
+                      />
+                      <Box
+                        sx={{
+                          position: 'absolute',
+                          inset: 0,
+                          width: actualWidth,
+                          borderRadius: '10px',
+                          bgcolor: tone.color,
+                        }}
+                      />
+                    </Box>
+                    <Stack direction="row" alignItems="center" justifyContent="space-between" gap={1}>
+                      <Typography sx={{ color: 'text.secondary', fontSize: '0.8rem' }}>
+                        ใช้จริง {formatNumber(row.actualTon, 1)} t
+                      </Typography>
+                      <Typography sx={{ color: 'text.secondary', fontSize: '0.8rem' }}>
+                        เป้าหมาย {formatNumber(row.targetTon, 1)} t
+                      </Typography>
+                    </Stack>
+                  </Box>
+                </Box>
+              );
+            })}
+          </Stack>
+        )}
+      </Box>
+    </DashboardCard>
+  );
+}
+
+function DonutChart({
+  value,
+  total,
+  color,
+  size = 180,
+  strokeWidth = 18,
+}: {
+  value: number;
+  total: number;
+  color: string;
+  size?: number;
+  strokeWidth?: number;
+}) {
+  const radius = (size - strokeWidth) / 2;
+  const center = size / 2;
+  const circumference = 2 * Math.PI * radius;
+  const ratio = total > 0 ? value / total : 0;
+  const dash = ratio * circumference;
+  const gap = circumference - dash;
+
+  return (
+    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} aria-hidden="true">
+      <circle cx={center} cy={center} r={radius} fill="none" stroke="rgba(17, 24, 39, 0.08)" strokeWidth={strokeWidth} />
+      <circle
+        cx={center}
+        cy={center}
+        r={radius}
+        fill="none"
+        stroke={color}
+        strokeWidth={strokeWidth}
+        strokeDasharray={`${dash} ${gap}`}
+        strokeLinecap="round"
+        style={{ transform: 'rotate(-90deg)', transformOrigin: '50% 50%' }}
+      />
+    </svg>
+  );
+}
+
+function FarmStatusPanel({
+  rows,
+  ui,
+}: {
+  rows: CommandCenterFarmTableRow[];
+  ui: DashboardUI;
+}) {
+  const counts = rows.reduce(
+    (acc, row) => {
+      acc[row.statusDot] += 1;
+      return acc;
+    },
+    { normal: 0, warning: 0, critical: 0 } as Record<CommandCenterFarmTableRow['statusDot'], number>,
+  );
+  const total = Math.max(counts.normal + counts.warning + counts.critical, 1);
+
+  return (
+    <DashboardCard sx={{ height: '100%' }}>
+      <Box sx={{ p: { xs: 2.25, md: 2.5 }, height: '100%', display: 'grid', gap: 1.8 }}>
+        <SectionHeader
+          title="สัดส่วนสถานะฟาร์ม"
+          subtitle="สรุปฟาร์มที่อยู่ในเกณฑ์ปกติ เฝ้าระวัง และวิกฤต เพื่อจัดลำดับการติดตาม"
+        />
+
+        <Box
+          sx={{
+            display: 'grid',
+            gridTemplateColumns: '180px minmax(0, 1fr)',
+            alignItems: 'center',
+            gap: 2,
+            '@media (max-width: 600px)': {
+              gridTemplateColumns: '1fr',
+              justifyItems: 'center',
+            },
+          }}
+        >
+          <Box sx={{ position: 'relative', width: 180, height: 180 }}>
+            <DonutChart value={counts.normal} total={total} color={ui.green} />
+            <Box
+              sx={{
+                position: 'absolute',
+                inset: '50% auto auto 50%',
+                transform: 'translate(-50%, -50%)',
+                textAlign: 'center',
+                lineHeight: 1.05,
+              }}
+            >
+              <Typography sx={{ fontSize: '1.98rem', fontWeight: 900, letterSpacing: '-0.03em' }}>
+                {formatNumber(total, 0)}
+              </Typography>
+              <Typography sx={{ color: 'text.secondary', fontSize: '0.84rem' }}>ฟาร์ม</Typography>
+            </Box>
+          </Box>
+
+          <Stack spacing={1}>
+            {[
+              { label: 'ปกติ', value: counts.normal, tone: ui.green },
+              { label: 'เฝ้าระวัง', value: counts.warning, tone: ui.amber },
+              { label: 'วิกฤต', value: counts.critical, tone: ui.red },
+            ].map((item) => (
+              <Box
+                key={item.label}
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: 2,
+                  borderRadius: '10px',
+                  px: 1.5,
+                  py: 1.25,
+                  border: '1px solid',
+                  borderColor: 'divider',
+                  bgcolor: alpha(item.tone, 0.05),
+                }}
+              >
+                <Stack direction="row" alignItems="center" gap={1.2}>
+                  <Box sx={{ width: 10, height: 10, borderRadius: '10px', bgcolor: item.tone }} />
+                  <Typography sx={{ color: 'text.secondary', fontWeight: 800 }}>{item.label}</Typography>
+                </Stack>
+                <Typography sx={{ color: item.tone, fontWeight: 900, fontSize: '1rem' }}>
+                  {formatNumber(item.value, 0)}
+                </Typography>
+              </Box>
+            ))}
+          </Stack>
+        </Box>
+
+        <Box
+          sx={{
+            mt: 'auto',
+            borderRadius: '10px',
+            p: 1.8,
+            display: 'flex',
+            alignItems: 'center',
+            gap: 1.35,
+            bgcolor: alpha(ui.green, 0.07),
+            border: `1px solid ${alpha(ui.green, 0.14)}`,
+          }}
+        >
+          <ShieldCheck size={22} color={ui.green} />
+          <Box>
+            <Typography sx={{ color: ui.green, fontWeight: 900 }}>ไม่มีเหตุการณ์เร่งด่วน</Typography>
+            <Typography sx={{ color: 'text.secondary', fontSize: '0.88rem', lineHeight: 1.55 }}>
+              ระบบทำงานปกติ ไม่พบเหตุการณ์ที่ต้องติดตาม
+            </Typography>
+          </Box>
+        </Box>
+      </Box>
+    </DashboardCard>
+  );
+}
+
+function AttentionPanel({
+  alerts,
+  ui,
+}: {
+  alerts: CommandCenterAlert[];
+  ui: DashboardUI;
+}) {
+  const visible = alerts.slice(0, 6);
+
+  return (
+    <DashboardCard sx={{ height: '100%' }}>
+      <Box sx={{ p: { xs: 2.25, md: 2.5 }, height: '100%', display: 'grid', gap: 1.8 }}>
+        <SectionHeader
+          title="รายการที่ต้องติดตาม"
+          subtitle="แสดงเหตุการณ์ที่ควรตรวจสอบก่อน เพื่อจัดลำดับงานประจำวัน"
+        />
+
+        {visible.length === 0 ? (
+          <Box
+            sx={{
+              flex: 1,
+              minHeight: 250,
+              display: 'grid',
+              placeItems: 'center',
+              textAlign: 'center',
+              py: 4,
+            }}
+          >
+            <Stack spacing={1.1} alignItems="center">
+              <Box
+                sx={{
+                  width: 56,
+                  height: 56,
+                  borderRadius: '10px',
+                  display: 'grid',
+                  placeItems: 'center',
+                  bgcolor: '#f7edd0',
+                  border: '1px solid rgba(197, 141, 16, 0.18)',
+                }}
+              >
+                <Bell size={24} color={ui.amber} strokeWidth={1.9} />
+              </Box>
+              <Typography sx={{ color: ui.red, fontWeight: 900 }}>ไม่มีแจ้งเตือนสำคัญ</Typography>
+              <Typography sx={{ color: 'text.secondary', fontSize: '0.88rem', lineHeight: 1.55, maxWidth: 260 }}>
+                ระบบทำงานปกติ ไม่พบเหตุการณ์ที่ต้องติดตาม
+              </Typography>
+            </Stack>
+          </Box>
+        ) : (
+          <Stack spacing={1.1}>
+            {visible.map((alert) => {
+              const tone = statusTone(alert.severity, ui);
+              return (
+                <Box
+                  key={alert.id}
+                  sx={{
+                    borderRadius: '10px',
+                    px: 1.5,
+                    py: 1.25,
+                    border: '1px solid',
+                    borderColor: 'divider',
+                    borderLeft: `4px solid ${tone.color}`,
+                    bgcolor: tone.soft,
+                  }}
+                >
+                  <Stack spacing={0.75}>
+                    <Stack direction="row" alignItems="start" justifyContent="space-between" gap={1.2}>
+                      <Stack direction="row" alignItems="start" gap={1} sx={{ minWidth: 0 }}>
+                        <Activity size={18} color={tone.color} />
+                        <Box sx={{ minWidth: 0 }}>
+                          <Typography sx={{ fontWeight: 900, color: 'text.primary', fontSize: '0.93rem' }}>
+                            {alert.title}
+                          </Typography>
+                          <Typography sx={{ color: 'text.secondary', fontSize: '0.82rem', mt: 0.15 }}>
+                            {alert.facilityName}
+                            {alert.houseName ? ` • ${alert.houseName}` : ''}
+                          </Typography>
+                        </Box>
+                      </Stack>
+                      <Chip
+                        size="small"
+                        label={tone.label}
+                        sx={{
+                          bgcolor: 'background.paper',
+                          color: tone.color,
+                          fontWeight: 800,
+                          border: `1px solid ${alpha(tone.color, 0.16)}`,
+                          borderRadius: '10px',
+                        }}
+                      />
+                    </Stack>
+                    <Typography
+                      sx={{
+                        color: 'text.secondary',
+                        fontSize: '0.86rem',
+                        lineHeight: 1.55,
+                        display: '-webkit-box',
+                        WebkitLineClamp: 2,
+                        WebkitBoxOrient: 'vertical',
+                        overflow: 'hidden',
+                      }}
+                    >
+                      {alert.description}
+                    </Typography>
+                  </Stack>
+                </Box>
+              );
+            })}
+          </Stack>
+        )}
+      </Box>
+    </DashboardCard>
+  );
+}
+
+function FarmTablePanel({
+  rows,
+  ui,
+}: {
+  rows: CommandCenterFarmTableRow[];
+  ui: DashboardUI;
+}) {
+  const [search, setSearch] = useState('');
+
+  const filteredRows = useMemo(() => {
+    const keyword = search.trim().toLowerCase();
+    if (!keyword) return rows;
+    return rows.filter((row) => row.farmName.toLowerCase().includes(keyword));
+  }, [rows, search]);
+
+  return (
+    <DashboardCard sx={{ height: '100%' }}>
+      <Box sx={{ p: { xs: 2.25, md: 2.5 }, height: '100%', display: 'grid', gap: 1.6 }}>
+        <Stack
+          direction={{ xs: 'column', md: 'row' }}
+          alignItems={{ xs: 'stretch', md: 'start' }}
+          justifyContent="space-between"
+          gap={1.5}
+        >
+          <SectionHeader
+            title="สถานะรายฟาร์ม"
+            subtitle="สรุปผลสต็อก การสูญเสีย และความเสี่ยงรายฟาร์ม พร้อมค้นหาได้ทันที"
+          />
+
+          <TextField
+            size="small"
+            placeholder="ค้นหาฟาร์ม"
+            value={search}
+            onChange={(event) => setSearch(event.target.value)}
+            aria-label="ค้นหาฟาร์ม"
+            sx={{
+              minWidth: { xs: '100%', md: 180 },
+              maxWidth: { xs: '100%', md: 210 },
+              '& .MuiOutlinedInput-root': {
+                borderRadius: '10px',
+                bgcolor: '#f6f6f4',
+                '& fieldset': {
+                  borderColor: 'rgba(17, 24, 39, 0.08)',
+                },
+                '&:hover fieldset': {
+                  borderColor: 'rgba(55, 120, 194, 0.22)',
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: ui.green,
+                },
+              },
+            }}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Search size={15} color={ui.label} />
+                </InputAdornment>
+              ),
+            }}
+          />
+        </Stack>
+
+        <TableContainer
+          sx={{
+            border: `1px solid ${ui.border}`,
+            borderRadius: '10px',
+            overflowX: 'auto',
+            bgcolor: '#fff',
+          }}
+        >
+          <Table
+            size="small"
+            sx={{
+              minWidth: 860,
+              '& thead th': {
+                bgcolor: '#fafafa',
+                color: ui.label,
+                fontWeight: 900,
+                textTransform: 'uppercase',
+                letterSpacing: '0.06em',
+                fontSize: '0.75rem',
+                borderBottom: `1px solid ${ui.border}`,
+                py: 1.45,
+              },
+              '& tbody td': {
+                borderBottom: `1px solid rgba(17, 24, 39, 0.06)`,
+                py: 1.55,
+                fontSize: '0.9rem',
+              },
+              '& tbody tr:hover td': {
+                bgcolor: alpha(ui.green, 0.03),
+              },
+            }}
+          >
+            <TableHead>
+              <TableRow>
+                <TableCell sx={{ width: 38 }}>#</TableCell>
+                <TableCell>ฟาร์ม</TableCell>
+                <TableCell sx={{ width: 104 }} align="right">
+                  สต็อก
+                </TableCell>
+                <TableCell sx={{ width: 92 }} align="right">
+                  ตาย
+                </TableCell>
+                <TableCell sx={{ width: 102 }} align="right">
+                  สูญเสีย
+                </TableCell>
+                <TableCell sx={{ width: 116 }} align="right">
+                  เป้าหมาย
+                </TableCell>
+                <TableCell sx={{ width: 120 }} align="right">
+                  สถานะ
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {filteredRows.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={7} align="center" sx={{ py: 7.5, borderBottom: 'none' }}>
+                    <Stack spacing={1.15} alignItems="center">
+                      <Box
+                        sx={{
+                          width: 60,
+                          height: 60,
+                          borderRadius: '10px',
+                          display: 'grid',
+                          placeItems: 'center',
+                          bgcolor: '#f6f6f4',
+                          border: `1px solid ${ui.border}`,
+                        }}
+                      >
+                        <BarChart3 size={24} color={ui.label} strokeWidth={1.6} />
+                      </Box>
+                      <Typography sx={{ color: 'text.primary', fontWeight: 900 }}>ไม่พบข้อมูลฟาร์ม</Typography>
+                      <Typography sx={{ color: 'text.secondary', fontSize: '0.88rem', lineHeight: 1.55, maxWidth: 360 }}>
+                        ลองเปลี่ยนคำค้นเพื่อดูฟาร์มอื่นในระบบ
+                      </Typography>
+                    </Stack>
+                  </TableCell>
+                </TableRow>
+              ) : (
+                filteredRows.map((row, index) => {
+                  const tone = farmTone(row.statusDot, ui);
+                  return (
+                    <TableRow key={row.farmId} hover>
+                      <TableCell sx={{ color: 'text.secondary', fontWeight: 700, fontVariantNumeric: 'tabular-nums' }}>
+                        {index + 1}
+                      </TableCell>
+                      <TableCell sx={{ minWidth: 0 }}>
+                        <Typography
+                          sx={{
+                            fontWeight: 700,
+                            color: 'text.primary',
+                            fontSize: '0.9rem',
+                            whiteSpace: 'nowrap',
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                          }}
+                        >
+                          {row.farmName}
+                        </Typography>
+                      </TableCell>
+                      <TableCell align="right" sx={{ fontVariantNumeric: 'tabular-nums' }}>
+                        {formatNumber(row.stockHead, 0)}
+                      </TableCell>
+                      <TableCell align="right" sx={{ fontVariantNumeric: 'tabular-nums' }}>
+                        {formatNumber(row.deathHead, 0)}
+                      </TableCell>
+                      <TableCell align="right" sx={{ fontVariantNumeric: 'tabular-nums' }}>
+                        {formatNumber(row.deathHead, 0)}
+                      </TableCell>
+                      <TableCell align="right" sx={{ fontVariantNumeric: 'tabular-nums' }}>
+                        100%
+                      </TableCell>
+                      <TableCell align="right">
+                        <Chip
+                          size="small"
+                          label={tone.label}
+                          sx={{
+                            bgcolor: alpha(tone.color, 0.1),
+                            color: tone.color,
+                            fontWeight: 800,
+                            borderRadius: '10px',
+                            border: `1px solid ${alpha(tone.color, 0.16)}`,
+                          }}
+                        />
+                      </TableCell>
+                    </TableRow>
+                  );
+                })
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+
+        <Stack direction="row" alignItems="center" justifyContent="flex-end">
+          <Typography
+            sx={{
+              color: ui.red,
+              fontWeight: 800,
+              fontSize: '0.9rem',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 0.4,
+            }}
+          >
+            ดูรายละเอียดเพิ่มเติม
+            <ChevronRight size={16} />
+          </Typography>
+        </Stack>
+      </Box>
+    </DashboardCard>
+  );
+}
+
+function HeroPanel({
+  ui,
+  data,
+  lastUpdatedText,
+}: {
+  ui: DashboardUI;
+  data: CommandCenterResponse;
+  lastUpdatedText: string;
+}) {
+  const farmCounts = useMemo(() => {
+    const counts = data.farmTable.reduce(
+      (acc, row) => {
+        acc[row.statusDot] += 1;
+        return acc;
+      },
+      { normal: 0, warning: 0, critical: 0 } as Record<CommandCenterFarmTableRow['statusDot'], number>,
+    );
+    const total = Math.max(counts.normal + counts.warning + counts.critical, 1);
+    return { ...counts, total };
+  }, [data.farmTable]);
+
+  return (
+    <DashboardCard
+      sx={{
+        position: 'relative',
+        background: `linear-gradient(180deg, ${alpha(ui.card, 0.98)} 0%, ${alpha(ui.cardSoft, 0.94)} 100%)`,
+      }}
+    >
+      <Box sx={{ p: { xs: 2.25, md: 2.75 }, position: 'relative', zIndex: 1 }}>
+        <Box
+          sx={{
+            display: 'grid',
+            gridTemplateColumns: { xs: '1fr', lg: 'minmax(0, 1.58fr) minmax(300px, 0.82fr)' },
+            gap: { xs: 2.4, md: 2.8 },
+            alignItems: 'start',
+          }}
+        >
+          <Stack spacing={1.45}>
+            <Stack direction="row" alignItems="center" gap={1.2} flexWrap="wrap">
+              <Chip
+                label={
+                  <Stack direction="row" alignItems="center" gap={0.75}>
+                    <Box sx={{ width: 8, height: 8, borderRadius: '10px', bgcolor: '#fff' }} />
+                    <span>Operations Dashboard</span>
+                  </Stack>
+                }
+                sx={{
+                  bgcolor: ui.red,
+                  color: '#fff',
+                  fontWeight: 800,
+                  height: 36,
+                  borderRadius: '10px',
+                  px: 0.35,
+                  '& .MuiChip-label': { px: 1.3 },
+                  boxShadow: `0 8px 18px ${alpha(ui.red, 0.14)}`,
+                }}
+              />
+              <Typography sx={{ color: 'text.secondary', fontSize: '0.84rem', fontWeight: 600 }}>
+                อัปเดตล่าสุด {lastUpdatedText}
+              </Typography>
+            </Stack>
+
+            <Box sx={{ borderLeft: `4px solid ${ui.red}`, pl: 1.35 }}>
+              <Typography
+                sx={{
+                  color: 'text.primary',
+                  fontSize: { xs: '1.9rem', md: '2.25rem' },
+                  fontWeight: 900,
+                  letterSpacing: '-0.03em',
+                  lineHeight: 1.08,
+                }}
+              >
+                ศูนย์ควบคุมการดำเนินงาน
+              </Typography>
+              <Typography
+                sx={{
+                  mt: 0.35,
+                  color: 'text.secondary',
+                  fontSize: '0.96rem',
+                  lineHeight: 1.55,
+                  maxWidth: 720,
+                }}
+              >
+                ติดตามสต็อกสุกร สุขภาพฟาร์ม ประสิทธิภาพการใช้อาหาร และรายการที่ต้องเฝ้าระวัง
+              </Typography>
+            </Box>
+
+            <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+              <Chip
+                icon={<CheckCircle2 size={16} />}
+                label="ภาพรวมอยู่ในเกณฑ์ปกติ"
+                sx={{
+                  bgcolor: '#edf7f1',
+                  color: ui.green,
+                  fontWeight: 800,
+                  borderRadius: '10px',
+                  border: `1px solid ${alpha(ui.green, 0.18)}`,
+                  '& .MuiChip-icon': { color: ui.green },
+                }}
+              />
+              <Chip
+                label={`ฟาร์มทั้งหมด ${formatNumber(data.farmTable.length, 0)} แห่ง`}
+                sx={{
+                  bgcolor: '#f3f3f3',
+                  color: 'text.primary',
+                  fontWeight: 800,
+                  borderRadius: '10px',
+                  border: `1px solid ${ui.border}`,
+                }}
+              />
+              <Chip
+                label={`แจ้งเตือน ${formatNumber(data.alerts.length, 0)} รายการ`}
+                sx={{
+                  bgcolor: '#f3f3f3',
+                  color: 'text.primary',
+                  fontWeight: 800,
+                  borderRadius: '10px',
+                  border: `1px solid ${ui.border}`,
+                }}
+              />
+            </Stack>
+          </Stack>
+
+          <Box
+            sx={{
+              display: 'grid',
+              gap: 0.82,
+              alignContent: 'start',
+              width: 'fit-content',
+              maxWidth: 310,
+              justifySelf: 'end',
+            }}
+          >
+            <Typography
+              sx={{
+                color: 'text.primary',
+                fontWeight: 900,
+                fontSize: '1.05rem',
+                textAlign: 'center',
+              }}
+            >
+              แนวโน้มของฟาร์มเดือนนี้
+            </Typography>
+            <HeroBadge icon={ShieldCheck} label="ปกติ" value={farmCounts.normal} accent={ui.green} />
+            <HeroBadge icon={OctagonAlert} label="เฝ้าระวัง" value={farmCounts.warning} accent={ui.amber} />
+            <HeroBadge icon={OctagonAlert} label="วิกฤต" value={farmCounts.critical} accent={ui.red} />
+          </Box>
+        </Box>
+      </Box>
+    </DashboardCard>
+  );
+}
+
 export default function OperationsDashboardPage() {
   const theme = useTheme();
-  const isDark = theme.palette.mode === 'dark';
-  const UI = useMemo(() => buildDashboardUI(isDark), [isDark]);
-  const prefersReducedMotion =
-    typeof window !== 'undefined' &&
-    window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+  const ui = useMemo(
+    () => buildDashboardUI(theme.palette.mode === 'dark' ? 'dark' : 'light'),
+    [theme.palette.mode],
+  );
+  const { data, loading, error } = useDashboardData();
 
-  const [loading, setLoading] = useState(true);
-  const [mounted, setMounted] = useState(false);
-  const [error, setError] = useState('');
-  const [search, setSearch] = useState('');
-  const [data, setData] = useState<CommandCenterResponse>(EMPTY_DASHBOARD);
-
-  useEffect(() => {
-    const load = async () => {
-      setLoading(true);
-      setError('');
-      try {
-        const response = await dashboardService.getCommandCenter();
-        setData(response);
-      } catch {
-        setError(
-          'ไม่สามารถโหลดข้อมูล dashboard ได้ชั่วคราว กรุณาลองใหม่อีกครั้ง',
-        );
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    void load();
-    // Trigger entrance animation after mount
-    const timer = setTimeout(() => setMounted(true), 50);
-    return () => clearTimeout(timer);
-  }, []);
-
-  /* ─── Computed Values ─── */
   const lastUpdatedText = useMemo(() => {
     const date = new Date(data.lastUpdatedAt);
     return Number.isNaN(date.getTime())
       ? '-'
-      : date.toLocaleString('th-TH', { dateStyle: 'long', timeStyle: 'short' });
+      : date.toLocaleString('th-TH', {
+          dateStyle: 'long',
+          timeStyle: 'short',
+        });
   }, [data.lastUpdatedAt]);
 
-  const farmStatusCounts = useMemo(() => {
-    const normal = data.farmTable.filter((row) => row.statusDot === 'normal').length;
-    const warning = data.farmTable.filter((row) => row.statusDot === 'warning').length;
-    const critical = data.farmTable.filter((row) => row.statusDot === 'critical').length;
-    const total = Math.max(normal + warning + critical, 1);
-    return { normal, warning, critical, total };
-  }, [data.farmTable]);
-
-  const usageRows = useMemo(() => [...data.feedUsageByNumber].slice(0, 10), [data.feedUsageByNumber]);
-
-  const usageChartRows = useMemo(
-    () =>
-      usageRows.map((row) => ({
-        feedCode: row.feedCode,
-        actualTon: Number(row.actualTon || 0),
-        targetTon: Number(row.targetTon || 0),
-        color: barColor(row.status, UI),
-      })),
-    [usageRows, UI],
+  const totalDeaths = useMemo(
+    () => data.farmTable.reduce((sum, row) => sum + row.deathHead, 0),
+    [data.farmTable],
   );
-
-  const farmPieRows = useMemo(
-    () => [
-      { name: 'ปกติ', value: farmStatusCounts.normal, color: UI.deepGreen },
-      { name: 'เฝ้าระวัง', value: farmStatusCounts.warning, color: UI.amber },
-      { name: 'วิกฤต', value: farmStatusCounts.critical, color: UI.red },
-    ],
-    [farmStatusCounts.critical, farmStatusCounts.normal, farmStatusCounts.warning, UI],
-  );
-
-  const filteredFarmRows = useMemo(() => {
-    const keyword = search.trim().toLowerCase();
-    if (!keyword) return data.farmTable;
-    return data.farmTable.filter((row) => row.farmName.toLowerCase().includes(keyword));
-  }, [data.farmTable, search]);
-
-  const totalDeathHead = useMemo(() => {
-    return data.farmTable.reduce((sum, row) => sum + row.deathHead, 0);
-  }, [data.farmTable]);
-
-  const stockRetentionPct = useMemo(() => {
-    if (data.summaryCards.totalStockHead <= 0) return 0;
-    const base = data.summaryCards.totalStockHead + totalDeathHead;
-    if (base <= 0) return 0;
-    return Math.max(0, Math.min(100, (data.summaryCards.totalStockHead / base) * 100));
-  }, [data.summaryCards.totalStockHead, totalDeathHead]);
-
-  const healthTone = useMemo(() => {
-    if (farmStatusCounts.critical > 0)
-      return { label: 'ต้องติดตามใกล้ชิด', color: UI.red, soft: UI.redSoft, border: UI.redMuted };
-    if (farmStatusCounts.warning > 0)
-      return { label: 'มีบางฟาร์มต้องเฝ้าระวัง', color: UI.amber, soft: UI.amberSoft, border: UI.amberMuted };
-    return { label: 'ภาพรวมอยู่ในเกณฑ์ปกติ', color: UI.deepGreen, soft: UI.deepGreenSoft, border: UI.deepGreenMuted };
-  }, [farmStatusCounts.critical, farmStatusCounts.warning, UI]);
 
   const summaryMetrics = useMemo(
     () => [
       {
-        key: 'stock',
-        title: 'สต๊อกสุกรรวม',
-        value: formatNumber(data.summaryCards.totalStockHead, 0),
+        title: 'สต็อกสุกรรวม',
+        value: formatMaybeNumber(data.summaryCards.totalStockHead, 0),
         unit: 'ตัว',
         note: `จาก ${formatNumber(data.farmTable.length, 0)} ฟาร์ม`,
-        detail: `อัตราคงเหลือ ${formatNumber(stockRetentionPct, 1)}%`,
-        tone: 'positive' as const,
-        accent: UI.deepGreen,
-        soft: UI.deepGreenSoft,
+        footnote: 'อ้างอิงจากข้อมูลล่าสุด',
         icon: Scale,
+        accent: '#3579d8',
+        soft: '#e9f1ff',
       },
       {
-        key: 'mortality',
         title: 'อัตราสูญเสีย',
-        value: formatNumber(data.summaryCards.mortalityRatePct, 2),
+        value: formatMaybeNumber(data.summaryCards.mortalityRatePct, 2),
         unit: '%',
-        note: `ตายสะสม ${formatNumber(totalDeathHead, 0)} ตัว`,
-        detail: 'เป้าหมายควรต่ำกว่า 3%',
-        tone: data.summaryCards.mortalityRatePct > 3 ? ('danger' as const) : ('positive' as const),
-        accent: data.summaryCards.mortalityRatePct > 3 ? UI.red : UI.deepGreen,
-        soft: data.summaryCards.mortalityRatePct > 3 ? UI.redSoft : UI.deepGreenSoft,
-        icon: Skull,
+        note: `ตายสะสม ${formatNumber(totalDeaths, 0)} ตัว`,
+        footnote: data.summaryCards.mortalityRatePct > 0 ? 'อ้างอิงจากข้อมูลล่าสุด' : 'รอข้อมูลเข้าระบบ',
+        icon: Activity,
+        accent: ui.red,
+        soft: ui.redSoft,
       },
       {
-        key: 'fcr',
         title: 'FCR เฉลี่ย',
-        value: formatNumber(data.summaryCards.fcrAverage, 2),
+        value: formatMaybeNumber(data.summaryCards.fcrAverage, 2),
         unit: '',
         note: 'Feed Conversion Ratio',
-        detail: 'ค่าเป้าหมายอ้างอิง 2.45',
-        tone: data.summaryCards.fcrAverage <= 2.45 ? ('positive' as const) : ('warning' as const),
-        accent: data.summaryCards.fcrAverage <= 2.45 ? UI.deepGreen : UI.amber,
-        soft: data.summaryCards.fcrAverage <= 2.45 ? UI.deepGreenSoft : UI.amberSoft,
-        icon: Activity,
+        footnote: 'ค่าเป้าหมายอ้างอิง 2.45',
+        icon: TrendingUp,
+        accent: '#c58d10',
+        soft: ui.amberSoft,
       },
       {
-        key: 'cost',
         title: 'ต้นทุนอาหารเดือนนี้',
-        value: formatNumber(data.summaryCards.feedCostMonth / 1_000_000, 1),
+        value: formatMaybeNumber(data.summaryCards.feedCostMonth / 1_000_000, 1),
         unit: 'M',
         note: `งบรวม ${formatNumber(data.summaryCards.budgetMonth / 1_000_000, 1)}M`,
-        detail: `ใช้งบไป ${formatNumber(data.summaryCards.budgetUsagePct, 0)}%`,
-        tone: data.summaryCards.budgetUsagePct > 85 ? ('warning' as const) : ('positive' as const),
-        accent: data.summaryCards.budgetUsagePct > 85 ? UI.amber : UI.deepGreen,
-        soft: data.summaryCards.budgetUsagePct > 85 ? UI.amberSoft : UI.deepGreenSoft,
-        icon: CircleDollarSign,
+        footnote: `ใช้จ่ายไป ${formatNumber(data.summaryCards.budgetUsagePct, 0)}%`,
+        icon: PiggyBank,
+        accent: ui.green,
+        soft: ui.greenSoft,
       },
     ],
     [
@@ -532,20 +1384,32 @@ export default function OperationsDashboardPage() {
       data.summaryCards.feedCostMonth,
       data.summaryCards.mortalityRatePct,
       data.summaryCards.totalStockHead,
-      stockRetentionPct,
-      totalDeathHead,
-      UI,
+      totalDeaths,
+      ui.amberSoft,
+      ui.green,
+      ui.greenSoft,
+      ui.red,
+      ui.redSoft,
     ],
   );
 
-  /* ─── Loading State ─── */
   if (loading) {
     return <DashboardSkeleton />;
   }
 
   if (error) {
     return (
-      <Box sx={{ p: 2 }}>
+      <Box
+        sx={{
+          minHeight: '100vh',
+          px: { xs: 1.5, md: 2.5 },
+          py: { xs: 1.5, md: 2.5 },
+          maxWidth: 1440,
+          mx: 'auto',
+          width: '100%',
+          bgcolor: ui.page,
+        }}
+      >
         <Alert severity="error">{error}</Alert>
       </Box>
     );
@@ -553,7 +1417,17 @@ export default function OperationsDashboardPage() {
 
   if (!data.hasFarmAccess) {
     return (
-      <Box sx={{ p: 2 }}>
+      <Box
+        sx={{
+          minHeight: '100vh',
+          px: { xs: 1.5, md: 2.5 },
+          py: { xs: 1.5, md: 2.5 },
+          maxWidth: 1440,
+          mx: 'auto',
+          width: '100%',
+          bgcolor: ui.page,
+        }}
+      >
         <Alert severity="warning">{data.accessMessage || 'คุณยังไม่มีสิทธิ์เข้าถึงฟาร์ม'}</Alert>
       </Box>
     );
@@ -562,1002 +1436,65 @@ export default function OperationsDashboardPage() {
   return (
     <Box
       sx={{
-        p: { xs: 1.5, md: 2.5 },
         minHeight: '100vh',
-        display: 'grid',
-        gap: 2.25,
-        maxWidth: '1440px',
-        mx: 'auto',
+        px: { xs: 1.5, md: 2.5 },
+        py: { xs: 1.5, md: 2.5 },
+        maxWidth: 1440,
         width: '100%',
+        mx: 'auto',
+        display: 'grid',
+        gap: 2,
+        bgcolor: ui.page,
+        fontFamily: '"Sarabun", "Bai Jamjuree", sans-serif',
       }}
     >
-      {/* ═══════════════════════════════════════════════════════════
-          HERO / OVERVIEW BLOCK
-          ═══════════════════════════════════════════════════════════ */}
-      <AnimatedSection delay={0}>
-        <Box
-          sx={{
-            borderRadius: 3.5,
-            border: `1px solid ${UI.border}`,
-            bgcolor: UI.panel,
-            boxShadow: UI.shadow,
-            p: { xs: 2.5, md: 3.5 },
-            position: 'relative',
-            overflow: 'hidden',
-            borderLeft: `4px solid ${healthTone.color}`,
-            '&::before': {
-              content: '""',
-              position: 'absolute',
-              inset: 0,
-              background: `linear-gradient(140deg, ${healthTone.soft} 0%, transparent 55%)`,
-              pointerEvents: 'none',
-            },
-          }}
-        >
-          <Grid container spacing={3} alignItems="stretch">
-            <Grid size={{ xs: 12, md: 7 }} sx={{ minWidth: 0 }}>
-              <Box sx={{ display: 'grid', gap: 1.6, height: '100%', position: 'relative', zIndex: 1 }}>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap' }}>
-                  <Chip
-                    size="small"
-                    label="Operations Dashboard"
-                    sx={{
-                      bgcolor: UI.panelSoft,
-                      color: UI.deepGreen,
-                      border: `1px solid ${UI.deepGreenSoft}`,
-                      fontWeight: 800,
-                      height: 28,
-                      letterSpacing: '0.02em',
-                    }}
-                  />
-                  <Typography sx={{ color: UI.label, fontSize: '0.86rem', fontWeight: 600 }}>
-                    อัปเดตล่าสุด {lastUpdatedText}
-                  </Typography>
-                </Box>
+      <HeroPanel ui={ui} data={data} lastUpdatedText={lastUpdatedText} />
 
-                <Box>
-                  <Typography
-                    sx={{
-                      color: UI.text,
-                      fontWeight: 900,
-                      fontSize: { xs: '1.6rem', sm: '1.9rem', md: '2.2rem', lg: '2.5rem' },
-                      lineHeight: 1.05,
-                      letterSpacing: '-0.03em',
-                      maxWidth: '100%',
-                    }}
-                  >
-                    ศูนย์ควบคุมการดำเนินงาน
-                  </Typography>
-                  <Typography
-                    sx={{
-                      mt: 1.2,
-                      color: UI.muted,
-                      fontSize: '0.98rem',
-                      maxWidth: { xs: '100%', md: 700 },
-                      lineHeight: 1.6,
-                    }}
-                  >
-                    ติดตามสต๊อกสุกร สุขภาพฟาร์ม ประสิทธิภาพการใช้อาหาร
-                    และรายการที่ต้องเฝ้าระวัง
-                  </Typography>
-                </Box>
+      <Box
+        sx={{
+          display: 'grid',
+          gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, minmax(0, 1fr))', xl: 'repeat(4, minmax(0, 1fr))' },
+          gap: 2,
+        }}
+      >
+        {summaryMetrics.map((metric) => (
+          <MetricCard
+            key={metric.title}
+            title={metric.title}
+            value={metric.value}
+            unit={metric.unit || undefined}
+            note={metric.note}
+            footnote={metric.footnote}
+            icon={metric.icon}
+            accent={metric.accent}
+            soft={metric.soft}
+          />
+        ))}
+      </Box>
 
-                <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', pt: 0.5 }}>
-                  <Chip
-                    label={healthTone.label}
-                    sx={{
-                      bgcolor: healthTone.color,
-                      color: '#fff',
-                      fontWeight: 800,
-                      borderRadius: 999,
-                      px: 0.5,
-                      boxShadow: `0 4px 12px ${healthTone.color}33`,
-                    }}
-                  />
-                  <Chip
-                    label={`ฟาร์มทั้งหมด ${formatNumber(data.farmTable.length, 0)} แห่ง`}
-                    sx={{
-                      bgcolor: UI.panelSoft,
-                      color: UI.text,
-                      border: `1px solid ${UI.border}`,
-                      fontWeight: 600,
-                    }}
-                  />
-                  <Chip
-                    label={`แจ้งเตือน ${formatNumber(data.alerts.length, 0)} รายการ`}
-                    sx={{
-                      bgcolor: UI.panelSoft,
-                      color: data.alerts.length > 0 ? UI.amber : UI.text,
-                      border: `1px solid ${data.alerts.length > 0 ? UI.amberSoft : UI.border}`,
-                      fontWeight: 600,
-                    }}
-                  />
-                </Box>
-              </Box>
-            </Grid>
+      <Box
+        sx={{
+          display: 'grid',
+          gridTemplateColumns: { xs: '1fr', lg: '1.45fr 0.95fr' },
+          gap: 2,
+        }}
+      >
+        <FeedUsagePanel rows={data.feedUsageByNumber} ui={ui} />
+        <FarmStatusPanel rows={data.farmTable} ui={ui} />
+      </Box>
 
-            <Grid size={{ xs: 12, md: 5 }} sx={{ minWidth: 0 }}>
-              <Box sx={{ height: '100%', display: 'grid', alignContent: 'center', gap: 2, position: 'relative', zIndex: 1 }}>
-                {/* Budget trend row */}
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 1 }}>
-                  <Box>
-                    <Typography sx={{ color: UI.text, fontWeight: 800, fontSize: '1.04rem' }}>
-                      แนวโน้มงบอาหารเดือนนี้
-                    </Typography>
-                    <Typography sx={{ color: UI.muted, fontSize: '0.86rem', mt: 0.15 }}>
-                      {data.farmTable.length === 0
-                        ? 'ยังไม่มีข้อมูลการใช้งบ'
-                        : <>เทียบกับเดือนก่อน {data.summaryCards.momDeltaPct >= 0 ? '+' : ''}
-                          {formatNumber(data.summaryCards.momDeltaPct, 2)}%</>}
-                    </Typography>
-                  </Box>
-                  <Chip
-                    label={
-                      data.summaryCards.budgetUsagePct === 0
-                        ? '—'
-                        : `${formatNumber(data.summaryCards.budgetUsagePct, 0)}%`
-                    }
-                    sx={{
-                      bgcolor: data.summaryCards.budgetUsagePct > 85 ? UI.amberSoft : UI.deepGreenSoft,
-                      color: data.summaryCards.budgetUsagePct > 85 ? UI.amber : UI.deepGreen,
-                      fontWeight: 900,
-                      border: `1px solid ${data.summaryCards.budgetUsagePct > 85 ? UI.amberSoft : UI.deepGreenSoft}`,
-                    }}
-                  />
-                </Box>
-
-                {/* Farm status mini cards */}
-                <Grid container spacing={1.2}>
-                  {[
-                    { label: 'ปกติ', value: farmStatusCounts.normal, color: UI.deepGreen, soft: UI.deepGreenSoft },
-                    { label: 'เฝ้าระวัง', value: farmStatusCounts.warning, color: UI.amber, soft: UI.amberSoft },
-                    { label: 'วิกฤต', value: farmStatusCounts.critical, color: UI.red, soft: UI.redSoft },
-                  ].map((item) => (
-                    <Grid key={item.label} size={{ xs: 4 }}>
-                      <Box
-                        sx={{
-                          borderRadius: 2,
-                          bgcolor: item.soft,
-                          border: `1px solid ${UI.border}`,
-                          borderLeft: `3px solid ${item.color}`,
-                          p: 1.35,
-                          minHeight: { xs: 70, sm: 80 },
-                          display: 'grid',
-                          alignContent: 'space-between',
-                        }}
-                      >
-                        <Typography
-                          sx={{ color: item.color, fontWeight: 800, fontSize: '0.84rem', letterSpacing: '0.01em' }}
-                        >
-                          {item.label}
-                        </Typography>
-                        <Typography
-                          sx={{
-                            color: item.value === 0 ? UI.label : UI.text,
-                            fontWeight: 900,
-                            fontSize: '1.7rem',
-                            lineHeight: 1,
-                            ...(item.value === 0 ? { fontStyle: 'italic' } : {}),
-                          }}
-                        >
-                          {item.value === 0 ? '—' : formatNumber(item.value, 0)}
-                        </Typography>
-                        <Typography sx={{ color: UI.label, fontSize: '0.78rem' }}>ฟาร์ม</Typography>
-                      </Box>
-                    </Grid>
-                  ))}
-                </Grid>
-              </Box>
-            </Grid>
-          </Grid>
+      <Box
+        sx={{
+          display: 'grid',
+          gridTemplateColumns: { xs: '1fr', lg: '0.9fr 1.6fr' },
+          gap: 2,
+        }}
+      >
+        <Box id="alerts-panel" sx={{ minWidth: 0 }}>
+          <AttentionPanel alerts={data.alerts} ui={ui} />
         </Box>
-      </AnimatedSection>
-
-      {/* ═══════════════════════════════════════════════════════════
-          KPI METRIC CARDS
-          ═══════════════════════════════════════════════════════════ */}
-      <Grid container spacing={2}>
-        {summaryMetrics.map((metric, index) => {
-          const Icon = metric.icon;
-          const isNegative = metric.tone === 'danger';
-          const showTrendDown =
-            metric.key === 'stock' || metric.key === 'fcr' || metric.key === 'mortality';
-          const isZero =
-            metric.key === 'stock'
-              ? data.summaryCards.totalStockHead === 0
-              : metric.key === 'mortality'
-                ? data.summaryCards.mortalityRatePct === 0
-                : metric.key === 'fcr'
-                  ? data.summaryCards.fcrAverage === 0
-                  : data.summaryCards.feedCostMonth === 0;
-
-          return (
-            <Grid key={metric.key} size={{ xs: 12, sm: 6, md: 6, xl: 3 }} sx={{ minWidth: 0 }}>
-              <AnimatedSection delay={120 + index * 60}>
-                <Box
-                  sx={{
-                    ...metricPanelSx(UI, metric.accent, metric.soft),
-                    p: 2.35,
-                    height: '100%',
-                    ...(isZero ? { opacity: 0.75, '&:hover': { opacity: 1 } } : {}),
-                  }}
-                >
-                  <Box sx={{ position: 'relative', zIndex: 1, display: 'grid', gap: 1.35 }}>
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 1 }}>
-                      <Box
-                        sx={{
-                          width: { xs: 40, sm: 46 },
-                          height: { xs: 40, sm: 46 },
-                          borderRadius: 1.5,
-                          bgcolor: UI.panelSoft,
-                          border: `1px solid ${metric.accent}30`,
-                          display: 'grid',
-                          placeItems: 'center',
-                          boxShadow: `0 2px 8px ${metric.accent}12`,
-                        }}
-                      >
-                        <Icon size={20} color={metric.accent} />
-                      </Box>
-                      <Chip
-                        size="small"
-                        label={
-                          metric.tone === 'danger' ? 'ติดตาม' : metric.tone === 'warning' ? 'เฝ้าระวัง' : 'ปกติ'
-                        }
-                        sx={{
-                          bgcolor: `${metric.accent}14`,
-                          color: metric.accent,
-                          fontWeight: 800,
-                          borderRadius: 999,
-                          border: `1px solid ${metric.accent}22`,
-                        }}
-                      />
-                    </Box>
-
-                    <Box>
-                      <Typography
-                        sx={{
-                          color: UI.muted,
-                          fontWeight: 700,
-                          fontSize: '0.86rem',
-                          mb: 0.5,
-                          letterSpacing: '0.01em',
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis',
-                          whiteSpace: 'nowrap',
-                        }}
-                      >
-                        {metric.title}
-                      </Typography>
-                      <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 0.5, flexWrap: 'wrap', minWidth: 0 }}>
-                        <Typography
-                          sx={{
-                            color: isZero ? UI.label : UI.text,
-                            fontWeight: 900,
-                            fontSize: { xs: '1.6rem', sm: '2rem', md: '2.2rem', xl: '2.4rem' },
-                            lineHeight: 1,
-                            letterSpacing: '-0.02em',
-                            ...(isZero ? { fontStyle: 'italic' } : {}),
-                          }}
-                        >
-                          {isZero
-                            ? '—'
-                            : metric.key === 'cost'
-                              ? `${metric.value} ฿`
-                              : metric.value}
-                        </Typography>
-                        {metric.unit ? (
-                          <Typography sx={{ color: UI.muted, fontWeight: 700, fontSize: '1rem' }}>
-                            {metric.unit}
-                          </Typography>
-                        ) : null}
-                      </Box>
-                    </Box>
-
-                    <Box>
-                      <Typography sx={{ color: UI.muted, fontSize: '0.86rem', lineHeight: 1.5, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                        {metric.note}
-                      </Typography>
-                      <Typography sx={{ color: UI.text, fontSize: '0.9rem', fontWeight: 700, mt: 0.4, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                        {metric.detail}
-                      </Typography>
-                    </Box>
-
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75, pt: 0.3 }}>
-                      {isZero ? (
-                        <Activity size={15} color={UI.label} strokeWidth={1.5} />
-                      ) : showTrendDown ? (
-                        <TrendingDown size={15} color={isNegative ? UI.red : metric.accent} />
-                      ) : (
-                        <TrendingUp size={15} color={metric.accent} />
-                      )}
-                      <Typography
-                        sx={{
-                          color: isZero ? UI.muted : metric.accent,
-                          fontWeight: 800,
-                          fontSize: '0.86rem',
-                        }}
-                      >
-                        {isZero
-                          ? 'รอข้อมูลเข้าระบบ'
-                          : metric.key === 'cost'
-                            ? `${data.summaryCards.momDeltaPct >= 0 ? '+' : ''}${formatNumber(data.summaryCards.momDeltaPct, 2)}%`
-                            : metric.key === 'mortality'
-                              ? 'ต่ำกว่า 3% คือเกณฑ์ดี'
-                              : metric.key === 'fcr'
-                                ? 'ยิ่งต่ำยิ่งดี'
-                                : 'อ้างอิงจากข้อมูลล่าสุด'}
-                      </Typography>
-                    </Box>
-                  </Box>
-                </Box>
-              </AnimatedSection>
-            </Grid>
-          );
-        })}
-      </Grid>
-
-      {/* ═══════════════════════════════════════════════════════════
-          CHARTS ROW: FEED USAGE + FARM PIE
-          ═══════════════════════════════════════════════════════════ */}
-      <Grid container spacing={2}>
-        <Grid size={{ xs: 12, md: 8 }} sx={{ minWidth: 0 }}>
-          <AnimatedSection delay={420}>
-            <Box
-              sx={{
-                ...panelSx(UI),
-                p: 2.5,
-                height: '100%',
-                borderLeft: `3px solid ${UI.deepGreen}`,
-              }}
-            >
-              <Box
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'flex-start',
-                  gap: 1.5,
-                  mb: 2,
-                  flexWrap: 'wrap',
-                }}
-              >
-                <Box>
-                  <Typography
-                    sx={{ fontSize: '1.3rem', fontWeight: 900, color: UI.text, letterSpacing: '-0.01em' }}
-                  >
-                    การใช้อาหารตามรหัส
-                  </Typography>
-                  <Typography sx={{ color: UI.muted, fontSize: '0.88rem', mt: 0.3, lineHeight: 1.5 }}>
-                    เทียบเป้าหมายกับการใช้จริงใน 10 รายการล่าสุด
-                    เพื่อดูจุดที่ใช้เกินหรือต่ำกว่าแผน
-                  </Typography>
-                </Box>
-                <Chip
-                  icon={<BarChart3 size={14} />}
-                  label={`${formatNumber(usageRows.length, 0)} รายการ`}
-                  sx={{
-                    bgcolor: UI.panelSoft,
-                    color: UI.deepGreen,
-                    fontWeight: 800,
-                    border: `1px solid ${UI.border}`,
-                  }}
-                />
-              </Box>
-
-              <Box sx={{ height: { xs: 240, sm: 280, md: 320 }, position: 'relative' }}>
-                {usageChartRows.length === 0 ||
-                usageChartRows.every((r) => r.actualTon === 0 && r.targetTon === 0) ? (
-                  <Box
-                    sx={{
-                      height: '100%',
-                      display: 'grid',
-                      placeItems: 'center',
-                      gap: 1.5,
-                    }}
-                  >
-                    <Box
-                      sx={{
-                        width: 72,
-                        height: 72,
-                        borderRadius: '50%',
-                        bgcolor: UI.panelSoft,
-                        border: `1px solid ${UI.border}`,
-                        display: 'grid',
-                        placeItems: 'center',
-                      }}
-                    >
-                      <BarChart3 size={28} color={UI.label} strokeWidth={1.5} />
-                    </Box>
-                    <Box sx={{ textAlign: 'center' }}>
-                      <Typography sx={{ color: UI.text, fontWeight: 800, fontSize: '1.05rem' }}>
-                        ยังไม่มีข้อมูลการใช้อาหาร
-                      </Typography>
-                      <Typography sx={{ color: UI.muted, fontSize: '0.88rem', mt: 0.4, lineHeight: 1.5 }}>
-                        ข้อมูลจะแสดงเมื่อมีการบันทึกการใช้อาหารในระบบ
-                      </Typography>
-                    </Box>
-                  </Box>
-                ) : (
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart
-                      data={usageChartRows}
-                      margin={{ top: 8, right: 12, left: 0, bottom: 2 }}
-                    >
-                      <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={UI.border} />
-                      <XAxis dataKey="feedCode" tick={{ fill: UI.muted, fontSize: 12 }} axisLine={false} tickLine={false} />
-                      <YAxis tick={{ fill: UI.muted, fontSize: 12 }} axisLine={false} tickLine={false} width={38} />
-                      <RechartsTooltip
-                        cursor={{ fill: 'rgba(22, 90, 80, 0.04)' }}
-                        content={<CustomTooltip ui={UI} />}
-                      />
-                      <Bar dataKey="targetTon" fill={UI.deepGreenSoft} radius={[8, 8, 0, 0]} />
-                      <Bar dataKey="actualTon" radius={[8, 8, 0, 0]}>
-                        {usageChartRows.map((entry) => (
-                          <Cell key={`actual-${entry.feedCode}`} fill={entry.color} />
-                        ))}
-                      </Bar>
-                    </BarChart>
-                  </ResponsiveContainer>
-                )}
-              </Box>
-            </Box>
-          </AnimatedSection>
-        </Grid>
-
-        <Grid size={{ xs: 12, md: 4 }} sx={{ minWidth: 0 }}>
-          <AnimatedSection delay={480}>
-            <Box
-              sx={{
-                ...panelSx(UI),
-                p: 2.5,
-                height: '100%',
-                borderLeft: `3px solid ${UI.deepGreenSoft}`,
-              }}
-            >
-              <Typography
-                sx={{ fontSize: '1.3rem', fontWeight: 900, color: UI.text, letterSpacing: '-0.01em' }}
-              >
-                สัดส่วนสถานะฟาร์ม
-              </Typography>
-              <Typography sx={{ color: UI.muted, fontSize: '0.88rem', mb: 1.6, mt: 0.3, lineHeight: 1.5 }}>
-                สรุปฟาร์มที่อยู่ในเกณฑ์ปกติ เฝ้าระวัง และวิกฤต เพื่อจัดลำดับการติดตาม
-              </Typography>
-
-              <Box sx={{ display: 'grid', placeItems: 'center', py: 0.5 }}>
-                {farmStatusCounts.normal === 0 &&
-                farmStatusCounts.warning === 0 &&
-                farmStatusCounts.critical === 0 ? (
-                  <Box
-                    sx={{
-                      width: { xs: 180, sm: 200, md: 220 },
-                      height: { xs: 180, sm: 200, md: 220 },
-                      display: 'grid',
-                      placeItems: 'center',
-                      borderRadius: '50%',
-                      border: `2px dashed ${UI.border}`,
-                      bgcolor: UI.panelSoft,
-                    }}
-                  >
-                    <Box sx={{ textAlign: 'center' }}>
-                      <Activity size={28} color={UI.label} strokeWidth={1.5} />
-                      <Typography sx={{ color: UI.text, fontWeight: 800, fontSize: '0.95rem', mt: 1 }}>
-                        ยังไม่มีฟาร์ม
-                      </Typography>
-                      <Typography sx={{ color: UI.muted, fontSize: '0.82rem', mt: 0.3 }}>
-                        สถานะจะแสดงเมื่อมีฟาร์มในระบบ
-                      </Typography>
-                    </Box>
-                  </Box>
-                ) : (
-                  <Box
-                    sx={{
-                      width: { xs: 180, sm: 200, md: 220 },
-                      height: { xs: 180, sm: 200, md: 220 },
-                      position: 'relative',
-                    }}
-                  >
-                    <ResponsiveContainer width="100%" height="100%">
-                      <PieChart>
-                        <Pie
-                          data={farmPieRows}
-                          dataKey="value"
-                          nameKey="name"
-                          cx="50%"
-                          cy="50%"
-                          innerRadius={58}
-                          outerRadius={100}
-                          paddingAngle={2}
-                          stroke="none"
-                        >
-                          {farmPieRows.map((entry) => (
-                            <Cell key={`farm-pie-${entry.name}`} fill={entry.color} />
-                          ))}
-                        </Pie>
-                        <RechartsTooltip formatter={(value: number) => `${formatNumber(Number(value), 0)} ฟาร์ม`} />
-                      </PieChart>
-                    </ResponsiveContainer>
-                    <Box
-                      sx={{
-                        position: 'absolute',
-                        inset: 0,
-                        display: 'grid',
-                        placeItems: 'center',
-                        pointerEvents: 'none',
-                      }}
-                    >
-                      <Box
-                        sx={{
-                          width: { xs: 100, sm: 112, md: 124 },
-                          height: { xs: 100, sm: 112, md: 124 },
-                          borderRadius: '50%',
-                          bgcolor: UI.panel,
-                          border: `1px solid ${UI.border}`,
-                          display: 'grid',
-                          placeItems: 'center',
-                        }}
-                      >
-                        <Typography sx={{ color: UI.label, fontSize: '0.82rem' }}>รวมทั้งหมด</Typography>
-                        <Typography sx={{ color: UI.text, fontWeight: 900, fontSize: '1.8rem', lineHeight: 1 }}>
-                          {formatNumber(farmStatusCounts.total, 0)}
-                        </Typography>
-                        <Typography sx={{ color: UI.muted, fontSize: '0.78rem' }}>ฟาร์ม</Typography>
-                      </Box>
-                    </Box>
-                  </Box>
-                )}
-              </Box>
-
-              <Box sx={{ display: 'grid', gap: 0.8, mt: 1 }}>
-                {farmPieRows.map((item) => (
-                  <Box
-                    key={item.name}
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      borderRadius: 1.5,
-                      bgcolor: UI.panelSoft,
-                      border: `1px solid ${UI.border}`,
-                      borderLeft: `3px solid ${item.color}`,
-                      px: 1.3,
-                      py: 1.05,
-                    }}
-                  >
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                      <Box sx={{ width: 10, height: 10, borderRadius: '50%', bgcolor: item.color }} />
-                      <Typography sx={{ color: UI.text, fontWeight: 700, fontSize: '0.9rem' }}>{item.name}</Typography>
-                    </Box>
-                    <Typography sx={{ color: UI.text, fontWeight: 900, fontSize: '0.95rem' }}>
-                      {formatNumber(item.value, 0)}
-                    </Typography>
-                  </Box>
-                ))}
-              </Box>
-            </Box>
-          </AnimatedSection>
-        </Grid>
-      </Grid>
-
-      {/* ═══════════════════════════════════════════════════════════
-          ALERTS + FARM TABLE ROW
-          ═══════════════════════════════════════════════════════════ */}
-      <Box sx={{ display: 'flex', gap: 2, flexWrap: { xs: 'wrap', md: 'nowrap' } }}>
-        {/* Alerts */}
-        <Box sx={{ flex: { xs: '1 1 100%', md: '0 0 380px' }, minWidth: 0 }}>
-          <AnimatedSection delay={540}>
-            <Box
-              sx={{
-                ...panelSx(UI),
-                p: 2.5,
-                height: '100%',
-                borderLeft: `3px solid ${UI.amber}`,
-              }}
-            >
-              <Box
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'flex-start',
-                  gap: 1,
-                  mb: 1.6,
-                }}
-              >
-                <Box>
-                  <Typography
-                    sx={{ fontSize: '1.3rem', fontWeight: 900, color: UI.text, letterSpacing: '-0.01em' }}
-                  >
-                    รายการที่ต้องติดตาม
-                  </Typography>
-                  <Typography sx={{ color: UI.muted, fontSize: '0.88rem', mt: 0.3, lineHeight: 1.5 }}>
-                    แสดงเหตุการณ์ที่ควรตรวจสอบก่อน เพื่อช่วยตัดสินใจประจำวันได้เร็วขึ้น
-                  </Typography>
-                </Box>
-                <Box
-                  sx={{
-                    width: 42,
-                    height: 42,
-                    borderRadius: 1.5,
-                    bgcolor: UI.amberSoft,
-                    border: `1px solid ${UI.amberSoft}`,
-                    display: 'grid',
-                    placeItems: 'center',
-                  }}
-                >
-                  <AlertTriangle size={18} color={UI.amber} />
-                </Box>
-              </Box>
-
-              {data.alerts.length === 0 ? (
-                <Box
-                  sx={{
-                    borderRadius: 1.5,
-                    bgcolor: UI.deepGreenSoft,
-                    border: `1px solid ${UI.deepGreenSoft}`,
-                    p: 2.5,
-                    display: 'grid',
-                    placeItems: 'center',
-                    gap: 1,
-                    textAlign: 'center',
-                  }}
-                >
-                  <Box
-                    sx={{
-                      width: 48,
-                      height: 48,
-                      borderRadius: '50%',
-                      bgcolor: UI.panel,
-                      border: `1px solid ${UI.deepGreenSoft}`,
-                      display: 'grid',
-                      placeItems: 'center',
-                    }}
-                  >
-                    <Activity size={22} color={UI.deepGreen} strokeWidth={1.8} />
-                  </Box>
-                  <Typography sx={{ color: UI.deepGreen, fontWeight: 800, fontSize: '0.95rem' }}>
-                    ไม่มีแจ้งเตือนสำคัญ
-                  </Typography>
-                  <Typography sx={{ color: UI.muted, fontSize: '0.84rem', lineHeight: 1.5 }}>
-                    ระบบทำงานปกติ ไม่พบเหตุการณ์ที่ต้องติดตาม
-                  </Typography>
-                </Box>
-              ) : (
-                <Box sx={{ display: 'grid', gap: 1 }}>
-                  {data.alerts.slice(0, 6).map((alert) => (
-                    <Box
-                      key={alert.id}
-                      sx={{
-                        borderRadius: 1.5,
-                        border: `1px solid ${UI.border}`,
-                        borderLeft: `3px solid ${statusColor(alert.severity, UI)}`,
-                        bgcolor: statusSoftColor(alert.severity, UI),
-                        px: 1.35,
-                        py: 1.2,
-                      }}
-                    >
-                      <Box
-                        sx={{
-                          display: 'flex',
-                          alignItems: 'flex-start',
-                          justifyContent: 'space-between',
-                          gap: 1,
-                          mb: 0.4,
-                        }}
-                      >
-                        <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 0.8, minWidth: 0 }}>
-                          {alert.severity === 'critical' && (
-                            <Box
-                              sx={{
-                                width: 8,
-                                height: 8,
-                                borderRadius: '50%',
-                                bgcolor: UI.red,
-                                mt: 0.5,
-                                flexShrink: 0,
-                              }}
-                            />
-                          )}
-                          <Typography
-                            sx={{
-                              fontWeight: 900,
-                              color: UI.text,
-                              fontSize: '0.92rem',
-                              lineHeight: 1.35,
-                              overflow: 'hidden',
-                              textOverflow: 'ellipsis',
-                              whiteSpace: 'nowrap',
-                              minWidth: 0,
-                            }}
-                          >
-                            {alert.title}
-                          </Typography>
-                        </Box>
-                        <Chip
-                          size="small"
-                          label={alert.severity}
-                          sx={{
-                            bgcolor: UI.panel,
-                            color: statusColor(alert.severity, UI),
-                            fontWeight: 800,
-                            border: `1px solid ${statusColor(alert.severity, UI)}30`,
-                            fontSize: '0.75rem',
-                            flexShrink: 0,
-                          }}
-                        />
-                      </Box>
-                      <Typography sx={{ color: UI.muted, fontSize: '0.84rem', lineHeight: 1.55, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-                        {alert.description}
-                      </Typography>
-                    </Box>
-                  ))}
-                </Box>
-              )}
-            </Box>
-          </AnimatedSection>
-        </Box>
-
-        {/* Farm Table */}
-        <Box sx={{ flex: { xs: '1 1 100%', md: '1 1 0%' }, minWidth: 0 }}>
-          <AnimatedSection delay={600}>
-            <Box sx={{ ...panelSx(UI), p: 0, borderLeft: `3px solid ${UI.deepGreen}` }}>
-              <Box
-                sx={{
-                  px: 2.5,
-                  pt: 2.5,
-                  pb: 1.5,
-                  display: 'flex',
-                  alignItems: 'flex-start',
-                  justifyContent: 'space-between',
-                  gap: 1.2,
-                  flexWrap: 'wrap',
-                }}
-              >
-                <Box>
-                  <Typography
-                    sx={{ fontSize: '1.3rem', fontWeight: 900, color: UI.text, letterSpacing: '-0.01em' }}
-                  >
-                    สถานะรายฟาร์ม
-                  </Typography>
-                  <Typography sx={{ color: UI.muted, fontSize: '0.88rem', mt: 0.3, lineHeight: 1.5 }}>
-                    สแกนสต๊อก การสูญเสีย และความเสี่ยงรายฟาร์มจากตารางเดียว พร้อมค้นหาได้ทันที
-                  </Typography>
-                </Box>
-                <TextField
-                  size="small"
-                  placeholder="ค้นหาฟาร์ม"
-                  value={search}
-                  onChange={(event) => setSearch(event.target.value)}
-                  sx={{
-                    minWidth: { xs: '100%', sm: 200, md: 240 },
-                    '& .MuiOutlinedInput-root': {
-                      borderRadius: 999,
-                      bgcolor: UI.panelSoft,
-                      fontSize: '0.88rem',
-                      transition: 'all 200ms ease',
-                      '&:hover': {
-                        bgcolor: UI.panelMuted,
-                      },
-                      '&.Mui-focused': {
-                        bgcolor: UI.panel,
-                        boxShadow: `0 0 0 2px ${UI.deepGreen}25`,
-                      },
-                    },
-                  }}
-                />
-              </Box>
-
-              <TableContainer sx={{ px: 1.2, pb: 1.2, overflowX: 'auto' }}>
-                <Table size="small" sx={{ tableLayout: 'fixed', minWidth: { xs: 640, md: 760 } }}>
-                  <TableHead>
-                    <TableRow>
-                      {[
-                        { label: 'ฟาร์ม', width: '28%', align: 'left' as const },
-                        { label: 'สต็อก', width: '14%', align: 'right' as const },
-                        { label: 'ตาย', width: '12%', align: 'right' as const },
-                        { label: 'สูญเสีย', width: '16%', align: 'right' as const },
-                        { label: 'เป้าหมาย', width: '18%', align: 'right' as const },
-                        { label: 'สถานะ', width: '12%', align: 'right' as const },
-                      ].map((col) => (
-                        <TableCell
-                          key={col.label}
-                          align={col.align}
-                          sx={{
-                            width: col.width,
-                            color: UI.muted,
-                            fontWeight: 900,
-                            bgcolor: UI.panelSoft,
-                            borderBottom: `2px solid ${UI.deepGreenSoft}`,
-                            fontSize: '0.8rem',
-                            letterSpacing: '0.02em',
-                          }}
-                        >
-                          {col.label}
-                        </TableCell>
-                      ))}
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {filteredFarmRows.length === 0 ? (
-                      <TableRow>
-                        <TableCell colSpan={6} align="center" sx={{ py: 6, borderBottom: 'none' }}>
-                          <Box sx={{ display: 'grid', placeItems: 'center', gap: 1.2 }}>
-                            <Box
-                              sx={{
-                                width: 56,
-                                height: 56,
-                                borderRadius: '50%',
-                                bgcolor: UI.panelSoft,
-                                border: `1px solid ${UI.border}`,
-                                display: 'grid',
-                                placeItems: 'center',
-                                mx: 'auto',
-                              }}
-                            >
-                              <BarChart3 size={24} color={UI.label} strokeWidth={1.5} />
-                            </Box>
-                            <Typography sx={{ color: UI.text, fontWeight: 800, fontSize: '0.98rem' }}>
-                              ไม่พบข้อมูลฟาร์ม
-                            </Typography>
-                            <Typography
-                              sx={{ color: UI.muted, fontSize: '0.84rem', lineHeight: 1.5, maxWidth: 320 }}
-                            >
-                              ข้อมูลฟาร์มจะแสดงที่นี่เมื่อมีการเพิ่มฟาร์มในระบบ
-                            </Typography>
-                          </Box>
-                        </TableCell>
-                      </TableRow>
-                    ) : (
-                      filteredFarmRows.map((row) => {
-                        const goal = Math.max(0, Math.min(100, 100 - row.mortalityRatePct * 10));
-                        const rowAccent =
-                          row.statusDot === 'critical'
-                            ? UI.red
-                            : row.statusDot === 'warning'
-                              ? UI.amber
-                              : UI.deepGreen;
-                        const statusLabel =
-                          row.statusDot === 'critical'
-                            ? 'วิกฤต'
-                            : row.statusDot === 'warning'
-                              ? 'เฝ้าระวัง'
-                              : 'ปกติ';
-                        return (
-                          <TableRow
-                            key={row.farmId}
-                            hover
-                            sx={{
-                              '& td': { borderColor: UI.border },
-                              '&:hover': { bgcolor: UI.panelSoft },
-                              transition: 'background-color 180ms ease',
-                            }}
-                          >
-                            <TableCell>
-                              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, minWidth: 0 }}>
-                                <Box
-                                  sx={{
-                                    width: 8,
-                                    height: 8,
-                                    borderRadius: '50%',
-                                    bgcolor: rowAccent,
-                                    boxShadow: `0 0 0 2px ${rowAccent}22`,
-                                    flexShrink: 0,
-                                  }}
-                                />
-                                <Typography
-                                  sx={{ fontWeight: 800, color: UI.text, fontSize: '0.88rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', minWidth: 0 }}
-                                >
-                                  {row.farmName}
-                                </Typography>
-                              </Box>
-                            </TableCell>
-                            <TableCell
-                              align="right"
-                              sx={{ whiteSpace: 'nowrap', color: UI.text, fontWeight: 700, fontSize: '0.88rem' }}
-                            >
-                              {formatNumber(row.stockHead, 0)}
-                            </TableCell>
-                            <TableCell
-                              align="right"
-                              sx={{ whiteSpace: 'nowrap', color: UI.red, fontWeight: 700, fontSize: '0.88rem' }}
-                            >
-                              {formatNumber(row.deathHead, 0)}
-                            </TableCell>
-                            <TableCell
-                              align="right"
-                              sx={{ whiteSpace: 'nowrap', color: UI.text, fontSize: '0.88rem' }}
-                            >
-                              {formatNumber(row.mortalityRatePct, 2)}%
-                            </TableCell>
-                            <TableCell align="right">
-                              <Box
-                                sx={{
-                                  display: 'inline-flex',
-                                  alignItems: 'center',
-                                  gap: 1,
-                                  minWidth: { xs: 120, sm: 150 },
-                                  justifyContent: 'flex-end',
-                                }}
-                              >
-                                <LinearProgress
-                                  variant="determinate"
-                                  value={goal}
-                                  sx={{
-                                    width: 96,
-                                    height: 7,
-                                    borderRadius: 999,
-                                    bgcolor: UI.panelSoft,
-                                    '& .MuiLinearProgress-bar': {
-                                      bgcolor: rowAccent,
-                                      borderRadius: 999,
-                                      transition: 'width 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
-                                    },
-                                  }}
-                                />
-                                <Typography
-                                  sx={{
-                                    minWidth: 34,
-                                    textAlign: 'right',
-                                    fontWeight: 800,
-                                    color: UI.text,
-                                    fontSize: '0.86rem',
-                                  }}
-                                >
-                                  {formatNumber(goal, 0)}%
-                                </Typography>
-                              </Box>
-                            </TableCell>
-                            <TableCell align="right">
-                              <Chip
-                                size="small"
-                                label={statusLabel}
-                                sx={{
-                                  bgcolor: `${rowAccent}14`,
-                                  color: rowAccent,
-                                  fontWeight: 800,
-                                  minWidth: 78,
-                                  border: `1px solid ${rowAccent}22`,
-                                  fontSize: '0.78rem',
-                                }}
-                              />
-                            </TableCell>
-                          </TableRow>
-                        );
-                      })
-                    )}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-
-              <Box
-                sx={{
-                  px: 2.2,
-                  pb: 1.8,
-                  pt: 0.4,
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  gap: 1,
-                  flexWrap: 'wrap',
-                }}
-              >
-                <Typography sx={{ color: UI.muted, fontSize: '0.85rem' }}>
-                  แสดง {formatNumber(filteredFarmRows.length, 0)} จาก{' '}
-                  {formatNumber(data.farmTable.length, 0)} ฟาร์ม
-                </Typography>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 0.6,
-                    color: UI.deepGreen,
-                    transition: 'gap 200ms ease',
-                    '&:hover': { gap: 1 },
-                  }}
-                >
-                  <Typography sx={{ fontWeight: 800, fontSize: '0.88rem' }}>ดูรายละเอียดเพิ่มเติม</Typography>
-                  <ChevronRight size={16} />
-                </Box>
-              </Box>
-            </Box>
-          </AnimatedSection>
+        <Box id="farm-table" sx={{ minWidth: 0 }}>
+          <FarmTablePanel rows={data.farmTable} ui={ui} />
         </Box>
       </Box>
     </Box>

@@ -3,7 +3,7 @@ import { alpha } from '@mui/material/styles';
 
 export function getPurchaseDialogPaperSx(theme: Theme) {
   return {
-    borderRadius: 3.5,
+    borderRadius: 10,
     border: '1px solid',
     borderColor: theme.palette.divider,
     boxShadow: 2,
@@ -18,7 +18,7 @@ export function getPurchaseDialogContentSx(theme: Theme) {
     px: { xs: 1.5, md: 2 },
     py: { xs: 1.5, md: 2 },
     '& .MuiTextField-root .MuiOutlinedInput-root': {
-      borderRadius: 2.2,
+      borderRadius: 10,
       bgcolor: alpha(theme.palette.primary.main, 0.03),
       boxShadow: 1,
       '& fieldset': {
@@ -40,7 +40,7 @@ export function getPurchaseDialogContentSx(theme: Theme) {
 export function getPurchaseDialogFieldsetSx(theme: Theme) {
   return {
     border: `1px solid ${theme.palette.divider}`,
-    borderRadius: 3,
+    borderRadius: 10,
     p: { xs: 1.25, md: 1.5 },
     minWidth: 0,
     bgcolor: theme.palette.background.paper,
@@ -59,7 +59,7 @@ export const PURCHASE_DIALOG_LEGEND_SX = {
 export function getPurchaseDialogTableSx(theme: Theme) {
   return {
     border: `1px solid ${theme.palette.divider}`,
-    borderRadius: 2.6,
+    borderRadius: 10,
     bgcolor: theme.palette.background.paper,
     boxShadow: 1,
     '& .MuiTableCell-head': {
@@ -90,7 +90,7 @@ export function getPurchaseDialogActionsSx(theme: Theme) {
 
 export function getPurchaseDialogPrimaryButtonSx(theme: Theme) {
   return {
-    borderRadius: 12,
+    borderRadius: 10,
     px: 2.2,
     fontWeight: 600,
     textTransform: 'none',
@@ -107,7 +107,7 @@ export function getPurchaseDialogPrimaryButtonSx(theme: Theme) {
 
 export function getPurchaseDialogSecondaryButtonSx(theme: Theme) {
   return {
-    borderRadius: 12,
+    borderRadius: 10,
     px: 2,
     fontWeight: 600,
     textTransform: 'none',
@@ -144,7 +144,7 @@ export function getPurchaseDialogSectionBoxSx(theme: Theme) {
   return {
     p: 1.2,
     border: `1px solid ${theme.palette.divider}`,
-    borderRadius: 2.4,
+    borderRadius: 10,
     bgcolor: theme.palette.background.paper,
   };
 }

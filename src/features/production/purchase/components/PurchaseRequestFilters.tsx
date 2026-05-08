@@ -66,7 +66,7 @@ export function PurchaseRequestFilters({
           width: '100%',
           '& .MuiOutlinedInput-root': {
             height: 40,
-            borderRadius: 2,
+            borderRadius: 10,
             bgcolor: 'background.paper',
             boxShadow: 1,
           },
@@ -94,7 +94,7 @@ export function PurchaseRequestFilters({
           '& .MuiOutlinedInput-root': {
             height: 40,
             minHeight: 40,
-            borderRadius: 2,
+            borderRadius: 10,
             bgcolor: 'background.paper',
             boxShadow: 1,
           },
@@ -130,7 +130,7 @@ export function PurchaseRequestFilters({
           '& .MuiOutlinedInput-root': {
             height: 40,
             minHeight: 40,
-            borderRadius: 2,
+            borderRadius: 10,
             bgcolor: 'background.paper',
             boxShadow: 1,
           },
@@ -152,7 +152,7 @@ export function PurchaseRequestFilters({
         sx={{
           height: 40,
           minWidth: 110,
-          borderRadius: 2,
+          borderRadius: 10,
           bgcolor: 'primary.main',
           boxShadow: 1,
           '&:hover': { bgcolor: 'primary.dark' },

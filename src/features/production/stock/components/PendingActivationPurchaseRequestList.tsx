@@ -53,7 +53,7 @@ export function PendingActivationPurchaseRequestList({
   return (
     <Paper
       sx={{
-        borderRadius: '15px 15px 0 0',
+        borderRadius: 10,
         overflow: 'hidden',
         boxShadow: 'none',
         border: '1px solid',
@@ -183,7 +183,7 @@ export function PendingActivationPurchaseRequestList({
                         startIcon={<EditOutlined />}
                         onClick={() => onManage(row)}
                         disabled={disabled}
-                        sx={{ borderRadius: 999, fontWeight: 700 }}
+                        sx={{ borderRadius: 10, fontWeight: 700 }}
                       >
                         จัดการ
                       </Button>

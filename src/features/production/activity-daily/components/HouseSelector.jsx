@@ -42,7 +42,7 @@ export default function HouseSelector({
               variant="rounded"
               width={112}
               height={40}
-              sx={{ borderRadius: 2.5, flexShrink: 0 }}
+              sx={{ borderRadius: 10, flexShrink: 0 }}
             />
           ))}
         </Stack>
@@ -62,7 +62,7 @@ export default function HouseSelector({
               key={`house-skeleton-${index}`}
               variant="rounded"
               height={138}
-              sx={{ borderRadius: 2.6 }}
+              sx={{ borderRadius: 10}}
             />
           ))}
         </Box>
@@ -72,7 +72,7 @@ export default function HouseSelector({
 
   if (houseGroups.length === 0 || currentGroupHouses.length === 0) {
     return (
-      <Alert severity="warning" sx={{ borderRadius: 2, border: `1px solid ${UI.border}` }}>
+      <Alert severity="warning" sx={{ borderRadius: 10, border: `1px solid ${UI.border}` }}>
         ฟาร์มนี้ยังไม่มีโรงเรือนที่เปิดใช้งาน
       </Alert>
     );
@@ -98,7 +98,7 @@ export default function HouseSelector({
             sx={{
               minWidth: { xs: 108, md: 120 },
               whiteSpace: 'nowrap',
-              borderRadius: 2.5,
+              borderRadius: 10,
               flexShrink: 0,
               ...(selectedGroup === group.id
                 ? {
@@ -142,7 +142,7 @@ export default function HouseSelector({
               onClick={() => !isLoading && onSelectHouse(house.code)}
             sx={{
                 cursor: isLoading ? 'default' : 'pointer',
-                borderRadius: 3,
+                borderRadius: 10,
                 borderColor: isActive ? UI.accent : UI.borderStrong,
                 borderWidth: isActive ? 2 : 1,
                 position: 'relative',

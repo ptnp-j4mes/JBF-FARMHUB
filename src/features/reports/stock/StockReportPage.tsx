@@ -396,7 +396,7 @@ export function StockReportPage({
               <Typography component="legend" sx={BLOCK_FIELDSET_LEGEND_SX}>สรุปข้อมูล</Typography>
               <Box sx={{ mb: 1, display: 'grid', gap: 1.25, gridTemplateColumns: { xs: 'repeat(2, 1fr)', md: 'repeat(4, 1fr)' } }}>
                 {summaryCards.map((card) => (
-                  <Card key={card.title} sx={{ borderRadius: 2 }}>
+                  <Card key={card.title} sx={{ borderRadius: 10}}>
                     <CardContent sx={{ p: 1.25 }}>
                       <Typography variant="body2" color="text.secondary">{card.title}</Typography>
                       <Typography variant="h6" sx={{ fontWeight: 700, color: card.color, lineHeight: 1.15 }}>{card.value}</Typography>
@@ -517,10 +517,10 @@ export function StockReportPage({
                 overflowY: 'auto',
                 overflowX: 'auto',
                 '&::-webkit-scrollbar': { width: '8px', height: '8px' },
-                '&::-webkit-scrollbar-thumb': { backgroundColor: '#b0b7c3', borderRadius: '10px' },
+                '&::-webkit-scrollbar-thumb': { backgroundColor: '#b0b7c3', borderRadius: 10},
               }}
               paperSx={{
-                borderRadius: '15px 15px 0 0',
+                borderRadius: 10,
                 boxShadow: 'none',
                 border: '1px solid',
                 borderColor: 'divider',
@@ -555,7 +555,7 @@ export function StockReportPage({
           <Stack spacing={2}>
             <Box
               component="fieldset"
-              sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 2, p: 1.5, minWidth: 0 }}
+              sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 10, p: 1.5, minWidth: 0 }}
             >
               <Typography component="legend" sx={{ px: 1, fontSize: '0.95rem', fontWeight: 700 }}>
                 ข้อมูลสินค้า
@@ -573,7 +573,7 @@ export function StockReportPage({
 
             <Box
               component="fieldset"
-              sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 2, p: 1.5, minWidth: 0 }}
+              sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 10, p: 1.5, minWidth: 0 }}
             >
               <Typography component="legend" sx={{ px: 1, fontSize: '0.95rem', fontWeight: 700 }}>
                 รายการแยกคลัง (ไม่แยก Lot)
@@ -592,7 +592,7 @@ export function StockReportPage({
                   '&:last-of-type': { borderRight: 'none' },
                 }}
                 tableContainerSx={{ maxHeight: 420, overflowY: 'auto' }}
-                paperSx={{ borderRadius: 2, boxShadow: 'none', border: '1px solid', borderColor: 'divider' }}
+                paperSx={{ borderRadius: 10, boxShadow: 'none', border: '1px solid', borderColor: 'divider' }}
               />
             </Box>
           </Stack>

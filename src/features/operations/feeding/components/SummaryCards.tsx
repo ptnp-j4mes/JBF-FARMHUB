@@ -88,7 +88,7 @@ export default function SummaryCards({ summary }: SummaryCardsProps) {
             sx={{
               position: 'relative',
               overflow: 'hidden',
-              borderRadius: 3,
+              borderRadius: 10,
               border: `1px solid ${UI.border}`,
               bgcolor: '#fff',
               px: 2,
@@ -110,7 +110,7 @@ export default function SummaryCards({ summary }: SummaryCardsProps) {
               sx={{
                 width: 48,
                 height: 48,
-                borderRadius: 2.4,
+                borderRadius: 10,
                 bgcolor: card.bgLight,
                 color: card.color,
                 display: 'flex',
@@ -141,11 +141,11 @@ export default function SummaryCards({ summary }: SummaryCardsProps) {
                   sx={{
                     mt: 0.8,
                     height: 6,
-                    borderRadius: 99,
+                    borderRadius: 10,
                     bgcolor: alpha(card.color, 0.1),
                     '& .MuiLinearProgress-bar': {
                       bgcolor: card.color,
-                      borderRadius: 99,
+                      borderRadius: 10,
                     },
                   }}
                 />

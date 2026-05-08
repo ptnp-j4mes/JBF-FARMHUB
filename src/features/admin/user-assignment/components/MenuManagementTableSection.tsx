@@ -29,7 +29,7 @@ export function MenuManagementTableSection({
   onDelete,
 }: MenuManagementTableSectionProps) {
   return (
-    <Box sx={{ border: '1px solid', borderColor, borderRadius: 2, overflow: 'hidden' }}>
+    <Box sx={{ border: '1px solid', borderColor, borderRadius: 10, overflow: 'hidden' }}>
       <Box sx={{ px: 2, py: 1.5, bgcolor: headerBackground, borderBottom: '1px solid', borderColor }}>
         <Typography variant="subtitle1" fontWeight={700}>
           {title}

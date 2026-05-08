@@ -270,7 +270,7 @@ export function MasterFiStandardPage({ standalone = false, title = 'มาตร
               sx={{
                 border: '1px solid',
                 borderColor: 'divider',
-                borderRadius: 2,
+                borderRadius: 10,
                 p: 1.5,
                 bgcolor: '#F8FAFC',
               }}
@@ -298,7 +298,7 @@ export function MasterFiStandardPage({ standalone = false, title = 'มาตร
                   border: '1px solid',
                   borderColor: card.active ? '#93C5FD' : 'divider',
                   bgcolor: card.active ? '#EFF6FF' : 'background.paper',
-                  borderRadius: 2,
+                  borderRadius: 10,
                   px: 1.5,
                   py: 1.25,
                   display: 'flex',
@@ -345,7 +345,7 @@ export function MasterFiStandardPage({ standalone = false, title = 'มาตร
 
           <Box sx={{ display: 'grid', gap: 1, gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, minmax(0, 1fr))', lg: 'repeat(4, minmax(0, 1fr))' } }}>
             {records.summaryCards.map((card) => (
-              <Box key={`${card.itemId}-${card.startDay}`} sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 2, p: 1.25, bgcolor: 'background.paper' }}>
+              <Box key={`${card.itemId}-${card.startDay}`} sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 10, p: 1.25, bgcolor: 'background.paper' }}>
                 <Chip size="small" label={card.feedCode} sx={{ bgcolor: card.colorHex, fontWeight: 700, mb: 0.5 }} />
                 <Typography variant="body2" color="text.secondary">{card.startDay}-{card.endDay} วัน</Typography>
                 <Typography variant="body2" fontWeight={700}>{Number(card.totalFiKg).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} กก./ตัว</Typography>

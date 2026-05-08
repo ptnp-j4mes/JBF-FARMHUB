@@ -116,7 +116,7 @@ export function MenuManagementDialog({
                 height: 56,
                 border: '1px solid',
                 borderColor: 'divider',
-                borderRadius: 1,
+                borderRadius: 10,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',

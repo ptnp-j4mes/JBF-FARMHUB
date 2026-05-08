@@ -71,7 +71,7 @@ const urgencyLabel: Record<string, string> = {
   Urgent: 'เร่งด่วน',
 };
 
-const panelSx = { border: '1px solid', borderColor: 'divider', borderRadius: 3, p: 1.75 };
+const panelSx = { border: '1px solid', borderColor: 'divider', borderRadius: 10, p: 1.75 };
 
 export function PRDetailsDialog({
   open,
@@ -407,13 +407,13 @@ export function PRDetailsDialog({
                                 minHeight: 42,
                                 bgcolor: 'divider',
                                 mt: 0.4,
-                                borderRadius: 1,
+                                borderRadius: 10,
                               }}
                             />
                           ) : null}
                         </Stack>
 
-                        <Paper variant="outlined" sx={{ p: 1.25, mb: 0.7, border: '1px solid', borderColor: 'divider', borderRadius: 2.4 }}>
+                        <Paper variant="outlined" sx={{ p: 1.25, mb: 0.7, border: '1px solid', borderColor: 'divider', borderRadius: 10}}>
                           <Stack spacing={0.4} sx={{ minWidth: 0 }}>
                             <Stack direction={{ xs: 'column', sm: 'row' }} spacing={0.8} alignItems={{ xs: 'flex-start', sm: 'center' }}>
                               <Typography variant="body2" fontWeight={700}>
@@ -433,12 +433,12 @@ export function PRDetailsDialog({
                               </Typography>
                             )}
                             {stepStatus === 'error' && (
-                              <Typography variant="caption" sx={{ display: 'block', color: 'error.dark', mt: 0.5, bgcolor: alpha(theme.palette.error.main, 0.08), p: 0.5, borderRadius: 1, border: '1px solid', borderColor: alpha(theme.palette.error.main, 0.2) }}>
+                              <Typography variant="caption" sx={{ display: 'block', color: 'error.dark', mt: 0.5, bgcolor: alpha(theme.palette.error.main, 0.08), p: 0.5, borderRadius: 10, border: '1px solid', borderColor: alpha(theme.palette.error.main, 0.2) }}>
                                 {latestAction?.comment || 'ไม่อนุมัติ'}
                               </Typography>
                             )}
                             {stepStatus === 'warning' && (
-                              <Typography variant="caption" sx={{ display: 'block', color: 'warning.dark', mt: 0.5, bgcolor: alpha(theme.palette.warning.main, 0.08), p: 0.5, borderRadius: 1, border: '1px solid', borderColor: alpha(theme.palette.warning.main, 0.2) }}>
+                              <Typography variant="caption" sx={{ display: 'block', color: 'warning.dark', mt: 0.5, bgcolor: alpha(theme.palette.warning.main, 0.08), p: 0.5, borderRadius: 10, border: '1px solid', borderColor: alpha(theme.palette.warning.main, 0.2) }}>
                                 {latestAction?.comment || 'ตีกลับ'}
                               </Typography>
                             )}
@@ -495,7 +495,7 @@ export function PRDetailsDialog({
                 startIcon={<CancelOutlined sx={{ fontSize: 18 }} />} 
                 onClick={handleCancel} 
                 disabled={actionLoading} 
-                sx={{ borderRadius: 999, px: 2 }}
+                sx={{ borderRadius: 10, px: 2 }}
               >
                 {DOCUMENT_STATUS_THAI[DocumentStatus.Cancelled]}
               </Button>
@@ -506,7 +506,7 @@ export function PRDetailsDialog({
                 startIcon={<TaskAltOutlined sx={{ fontSize: 18 }} />} 
                 onClick={handleApprove} 
                 disabled={actionLoading} 
-                sx={{ borderRadius: 999, px: 2, bgcolor: 'success.main', '&:hover': { bgcolor: 'success.dark' } }}
+                sx={{ borderRadius: 10, px: 2, bgcolor: 'success.main', '&:hover': { bgcolor: 'success.dark' } }}
               >
                 {DOCUMENT_STATUS_THAI[DocumentStatus.Approved]}
               </Button>
@@ -518,7 +518,7 @@ export function PRDetailsDialog({
                 startIcon={<Refresh sx={{ fontSize: 18 }} />} 
                 onClick={handleReturn} 
                 disabled={actionLoading} 
-                sx={{ borderRadius: 999, px: 2 }}
+                sx={{ borderRadius: 10, px: 2 }}
               >
                 {DOCUMENT_STATUS_THAI[DocumentStatus.Returned]}
               </Button>
@@ -530,7 +530,7 @@ export function PRDetailsDialog({
                 startIcon={<CancelOutlined sx={{ fontSize: 18 }} />} 
                 onClick={handleReject} 
                 disabled={actionLoading} 
-                sx={{ borderRadius: 999, px: 2 }}
+                sx={{ borderRadius: 10, px: 2 }}
               >
                 {DOCUMENT_STATUS_THAI[DocumentStatus.Rejected]}
               </Button>
@@ -541,7 +541,7 @@ export function PRDetailsDialog({
           <Button 
             variant="contained" 
             onClick={() => onSubmit(request.id)} 
-            sx={{ borderRadius: 999, px: 2.5, bgcolor: 'primary.main', '&:hover': { bgcolor: 'primary.dark' } }}
+            sx={{ borderRadius: 10, px: 2.5, bgcolor: 'primary.main', '&:hover': { bgcolor: 'primary.dark' } }}
           >
             ส่งอนุมัติ
           </Button>
@@ -550,7 +550,7 @@ export function PRDetailsDialog({
           <Button 
             variant="outlined" 
             onClick={() => onEdit(request)} 
-            sx={{ borderRadius: 999, px: 2.5, borderColor: 'primary.main', color: 'primary.main' }}
+            sx={{ borderRadius: 10, px: 2.5, borderColor: 'primary.main', color: 'primary.main' }}
           >
             แก้ไข
           </Button>

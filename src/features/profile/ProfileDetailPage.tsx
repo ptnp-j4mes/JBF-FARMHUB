@@ -79,7 +79,7 @@ const UI = {
 };
 
 const panelSx = {
-  borderRadius: 3.5,
+  borderRadius: 10,
   border: `1px solid ${UI.border}`,
   bgcolor: UI.panel,
   boxShadow: UI.shadow,
@@ -332,7 +332,7 @@ export function ProfileDetailPage() {
             gap: 1,
             py: 1,
             px: 1.2,
-            borderRadius: 2.5,
+            borderRadius: 10,
             border: `1px solid ${alpha(UI.accent, isFarmRoot ? 0.18 : 0.12)}`,
             bgcolor: isFarmRoot ? '#fff' : UI.panelSoft,
             boxShadow: isFarmRoot ? UI.shadowSoft : 'none',
@@ -342,7 +342,7 @@ export function ProfileDetailPage() {
             sx={{
               width: 36,
               height: 36,
-              borderRadius: '50%',
+              borderRadius: 10,
               display: 'grid',
               placeItems: 'center',
               bgcolor: alpha(UI.accent, isFarmRoot ? 0.16 : 0.12),
@@ -590,7 +590,7 @@ export function ProfileDetailPage() {
         >
           <Box
             sx={{
-              borderRadius: 3,
+              borderRadius: 10,
               border: `1px solid ${alpha(UI.accent, 0.16)}`,
               bgcolor: '#fff',
               p: { xs: 1.5, md: 1.8 },
@@ -604,7 +604,7 @@ export function ProfileDetailPage() {
                     sx={{
                       width: 56,
                       height: 56,
-                      borderRadius: '50%',
+                      borderRadius: 10,
                       display: 'grid',
                       placeItems: 'center',
                       bgcolor: UI.accent,
@@ -632,7 +632,7 @@ export function ProfileDetailPage() {
                   disabled={loadingProfile || !user}
                   sx={{
                     minWidth: 146,
-                    borderRadius: 4,
+                    borderRadius: 10,
                     boxShadow: UI.shadowSoft,
                     bgcolor: UI.accent,
                     '&:hover': { bgcolor: '#10473f' },
@@ -658,7 +658,7 @@ export function ProfileDetailPage() {
                   <Box
                     key={item.label}
                     sx={{
-                      borderRadius: 2.6,
+                      borderRadius: 10,
                       border: `1px solid ${UI.border}`,
                       bgcolor: UI.panelSoft,
                       p: 1.25,
@@ -678,7 +678,7 @@ export function ProfileDetailPage() {
 
           <Box
             sx={{
-              borderRadius: 3,
+              borderRadius: 10,
               border: `1px solid ${UI.border}`,
               bgcolor: UI.panelSoft,
               p: { xs: 1.5, md: 1.7 },
@@ -756,7 +756,7 @@ export function ProfileDetailPage() {
             >
               <Box
                 sx={{
-                  borderRadius: 3,
+                  borderRadius: 10,
                   border: `1px solid ${UI.border}`,
                   bgcolor: UI.panelSoft,
                   p: 1.4,
@@ -789,7 +789,7 @@ export function ProfileDetailPage() {
 
               <Box
                 sx={{
-                  borderRadius: 3,
+                  borderRadius: 10,
                   border: `1px solid ${UI.border}`,
                   bgcolor: UI.panelSoft,
                   p: 1.4,
@@ -853,7 +853,7 @@ export function ProfileDetailPage() {
                 value={currentPassword}
                 disabled={savingPassword}
                 onChange={(event) => setCurrentPassword(event.target.value)}
-                sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2, bgcolor: UI.panelSoft } }}
+                sx={{ '& .MuiOutlinedInput-root': { borderRadius: 10, bgcolor: UI.panelSoft } }}
               />
               <TextField
                 size="small"
@@ -862,7 +862,7 @@ export function ProfileDetailPage() {
                 value={newPassword}
                 disabled={savingPassword}
                 onChange={(event) => setNewPassword(event.target.value)}
-                sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2, bgcolor: UI.panelSoft } }}
+                sx={{ '& .MuiOutlinedInput-root': { borderRadius: 10, bgcolor: UI.panelSoft } }}
               />
               <TextField
                 size="small"
@@ -871,7 +871,7 @@ export function ProfileDetailPage() {
                 value={confirmPassword}
                 disabled={savingPassword}
                 onChange={(event) => setConfirmPassword(event.target.value)}
-                sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2, bgcolor: UI.panelSoft } }}
+                sx={{ '& .MuiOutlinedInput-root': { borderRadius: 10, bgcolor: UI.panelSoft } }}
               />
               <Button
                 variant="contained"
@@ -880,7 +880,7 @@ export function ProfileDetailPage() {
                 sx={{
                   height: 40,
                   minWidth: 160,
-                  borderRadius: 4,
+                  borderRadius: 10,
                   boxShadow: UI.shadowSoft,
                   bgcolor: UI.accent,
                   '&:hover': { bgcolor: '#10473f' },
@@ -930,7 +930,7 @@ export function ProfileDetailPage() {
             {loadingSessions ? (
               <Box
                 sx={{
-                  borderRadius: 3,
+                  borderRadius: 10,
                   border: `1px solid ${UI.border}`,
                   bgcolor: UI.panelSoft,
                   minHeight: 160,
@@ -961,7 +961,7 @@ export function ProfileDetailPage() {
                     <Box
                       key={session.id}
                       sx={{
-                        borderRadius: 3,
+                        borderRadius: 10,
                         border: `1px solid ${isActive ? alpha(UI.accent, 0.24) : UI.border}`,
                         bgcolor: isActive ? '#f7fcfa' : '#fff',
                         p: 1.35,

@@ -106,7 +106,7 @@ export const getQuickStatusButtonSx = (
 
   return {
     height: 36,
-    borderRadius: 2,
+    borderRadius: 10,
     px: 1.2,
     minWidth: 0,
     textTransform: 'none',
@@ -131,7 +131,7 @@ export const getQuickStatusCountSx = (
   return {
     minWidth: 24,
     height: 24,
-    borderRadius: '999px',
+    borderRadius: 10,
     bgcolor: selected ? palette.selectedBg : palette.countBg,
     boxShadow: selected ? 'none' : palette.countShadow,
     color: selected ? palette.selectedColor : palette.countColor,

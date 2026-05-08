@@ -82,7 +82,7 @@ export const UI = {
 
 export const FORM_INPUT_SX = {
   '& .MuiOutlinedInput-root': {
-    borderRadius: 2.25,
+    borderRadius: 10,
     bgcolor: UI.panelSoft,
     boxShadow: UI.shadowSoft,
     '& .MuiOutlinedInput-notchedOutline': {
@@ -98,14 +98,14 @@ export const FORM_INPUT_SX = {
 };
 
 export const FORM_CARD_SX = {
-  borderRadius: 3,
+  borderRadius: 10,
   border: `1px solid ${UI.border}`,
   bgcolor: UI.panel,
   boxShadow: UI.shadowSoft,
 };
 
 export const SECTION_CARD_SX = {
-  borderRadius: 3,
+  borderRadius: 10,
   border: `1px solid ${UI.border}`,
   bgcolor: UI.panel,
   boxShadow: UI.shadowSoft,
@@ -114,7 +114,7 @@ export const SECTION_CARD_SX = {
 
 export const PRIMARY_ACTION_SX = {
   minHeight: 40,
-  borderRadius: 2.25,
+  borderRadius: 10,
   boxShadow: UI.shadowSoft,
   bgcolor: UI.accent,
   '&:hover': { bgcolor: '#10473f' },
@@ -122,7 +122,7 @@ export const PRIMARY_ACTION_SX = {
 
 export const SECONDARY_ACTION_SX = {
   minHeight: 40,
-  borderRadius: 2.25,
+  borderRadius: 10,
   border: `1px solid ${UI.border}`,
   boxShadow: UI.shadowSoft,
   bgcolor: UI.panel,

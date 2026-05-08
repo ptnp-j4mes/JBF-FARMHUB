@@ -208,7 +208,7 @@ const formatDateTime = (value?: string) => {
 const panelSx = {
   border: '1px solid',
   borderColor: 'divider',
-  borderRadius: 3,
+  borderRadius: 10,
   bgcolor: 'background.paper',
   overflow: 'hidden',
 } as const;
@@ -346,7 +346,7 @@ export default function TestCentralStockAlertHub({
                     {step.requiredLevel > 0 && (
                       <Typography variant="caption" sx={{ 
                         px: 0.5, py: 0.1, bgcolor: '#e3f2fd', color: '#1565c0', 
-                        borderRadius: 0.5, fontSize: '0.6rem', fontWeight: 800, border: '1px solid #bbdefb'
+                        borderRadius: 10, fontSize: '0.6rem', fontWeight: 800, border: '1px solid #bbdefb'
                       }}>
                         Lv.{step.requiredLevel}
                       </Typography>
@@ -386,12 +386,12 @@ export default function TestCentralStockAlertHub({
                     </Typography>
                   )}
                   {step.status === 'error' && (
-                    <Typography variant="caption" sx={{ display: 'block', color: 'error.main', mt: 0.5, bgcolor: '#fff5f5', p: 0.5, borderRadius: 1, border: '1px solid #ffe3e3' }}>
+                    <Typography variant="caption" sx={{ display: 'block', color: 'error.main', mt: 0.5, bgcolor: '#fff5f5', p: 0.5, borderRadius: 10, border: '1px solid #ffe3e3' }}>
                       ไม่อนุมัติ: ข้อมูลสินค้าไม่ถูกต้อง
                     </Typography>
                   )}
                   {step.status === 'warning' && (
-                    <Typography variant="caption" sx={{ display: 'block', color: 'warning.main', mt: 0.5, bgcolor: '#fff9f0', p: 0.5, borderRadius: 1, border: '1px solid #ffecce' }}>
+                    <Typography variant="caption" sx={{ display: 'block', color: 'warning.main', mt: 0.5, bgcolor: '#fff9f0', p: 0.5, borderRadius: 10, border: '1px solid #ffecce' }}>
                       ตีกลับ: กรุณาแนบไฟล์เพิ่มเติม
                     </Typography>
                   )}
@@ -622,7 +622,7 @@ export default function TestCentralStockAlertHub({
                 startIcon={<CancelOutlinedIcon sx={{ fontSize: 16 }} />}
                 onClick={() => onActionRequest?.(request.id, 'cancel' as any)}
                 disabled={!onActionRequest}
-                sx={{ height: 32, borderRadius: 999, px: 1.4 }}
+                sx={{ height: 32, borderRadius: 10, px: 1.4 }}
               >
                 ยกเลิก
               </Button>
@@ -636,7 +636,7 @@ export default function TestCentralStockAlertHub({
                 startIcon={<TaskAltOutlined sx={{ fontSize: 16 }} />}
                 onClick={() => onActionRequest?.(request.id, 'approve')}
                 disabled={!onActionRequest}
-                sx={{ height: 32, borderRadius: 999, px: 1.4, bgcolor: '#2e7d32', '&:hover': { bgcolor: '#1b5e20' } }}
+                sx={{ height: 32, borderRadius: 10, px: 1.4, bgcolor: '#2e7d32', '&:hover': { bgcolor: '#1b5e20' } }}
               >
                 อนุมัติ
               </Button>
@@ -651,7 +651,7 @@ export default function TestCentralStockAlertHub({
                 startIcon={<RefreshIcon sx={{ fontSize: 16 }} />}
                 onClick={() => onActionRequest?.(request.id, 'return' as any)}
                 disabled={!onActionRequest}
-                sx={{ height: 32, borderRadius: 999, px: 1.4 }}
+                sx={{ height: 32, borderRadius: 10, px: 1.4 }}
               >
                 ตีกลับ
               </Button>
@@ -666,7 +666,7 @@ export default function TestCentralStockAlertHub({
                 startIcon={<CancelOutlinedIcon sx={{ fontSize: 16 }} />}
                 onClick={() => onActionRequest?.(request.id, 'reject')}
                 disabled={!onActionRequest}
-                sx={{ height: 32, borderRadius: 999, px: 1.4 }}
+                sx={{ height: 32, borderRadius: 10, px: 1.4 }}
               >
                 ไม่อนุมัติ
               </Button>
@@ -680,7 +680,7 @@ export default function TestCentralStockAlertHub({
             size="small"
             variant="contained"
             onClick={() => setSelectedRequestId('')}
-            sx={{ height: 32, borderRadius: 999, px: 1.4, bgcolor: PURCHASE_DIALOG_UI.accent, '&:hover': { bgcolor: '#124840' } }}
+            sx={{ height: 32, borderRadius: 10, px: 1.4, bgcolor: PURCHASE_DIALOG_UI.accent, '&:hover': { bgcolor: '#124840' } }}
           >
             ส่งอนุมัติ
           </Button>
@@ -698,7 +698,7 @@ export default function TestCentralStockAlertHub({
               })));
               setCreateDialogOpen(true);
             }}
-            sx={{ height: 32, borderRadius: 999, px: 1.4 }}
+            sx={{ height: 32, borderRadius: 10, px: 1.4 }}
           >
             แก้ไข
           </Button>
@@ -979,7 +979,7 @@ export default function TestCentralStockAlertHub({
               overflowY: 'scroll', // Always show vertical scrollbar
               overflowX: 'auto',
               '&::-webkit-scrollbar': { width: 8, height: 8 },
-              '&::-webkit-scrollbar-thumb': { bgcolor: '#2e7d32', borderRadius: 8 },
+              '&::-webkit-scrollbar-thumb': { bgcolor: '#2e7d32', borderRadius: 10},
               '&::-webkit-scrollbar-track': { bgcolor: 'transparent' },
             }}
           >
@@ -1095,7 +1095,7 @@ export default function TestCentralStockAlertHub({
             width: '100%',
             '& .MuiOutlinedInput-root': {
               height: 40,
-              borderRadius: 2,
+              borderRadius: 10,
               bgcolor: PURCHASE_DIALOG_UI.panelSoft,
               boxShadow: PURCHASE_DIALOG_UI.shadowSoft,
             },
@@ -1126,7 +1126,7 @@ export default function TestCentralStockAlertHub({
             '& .MuiOutlinedInput-root': {
               height: 40,
               minHeight: 40,
-              borderRadius: 2,
+              borderRadius: 10,
               bgcolor: PURCHASE_DIALOG_UI.panelSoft,
               boxShadow: PURCHASE_DIALOG_UI.shadowSoft,
             },
@@ -1162,7 +1162,7 @@ export default function TestCentralStockAlertHub({
               '& .MuiOutlinedInput-root': {
                 height: 40,
                 minHeight: 40,
-                borderRadius: 2,
+                borderRadius: 10,
                 bgcolor: PURCHASE_DIALOG_UI.panelSoft,
                 boxShadow: PURCHASE_DIALOG_UI.shadowSoft,
               },
@@ -1189,7 +1189,7 @@ export default function TestCentralStockAlertHub({
           sx={{
             height: 40,
             minWidth: 110,
-            borderRadius: 2,
+            borderRadius: 10,
             bgcolor: PURCHASE_DIALOG_UI.accent,
             boxShadow: PURCHASE_DIALOG_UI.shadowSoft,
             '&:hover': { bgcolor: PURCHASE_DIALOG_UI.accentDark },
@@ -1227,7 +1227,7 @@ export default function TestCentralStockAlertHub({
                   sx={{
                     width: 46,
                     height: 46,
-                    borderRadius: 2,
+                    borderRadius: 10,
                     bgcolor: '#fff',
                     border: `1px solid ${alpha(card.color, 0.15)}`,
                     boxShadow: PURCHASE_DIALOG_UI.shadowSoft,
@@ -1243,8 +1243,8 @@ export default function TestCentralStockAlertHub({
               <Typography sx={{ position: 'relative', zIndex: 1, fontSize: '0.84rem', color: PURCHASE_DIALOG_UI.muted }}>
                 {card.subtitle}
               </Typography>
-              <Box sx={{ position: 'relative', zIndex: 1, mt: 1.8, width: 118, height: 8, borderRadius: 999, bgcolor: '#e7ece8' }}>
-                <Box sx={{ width: 58, height: '100%', bgcolor: card.color, borderRadius: 999 }} />
+              <Box sx={{ position: 'relative', zIndex: 1, mt: 1.8, width: 118, height: 8, borderRadius: 10, bgcolor: '#e7ece8' }}>
+                <Box sx={{ width: 58, height: '100%', bgcolor: card.color, borderRadius: 10}} />
               </Box>
             </Box>
           ))}
@@ -1264,7 +1264,7 @@ export default function TestCentralStockAlertHub({
             startIcon={<AddIcon sx={{ fontSize: 18 }} />}
             onClick={handleOpenCreate}
             sx={{
-              borderRadius: 2.2,
+              borderRadius: 10,
               bgcolor: PURCHASE_DIALOG_UI.accent,
               boxShadow: PURCHASE_DIALOG_UI.shadowSoft,
               '&:hover': { bgcolor: PURCHASE_DIALOG_UI.accentDark },
@@ -1277,7 +1277,7 @@ export default function TestCentralStockAlertHub({
             startIcon={<AddIcon sx={{ fontSize: 18 }} />}
             onClick={handleOpenCreate}
             sx={{
-              borderRadius: 2.2,
+              borderRadius: 10,
               bgcolor: '#4d7f7b',
               boxShadow: PURCHASE_DIALOG_UI.shadowSoft,
               '&:hover': { bgcolor: '#3e6965' },
@@ -1294,7 +1294,7 @@ export default function TestCentralStockAlertHub({
               setUrgencyFilter('all');
             }}
             sx={{
-              borderRadius: 2.2,
+              borderRadius: 10,
               bgcolor: '#fff',
               borderColor: PURCHASE_DIALOG_UI.borderStrong,
               color: PURCHASE_DIALOG_UI.text,
@@ -1357,7 +1357,7 @@ export default function TestCentralStockAlertHub({
                         sx={{
                           width: 46,
                           height: 46,
-                          borderRadius: 2,
+                          borderRadius: 10,
                           bgcolor: '#fff',
                           border: `1px solid ${alpha(card.color, 0.15)}`,
                           boxShadow: PURCHASE_DIALOG_UI.shadowSoft,
@@ -1373,8 +1373,8 @@ export default function TestCentralStockAlertHub({
                     <Typography sx={{ position: 'relative', zIndex: 1, fontSize: '0.84rem', color: PURCHASE_DIALOG_UI.muted }}>
                       {card.subtitle}
                     </Typography>
-                    <Box sx={{ position: 'relative', zIndex: 1, mt: 1.8, width: 118, height: 8, borderRadius: 999, bgcolor: '#e7ece8' }}>
-                      <Box sx={{ width: 58, height: '100%', bgcolor: card.color, borderRadius: 999 }} />
+                    <Box sx={{ position: 'relative', zIndex: 1, mt: 1.8, width: 118, height: 8, borderRadius: 10, bgcolor: '#e7ece8' }}>
+                      <Box sx={{ width: 58, height: '100%', bgcolor: card.color, borderRadius: 10}} />
                     </Box>
                   </Box>
                 ))}
@@ -1528,7 +1528,7 @@ export default function TestCentralStockAlertHub({
   return (
     <Box
       sx={{
-        borderRadius: 3,
+        borderRadius: 10,
         border: '1px solid',
         borderColor: 'divider',
         bgcolor: 'background.paper',

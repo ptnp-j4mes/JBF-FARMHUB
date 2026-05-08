@@ -853,7 +853,7 @@ export function UserAssignmentPage() {
                     flexDirection: 'column',
                     gap: 0.85,
                     p: 1,
-                    borderRadius: 1.5,
+                    borderRadius: 10,
                     border: `1px solid ${alpha(borderStrong, 0.9)}`,
                     bgcolor: alpha(surface, 0.72),
                   }}
@@ -961,7 +961,7 @@ export function UserAssignmentPage() {
                   flexDirection: 'column',
                   gap: 0.85,
                   p: 1,
-                  borderRadius: 1.5,
+                  borderRadius: 10,
                   border: `1px solid ${alpha(theme.palette.warning.main, 0.4)}`,
                   bgcolor: alpha(theme.palette.warning.main, 0.04),
                 }}
@@ -1934,7 +1934,7 @@ export function UserAssignmentPage() {
                 paperSx={{
                   flex: 1,
                   minHeight: 0,
-                  borderRadius: 1.25,
+                  borderRadius: 10,
                   borderColor: border,
                   bgcolor: surface,
                   display: 'flex',
@@ -1952,12 +1952,12 @@ export function UserAssignmentPage() {
                   '&::-webkit-scrollbar-track': {
                     backgroundColor: alpha(border, 0.08),
                     borderLeft: `1px solid ${alpha(border, 0.45)}`,
-                    borderRadius: 999,
+                    borderRadius: 10,
                     marginBlock: 6,
                   },
                   '&::-webkit-scrollbar-thumb': {
                     backgroundColor: alpha(textMuted, 0.58),
-                    borderRadius: 999,
+                    borderRadius: 10,
                     border: `1px solid ${alpha(surface, 0.65)}`,
                   },
                   '&::-webkit-scrollbar-thumb:hover': {

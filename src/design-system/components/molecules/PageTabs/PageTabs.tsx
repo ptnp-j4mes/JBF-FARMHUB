@@ -81,7 +81,7 @@ export default function PageTabs({ tabs, activeKey, onChange }: PageTabsProps) {
       aria-label="page tabs"
       sx={{
         bgcolor: 'background.paper',
-        borderRadius: 2,
+        borderRadius: 10,
         border: '1px solid',
         borderColor: 'divider',
         px: { xs: 1.5, md: 2 },
@@ -98,11 +98,11 @@ export default function PageTabs({ tabs, activeKey, onChange }: PageTabsProps) {
         '&::-webkit-scrollbar': { height: 6 },
         '&::-webkit-scrollbar-track': {
           backgroundColor: alpha(theme.palette.divider, 0.24),
-          borderRadius: 999,
+          borderRadius: 10,
         },
         '&::-webkit-scrollbar-thumb': {
           backgroundColor: alpha(isDark ? '#9ca3af' : '#64748b', 0.72),
-          borderRadius: 999,
+          borderRadius: 10,
         },
       }}
     >
@@ -143,7 +143,7 @@ export default function PageTabs({ tabs, activeKey, onChange }: PageTabsProps) {
                 left: 0,
                 right: 0,
                 height: '2.5px',
-                borderRadius: '2px 2px 0 0',
+                borderRadius: 10,
                 bgcolor: isActive ? PRIMARY : 'transparent',
                 transition: 'background-color 180ms ease',
               },

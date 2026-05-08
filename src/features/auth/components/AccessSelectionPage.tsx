@@ -225,7 +225,7 @@ export default function AccessSelectionPage() {
           left: -100,
           width: 400,
           height: 400,
-          borderRadius: '50%',
+          borderRadius: 10,
           background:
             theme.palette.mode === 'dark'
               ? 'radial-gradient(circle, rgba(111, 149, 98, 0.18) 0%, transparent 70%)'
@@ -240,7 +240,7 @@ export default function AccessSelectionPage() {
           right: -100,
           width: 500,
           height: 500,
-          borderRadius: '50%',
+          borderRadius: 10,
           background:
             theme.palette.mode === 'dark'
               ? 'radial-gradient(circle, rgba(95, 143, 91, 0.15) 0%, transparent 70%)'
@@ -254,7 +254,7 @@ export default function AccessSelectionPage() {
           elevation={0}
           sx={{
             display: 'flex',
-            borderRadius: 5,
+            borderRadius: 10,
             overflow: 'hidden',
             maxWidth: 980,
             mx: 'auto',
@@ -308,7 +308,7 @@ export default function AccessSelectionPage() {
                 sx={{
                   width: 180,
                   height: 180,
-                  borderRadius: 4,
+                  borderRadius: 10,
                   background:
                     theme.palette.mode === 'dark'
                       ? 'rgba(255, 255, 255, 0.03)'
@@ -399,7 +399,7 @@ export default function AccessSelectionPage() {
 
               <Box
                 sx={{
-                  borderRadius: 3,
+                  borderRadius: 10,
                   p: 2.2,
                   background:
                     theme.palette.mode === 'dark'
@@ -440,7 +440,7 @@ export default function AccessSelectionPage() {
                       ออกจากระบบ
                     </Button>
                   }
-                  sx={{ borderRadius: 3 }}
+                  sx={{ borderRadius: 10}}
                 >
                   ไม่พบบริบทการใช้งานที่ใช้งานได้ กรุณาติดต่อผู้ดูแลระบบ
                 </Alert>
@@ -466,7 +466,7 @@ export default function AccessSelectionPage() {
                           handleAssignmentKeyDown(event, assignment)
                         }
                         sx={{
-                          borderRadius: 3,
+                          borderRadius: 10,
                           border: `1px solid ${accentBorderColor}`,
                           background:
                             theme.palette.mode === 'dark'
@@ -510,7 +510,7 @@ export default function AccessSelectionPage() {
                               size="small"
                               sx={{
                                 height: 28,
-                                borderRadius: 99,
+                                borderRadius: 10,
                                 fontWeight: 700,
                                 color: accentColor,
                                 bgcolor: alpha(accentColor, 0.1),
@@ -547,7 +547,7 @@ export default function AccessSelectionPage() {
                               handleSelectContext(assignment);
                             }}
                             sx={{
-                              borderRadius: 3,
+                              borderRadius: 10,
                               px: 2.2,
                               py: 1,
                               textTransform: 'none',
@@ -581,7 +581,7 @@ export default function AccessSelectionPage() {
                 startIcon={<ChevronLeftIcon />}
                 sx={{
                   alignSelf: 'flex-start',
-                  borderRadius: 999,
+                  borderRadius: 10,
                   px: 1.8,
                   py: 0.85,
                   textTransform: 'none',

@@ -28,7 +28,7 @@ function DiffBadge({ label, value }: DiffBadgeProps) {
   const color = isPositive ? '#B45309' : isNegative ? '#DC2626' : '#15803D';
   const bg = isPositive ? '#FFFBEB' : isNegative ? '#FEF2F2' : '#F0FDF4';
   return (
-    <Box sx={{ px: 1, py: 0.3, borderRadius: 1, bgcolor: bg, display: 'inline-flex', alignItems: 'center', gap: 0.3 }}>
+    <Box sx={{ px: 1, py: 0.3, borderRadius: 10, bgcolor: bg, display: 'inline-flex', alignItems: 'center', gap: 0.3 }}>
       <Typography variant="caption" sx={{ color: UI.muted, fontWeight: 600 }}>{label}</Typography>
       <Typography variant="caption" sx={{ color, fontWeight: 800 }}>{formatSignedKg(value)}</Typography>
     </Box>
@@ -53,7 +53,7 @@ export default function PlanLineCard({ row, cartDetail, roleMode, onComplete }: 
   return (
     <Box
       sx={{
-        borderRadius: 3,
+        borderRadius: 10,
         border: `1px solid ${UI.border}`,
         bgcolor: isCompleted ? '#F0FDF4' : '#FFFFFF',
         boxShadow: UI.shadowSoft,
@@ -77,7 +77,7 @@ export default function PlanLineCard({ row, cartDetail, roleMode, onComplete }: 
               sx={{
                 width: 40,
                 height: 40,
-                borderRadius: 2.2,
+                borderRadius: 10,
                 bgcolor: isCompleted ? '#DCFCE7' : UI.accentSurface,
                 color: isCompleted ? '#15803D' : UI.accent,
                 display: 'flex',
@@ -123,20 +123,20 @@ export default function PlanLineCard({ row, cartDetail, roleMode, onComplete }: 
           mt: 1.2,
         }}
         >
-          <Box sx={{ textAlign: 'center', py: 0.9, borderRadius: 1.7, bgcolor: UI.accentSurface }}>
+          <Box sx={{ textAlign: 'center', py: 0.9, borderRadius: 10, bgcolor: UI.accentSurface }}>
             <Typography variant="caption" sx={{ color: UI.muted, display: 'block', fontWeight: 600 }}>แผน</Typography>
             <Typography sx={{ fontWeight: 800, color: UI.accent, fontSize: '0.9rem' }}>
               {formatFeedQuantityWithSecondaryKg(row.plannedQtyKg, row)}
             </Typography>
           </Box>
-          <Box sx={{ textAlign: 'center', py: 0.9, borderRadius: 1.7, bgcolor: isCompleted ? '#DCFCE7' : '#EFF6FF' }}>
+          <Box sx={{ textAlign: 'center', py: 0.9, borderRadius: 10, bgcolor: isCompleted ? '#DCFCE7' : '#EFF6FF' }}>
             <Typography variant="caption" sx={{ color: UI.muted, display: 'block', fontWeight: 600 }}>จริง</Typography>
             <Typography sx={{ fontWeight: 800, color: isCompleted ? '#15803D' : '#1D4ED8', fontSize: '0.9rem' }}>
               {row.actualQtyKg != null ? formatFeedQuantityWithSecondaryKg(row.actualQtyKg, row) : '-'}
             </Typography>
           </Box>
           {fiTargetKg != null && (
-            <Box sx={{ textAlign: 'center', py: 0.9, borderRadius: 1.7, bgcolor: '#F5F3FF' }}>
+            <Box sx={{ textAlign: 'center', py: 0.9, borderRadius: 10, bgcolor: '#F5F3FF' }}>
               <Typography variant="caption" sx={{ color: UI.muted, display: 'block', fontWeight: 600 }}>FI Std</Typography>
               <Typography sx={{ fontWeight: 800, color: '#7C3AED', fontSize: '0.9rem' }}>
                 {fiTargetKg.toLocaleString()} กก.
@@ -156,7 +156,7 @@ export default function PlanLineCard({ row, cartDetail, roleMode, onComplete }: 
 
         {/* Worker mode - task summary */}
         {roleMode === 'worker' && (
-          <Box sx={{ mt: 1, p: 1, borderRadius: 1.5, bgcolor: UI.accentSurface, border: `1px solid ${UI.accentSoft}` }}>
+          <Box sx={{ mt: 1, p: 1, borderRadius: 10, bgcolor: UI.accentSurface, border: `1px solid ${UI.accentSoft}` }}>
             <Typography variant="caption" sx={{ color: UI.accent, fontWeight: 800, display: 'block', mb: 0.3 }}>
               🎯 งานที่ต้องทำ
             </Typography>

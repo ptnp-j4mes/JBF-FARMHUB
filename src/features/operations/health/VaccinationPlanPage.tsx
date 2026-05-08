@@ -979,7 +979,7 @@ export default function VaccinationPlanPage() {
                   sx={{
                     minWidth: { xs: '100%', sm: 260 },
                     '& .MuiOutlinedInput-root': {
-                      borderRadius: 2.4,
+                      borderRadius: 10,
                       bgcolor: 'background.paper',
                     },
                   }}
@@ -1016,7 +1016,7 @@ export default function VaccinationPlanPage() {
             sx={{
               flex: 1,
               minHeight: 0,
-              borderRadius: 1.25,
+              borderRadius: 10,
               borderColor: alpha(theme.palette.divider, 0.7),
               bgcolor: 'background.paper',
               overflow: 'hidden',
@@ -1049,11 +1049,11 @@ export default function VaccinationPlanPage() {
                 '&::-webkit-scrollbar': { width: 8, height: 8 },
                 '&::-webkit-scrollbar-track': {
                   backgroundColor: alpha(theme.palette.divider, 0.38),
-                  borderRadius: 999,
+                  borderRadius: 10,
                 },
                 '&::-webkit-scrollbar-thumb': {
                   backgroundColor: alpha(theme.palette.text.secondary, 0.6),
-                  borderRadius: 999,
+                  borderRadius: 10,
                 },
                 '&::-webkit-scrollbar-thumb:hover': {
                   backgroundColor: alpha(theme.palette.text.secondary, 0.85),
@@ -1064,7 +1064,7 @@ export default function VaccinationPlanPage() {
                 <Box
                   sx={{
                     border: `1px dashed ${alpha(theme.palette.divider, 0.85)}`,
-                    borderRadius: 2,
+                    borderRadius: 10,
                     p: 4,
                     textAlign: 'center',
                     color: 'text.secondary',
@@ -1097,7 +1097,7 @@ export default function VaccinationPlanPage() {
                               top: 4,
                               width: 24,
                               height: 24,
-                              borderRadius: '999px',
+                              borderRadius: 10,
                               bgcolor: meta.nodeColor,
                               border: `2px solid ${theme.palette.background.paper}`,
                               boxShadow: theme.shadows[3],
@@ -1132,7 +1132,7 @@ export default function VaccinationPlanPage() {
                                   bgcolor: meta.chipBg,
                                   color: theme.palette.common.white,
                                   fontWeight: 700,
-                                  borderRadius: 999,
+                                  borderRadius: 10,
                                 }}
                               />
                             </Stack>
@@ -1147,7 +1147,7 @@ export default function VaccinationPlanPage() {
                                     key={task.id}
                                     variant="outlined"
                                     sx={{
-                                      borderRadius: 2,
+                                      borderRadius: 10,
                                       borderColor: alpha(theme.palette.divider, 0.7),
                                       boxShadow: 'none',
                                     }}
@@ -1410,13 +1410,13 @@ export default function VaccinationPlanPage() {
                   </Select>
                 </FormControl>
 
-                {executionLoading ? <LinearProgress sx={{ borderRadius: 999 }} /> : null}
+                {executionLoading ? <LinearProgress sx={{ borderRadius: 10}} /> : null}
 
                 {draft.houseCode ? (
                   <Paper
                     variant="outlined"
                     sx={{
-                      borderRadius: 2,
+                      borderRadius: 10,
                       borderColor: alpha(theme.palette.divider, 0.7),
                       bgcolor: alpha(theme.palette.info.main, 0.04),
                       p: 1.5,
@@ -1484,7 +1484,7 @@ export default function VaccinationPlanPage() {
                               key={`draft-batch-${allocation.pigBatchId}-${allocation.buildingOpeningRequestId}`}
                               variant="outlined"
                               sx={{
-                                borderRadius: 1.75,
+                                borderRadius: 10,
                                 borderColor: alpha(theme.palette.divider, 0.7),
                                 p: 1.25,
                               }}
@@ -1576,7 +1576,7 @@ export default function VaccinationPlanPage() {
                           ))}
                         </Stack>
                       ) : draft.houseCode && !executionLoading ? (
-                        <Alert severity="warning" sx={{ borderRadius: 1.75 }}>
+                        <Alert severity="warning" sx={{ borderRadius: 10}}>
                           ยังไม่พบข้อมูล batch สุกรของโรงเรือนนี้ จึงยังผูกแผนกับรุ่นสุกรไม่ได้
                         </Alert>
                       ) : null}
@@ -1645,7 +1645,7 @@ export default function VaccinationPlanPage() {
               <Box
                 sx={{
                   p: 1.5,
-                  borderRadius: 1.5,
+                  borderRadius: 10,
                   border: `1px solid ${alpha(theme.palette.divider, 0.7)}`,
                   bgcolor: alpha(theme.palette.background.default, 0.7),
                 }}

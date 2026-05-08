@@ -277,7 +277,7 @@ export function ActivityDailyReportPage({ initialItems = [] }: Props) {
 
               <Box sx={{ mb: 2, display: 'grid', gap: 1.25, gridTemplateColumns: { xs: 'repeat(2, 1fr)', md: 'repeat(4, 1fr)' } }}>
                 {summaryCards.map((card) => (
-                  <Card key={card.title} sx={{ borderRadius: 2 }}>
+                  <Card key={card.title} sx={{ borderRadius: 10}}>
                     <CardContent sx={{ p: 1.25 }}>
                       <Typography variant="body2" color="text.secondary">{card.title}</Typography>
                       <Typography variant="h5" sx={{ fontWeight: 700, color: card.color, lineHeight: 1.15 }}>
@@ -431,7 +431,7 @@ export function ActivityDailyReportPage({ initialItems = [] }: Props) {
               }}
               stickyHeader
               emptyMessage="ไม่มีข้อมูลรายงานบันทึกประจำวัน"
-              paperSx={{ borderRadius: '15px 15px 0 0', height: PR_MAIN_TABLE_HEIGHT, pb: `${PR_MAIN_TABLE_BOTTOM_PADDING}px` }}
+              paperSx={{ borderRadius: 10, height: PR_MAIN_TABLE_HEIGHT, pb: `${PR_MAIN_TABLE_BOTTOM_PADDING}px` }}
               tableContainerSx={{ overflowX: 'auto', overflowY: 'auto' }}
             />
           </Box>
@@ -472,7 +472,7 @@ export function ActivityDailyReportPage({ initialItems = [] }: Props) {
                   <Typography variant="subtitle2" sx={{ mb: 0.75, fontWeight: 700 }}>
                     รายการตาย/คัดทิ้ง
                   </Typography>
-                  <TableContainer sx={{ border: '1px solid #cfd8e3', borderRadius: 1.5 }}>
+                  <TableContainer sx={{ border: '1px solid #cfd8e3', borderRadius: 10}}>
                     <Table size="small">
                       <TableHead>
                         <TableRow>
@@ -508,7 +508,7 @@ export function ActivityDailyReportPage({ initialItems = [] }: Props) {
                   <Typography variant="subtitle2" sx={{ mb: 0.75, fontWeight: 700 }}>
                     รายการอาหาร
                   </Typography>
-                  <TableContainer sx={{ border: '1px solid #cfd8e3', borderRadius: 1.5 }}>
+                  <TableContainer sx={{ border: '1px solid #cfd8e3', borderRadius: 10}}>
                     <Table size="small">
                       <TableHead>
                         <TableRow>

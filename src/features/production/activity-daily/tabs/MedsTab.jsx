@@ -363,7 +363,7 @@ export default function MedsTab({
           <Paper
             variant="outlined"
             sx={{
-              borderRadius: 3,
+              borderRadius: 10,
               borderColor: UI.border,
               bgcolor: UI.panelSoft,
               boxShadow: UI.shadowSoft,
@@ -430,7 +430,7 @@ export default function MedsTab({
                       key={`med-batch-${allocation.pigBatchId}-${allocation.buildingOpeningRequestId}`}
                       variant="outlined"
                       sx={{
-                        borderRadius: 2,
+                        borderRadius: 10,
                         borderColor: UI.border,
                         p: 1.25,
                         bgcolor: UI.panel,
@@ -499,7 +499,7 @@ export default function MedsTab({
                   ))}
                 </Stack>
               ) : !medExecutionLoading ? (
-                <Alert severity="warning" sx={{ borderRadius: 2, border: `1px solid ${UI.border}` }}>
+                <Alert severity="warning" sx={{ borderRadius: 10, border: `1px solid ${UI.border}` }}>
                   ยังไม่พบข้อมูล batch สุกรของโรงเรือนนี้สำหรับวัคซีนรายการนี้
                 </Alert>
               ) : null}

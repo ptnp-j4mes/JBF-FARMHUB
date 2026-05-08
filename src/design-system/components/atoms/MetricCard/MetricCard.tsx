@@ -25,7 +25,7 @@ export default function MetricCard({
     <Paper
       sx={{
         p: 2.25,
-        borderRadius: 2,
+        borderRadius: 10,
         border: '1px solid',
         borderColor: 'divider',
         boxShadow: 'none',

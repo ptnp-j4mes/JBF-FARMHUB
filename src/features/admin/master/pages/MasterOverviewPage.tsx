@@ -66,7 +66,7 @@ export function MasterOverviewPage({ lookups }: MasterOverviewPageProps) {
               elevation={0}
               sx={{
                 p: 3,
-                borderRadius: 4,
+                borderRadius: 10,
                 border: '1px solid',
                 borderColor: theme.palette.mode === 'dark' ? alpha('#94a3b8', 0.1) : '#e2e8f0',
                 bgcolor: theme.palette.mode === 'dark' ? alpha('#1e293b', 0.4) : '#ffffff',
@@ -83,7 +83,7 @@ export function MasterOverviewPage({ lookups }: MasterOverviewPageProps) {
                   sx={{
                     width: 48,
                     height: 48,
-                    borderRadius: 3,
+                    borderRadius: 10,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -121,7 +121,7 @@ export function MasterOverviewPage({ lookups }: MasterOverviewPageProps) {
             sx={{
               p: 3,
               height: 320,
-              borderRadius: 4,
+              borderRadius: 10,
               border: '1px solid',
               borderColor: '#e2e8f0',
               display: 'flex',
@@ -148,7 +148,7 @@ export function MasterOverviewPage({ lookups }: MasterOverviewPageProps) {
             sx={{
               p: 3,
               height: 320,
-              borderRadius: 4,
+              borderRadius: 10,
               border: '1px solid',
               borderColor: '#e2e8f0',
               bgcolor: '#ffffff',
@@ -160,7 +160,7 @@ export function MasterOverviewPage({ lookups }: MasterOverviewPageProps) {
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
               {[1, 2, 3].map((i) => (
                 <Box key={i} sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-                  <Box sx={{ width: 40, height: 40, borderRadius: 2, bgcolor: '#f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Box sx={{ width: 40, height: 40, borderRadius: 10, bgcolor: '#f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <FactCheck sx={{ color: '#94a3b8', fontSize: 20 }} />
                   </Box>
                   <Box sx={{ flex: 1 }}>

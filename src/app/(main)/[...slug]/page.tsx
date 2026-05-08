@@ -35,7 +35,7 @@ export default async function RouteFallbackPage({ params }: RouteFallbackPagePro
                 justifyContent: 'center',
                 minHeight: 40,
                 paddingInline: 16,
-                borderRadius: 999,
+                borderRadius: 10,
                 background: '#2563eb',
                 color: '#ffffff',
                 fontWeight: 700,

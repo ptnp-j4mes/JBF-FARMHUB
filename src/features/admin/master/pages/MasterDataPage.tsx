@@ -1230,7 +1230,7 @@ export function MasterDataPage({ title }: MasterDataPageProps) {
               <Paper
                 variant="outlined"
                 sx={{
-                  borderRadius: 2,
+                  borderRadius: 10,
                   borderColor: colors.line,
                   bgcolor: alpha(colors.cardBg, theme.palette.mode === 'dark' ? 0.84 : 0.96),
                   p: { xs: 1.25, md: 1.5 },
@@ -1341,7 +1341,7 @@ export function MasterDataPage({ title }: MasterDataPageProps) {
               paperSx={{
                 flex: 1,
                 minHeight: 0,
-                borderRadius: 1.25,
+                borderRadius: 10,
                 borderColor: colors.line,
                 bgcolor: colors.cardBg,
                 display: 'flex',
@@ -1356,8 +1356,8 @@ export function MasterDataPage({ title }: MasterDataPageProps) {
                 scrollbarWidth: 'thin',
                 scrollbarColor: `${alpha(colors.subtitle, 0.6)} ${alpha(colors.line, 0.08)}`,
                 '&::-webkit-scrollbar': { width: 8, height: 8 },
-                '&::-webkit-scrollbar-track': { backgroundColor: alpha(colors.line, 0.08), borderLeft: `1px solid ${alpha(colors.line, 0.45)}`, borderRadius: 999, marginBlock: 6 },
-                '&::-webkit-scrollbar-thumb': { backgroundColor: alpha(colors.subtitle, 0.58), borderRadius: 999, border: `1px solid ${alpha(colors.cardBg, 0.65)}` },
+                '&::-webkit-scrollbar-track': { backgroundColor: alpha(colors.line, 0.08), borderLeft: `1px solid ${alpha(colors.line, 0.45)}`, borderRadius: 10, marginBlock: 6 },
+                '&::-webkit-scrollbar-thumb': { backgroundColor: alpha(colors.subtitle, 0.58), borderRadius: 10, border: `1px solid ${alpha(colors.cardBg, 0.65)}` },
                 '&::-webkit-scrollbar-thumb:hover': { backgroundColor: alpha(colors.subtitle, 0.75) },
               }}
               tableSx={{
@@ -1400,7 +1400,7 @@ export function MasterDataPage({ title }: MasterDataPageProps) {
           open={deleteConfirmOpen}
           onClose={() => setDeleteConfirmOpen(false)}
           PaperProps={{
-            sx: { borderRadius: 3, p: 1, minWidth: 320 }
+            sx: { borderRadius: 10, p: 1, minWidth: 320 }
           }}
         >
           <DialogTitle sx={{ fontWeight: 700, color: colors.title }}>
@@ -1423,7 +1423,7 @@ export function MasterDataPage({ title }: MasterDataPageProps) {
               variant="contained"
               color="error"
               sx={{
-                borderRadius: 2,
+                borderRadius: 10,
                 fontWeight: 600,
                 px: 3,
                 boxShadow: 'none',

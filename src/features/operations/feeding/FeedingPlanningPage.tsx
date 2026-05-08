@@ -412,7 +412,7 @@ export default function FeedingPlanningPage() {
           inset: '-8% auto auto -8%',
           width: 280,
           height: 280,
-          borderRadius: '50%',
+          borderRadius: 10,
           bgcolor: 'rgba(166, 199, 187, 0.18)',
           filter: 'blur(24px)',
           pointerEvents: 'none',
@@ -423,7 +423,7 @@ export default function FeedingPlanningPage() {
           inset: '12% -10% auto auto',
           width: 320,
           height: 320,
-          borderRadius: '50%',
+          borderRadius: 10,
           bgcolor: 'rgba(221, 233, 226, 0.42)',
           filter: 'blur(22px)',
           pointerEvents: 'none',
@@ -445,7 +445,7 @@ export default function FeedingPlanningPage() {
             sx={{
               mb: 2,
               p: { xs: 1.5, md: 2 },
-              borderRadius: 3,
+              borderRadius: 10,
               borderColor: UI.border,
               bgcolor: alpha('#fff', 0.94),
               boxShadow: UI.shadowSoft,
@@ -509,7 +509,7 @@ export default function FeedingPlanningPage() {
         {houseVisibilityNotice && (
           <Alert
             severity={houseVisibilityNotice.severity}
-            sx={{ mb: 2, borderRadius: 2.2, border: `1px solid ${UI.border}` }}
+            sx={{ mb: 2, borderRadius: 10, border: `1px solid ${UI.border}` }}
           >
             {houseVisibilityNotice.message}
           </Alert>
@@ -532,7 +532,7 @@ export default function FeedingPlanningPage() {
                 textTransform: 'none',
                 fontSize: '0.92rem',
                 fontWeight: 800,
-                borderRadius: 999,
+                borderRadius: 10,
                 border: `1px solid ${UI.border}`,
                 bgcolor: alpha('#fff', 0.96),
                 color: UI.muted,
@@ -568,7 +568,7 @@ export default function FeedingPlanningPage() {
           </Tabs>
         </Box>
 
-        {loading && <LinearProgress sx={{ mb: 2, borderRadius: 999 }} />}
+        {loading && <LinearProgress sx={{ mb: 2, borderRadius: 10}} />}
 
         <SummaryCards summary={summary} />
 

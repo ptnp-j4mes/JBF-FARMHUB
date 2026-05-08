@@ -49,7 +49,7 @@ export default function SideMainBar({
             overflow: 'hidden',
             ...sidemenuTokens.glass.sidebar,
             border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.08)' : 'rgba(229, 229, 229, 0.9)'}`,
-            borderRadius: '0 16px 16px 0',
+            borderRadius: 10,
           },
         }}
       >

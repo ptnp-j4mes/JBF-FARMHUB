@@ -30,7 +30,7 @@ const cardShellSx = {
   py: 1.8,
   border: '1px solid',
   borderColor: 'divider',
-  borderRadius: 3,
+  borderRadius: 10,
   bgcolor: 'background.paper',
 } as const;
 
@@ -47,7 +47,7 @@ export default function CardSummary({
         pb: 0.5,
         scrollbarGutter: 'stable',
         '&::-webkit-scrollbar': { height: 8 },
-        '&::-webkit-scrollbar-thumb': { bgcolor: '#2e7d32', borderRadius: 8 },
+        '&::-webkit-scrollbar-thumb': { bgcolor: '#2e7d32', borderRadius: 10},
         '&::-webkit-scrollbar-track': { bgcolor: 'transparent' },
       }}
     >
@@ -116,7 +116,7 @@ export default function CardSummary({
                   sx={{
                     width: 46,
                     height: 46,
-                    borderRadius: 2,
+                    borderRadius: 10,
                     bgcolor: '#fff',
                     border: `1px solid ${alpha(card.color, 0.15)}`,
                     boxShadow: '0 2px 10px rgba(0,0,0,0.05)',
@@ -139,11 +139,11 @@ export default function CardSummary({
                   mt: 1.8,
                   width: 118,
                   height: 8,
-                  borderRadius: 999,
+                  borderRadius: 10,
                   bgcolor: '#e7ece8',
                 }}
               >
-                <Box sx={{ width: 58, height: '100%', bgcolor: barColor, borderRadius: 999 }} />
+                <Box sx={{ width: 58, height: '100%', bgcolor: barColor, borderRadius: 10}} />
               </Box>
             </Box>
           );

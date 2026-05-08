@@ -154,7 +154,7 @@ export default function PermissionMatrixEditor({
             startIcon={<Settings fontSize="small" />}
             sx={{
               textTransform: 'none',
-              borderRadius: 99,
+              borderRadius: 10,
               px: 2,
               py: 0.7,
               bgcolor: alpha(theme.palette.primary.dark, 0.96),
@@ -185,7 +185,7 @@ export default function PermissionMatrixEditor({
         variant="outlined"
         sx={{
           p: { xs: 1.5, md: 2 },
-          borderRadius: 2,
+          borderRadius: 10,
           borderColor: alpha(theme.palette.divider, 0.48),
           bgcolor: alpha(theme.palette.background.default, 0.52),
           boxShadow: `inset 0 1px 0 ${alpha(textPrimary, 0.03)}`,
@@ -254,7 +254,7 @@ export default function PermissionMatrixEditor({
               width: '100%',
               '& .MuiInputBase-root': {
                 minHeight: 40,
-                borderRadius: '24px',
+                borderRadius: 10,
                 bgcolor: alpha(theme.palette.background.paper, 0.9),
                 pr: 0.75,
                 '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
@@ -286,7 +286,7 @@ export default function PermissionMatrixEditor({
             PaperProps={{
               sx: {
                 mt: 1,
-                borderRadius: 2,
+                borderRadius: 10,
                 minWidth: 220,
                 border: 1,
                 borderColor: 'divider',
@@ -331,7 +331,7 @@ export default function PermissionMatrixEditor({
                 '&:hover': { bgcolor: alpha(theme.palette.background.paper, 0.8) },
                 textTransform: 'none',
                 height: 40,
-                borderRadius: '24px',
+                borderRadius: 10,
                 px: 1.3,
                 width: { xs: '100%', sm: 132 },
                 whiteSpace: 'nowrap',
@@ -355,7 +355,7 @@ export default function PermissionMatrixEditor({
                 '&:hover': { bgcolor: alpha(theme.palette.background.paper, 0.8) },
                 textTransform: 'none',
                 height: 40,
-                borderRadius: '24px',
+                borderRadius: 10,
                 px: 1.3,
                 width: { xs: '100%', sm: 168 },
                 whiteSpace: 'nowrap',
@@ -370,7 +370,7 @@ export default function PermissionMatrixEditor({
           sx={{
             mt: 1.45,
             p: 1.15,
-            borderRadius: 2,
+            borderRadius: 10,
             border: `1px solid ${alpha(theme.palette.primary.main, 0.3)}`,
             bgcolor: alpha(theme.palette.background.paper, 0.33),
           }}
@@ -386,7 +386,7 @@ export default function PermissionMatrixEditor({
               '&::-webkit-scrollbar': { width: 8 },
               '&::-webkit-scrollbar-track': { backgroundColor: 'transparent' },
               '&::-webkit-scrollbar-thumb': {
-                borderRadius: 999,
+                borderRadius: 10,
                 backgroundColor: alpha(theme.palette.primary.main, 0.4),
               },
             }}
@@ -413,7 +413,7 @@ export default function PermissionMatrixEditor({
                       <Box
                         key={`permission-module-${module.moduleSlug}`}
                         sx={{
-                          borderRadius: 1.5,
+                          borderRadius: 10,
                           border: `1px solid ${alpha(theme.palette.divider, 0.42)}`,
                           bgcolor: alpha(theme.palette.background.paper, 0.28),
                           overflow: 'hidden',
@@ -464,7 +464,7 @@ export default function PermissionMatrixEditor({
                                 sx={{
                                   px: 1,
                                   py: 0.25,
-                                  borderRadius: 999,
+                                  borderRadius: 10,
                                   border: `1px solid ${alpha(theme.palette.success.main, 0.45)}`,
                                   bgcolor: alpha(theme.palette.success.main, 0.12),
                                   color: alpha(theme.palette.success.dark, 0.95),
@@ -482,7 +482,7 @@ export default function PermissionMatrixEditor({
                                 sx={{
                                   px: 1,
                                   py: 0.25,
-                                  borderRadius: 999,
+                                  borderRadius: 10,
                                   border: `1px solid ${alpha(theme.palette.error.main, 0.45)}`,
                                   bgcolor: alpha(theme.palette.error.main, 0.12),
                                   color: alpha(theme.palette.error.dark, 0.95),
@@ -500,7 +500,7 @@ export default function PermissionMatrixEditor({
                                 sx={{
                                   px: 1,
                                   py: 0.25,
-                                  borderRadius: 999,
+                                  borderRadius: 10,
                                   border: `1px solid ${alpha(theme.palette.primary.main, 0.4)}`,
                                   bgcolor: alpha(theme.palette.primary.main, 0.12),
                                   color: alpha(theme.palette.primary.dark, 0.95),
@@ -557,7 +557,7 @@ export default function PermissionMatrixEditor({
                                     minHeight: 58,
                                     px: 1,
                                     py: 0.75,
-                                    borderRadius: 1,
+                                    borderRadius: 10,
                                     bgcolor: isReduced
                                       ? alpha(theme.palette.error.main, 0.14)
                                       : isAdded
@@ -694,7 +694,7 @@ export default function PermissionMatrixEditor({
                 sx={{
                   width: 12,
                   height: 12,
-                  borderRadius: 0.5,
+                  borderRadius: 10,
                   bgcolor: alpha(textPrimary, 0.2),
                 }}
               />
@@ -707,7 +707,7 @@ export default function PermissionMatrixEditor({
                 sx={{
                   width: 12,
                   height: 12,
-                  borderRadius: 0.5,
+                  borderRadius: 10,
                   bgcolor: alpha(theme.palette.success.main, 0.2),
                   border: `1px solid ${alpha(theme.palette.success.main, 0.4)}`,
                 }}
@@ -721,7 +721,7 @@ export default function PermissionMatrixEditor({
                 sx={{
                   width: 12,
                   height: 12,
-                  borderRadius: 0.5,
+                  borderRadius: 10,
                   bgcolor: alpha(theme.palette.error.main, 0.2),
                   border: `1px solid ${alpha(theme.palette.error.main, 0.4)}`,
                 }}
@@ -735,7 +735,7 @@ export default function PermissionMatrixEditor({
                 sx={{
                   width: 12,
                   height: 12,
-                  borderRadius: 0.5,
+                  borderRadius: 10,
                   bgcolor: alpha(theme.palette.grey[500], 0.2),
                   border: `1px solid ${alpha(theme.palette.grey[500], 0.42)}`,
                 }}

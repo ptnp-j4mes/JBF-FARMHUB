@@ -105,7 +105,7 @@ export function StockIssueRequestDetailsDialog({
               <Typography variant="subtitle1" fontWeight={800} sx={{ mb: 1 }}>
                 รายการสินค้า
               </Typography>
-              <TableContainer component={Paper} elevation={0} sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 3, overflow: 'hidden' }}>
+              <TableContainer component={Paper} elevation={0} sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 10, overflow: 'hidden' }}>
                 <Table
                   size="small"
                   stickyHeader

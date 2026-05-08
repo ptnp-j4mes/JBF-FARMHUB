@@ -628,7 +628,7 @@ export default function SideMenu({
           '&::-webkit-scrollbar-track': { backgroundColor: 'transparent' },
           '&::-webkit-scrollbar-thumb': {
             backgroundColor: UI.borderSoft,
-            borderRadius: '10px',
+            borderRadius: 10,
           },
           '&::-webkit-scrollbar-thumb:hover': {
             backgroundColor: UI.accentSoft,
@@ -704,7 +704,7 @@ export default function SideMenu({
                       position: 'relative',
                       width: '100%',
                       minHeight: 64,
-                      borderRadius: 2,
+                      borderRadius: 10,
                       background: isGroupActive
                         ? 'linear-gradient(to right, rgba(254,243,242,1), rgba(255,255,255,0.9))'
                         : UI.panelSoft,
@@ -731,8 +731,8 @@ export default function SideMenu({
                           width: 6,
                           height: 24,
                           bgcolor: UI.accent,
-                          borderTopRightRadius: 4,
-                          borderBottomRightRadius: 4,
+                          borderTopRightRadius: 10,
+                          borderBottomRightRadius: 10,
                           boxShadow: '0 0 8px rgba(180,35,24,0.5)',
                         }}
                       />
@@ -808,7 +808,7 @@ export default function SideMenu({
                           if (onClose) onClose();
                         }}
                         sx={{
-                          borderRadius: 1.5,
+                          borderRadius: 10,
                           py: 1,
                           px: 2,
                           mb: 0.5,
@@ -897,7 +897,7 @@ export default function SideMenu({
                 display: 'flex',
                 alignItems: 'center',
                 gap: 1.25,
-                borderRadius: 2,
+                borderRadius: 10,
                 px: 1.25,
                 py: 1.15,
                 bgcolor: 'rgba(254, 243, 242, 0.95)',

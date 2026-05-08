@@ -400,20 +400,20 @@ export default function CreatePlanDialog({
           </Box>
 
           {loadingOpenHouses && (
-            <Alert severity="info" sx={{ borderRadius: 2 }}>
+            <Alert severity="info" sx={{ borderRadius: 10}}>
               กำลังดึงรายชื่อโรงเรือนที่เปิดอยู่จาก backend...
             </Alert>
           )}
 
           {!loadingOpenHouses && !hasVisibleHouses && createForm.facilityId > 0 && (
-            <Alert severity="warning" sx={{ borderRadius: 2 }}>
+            <Alert severity="warning" sx={{ borderRadius: 10}}>
               ไม่พบโรงเรือนสำหรับฟาร์มที่เลือก
             </Alert>
           )}
 
           {/* FI Summary Panel */}
           {displayFiSchedules.length > 0 && (
-            <Box sx={{ border: `1px solid ${alpha(UI.accent, 0.14)}`, bgcolor: '#F0FDF4', borderRadius: 2, p: 1.5 }}>
+            <Box sx={{ border: `1px solid ${alpha(UI.accent, 0.14)}`, bgcolor: '#F0FDF4', borderRadius: 10, p: 1.5 }}>
               <Typography variant="caption" sx={{ fontWeight: 800, color: '#14532D', display: 'block', mb: 0.5 }}>
                 📊 สรุปแผนจาก FI มาตรฐาน
               </Typography>
@@ -421,19 +421,19 @@ export default function CreatePlanDialog({
                 {displayFiSchedules[0].houseCode} {displayFiSchedules[0].houseName} • Day {displayFiSchedules[0].targetDay ?? '-'} • {displayFiSchedules[0].stockHead.toLocaleString()} ตัว
               </Typography>
               <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 1, mt: 0.8 }}>
-                <Box sx={{ textAlign: 'center', py: 0.5, borderRadius: 1, bgcolor: '#DCFCE7' }}>
+                <Box sx={{ textAlign: 'center', py: 0.5, borderRadius: 10, bgcolor: '#DCFCE7' }}>
                   <Typography variant="caption" sx={{ color: UI.muted, display: 'block' }}>FI Baseline</Typography>
                   <Typography sx={{ fontWeight: 800, color: '#15803D', fontSize: '0.88rem' }}>
                     {createSelectedTotals.fi.toLocaleString(undefined, { maximumFractionDigits: 1 })} กก.
                   </Typography>
                 </Box>
-                <Box sx={{ textAlign: 'center', py: 0.5, borderRadius: 1, bgcolor: UI.accentSurface }}>
+                <Box sx={{ textAlign: 'center', py: 0.5, borderRadius: 10, bgcolor: UI.accentSurface }}>
                   <Typography variant="caption" sx={{ color: UI.muted, display: 'block' }}>รวมแผน</Typography>
                   <Typography sx={{ fontWeight: 800, color: UI.accent, fontSize: '0.88rem' }}>
                     {createSelectedTotals.plan.toLocaleString(undefined, { maximumFractionDigits: 1 })} กก.
                   </Typography>
                 </Box>
-                <Box sx={{ textAlign: 'center', py: 0.5, borderRadius: 1, bgcolor: createSelectedTotals.plan - createSelectedTotals.fi > 0 ? '#FEF3C7' : '#F0FDF4' }}>
+                <Box sx={{ textAlign: 'center', py: 0.5, borderRadius: 10, bgcolor: createSelectedTotals.plan - createSelectedTotals.fi > 0 ? '#FEF3C7' : '#F0FDF4' }}>
                   <Typography variant="caption" sx={{ color: UI.muted, display: 'block' }}>ส่วนต่าง</Typography>
                   <Typography sx={{ fontWeight: 800, color: createSelectedTotals.plan - createSelectedTotals.fi > 0 ? '#B45309' : '#15803D', fontSize: '0.88rem' }}>
                     {formatSignedKg(createSelectedTotals.plan - createSelectedTotals.fi)}
@@ -463,7 +463,7 @@ export default function CreatePlanDialog({
           </Typography>
           <Stack spacing={1}>
             {createDraftLines.length === 0 && (
-              <Alert severity="info" sx={{ borderRadius: 2 }}>ยังไม่มีเบอร์อาหารแนะนำสำหรับวันเลี้ยงนี้</Alert>
+              <Alert severity="info" sx={{ borderRadius: 10}}>ยังไม่มีเบอร์อาหารแนะนำสำหรับวันเลี้ยงนี้</Alert>
             )}
             {createDraftLines.map((line, index) => {
               const diffKg = line.plannedQtyKg - line.fiSuggestedKg;
@@ -472,7 +472,7 @@ export default function CreatePlanDialog({
                   key={`${line.feedItemId}-${index}`}
                   sx={{
                     border: `1px solid ${line.selected ? alpha(UI.accent, 0.3) : UI.border}`,
-                    borderRadius: 2,
+                    borderRadius: 10,
                     p: 1.2,
                     bgcolor: line.selected ? UI.accentSurface : '#fff',
                     transition: 'all 0.15s',

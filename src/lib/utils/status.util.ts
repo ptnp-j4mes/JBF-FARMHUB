@@ -83,7 +83,7 @@ export const getWorkflowStatusChipSx = (status?: string | null) => {
     bgcolor: `${currentPalette.bg} !important`,
     color: `${currentPalette.text} !important`,
     fontWeight: 600,
-    borderRadius: '999px',
+    borderRadius: 10,
     height: 28,
     border: `1px solid ${alpha(currentPalette.text, 0.2)} !important`,
     '& .MuiChip-label': {

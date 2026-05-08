@@ -651,7 +651,7 @@ export function ActivityDailyApprovalPage({ initialData = [] }: Props) {
         sx={{
           bgcolor: UI.accent,
           color: '#fff',
-          borderRadius: 2,
+          borderRadius: 10,
           boxShadow: UI.shadow,
           px: 2.5,
           py: 2,
@@ -672,7 +672,7 @@ export function ActivityDailyApprovalPage({ initialData = [] }: Props) {
           <Box
             key={card.key}
             sx={{
-              borderRadius: 2.5,
+              borderRadius: 10,
               border: `1px solid ${UI.border}`,
               bgcolor: '#f4f6f4',
               p: 1.7,
@@ -686,19 +686,19 @@ export function ActivityDailyApprovalPage({ initialData = [] }: Props) {
                 </Typography>
                 <Typography sx={{ fontSize: '0.95rem', color: UI.muted, mt: 0.35 }}>{card.title}</Typography>
               </Box>
-              <Box sx={{ width: 46, height: 46, borderRadius: 1.5, bgcolor: card.iconBg, boxShadow: '0 4px 10px rgba(22, 35, 31, 0.10)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Box sx={{ width: 46, height: 46, borderRadius: 10, bgcolor: card.iconBg, boxShadow: '0 4px 10px rgba(22, 35, 31, 0.10)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
                 {card.icon}
               </Box>
             </Box>
             <Typography sx={{ fontSize: '0.82rem', color: UI.muted }}>{card.subtitle}</Typography>
-            <Box sx={{ mt: 1.6, width: 108, height: 8, borderRadius: 999, bgcolor: '#e3e9e4' }}>
-              <Box sx={{ width: 54, height: '100%', bgcolor: card.bar, borderRadius: 999 }} />
+            <Box sx={{ mt: 1.6, width: 108, height: 8, borderRadius: 10, bgcolor: '#e3e9e4' }}>
+              <Box sx={{ width: 54, height: '100%', bgcolor: card.bar, borderRadius: 10}} />
             </Box>
           </Box>
         ))}
       </Box>
 
-      <Box sx={{ borderRadius: 2, border: `1px solid ${UI.border}`, bgcolor: '#fbfcfb', p: { xs: 1.25, md: 1.5 }, boxShadow: UI.softShadow }}>
+      <Box sx={{ borderRadius: 10, border: `1px solid ${UI.border}`, bgcolor: '#fbfcfb', p: { xs: 1.25, md: 1.5 }, boxShadow: UI.softShadow }}>
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 1, mb: 1.25 }}>
           <Typography sx={{ fontSize: 13, color: UI.muted, fontWeight: 700 }}>รายการรออนุมัติ Activity Daily</Typography>
           <Button
@@ -707,7 +707,7 @@ export function ActivityDailyApprovalPage({ initialData = [] }: Props) {
             sx={{
               borderColor: '#b8c5bf',
               color: UI.text,
-              borderRadius: 1.5,
+              borderRadius: 10,
               boxShadow: '0 3px 8px rgba(22, 35, 31, 0.08)',
               '&:hover': { borderColor: UI.accent, bgcolor: 'rgba(22,90,80,0.08)' },
             }}
@@ -724,14 +724,14 @@ export function ActivityDailyApprovalPage({ initialData = [] }: Props) {
             placeholder="ค้นหาเอกสาร / ประเภท / ฟาร์ม"
             value={docNo}
             onChange={(event) => setDocNo(event.target.value)}
-            sx={{ '& .MuiOutlinedInput-root': { height: 40, borderRadius: 1.5, bgcolor: '#f8faf8', boxShadow: '0 2px 6px rgba(22, 35, 31, 0.06)' } }}
+            sx={{ '& .MuiOutlinedInput-root': { height: 40, borderRadius: 10, bgcolor: '#f8faf8', boxShadow: '0 2px 6px rgba(22, 35, 31, 0.06)' } }}
           />
           <TextField
             size="small"
             select
             value={facilityId}
             onChange={(event) => setFacilityId(event.target.value)}
-            sx={{ '& .MuiOutlinedInput-root': { height: 40, borderRadius: 1.5, bgcolor: '#f8faf8', boxShadow: '0 2px 6px rgba(22, 35, 31, 0.06)' } }}
+            sx={{ '& .MuiOutlinedInput-root': { height: 40, borderRadius: 10, bgcolor: '#f8faf8', boxShadow: '0 2px 6px rgba(22, 35, 31, 0.06)' } }}
           >
             <MenuItem value="all">ทุกฟาร์ม</MenuItem>
             {facilities.map((facility) => (
@@ -746,7 +746,7 @@ export function ActivityDailyApprovalPage({ initialData = [] }: Props) {
               type="date"
               value={entryDateFrom}
               onChange={(event) => setEntryDateFrom(event.target.value)}
-              sx={{ flex: 1, '& .MuiOutlinedInput-root': { height: 40, borderRadius: 1.5, bgcolor: '#f8faf8', boxShadow: '0 2px 6px rgba(22, 35, 31, 0.06)' } }}
+              sx={{ flex: 1, '& .MuiOutlinedInput-root': { height: 40, borderRadius: 10, bgcolor: '#f8faf8', boxShadow: '0 2px 6px rgba(22, 35, 31, 0.06)' } }}
             />
             <Typography variant="body2" color="text.secondary" sx={{ minWidth: 20, textAlign: 'center' }}>
               ถึง
@@ -756,7 +756,7 @@ export function ActivityDailyApprovalPage({ initialData = [] }: Props) {
               type="date"
               value={entryDateTo}
               onChange={(event) => setEntryDateTo(event.target.value)}
-              sx={{ flex: 1, '& .MuiOutlinedInput-root': { height: 40, borderRadius: 1.5, bgcolor: '#f8faf8', boxShadow: '0 2px 6px rgba(22, 35, 31, 0.06)' } }}
+              sx={{ flex: 1, '& .MuiOutlinedInput-root': { height: 40, borderRadius: 10, bgcolor: '#f8faf8', boxShadow: '0 2px 6px rgba(22, 35, 31, 0.06)' } }}
             />
           </Box>
           <Button
@@ -767,7 +767,7 @@ export function ActivityDailyApprovalPage({ initialData = [] }: Props) {
               setAppliedEntryDateFrom(entryDateFrom);
               setAppliedEntryDateTo(entryDateTo);
             }}
-            sx={{ height: 40, borderRadius: 1.5, bgcolor: UI.accent, boxShadow: '0 4px 10px rgba(22, 35, 31, 0.14)', '&:hover': { bgcolor: '#10473f' } }}
+            sx={{ height: 40, borderRadius: 10, bgcolor: UI.accent, boxShadow: '0 4px 10px rgba(22, 35, 31, 0.14)', '&:hover': { bgcolor: '#10473f' } }}
           >
             ค้นหา
           </Button>
@@ -792,7 +792,7 @@ export function ActivityDailyApprovalPage({ initialData = [] }: Props) {
           onRowDoubleClick={openDetails}
           emptyMessage="ไม่มีรายการรออนุมัติ"
           stickyHeader
-          paperSx={{ borderRadius: '14px', border: `1px solid ${UI.border}`, boxShadow: UI.softShadow, bgcolor: '#f9faf9', height: PR_MAIN_TABLE_HEIGHT, pb: `${PR_MAIN_TABLE_BOTTOM_PADDING}px` }}
+          paperSx={{ borderRadius: 10, border: `1px solid ${UI.border}`, boxShadow: UI.softShadow, bgcolor: '#f9faf9', height: PR_MAIN_TABLE_HEIGHT, pb: `${PR_MAIN_TABLE_BOTTOM_PADDING}px` }}
           tableContainerSx={{ overflowX: 'auto', overflowY: 'auto' }}
           tableSx={{
             '& .MuiTable-root': { minWidth: { xs: 1000, md: 1000 }, tableLayout: 'fixed' },
@@ -815,7 +815,7 @@ export function ActivityDailyApprovalPage({ initialData = [] }: Props) {
               <Typography><strong>สถานะ:</strong> {toThaiWorkflowStatus(selected.header.status)}</Typography>
               <Typography><strong>หมายเหตุ:</strong> {selected.header.remark || '-'}</Typography>
 
-              <Box sx={{ border: `1px solid ${UI.border}`, borderRadius: 2, bgcolor: '#fbfcfb', p: 1.25 }}>
+              <Box sx={{ border: `1px solid ${UI.border}`, borderRadius: 10, bgcolor: '#fbfcfb', p: 1.25 }}>
                 <Typography sx={{ fontSize: 13, color: UI.muted, fontWeight: 700, mb: 0.75 }}>เลขที่เอกสารตามประเภท</Typography>
                 {sectionDocumentRows.length > 0 ? (
                   <Stack spacing={0.5}>
@@ -852,9 +852,9 @@ export function ActivityDailyApprovalPage({ initialData = [] }: Props) {
               />
 
               {visibleSections.has('health') ? (
-                <Box sx={{ border: `1px solid ${UI.border}`, borderRadius: 2, bgcolor: '#fbfcfb', p: 1.25 }}>
+                <Box sx={{ border: `1px solid ${UI.border}`, borderRadius: 10, bgcolor: '#fbfcfb', p: 1.25 }}>
                   <Typography sx={{ fontSize: 13, color: UI.muted, fontWeight: 700, mb: 0.75 }}>สุขภาพสุกร</Typography>
-                  <TableContainer sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 1.5 }}>
+                  <TableContainer sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 10}}>
                     <Table size="small">
                       <TableHead>
                         <TableRow>
@@ -876,9 +876,9 @@ export function ActivityDailyApprovalPage({ initialData = [] }: Props) {
               ) : null}
 
               {visibleSections.has('feed') ? (
-                <Box sx={{ border: `1px solid ${UI.border}`, borderRadius: 2, bgcolor: '#fbfcfb', p: 1.25 }}>
+                <Box sx={{ border: `1px solid ${UI.border}`, borderRadius: 10, bgcolor: '#fbfcfb', p: 1.25 }}>
                   <Typography sx={{ fontSize: 13, color: UI.muted, fontWeight: 700, mb: 0.75 }}>บันทึกการใช้อาหาร</Typography>
-                  <TableContainer sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 1.5 }}>
+                  <TableContainer sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 10}}>
                     <Table size="small">
                       <TableHead>
                         <TableRow>
@@ -912,9 +912,9 @@ export function ActivityDailyApprovalPage({ initialData = [] }: Props) {
               ) : null}
 
               {visibleSections.has('meds') ? (
-                <Box sx={{ border: `1px solid ${UI.border}`, borderRadius: 2, bgcolor: '#fbfcfb', p: 1.25 }}>
+                <Box sx={{ border: `1px solid ${UI.border}`, borderRadius: 10, bgcolor: '#fbfcfb', p: 1.25 }}>
                   <Typography sx={{ fontSize: 13, color: UI.muted, fontWeight: 700, mb: 0.75 }}>บันทึกยา/วัคซีน</Typography>
-                  <TableContainer sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 1.5 }}>
+                  <TableContainer sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 10}}>
                     <Table size="small">
                       <TableHead>
                         <TableRow>
@@ -952,9 +952,9 @@ export function ActivityDailyApprovalPage({ initialData = [] }: Props) {
               ) : null}
 
               {visibleSections.has('mortality') ? (
-                <Box sx={{ border: `1px solid ${UI.border}`, borderRadius: 2, bgcolor: '#fbfcfb', p: 1.25 }}>
+                <Box sx={{ border: `1px solid ${UI.border}`, borderRadius: 10, bgcolor: '#fbfcfb', p: 1.25 }}>
                   <Typography sx={{ fontSize: 13, color: UI.muted, fontWeight: 700, mb: 0.75 }}>ตาย/คัดทิ้ง</Typography>
-                  <TableContainer sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 1.5 }}>
+                  <TableContainer sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 10}}>
                     <Table size="small">
                       <TableHead>
                         <TableRow>
@@ -995,7 +995,7 @@ export function ActivityDailyApprovalPage({ initialData = [] }: Props) {
                                         width: 46,
                                         height: 46,
                                         objectFit: 'cover',
-                                        borderRadius: 1,
+                                        borderRadius: 10,
                                         border: '1px solid',
                                         borderColor: 'divider',
                                         cursor: 'pointer',

@@ -441,7 +441,7 @@ export function MasterFeedProgramPage() {
                     height: '100%',
                     minHeight: 0,
                     p: 1.5,
-                    borderRadius: 2,
+                    borderRadius: 10,
                     overflow: 'auto',
                     borderColor: alpha(theme.palette.divider, 0.9),
                     bgcolor: alpha(theme.palette.background.default, 0.4),
@@ -469,7 +469,7 @@ export function MasterFeedProgramPage() {
                             onClick={() => handleSelectProgram(program)}
                             sx={{
                               p: 1.25,
-                              borderRadius: 1.8,
+                              borderRadius: 10,
                               cursor: 'pointer',
                               borderColor: active ? theme.palette.primary.main : alpha(theme.palette.divider, 0.85),
                               bgcolor: active ? alpha(theme.palette.primary.main, 0.06) : theme.palette.background.paper,
@@ -508,7 +508,7 @@ export function MasterFeedProgramPage() {
                   sx={{
                     height: '100%',
                     minHeight: 0,
-                    borderRadius: 2,
+                    borderRadius: 10,
                     p: 2,
                     borderColor: alpha(theme.palette.divider, 0.9),
                     bgcolor: theme.palette.background.paper,
@@ -580,7 +580,7 @@ export function MasterFeedProgramPage() {
                         </Button>
                       </Stack>
 
-                      <Box sx={{ flex: 1, minHeight: 0, overflow: 'auto', border: `1px solid ${alpha(theme.palette.divider, 0.9)}`, borderRadius: 1.5 }}>
+                      <Box sx={{ flex: 1, minHeight: 0, overflow: 'auto', border: `1px solid ${alpha(theme.palette.divider, 0.9)}`, borderRadius: 10}}>
                         <Table stickyHeader size="small">
                           <TableHead>
                             <TableRow>

@@ -46,7 +46,7 @@ function MetricCard({
   subtitle: string;
 }) {
   return (
-    <Card sx={{ borderRadius: 4, height: '100%' }}>
+    <Card sx={{ borderRadius: 10, height: '100%' }}>
       <CardContent>
         <Typography variant="body2" color="text.secondary">
           {title}
@@ -140,7 +140,7 @@ export default function AnalyticsDashboardPage() {
         </Box>
 
         <Box sx={{ gridColumn: { lg: 'span 2' } }}>
-          <Card sx={{ borderRadius: 3, height: '100%', borderColor: 'divider', boxShadow: 'none' }}>
+          <Card sx={{ borderRadius: 10, height: '100%', borderColor: 'divider', boxShadow: 'none' }}>
             <CardContent>
               <Typography variant="h6" fontWeight={700} sx={{ mb: 2 }}>
                 แนวโน้มรายเดือน
@@ -162,7 +162,7 @@ export default function AnalyticsDashboardPage() {
         </Box>
 
         <Box sx={{ gridColumn: { lg: 'span 2' } }}>
-          <Card sx={{ borderRadius: 3, height: '100%', borderColor: 'divider', boxShadow: 'none' }}>
+          <Card sx={{ borderRadius: 10, height: '100%', borderColor: 'divider', boxShadow: 'none' }}>
             <CardContent>
               <Typography variant="h6" fontWeight={700} sx={{ mb: 2 }}>
                 ประสิทธิภาพรายฟาร์ม

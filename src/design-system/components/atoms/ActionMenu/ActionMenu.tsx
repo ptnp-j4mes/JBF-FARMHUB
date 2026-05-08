@@ -55,7 +55,7 @@ export default function ActionMenu({ actions }: ActionMenuProps) {
         onClose={() => handleClose()}
         PaperProps={{
           sx: {
-            borderRadius: 2,
+            borderRadius: 10,
             border: `1px solid ${theme.palette.divider}`,
             boxShadow: '0 16px 40px rgba(20,20,20,0.10)',
             overflow: 'hidden',

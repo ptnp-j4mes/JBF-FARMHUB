@@ -3,7 +3,7 @@ import { alpha } from '@mui/material/styles';
 
 export function getStockDialogPaperSx(theme: Theme) {
   return {
-    borderRadius: 3.5,
+    borderRadius: 10,
     border: '1px solid',
     borderColor: theme.palette.divider,
     boxShadow: 2,
@@ -29,7 +29,7 @@ export function getStockDialogFormSx(theme: Theme) {
   return {
     '& .MuiTextField-root .MuiOutlinedInput-root': {
       minHeight: 36,
-      borderRadius: 2.2,
+      borderRadius: 10,
       bgcolor: alpha(theme.palette.primary.main, 0.03),
       boxShadow: 1,
       '& fieldset': {
@@ -63,7 +63,7 @@ export function getStockDialogFormSx(theme: Theme) {
 export function getStockDialogFieldsetSx(theme: Theme) {
   return {
     border: `1px solid ${theme.palette.divider}`,
-    borderRadius: 3,
+    borderRadius: 10,
     p: { xs: 1.25, md: 1.5 },
     minWidth: 0,
     bgcolor: theme.palette.background.paper,
@@ -83,7 +83,7 @@ export function getStockDialogSectionBoxSx(theme: Theme) {
   return {
     p: 1.25,
     border: `1px solid ${theme.palette.divider}`,
-    borderRadius: 2.4,
+    borderRadius: 10,
     bgcolor: theme.palette.background.paper,
   };
 }
@@ -91,7 +91,7 @@ export function getStockDialogSectionBoxSx(theme: Theme) {
 export function getStockDialogTableSx(theme: Theme) {
   return {
     border: `1px solid ${theme.palette.divider}`,
-    borderRadius: 2.6,
+    borderRadius: 10,
     bgcolor: theme.palette.background.paper,
     boxShadow: 1,
     '& .MuiTableCell-head': {
@@ -122,7 +122,7 @@ export function getStockDialogActionsSx(theme: Theme) {
 
 export function getStockDialogPrimaryButtonSx(theme: Theme) {
   return {
-    borderRadius: 12,
+    borderRadius: 10,
     px: 2.2,
     fontWeight: 600,
     textTransform: 'none',
@@ -139,7 +139,7 @@ export function getStockDialogPrimaryButtonSx(theme: Theme) {
 
 export function getStockDialogSecondaryButtonSx(theme: Theme) {
   return {
-    borderRadius: 12,
+    borderRadius: 10,
     px: 2,
     fontWeight: 600,
     textTransform: 'none',

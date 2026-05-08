@@ -58,7 +58,7 @@ export function ReceivablePurchaseRequestList({
   return (
     <Paper
       sx={{
-        borderRadius: '18px',
+        borderRadius: 10,
         overflow: 'hidden',
         boxShadow: 2,
         border: '1px solid',

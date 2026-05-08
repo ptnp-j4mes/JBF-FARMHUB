@@ -32,7 +32,7 @@ export default function OverviewTab({
         icon={<InfoIcon fontSize="inherit" />}
         severity="info"
         sx={{
-          borderRadius: 2.4,
+          borderRadius: 10,
           border: `1px solid ${UI.border}`,
           bgcolor: UI.accentSurface,
           color: UI.text,
@@ -89,7 +89,7 @@ export default function OverviewTab({
                 InputProps={{ readOnly: true }}
                 sx={{
                   '& .MuiOutlinedInput-root': {
-                    borderRadius: 2.25,
+                    borderRadius: 10,
                     bgcolor: UI.panelSoft,
                     boxShadow: UI.shadowSoft,
                   },
@@ -114,7 +114,7 @@ export default function OverviewTab({
                     label={label}
                     sx={{
                       '& .MuiOutlinedInput-root': {
-                        borderRadius: 2.25,
+                        borderRadius: 10,
                         bgcolor: UI.panelSoft,
                         boxShadow: UI.shadowSoft,
                       },

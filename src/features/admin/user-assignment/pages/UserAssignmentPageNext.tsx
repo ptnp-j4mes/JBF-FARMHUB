@@ -35,7 +35,7 @@ import PermissionPage from './PermissionPage';
 import type { UserAssignmentUserSummary } from '../types';
 
 const panelSx = {
-  borderRadius: 3.5,
+  borderRadius: 10,
   border: '1px solid',
   borderColor: 'divider',
   bgcolor: 'background.paper',
@@ -92,7 +92,7 @@ export function UserAssignmentPage() {
   const roleChipSx = useMemo(
     () => ({
       height: 28,
-      borderRadius: '999px' as const,
+      borderRadius: 10,
       fontWeight: 700,
       bgcolor: 'action.hover',
       color: 'text.primary',
@@ -105,7 +105,7 @@ export function UserAssignmentPage() {
 
   const statusChipSx = (active: boolean) => ({
     height: 28,
-    borderRadius: '999px' as const,
+    borderRadius: 10,
     fontWeight: 700,
     bgcolor: active
       ? alpha(theme.palette.error.main, 0.08)
@@ -362,7 +362,7 @@ export function UserAssignmentPage() {
                         fontWeight: 700,
                         fontSize: '0.85rem',
                         borderColor: 'divider',
-                        borderRadius: 2,
+                        borderRadius: 10,
                         '&:hover': {
                           bgcolor: 'action.hover',
                           borderColor: 'primary.main',
@@ -389,7 +389,7 @@ export function UserAssignmentPage() {
                         fontWeight: 700,
                         fontSize: '0.85rem',
                         borderColor: 'divider',
-                        borderRadius: 2,
+                        borderRadius: 10,
                         '&:hover': {
                           bgcolor: 'action.hover',
                           borderColor: 'primary.main',
@@ -410,7 +410,7 @@ export function UserAssignmentPage() {
                         fontSize: '0.85rem',
                         boxShadow: 'none',
                         bgcolor: 'primary.main',
-                        borderRadius: 2,
+                        borderRadius: 10,
                         '&:hover': {
                           bgcolor: 'primary.dark',
                           boxShadow: 'none',
@@ -467,7 +467,7 @@ export function UserAssignmentPage() {
                     setPage(0);
                   }}
                   paperSx={{
-                    borderRadius: 2.5,
+                    borderRadius: 10,
                     borderColor: 'divider',
                     bgcolor: 'background.paper',
                     boxShadow: 'none',

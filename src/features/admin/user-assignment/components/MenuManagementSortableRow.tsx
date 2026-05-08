@@ -64,7 +64,7 @@ export function MenuManagementSortableRow({
               justifyContent: 'center',
               width: 32,
               height: 32,
-              borderRadius: 1,
+              borderRadius: 10,
               color: 'text.secondary',
               cursor: isSaving ? 'not-allowed' : 'grab',
               '&:active': { cursor: 'grabbing' },

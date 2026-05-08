@@ -844,7 +844,7 @@ export default function UserPage() {
               paperSx={{
                 flex: 1,
                 minHeight: 0,
-                borderRadius: 1.25,
+                borderRadius: 10,
                 borderColor: colors.line,
                 bgcolor: colors.cardBg,
                 display: 'flex',
@@ -862,12 +862,12 @@ export default function UserPage() {
                 '&::-webkit-scrollbar-track': {
                   backgroundColor: alpha(colors.line, 0.08),
                   borderLeft: `1px solid ${alpha(colors.line, 0.45)}`,
-                  borderRadius: 999,
+                  borderRadius: 10,
                   marginBlock: 6,
                 },
                 '&::-webkit-scrollbar-thumb': {
                   backgroundColor: alpha(colors.subtitle, 0.58),
-                  borderRadius: 999,
+                  borderRadius: 10,
                   border: `1px solid ${alpha(colors.cardBg, 0.65)}`,
                 },
                 '&::-webkit-scrollbar-thumb:hover': {

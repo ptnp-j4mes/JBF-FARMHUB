@@ -7,12 +7,12 @@ import type { SxProps, Theme } from '@mui/material';
 
 /** Border-radius scale for sidebar and related components */
 export interface SidemenuRadiusScale {
-  xs: number;   // 8px
-  sm: number;   // 12px
-  md: number;   // 16px
-  lg: number;   // 20px
-  xl: number;   // 24px
-  pill: number; // 999px
+  xs: number;   // 10px
+  sm: number;   // 10px
+  md: number;   // 10px
+  lg: number;   // 10px
+  xl: number;   // 10px
+  pill: number; // 10px
 }
 
 /** Shadow scale */

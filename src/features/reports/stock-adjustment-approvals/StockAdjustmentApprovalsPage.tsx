@@ -293,7 +293,7 @@ export function StockAdjustmentApprovalsPage({ initialPendingItems = [] }: Stock
         sx={{
           bgcolor: UI.accent,
           color: '#fff',
-          borderRadius: 2,
+          borderRadius: 10,
           boxShadow: UI.shadow,
           px: 2.5,
           py: 2,
@@ -316,7 +316,7 @@ export function StockAdjustmentApprovalsPage({ initialPendingItems = [] }: Stock
           <Box
             key={card.key}
             sx={{
-              borderRadius: 2.5,
+              borderRadius: 10,
               border: `1px solid ${UI.border}`,
               bgcolor: '#f4f6f4',
               p: 1.7,
@@ -332,19 +332,19 @@ export function StockAdjustmentApprovalsPage({ initialPendingItems = [] }: Stock
                   {card.title}
                 </Typography>
               </Box>
-              <Box sx={{ width: 46, height: 46, borderRadius: 1.5, bgcolor: card.iconBg, boxShadow: '0 4px 10px rgba(22, 35, 31, 0.10)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Box sx={{ width: 46, height: 46, borderRadius: 10, bgcolor: card.iconBg, boxShadow: '0 4px 10px rgba(22, 35, 31, 0.10)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
                 {card.icon}
               </Box>
             </Box>
             <Typography sx={{ fontSize: '0.82rem', color: UI.muted }}>{card.subtitle}</Typography>
-            <Box sx={{ mt: 1.6, width: 108, height: 8, borderRadius: 999, bgcolor: '#e3e9e4' }}>
-              <Box sx={{ width: 54, height: '100%', bgcolor: card.bar, borderRadius: 999 }} />
+            <Box sx={{ mt: 1.6, width: 108, height: 8, borderRadius: 10, bgcolor: '#e3e9e4' }}>
+              <Box sx={{ width: 54, height: '100%', bgcolor: card.bar, borderRadius: 10}} />
             </Box>
           </Box>
         ))}
       </Box>
 
-      <Box sx={{ borderRadius: 2, border: `1px solid ${UI.border}`, bgcolor: '#fbfcfb', p: { xs: 1.25, md: 1.5 }, boxShadow: UI.softShadow }}>
+      <Box sx={{ borderRadius: 10, border: `1px solid ${UI.border}`, bgcolor: '#fbfcfb', p: { xs: 1.25, md: 1.5 }, boxShadow: UI.softShadow }}>
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 1, mb: 1.25 }}>
           <Typography sx={{ fontSize: 13, color: UI.muted, fontWeight: 700 }}>รายการอนุมัติใบขอปรับสต๊อก</Typography>
           <Button
@@ -353,7 +353,7 @@ export function StockAdjustmentApprovalsPage({ initialPendingItems = [] }: Stock
             sx={{
               borderColor: '#b8c5bf',
               color: UI.text,
-              borderRadius: 1.5,
+              borderRadius: 10,
               boxShadow: '0 3px 8px rgba(22, 35, 31, 0.08)',
               '&:hover': { borderColor: UI.accent, bgcolor: 'rgba(22,90,80,0.08)' },
             }}
@@ -383,7 +383,7 @@ export function StockAdjustmentApprovalsPage({ initialPendingItems = [] }: Stock
           emptyMessage={canApprove ? 'ไม่มีรายการรออนุมัติปรับสต๊อก' : 'ไม่มีสิทธิ์เข้าถึงรายการอนุมัติ'}
           onRowDoubleClick={handleOpenDetails}
           paperSx={{
-            borderRadius: '14px',
+            borderRadius: 10,
             border: `1px solid ${UI.border}`,
             height: PR_MAIN_TABLE_HEIGHT,
             pb: `${PR_MAIN_TABLE_BOTTOM_PADDING}px`,

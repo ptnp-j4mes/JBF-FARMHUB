@@ -160,7 +160,7 @@ const UI = {
 };
 
 const panelSx = {
-  borderRadius: 3.5,
+  borderRadius: 10,
   border: `1px solid ${UI.border}`,
   bgcolor: UI.panel,
   boxShadow: UI.shadow,
@@ -168,7 +168,7 @@ const panelSx = {
 
 const inputSx = {
   '& .MuiOutlinedInput-root': {
-    borderRadius: 2.2,
+    borderRadius: 10,
     bgcolor: UI.panelSoft,
     boxShadow: UI.shadowSoft,
     '& fieldset': {
@@ -668,7 +668,7 @@ export default function FeedInboundPlanPage() {
                   sx={{
                     width: 42,
                     height: 42,
-                    borderRadius: 1.75,
+                    borderRadius: 10,
                     bgcolor: '#fff',
                     border: `1px solid ${alpha(card.bar, 0.15)}`,
                     boxShadow: UI.shadowSoft,
@@ -681,8 +681,8 @@ export default function FeedInboundPlanPage() {
                   {card.icon}
                 </Box>
               </Box>
-              <Box sx={{ position: 'relative', zIndex: 1, width: 96, height: 6, borderRadius: 999, bgcolor: alpha(card.bar, 0.2) }}>
-                <Box sx={{ width: 54, height: '100%', borderRadius: 999, bgcolor: card.bar }} />
+              <Box sx={{ position: 'relative', zIndex: 1, width: 96, height: 6, borderRadius: 10, bgcolor: alpha(card.bar, 0.2) }}>
+                <Box sx={{ width: 54, height: '100%', borderRadius: 10, bgcolor: card.bar }} />
               </Box>
             </Box>
           ))}
@@ -746,7 +746,7 @@ export default function FeedInboundPlanPage() {
                 px: 1.75,
                 borderColor: '#b8c5bf',
                 color: UI.text,
-                borderRadius: 2.5,
+                borderRadius: 10,
                 boxShadow: UI.shadowSoft,
                 whiteSpace: 'nowrap',
                 '&:hover': { borderColor: UI.accent, bgcolor: alpha(UI.accent, 0.06) },
@@ -779,7 +779,7 @@ export default function FeedInboundPlanPage() {
             icon={<WarningAmberOutlined />}
             sx={{
               mb: 1.5,
-              borderRadius: 2.5,
+              borderRadius: 10,
               border: `1px solid ${alpha(UI.accent, 0.14)}`,
               bgcolor: alpha(UI.accent, 0.07),
               color: UI.text,
@@ -790,10 +790,10 @@ export default function FeedInboundPlanPage() {
             แนะนำเรียกเข้า = max(0, ใช้ต่อวัน x {FORECAST_DAYS} + safety stock - stock คงเหลือ)
           </Alert>
 
-          {infoMessage ? <Alert severity="warning" sx={{ mb: 1.5, borderRadius: 2 }}>{infoMessage}</Alert> : null}
-          {errorMessage ? <Alert severity="error" sx={{ mb: 1.5, borderRadius: 2 }}>{errorMessage}</Alert> : null}
+          {infoMessage ? <Alert severity="warning" sx={{ mb: 1.5, borderRadius: 10}}>{infoMessage}</Alert> : null}
+          {errorMessage ? <Alert severity="error" sx={{ mb: 1.5, borderRadius: 10}}>{errorMessage}</Alert> : null}
 
-          <TableContainer sx={{ maxHeight: 640, overflow: 'auto', border: `1px solid ${UI.border}`, borderRadius: 3, boxShadow: UI.shadowSoft, bgcolor: UI.panelSoft }}>
+          <TableContainer sx={{ maxHeight: 640, overflow: 'auto', border: `1px solid ${UI.border}`, borderRadius: 10, boxShadow: UI.shadowSoft, bgcolor: UI.panelSoft }}>
             <Table stickyHeader size="small" sx={{ minWidth: 1700 }}>
               <TableHead>
                 <TableRow>

@@ -25,7 +25,7 @@ export const buildingOpeningPageShellSx = {
 };
 
 export const buildingOpeningPanelSx = {
-  borderRadius: 3.5,
+  borderRadius: 10,
   border: '1px solid',
   borderColor: 'divider',
   bgcolor: 'background.paper',
@@ -46,7 +46,7 @@ export const buildingOpeningLegendSx = {
 };
 
 export const buildingOpeningSectionBoxSx = {
-  borderRadius: 2,
+  borderRadius: 10,
   border: '1px solid',
   borderColor: 'divider',
   bgcolor: 'background.paper',
@@ -61,7 +61,7 @@ export const buildingOpeningTableShellSx = {
 export const buildingOpeningInputSx = {
   '& .MuiOutlinedInput-root': {
     height: 40,
-    borderRadius: 2,
+    borderRadius: 10,
     bgcolor: 'background.paper',
     boxShadow: 1,
     '& fieldset': {
@@ -80,7 +80,7 @@ export const buildingOpeningInputSx = {
 };
 
 export const buildingOpeningDialogPaperSx = (theme: Theme) => ({
-  borderRadius: 3.5,
+  borderRadius: 10,
   border: '1px solid',
   borderColor: theme.palette.divider,
   boxShadow: 2,
@@ -127,7 +127,7 @@ export const buildingOpeningErrorAlertSx = {
 };
 
 export const buildingOpeningOutlinedButtonSx = {
-  borderRadius: 2.2,
+  borderRadius: 10,
   px: 2,
   boxShadow: BUILDING_OPENING_UI.softShadow,
   bgcolor: '#fff',
@@ -140,7 +140,7 @@ export const buildingOpeningOutlinedButtonSx = {
 };
 
 export const buildingOpeningPrimaryButtonSx = {
-  borderRadius: 2.2,
+  borderRadius: 10,
   px: 2.2,
   boxShadow: BUILDING_OPENING_UI.softShadow,
   bgcolor: BUILDING_OPENING_UI.accent,

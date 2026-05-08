@@ -38,7 +38,7 @@ export default function MortalityAttachDialog({
       maxWidth="xs"
       PaperProps={{
         sx: {
-          borderRadius: 3.5,
+          borderRadius: 10,
           overflow: 'hidden',
           border: `1px solid ${UI.border}`,
           boxShadow: UI.shadowSoft,
@@ -63,7 +63,7 @@ export default function MortalityAttachDialog({
             onClick={() => uploadInputRef?.current?.click()}
             sx={{
               border: `2px dashed ${alpha(UI.accent, 0.3)}`,
-              borderRadius: 3,
+              borderRadius: 10,
               p: 3,
               textAlign: 'center',
               cursor: 'pointer',
@@ -88,7 +88,7 @@ export default function MortalityAttachDialog({
           {hasImage && (
               <Box
                 sx={{
-                  borderRadius: 2.5,
+                  borderRadius: 10,
                   border: `1px solid ${UI.border}`,
                   p: 1.5,
                   bgcolor: UI.panelSoft,
@@ -103,7 +103,7 @@ export default function MortalityAttachDialog({
                     sx={{
                       width: 80,
                       height: 80,
-                      borderRadius: 1.5,
+                      borderRadius: 10,
                       objectFit: 'cover',
                       border: `1px solid ${UI.border}`,
                     }}

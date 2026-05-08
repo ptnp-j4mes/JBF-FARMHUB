@@ -46,7 +46,7 @@ const UI = {
 };
 
 const panelSx = {
-  borderRadius: 3.5,
+  borderRadius: 10,
   border: `1px solid ${UI.border}`,
   bgcolor: UI.panel,
   boxShadow: UI.shadow,
@@ -206,7 +206,7 @@ export default function OrganizationPage() {
             size="small"
             sx={{
               height: 28,
-              borderRadius: '999px',
+              borderRadius: 10,
               fontWeight: 700,
               bgcolor: `${UI.panelSoft} !important`,
               color: UI.text,
@@ -408,12 +408,12 @@ export default function OrganizationPage() {
     '&::-webkit-scrollbar-track': {
       backgroundColor: alpha(UI.border, 0.08),
       borderLeft: `1px solid ${alpha(UI.border, 0.45)}`,
-      borderRadius: 999,
+      borderRadius: 10,
       marginBlock: 6,
     },
     '&::-webkit-scrollbar-thumb': {
       backgroundColor: alpha(UI.muted, 0.58),
-      borderRadius: 999,
+      borderRadius: 10,
       border: `1px solid ${alpha(UI.panel, 0.65)}`,
     },
     '&::-webkit-scrollbar-thumb:hover': {
@@ -512,7 +512,7 @@ export default function OrganizationPage() {
               paperSx={{
                 flex: 1,
                 minHeight: 0,
-                borderRadius: 2.5,
+                borderRadius: 10,
                 borderColor: UI.border,
                 bgcolor: UI.panel,
                 display: 'flex',
@@ -549,7 +549,7 @@ export default function OrganizationPage() {
         maxWidth="sm"
         PaperProps={{
           sx: {
-            borderRadius: 2,
+            borderRadius: 10,
             border: `1px solid ${UI.border}`,
           },
         }}

@@ -286,7 +286,7 @@ export function PRReportPage({ initialItems = [] }: PRReportPageProps) {
             </Typography>
             <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr 1fr', md: 'repeat(4, minmax(0,1fr))' }, gap: 1.25 }}>
               {summaryCards.map((card) => (
-                <Card key={card.title} sx={{ borderRadius: 2 }}>
+                <Card key={card.title} sx={{ borderRadius: 10}}>
                   <CardContent sx={{ p: 1.25 }}>
                     <Typography variant="body2" color="text.secondary" sx={{ mb: 0.25 }}>
                       {card.title}
@@ -455,7 +455,7 @@ export function PRReportPage({ initialItems = [] }: PRReportPageProps) {
             emptyMessage="ไม่พบข้อมูลรายงาน PR"
             onRowDoubleClick={handleViewDetails}
             paperSx={{
-              borderRadius: '15px 15px 0 0',
+              borderRadius: 10,
               height: PR_MAIN_TABLE_HEIGHT,
               pb: `${PR_MAIN_TABLE_BOTTOM_PADDING}px`,
             }}

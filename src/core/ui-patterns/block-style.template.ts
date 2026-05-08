@@ -6,7 +6,7 @@ export const MASTER_PROGRAM_SHELL_FIELDSET_SX: SxProps<Theme> = {
   m: 0,
   border: '1px solid',
   borderColor: MASTER_FIELDSET_BORDER_COLOR,
-  borderRadius: 2,
+  borderRadius: 10,
   p: 0,
   minWidth: 0,
   overflow: 'hidden',
@@ -39,7 +39,7 @@ export const BLOCK_LAYOUT_TWO_COLUMN_SX: SxProps<Theme> = {
 
 export const BLOCK_FIELDSET_SX: SxProps<Theme> = {
   m: 0,
-  borderRadius: 2,
+  borderRadius: 10,
   px: { xs: 1.25, md: 2 },
   pt: 1.5,
   pb: 1.5,
@@ -83,7 +83,7 @@ export const BLOCK_TABLE_FIELDSET_ALIGNED_SX: SxProps<Theme> = {
 };
 
 export const BLOCK_TABLE_PAPER_SX: SxProps<Theme> = {
-  borderRadius: '15px 15px 0 0',
+  borderRadius: 10,
   border: '1px solid',
   borderColor: MASTER_FIELDSET_BORDER_COLOR,
   boxShadow: 'none',

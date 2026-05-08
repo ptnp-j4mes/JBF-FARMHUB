@@ -1533,7 +1533,7 @@ export function StockTransactionDialog({
   const renderStandardLayout = () => (
     <Stack spacing={2} pt={0.5}>
       {error && <Alert severity="error">{error}</Alert>}
-      <Box component="fieldset" sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 2, p: 1.5, minWidth: 0 }}>
+      <Box component="fieldset" sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 10, p: 1.5, minWidth: 0 }}>
         <Typography component="legend" sx={{ px: 1, fontSize: '0.95rem', fontWeight: 700 }}>
           ข้อมูลรายการ
         </Typography>
@@ -1888,7 +1888,7 @@ export function StockTransactionDialog({
         </Stack>
       </Box>
 
-      <Box component="fieldset" sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 2, p: 1.5, minWidth: 0 }}>
+      <Box component="fieldset" sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 10, p: 1.5, minWidth: 0 }}>
         <Typography component="legend" sx={{ px: 1, fontSize: '0.95rem', fontWeight: 700 }}>
           ปลายทางการใช้งาน
         </Typography>
@@ -1978,7 +1978,7 @@ export function StockTransactionDialog({
         </Stack>
       </Box>
 
-      <Box component="fieldset" sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 2, p: 1.5, minWidth: 0 }}>
+      <Box component="fieldset" sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 10, p: 1.5, minWidth: 0 }}>
         <Typography component="legend" sx={{ px: 1, fontSize: '0.95rem', fontWeight: 700 }}>
           รายการที่เบิก
         </Typography>
@@ -2121,7 +2121,7 @@ export function StockTransactionDialog({
             เพิ่มรายการ
           </StockActionButton>
 
-          <TableContainer sx={{ ...getStockDialogTableSx(theme), borderRadius: '15px 15px 0 0', maxHeight: 280 }}>
+          <TableContainer sx={{ ...getStockDialogTableSx(theme), borderRadius: 10, maxHeight: 280 }}>
             <Table
               size="small"
               stickyHeader
@@ -2336,7 +2336,7 @@ export function StockTransactionDialog({
             เพิ่มรายการ
           </StockActionButton>
 
-          <TableContainer sx={{ ...getStockDialogTableSx(theme), borderRadius: '15px 15px 0 0', maxHeight: 280 }}>
+          <TableContainer sx={{ ...getStockDialogTableSx(theme), borderRadius: 10, maxHeight: 280 }}>
             <Table
               size="small"
               stickyHeader

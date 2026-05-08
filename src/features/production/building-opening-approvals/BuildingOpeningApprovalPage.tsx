@@ -556,7 +556,7 @@ export function BuildingOpeningApprovalPage({ initialData = [], mode = 'approval
             emptyMessage="ไม่มีรายการเปิดโรงเรือน"
             stickyHeader
             paperSx={{
-              borderRadius: 3.5,
+              borderRadius: 10,
               border: '1px solid',
               borderColor: 'divider',
               boxShadow: 2,

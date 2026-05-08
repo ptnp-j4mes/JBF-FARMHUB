@@ -19,7 +19,7 @@ export default function StatusChip({ status }: StatusChipProps) {
       label={isActive ? 'ใช้งาน' : 'ไม่ใช้งาน'}
       sx={{
         fontWeight: 600,
-        borderRadius: 1,
+        borderRadius: 10,
         px: 0.5,
         border: `1px solid ${alpha(
           isActive ? theme.palette.success.main : theme.palette.error.main,
