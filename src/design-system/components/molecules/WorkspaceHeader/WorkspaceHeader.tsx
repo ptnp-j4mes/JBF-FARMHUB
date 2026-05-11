@@ -3,6 +3,7 @@
 import type { ReactNode } from 'react';
 import { Box, Chip, Typography } from '@mui/material';
 import { alpha, useTheme } from '@mui/material/styles';
+import Image from 'next/image';
 import type { SxProps, Theme } from '@mui/material/styles';
 
 export type WorkspaceHeaderProps = {
@@ -22,6 +23,8 @@ const workspaceHeaderSx = {
   boxShadow: 2,
 };
 
+const workspaceHeaderDefaultBackground = '/branding/banner-farmhub-title.png';
+
 export default function WorkspaceHeader({
   chipLabel,
   title,
@@ -35,6 +38,8 @@ export default function WorkspaceHeader({
     {
       ...workspaceHeaderSx,
       background: `linear-gradient(135deg, ${alpha(theme.palette.primary.main, 0.06)} 0%, ${theme.palette.background.paper} 58%)`,
+      position: 'relative',
+      overflow: 'hidden',
       px: { xs: 2, md: 2.6 },
       py: { xs: 2, md: 2.4 },
       display: 'grid',
@@ -48,7 +53,61 @@ export default function WorkspaceHeader({
     <Box
       sx={mergedSx}
     >
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap' }}>
+      <Box
+        sx={{
+          position: 'absolute',
+          inset: 0,
+          zIndex: 0,
+          pointerEvents: 'none',
+          overflow: 'hidden',
+        }}
+      >
+        <Box
+          sx={{
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            bottom: 0,
+            width: { xs: '100%', lg: '56%' },
+            opacity: 0.28,
+            transform: { lg: 'translateX(-18px)' },
+            overflow: 'hidden',
+            maskImage: 'linear-gradient(90deg, transparent 0%, #000 16%, #000 84%, transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(90deg, transparent 0%, #000 16%, #000 84%, transparent 100%)',
+          }}
+        >
+          <Image
+            src={workspaceHeaderDefaultBackground}
+            alt=""
+            fill
+            priority
+            sizes="(min-width: 1200px) 56vw, 100vw"
+            style={{
+              objectFit: 'cover',
+              objectPosition: 'center center',
+            }}
+          />
+        </Box>
+        <Box
+          sx={{
+            position: 'absolute',
+            inset: 0,
+            background:
+              'linear-gradient(90deg, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.92) 30%, rgba(255,255,255,0.48) 58%, rgba(255,255,255,0.12) 82%, rgba(255,255,255,0) 100%)',
+          }}
+        />
+      </Box>
+
+      <Box
+        sx={{
+          position: 'relative',
+          zIndex: 1,
+          display: 'flex',
+          alignItems: 'center',
+          gap: 1,
+          flexWrap: 'wrap',
+        }}
+      >
         <Chip
           size="small"
           label={chipLabel}
@@ -70,6 +129,8 @@ export default function WorkspaceHeader({
 
       <Box
         sx={{
+          position: 'relative',
+          zIndex: 1,
           display: 'flex',
           alignItems: 'flex-end',
           justifyContent: 'space-between',

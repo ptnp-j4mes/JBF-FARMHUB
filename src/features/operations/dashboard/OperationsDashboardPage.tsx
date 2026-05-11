@@ -838,18 +838,28 @@ function AttentionPanel({
   const visible = alerts.slice(0, 6);
 
   return (
-    <DashboardCard sx={{ height: '100%' }}>
-      <Box sx={{ p: { xs: 2.25, md: 2.5 }, height: '100%', display: 'grid', gap: 1.8 }}>
-        <SectionHeader
-          title="รายการที่ต้องติดตาม"
-          subtitle="แสดงเหตุการณ์ที่ควรตรวจสอบก่อน เพื่อจัดลำดับงานประจำวัน"
-        />
+    <DashboardCard sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+      <Box
+        sx={{
+          p: { xs: 2.1, md: 2.35 },
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 1.2,
+        }}
+      >
+        <Box sx={{ flexShrink: 0, borderLeft: `4px solid ${ui.amber}`, pl: 1.35 }}>
+          <SectionHeader
+            title="รายการที่ต้องติดตาม"
+            subtitle="แสดงเหตุการณ์ที่ควรตรวจสอบก่อน เพื่อจัดลำดับงานประจำวัน"
+          />
+        </Box>
 
         {visible.length === 0 ? (
           <Box
             sx={{
               flex: 1,
-              minHeight: 250,
+              minHeight: 0,
               display: 'grid',
               placeItems: 'center',
               textAlign: 'center',
@@ -877,66 +887,75 @@ function AttentionPanel({
             </Stack>
           </Box>
         ) : (
-          <Stack spacing={1.1}>
-            {visible.map((alert) => {
-              const tone = statusTone(alert.severity, ui);
-              return (
-                <Box
-                  key={alert.id}
-                  sx={{
-                    borderRadius: '10px',
-                    px: 1.5,
-                    py: 1.25,
-                    border: '1px solid',
-                    borderColor: 'divider',
-                    borderLeft: `4px solid ${tone.color}`,
-                    bgcolor: tone.soft,
-                  }}
-                >
-                  <Stack spacing={0.75}>
-                    <Stack direction="row" alignItems="start" justifyContent="space-between" gap={1.2}>
-                      <Stack direction="row" alignItems="start" gap={1} sx={{ minWidth: 0 }}>
-                        <Activity size={18} color={tone.color} />
-                        <Box sx={{ minWidth: 0 }}>
-                          <Typography sx={{ fontWeight: 900, color: 'text.primary', fontSize: '0.93rem' }}>
-                            {alert.title}
-                          </Typography>
-                          <Typography sx={{ color: 'text.secondary', fontSize: '0.82rem', mt: 0.15 }}>
-                            {alert.facilityName}
-                            {alert.houseName ? ` • ${alert.houseName}` : ''}
-                          </Typography>
-                        </Box>
+          <Box
+            sx={{
+              flex: 1,
+              minHeight: 0,
+              display: 'grid',
+              alignContent: 'start',
+            }}
+          >
+            <Stack spacing={1.1}>
+              {visible.map((alert) => {
+                const tone = statusTone(alert.severity, ui);
+                return (
+                  <Box
+                    key={alert.id}
+                    sx={{
+                      borderRadius: '10px',
+                      px: 1.5,
+                      py: 1.25,
+                      border: '1px solid',
+                      borderColor: 'divider',
+                      borderLeft: `4px solid ${tone.color}`,
+                      bgcolor: tone.soft,
+                    }}
+                  >
+                    <Stack spacing={0.75}>
+                      <Stack direction="row" alignItems="start" justifyContent="space-between" gap={1.2}>
+                        <Stack direction="row" alignItems="start" gap={1} sx={{ minWidth: 0 }}>
+                          <Activity size={18} color={tone.color} />
+                          <Box sx={{ minWidth: 0 }}>
+                            <Typography sx={{ fontWeight: 900, color: 'text.primary', fontSize: '0.93rem' }}>
+                              {alert.title}
+                            </Typography>
+                            <Typography sx={{ color: 'text.secondary', fontSize: '0.82rem', mt: 0.15 }}>
+                              {alert.facilityName}
+                              {alert.houseName ? ` • ${alert.houseName}` : ''}
+                            </Typography>
+                          </Box>
+                        </Stack>
+                        <Chip
+                          size="small"
+                          label={tone.label}
+                          sx={{
+                            bgcolor: 'background.paper',
+                            color: tone.color,
+                            fontWeight: 800,
+                            border: `1px solid ${alpha(tone.color, 0.16)}`,
+                            borderRadius: '10px',
+                          }}
+                        />
                       </Stack>
-                      <Chip
-                        size="small"
-                        label={tone.label}
+                      <Typography
                         sx={{
-                          bgcolor: 'background.paper',
-                          color: tone.color,
-                          fontWeight: 800,
-                          border: `1px solid ${alpha(tone.color, 0.16)}`,
-                          borderRadius: '10px',
+                          color: 'text.secondary',
+                          fontSize: '0.86rem',
+                          lineHeight: 1.55,
+                          display: '-webkit-box',
+                          WebkitLineClamp: 2,
+                          WebkitBoxOrient: 'vertical',
+                          overflow: 'hidden',
                         }}
-                      />
+                      >
+                        {alert.description}
+                      </Typography>
                     </Stack>
-                    <Typography
-                      sx={{
-                        color: 'text.secondary',
-                        fontSize: '0.86rem',
-                        lineHeight: 1.55,
-                        display: '-webkit-box',
-                        WebkitLineClamp: 2,
-                        WebkitBoxOrient: 'vertical',
-                        overflow: 'hidden',
-                      }}
-                    >
-                      {alert.description}
-                    </Typography>
-                  </Stack>
-                </Box>
-              );
-            })}
-          </Stack>
+                  </Box>
+                );
+              })}
+            </Stack>
+          </Box>
         )}
       </Box>
     </DashboardCard>
@@ -1039,7 +1058,7 @@ function FarmTablePanel({
           >
             <TableHead>
               <TableRow>
-                <TableCell sx={{ width: 38 }}>#</TableCell>
+                <TableCell sx={{ width: 56, minWidth: 56, whiteSpace: 'nowrap' }}>#</TableCell>
                 <TableCell>ฟาร์ม</TableCell>
                 <TableCell sx={{ width: 104 }} align="right">
                   สต็อก
@@ -1088,7 +1107,15 @@ function FarmTablePanel({
                   const tone = farmTone(row.statusDot, ui);
                   return (
                     <TableRow key={row.farmId} hover>
-                      <TableCell sx={{ color: 'text.secondary', fontWeight: 700, fontVariantNumeric: 'tabular-nums' }}>
+                      <TableCell
+                        sx={{
+                          width: 56,
+                          minWidth: 56,
+                          color: 'text.secondary',
+                          fontWeight: 700,
+                          fontVariantNumeric: 'tabular-nums',
+                        }}
+                      >
                         {index + 1}
                       </TableCell>
                       <TableCell sx={{ minWidth: 0 }}>
@@ -1498,7 +1525,13 @@ export default function OperationsDashboardPage() {
       <Box
         sx={{
           display: 'grid',
-          gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, minmax(0, 1fr))', xl: 'repeat(4, minmax(0, 1fr))' },
+          gridTemplateColumns: 'repeat(4, minmax(0, 1fr))',
+          '@media (max-width: 767.95px)': {
+            gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+          },
+          '@media (max-width: 599.95px)': {
+            gridTemplateColumns: '1fr',
+          },
           gap: 2,
         }}
       >
